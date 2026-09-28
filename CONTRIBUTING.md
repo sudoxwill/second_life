@@ -13,7 +13,7 @@ Les développements se font sur des branches dédiées :
 | `refactor/` | Refactorisation         | `refactor/auth-repository`  |
 | `docs/`     | Documentation           | `docs/readme`               |
 | `test/`     | Tests                   | `test/timer-notifier`       |
-| `chore/`    | Maintenance             | `chore/update-dependencies` |
+| `chore/`    | mastertenance             | `chore/update-dependencies` |
 
 Les noms doivent être courts, descriptifs et en anglais.
 
@@ -68,12 +68,12 @@ Avant le merge :
 
 Après validation, la Pull Request est mergée dans `develop`.
 
-La branche `main` est réservée aux versions stables et ne doit pas recevoir de push direct.
+La branche `master` est réservée aux versions stables et ne doit pas recevoir de push direct.
 
 ## Règles importantes
 
-* ❌ Ne jamais push directement sur `main`.
-* ❌ Ne jamais utiliser `git push --force` sur `main`.
+* ❌ Ne jamais push directement sur `master`.
+* ❌ Ne jamais utiliser `git push --force` sur `master`.
 * ❌ Ne pas travailler directement sur `develop`.
 * ✅ Une fonctionnalité = une branche.
 * ✅ Une Pull Request = une fonctionnalité/correction cohérente.
