@@ -1,0 +1,62 @@
+{
+  "@@locale": "fr",
+  "appName": "SecondLife",
+  "@appName": {
+    "description": "Nom de l'application"
+  },
+  "@__sectionCommon": {
+    "description": "━━━━ COMMON — Actions et messages génériques ━━━━"
+  },
+  "commonOk": "OK",
+  "@commonOk": {
+    "description": "Libellé du bouton de validation générique"
+  },
+  "commonCancel": "Annuler",
+  "@commonCancel": {
+    "description": "Libellé du bouton d'annulation"
+  },
+  "commonConfirm": "Confirmer",
+  "@commonConfirm": {
+    "description": "Libellé du bouton de confirmation"
+  },
+  "commonRetry": "Réessayer",
+  "@commonRetry": {
+    "description": "Libellé du bouton de nouvelle tentative"
+  },
+  "commonSave": "Enregistrer",
+  "@commonSave": {
+    "description": "Libellé du bouton de sauvegarde"
+  },
+  "commonClose": "Fermer",
+  "@commonClose": {
+    "description": "Libellé du bouton de fermeture"
+  },
+  "commonNext": "Suivant",
+  "@commonNext": {
+    "description": "Libellé du bouton de navigation vers l'étape suivante"
+  },
+  "commonBack": "Retour",
+  "@commonBack": {
+    "description": "Libellé du bouton de retour"
+  },
+  "commonLoading": "Chargement…",
+  "@commonLoading": {
+    "description": "Message affiché pendant le chargement"
+  },
+  "commonError": "Une erreur est survenue",
+  "@commonError": {
+    "description": "Message d'erreur générique"
+  },
+  "commonNetworkError": "Connexion indisponible. Vérifie ta connexion internet.",
+  "@commonNetworkError": {
+    "description": "Message d'erreur réseau"
+  },
+  "commonOfflineBanner": "Hors-ligne — affichage des données en cache",
+  "@commonOfflineBanner": {
+    "description": "Bandeau affiché en haut d'un écran quand l'appareil est hors-ligne"
+  },
+  "commonOr": "Ou",
+  "@commonOr": {
+    "description": "Séparateur générique entre deux options (ex: entre formulaire et OAuth)"
+  }
+}
