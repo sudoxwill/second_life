@@ -12,6 +12,7 @@ class AppRoutes {
   static const String authLogin = "/auth/login";
   static const String authSignup = "/auth/signup";
   static const String authForgot = "/auth/forgot";
+  static const String authResetPassword = "/auth/reset-password";
 
   // ─── Onglets shell (4 branches) ───────────
   static const String home = "/home";
@@ -19,15 +20,19 @@ class AppRoutes {
   static const String history = "/history";
   static const String profile = "/profile";
 
-  // ─── Actions ─────────────────────────
+  // ─── Scan ─────────────────────────
   static const String scan = "/scan";
 
   // ─── Liste des points de recyclage et de traitement ─────────
-  static const String placesList = "/places/:detail";
+  static const String placeDetail = "/places/:id";
   static String placeDetailPath(String id) => "/places/$id";
 
   // ─── Historique de traitement ─────────────────────
-  static const String historyDetail = "/history/:detail";
+  static const String historyDetail = "/history/:id";
   static String historyDetailPath(String id) => "/history/$id";
+
+  // ─── Settings ─────────────────────────
+  static const settings = "/settings";
+
 
 }

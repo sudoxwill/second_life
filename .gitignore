@@ -53,3 +53,6 @@ app.*.map.json
 docs/
 .env
 
+# Generator
+**/*.g.dart
+

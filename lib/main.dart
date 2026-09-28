@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:second_life/app.dart";
 
 import "core/configs/index.dart";
@@ -20,5 +21,5 @@ void main() async {
 
   Log.i("Starting application in ${AppConfig.instance.appName} mode...");
 
-  runApp(const MainApp());
+  runApp(const ProviderScope(overrides: [], child: MainApp()));
 }
