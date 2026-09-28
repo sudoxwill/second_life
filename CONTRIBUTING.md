@@ -13,7 +13,7 @@ Les développements se font sur des branches dédiées :
 | `refactor/` | Refactorisation         | `refactor/auth-repository`  |
 | `docs/`     | Documentation           | `docs/readme`               |
 | `test/`     | Tests                   | `test/timer-notifier`       |
-| `chore/`    | mastertenance             | `chore/update-dependencies` |
+| `chore/`    | maintenance             | `chore/update-dependencies` |
 
 Les noms doivent être courts, descriptifs et en anglais.
 
