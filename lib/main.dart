@@ -1,8 +1,10 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
-import "package:second_life/app.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
+import "app.dart";
 import "core/configs/index.dart";
+import "shared/presentation/providers/local_storage_provider.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,5 +23,14 @@ void main() async {
 
   Log.i("Starting application in ${AppConfig.instance.appName} mode...");
 
-  runApp(const ProviderScope(overrides: [], child: MainApp()));
+  // SharedPreferences doit être initialisé avant runApp
+  final prefs = await SharedPreferences.getInstance();
+  Log.i("SharedPreferences initialisé");
+
+  runApp(
+    ProviderScope(
+      overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+      child: const MainApp(),
+    ),
+  );
 }
