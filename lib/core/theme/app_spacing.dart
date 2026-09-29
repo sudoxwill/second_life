@@ -1,9 +1,8 @@
 import "package:flutter/material.dart";
 
-/// Tokens d'espacement, rayons, tailles, durées, courbes et élévations.
-///
-/// Grille de 4px. Toutes les métriques UI passent par cette classe — jamais
-/// de valeurs en dur.
+import "app_colors.dart";
+
+/// Espacements, rayons, tailles, durées et ombres SecondLife (grille de 4px).
 class AppSpacing {
   AppSpacing._();
 
@@ -17,26 +16,24 @@ class AppSpacing {
   // SPACING SCALE
   // ─────────────────────────────────────────────
 
-  static const double xs = unit * 1; // 4
-  static const double sm = unit * 2; // 8
-  static const double md = unit * 3; // 12
-  static const double lg = unit * 4; // 16 — marge horizontale d'écran
-  static const double xl = unit * 5; // 20
-  static const double xxl = unit * 6; // 24
-  static const double xxxl = unit * 8; // 32
-  static const double huge = unit * 10; // 40
-  static const double mega = unit * 12; // 48
-  static const double giga = unit * 14; // 56
-  static const double tera = unit * 16; // 64
-  static const double peta = unit * 18; // 72
-  static const double exa = unit * 20; // 80
-  static const double zetta = unit * 22; // 88
-  static const double yotta = unit * 24; // 96
+  static const double xs = unit * 1;
+  static const double sm = unit * 2;
+  static const double md = unit * 3;
+  static const double lg = unit * 4;
+  static const double xl = unit * 5;
+  static const double xxl = unit * 6;
+  static const double xxxl = unit * 8;
+  static const double huge = unit * 10;
+  static const double mega = unit * 12;
+  static const double giga = unit * 14;
+  static const double tera = unit * 16;
+  static const double peta = unit * 18;
+  static const double exa = unit * 20;
+  static const double zetta = unit * 22;
+  static const double yotta = unit * 24;
 
-  /// Espace en bas de tout écran scrollable — dégage bottom nav + FAB.
   static const double bottomScrollablePadding = 96.0;
 
-  /// Espacement standard sous un `SectionLabel`.
   static const double sectionLabelGap = sm;
 
   // ─────────────────────────────────────────────
@@ -52,14 +49,14 @@ class AppSpacing {
   // BORDER RADIUS — doubles
   // ─────────────────────────────────────────────
 
-  static const double radiusXs = 4.0; // r-xs — éléments inline
-  static const double radiusSm = 6.0; // r-sm — badges inline
-  static const double radiusMd = 8.0; // r-md — boutons, inputs
-  static const double radiusLg = 12.0; // r-lg — cartes items
-  static const double radiusXl = 16.0; // r-xl — cartes sessions
-  static const double radiusXxl = 24.0; // r-2xl — grandes cartes
+  static const double radiusXs = 4.0;
+  static const double radiusSm = 8.0;
+  static const double radiusMd = 14.0;
+  static const double radiusLg = 14.0;
+  static const double radiusXl = 20.0;
+  static const double radiusXxl = 24.0;
   static const double radiusXxxl = 30.0;
-  static const double radiusFull = 9999.0; // pill — tags, chips
+  static const double radiusFull = 999.0;
 
   // ─────────────────────────────────────────────
   // BORDER RADIUS — objets prêts à l'emploi
@@ -90,7 +87,6 @@ class AppSpacing {
     Radius.circular(radiusFull),
   );
 
-  /// Arrondis partiels.
   static const BorderRadius roundedTopLg = BorderRadius.only(
     topLeft: Radius.circular(radiusLg),
     topRight: Radius.circular(radiusLg),
@@ -150,10 +146,9 @@ class AppSpacing {
   // EDGE INSETS — combinaisons communes
   // ─────────────────────────────────────────────
 
-  /// Padding standard d'un écran.
   static const EdgeInsets screenPadding = EdgeInsets.symmetric(
-    horizontal: md,
-    vertical: sm,
+    horizontal: lg,
+    vertical: md,
   );
 
   static const EdgeInsets screenPaddingLg = EdgeInsets.symmetric(
@@ -165,7 +160,6 @@ class AppSpacing {
   );
   static const EdgeInsets screenPaddingV = EdgeInsets.symmetric(vertical: md);
 
-  /// Padding d'une card.
   static const EdgeInsets cardPadding = EdgeInsets.all(lg);
   static const EdgeInsets cardPaddingCompact = EdgeInsets.symmetric(
     horizontal: lg,
@@ -176,7 +170,6 @@ class AppSpacing {
     vertical: sm,
   );
 
-  /// Padding d'un bouton.
   static const EdgeInsets buttonPaddingMd = EdgeInsets.symmetric(
     horizontal: xl,
     vertical: md,
@@ -190,10 +183,8 @@ class AppSpacing {
     vertical: lg,
   );
 
-  /// Padding d'un dialog.
   static const EdgeInsets dialogPadding = EdgeInsets.all(xxl);
 
-  /// Padding d'un bottom sheet.
   static const EdgeInsets bottomSheetPadding = EdgeInsets.fromLTRB(
     lg,
     xxl,
@@ -201,10 +192,9 @@ class AppSpacing {
     lg,
   );
 
-  /// Padding d'un input.
   static const EdgeInsets inputPadding = EdgeInsets.symmetric(
-    horizontal: xl,
-    vertical: lg,
+    horizontal: md,
+    vertical: 14,
   );
 
   static const EdgeInsets inputPaddingSm = EdgeInsets.symmetric(
@@ -212,19 +202,16 @@ class AppSpacing {
     vertical: md,
   );
 
-  /// Padding standard d'un chip (h14 / v6).
   static const EdgeInsets chipPadding = EdgeInsets.symmetric(
     horizontal: 14,
     vertical: sm - 2,
   );
 
-  /// Padding d'une liste.
   static const EdgeInsets listPadding = EdgeInsets.symmetric(
     horizontal: lg,
     vertical: sm,
   );
 
-  /// Padding d'un list item.
   static const EdgeInsets listItemPadding = EdgeInsets.symmetric(
     horizontal: lg,
     vertical: md,
@@ -292,29 +279,28 @@ class AppSpacing {
   // COMPOSANTS
   // ─────────────────────────────────────────────
 
-  /// Zone tactile minimale (accessibilité).
-  static const double tapTargetMin = 44.0;
+  static const double tapTargetMin = 48.0;
 
   // Boutons
-  static const double buttonHeightSm = 36.0;
+  static const double buttonHeightSm = 40.0;
   static const double buttonHeightMd = 48.0;
-  static const double buttonHeightLg = 56.0;
+  static const double buttonHeightLg = 52.0;
 
   // Inputs
-  static const double inputHeightSm = 36.0;
+  static const double inputHeightSm = 40.0;
   static const double inputHeightMd = 48.0;
   static const double inputHeightLg = 56.0;
-  static const double inputHeight = 60.0;
+  static const double inputHeight = 52.0;
 
   // Chip
-  static const double chipHeight = 32.0;
+  static const double chipHeight = 36.0;
 
   // App bar
   static const double appBarHeight = 56.0;
   static const double toolbarHeight = 56.0;
 
   // Bottom navigation
-  static const double bottomNavHeight = 60.0;
+  static const double bottomNavHeight = 72.0;
   static const double bottomNavIconSize = iconLg;
 
   // FAB
@@ -379,4 +365,82 @@ class AppSpacing {
   static const double elevationLg = 8.0;
   static const double elevationXl = 16.0;
 
+  static const List<BoxShadow> shadowFloating = [
+    BoxShadow(
+      color: AppColors.shadowFloating,
+      blurRadius: 16,
+      offset: Offset(0, 4),
+    ),
+  ];
+
+  static const List<BoxShadow> shadowFloatingDark = [
+    BoxShadow(
+      color: AppColors.shadowFloatingDark,
+      blurRadius: 16,
+      offset: Offset(0, 4),
+    ),
+  ];
+
+  static const List<BoxShadow> elevationShadowSm = [
+    BoxShadow(
+      color: Color(0x0D13322B),
+      blurRadius: 2,
+      offset: Offset(0, 1),
+    ),
+    BoxShadow(
+      color: Color(0x0A13322B),
+      blurRadius: 6,
+      offset: Offset(0, 1),
+    ),
+  ];
+
+  static const List<BoxShadow> elevationShadowSmDark = [
+    BoxShadow(
+      color: Color(0x4D000000),
+      blurRadius: 3,
+      offset: Offset(0, 1),
+    ),
+  ];
+
+  static const List<BoxShadow> elevationShadowMd = [
+    BoxShadow(
+      color: Color(0x1213322B),
+      blurRadius: 8,
+      offset: Offset(0, 2),
+    ),
+    BoxShadow(
+      color: Color(0x0D13322B),
+      blurRadius: 16,
+      offset: Offset(0, 4),
+    ),
+  ];
+
+  static const List<BoxShadow> elevationShadowMdDark = [
+    BoxShadow(
+      color: Color(0x59000000),
+      blurRadius: 14,
+      offset: Offset(0, 4),
+    ),
+  ];
+
+  static const List<BoxShadow> elevationShadowLg = [
+    BoxShadow(
+      color: Color(0x1713322B),
+      blurRadius: 20,
+      offset: Offset(0, 6),
+    ),
+    BoxShadow(
+      color: Color(0x1213322B),
+      blurRadius: 36,
+      offset: Offset(0, 12),
+    ),
+  ];
+
+  static const List<BoxShadow> elevationShadowLgDark = [
+    BoxShadow(
+      color: Color(0x6B000000),
+      blurRadius: 28,
+      offset: Offset(0, 8),
+    ),
+  ];
 }

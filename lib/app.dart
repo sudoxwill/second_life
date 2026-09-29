@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:go_router/go_router.dart";
+import "package:second_life/shared/presentation/providers/theme_provider.dart";
 
 import "core/configs/env.dart";
 import "core/configs/logger.dart";
@@ -29,14 +30,20 @@ class _MainAppState extends ConsumerState<MainApp> {
   Widget build(BuildContext context) {
     final router = ref.watch(appRouterProvider);
     final locale = ref.watch(appLocaleProvider);
-    // TODO Configurer le theme ici
+    final lightTheme = ref.watch(lightThemeProvider);
+    final darkTheme = ref.watch(darkThemeProvider);
+    final themeMode = ref.watch(appThemeModeProvider);
+
     return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
       locale: locale,
       title: Env.appName,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: themeMode,
+      routerConfig: router,
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      routerConfig: router,
     );
   }
 
