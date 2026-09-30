@@ -1,0 +1,50 @@
+{
+  "@@locale": "en",
+
+  "appName": "SecondLife",
+  "@appName": {
+    "description": "Application name"
+  },
+
+  "@__sectionCommon": {
+    "description": "━━━━ COMMON — Generic actions and messages ━━━━"
+  },
+  "commonOk": "OK",
+  "@commonOk": { "description": "Generic confirm button label" },
+
+  "commonCancel": "Cancel",
+  "@commonCancel": { "description": "Cancel button label" },
+
+  "commonConfirm": "Confirm",
+  "@commonConfirm": { "description": "Confirm button label" },
+
+  "commonRetry": "Retry",
+  "@commonRetry": { "description": "Retry button label" },
+
+  "commonSave": "Save",
+  "@commonSave": { "description": "Save button label" },
+
+  "commonClose": "Close",
+  "@commonClose": { "description": "Close button label" },
+
+  "commonNext": "Next",
+  "@commonNext": { "description": "Next step navigation button label" },
+
+  "commonBack": "Back",
+  "@commonBack": { "description": "Back button label" },
+
+  "commonLoading": "Loading…",
+  "@commonLoading": { "description": "Message shown while loading" },
+
+  "commonError": "Something went wrong",
+  "@commonError": { "description": "Generic error message" },
+
+  "commonNetworkError": "No connection. Check your internet.",
+  "@commonNetworkError": { "description": "Network error message" },
+
+  "commonOfflineBanner": "Offline — showing cached data",
+  "@commonOfflineBanner": { "description": "Banner shown at the top of a screen when the device is offline" },
+
+  "commonOr": "Or",
+  "@commonOr": { "description": "Generic separator between two options (e.g. between form and OAuth)" }
+}
