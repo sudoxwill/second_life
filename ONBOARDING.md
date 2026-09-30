@@ -206,6 +206,32 @@ Le thème gère automatiquement light/dark. Utilisez toujours le `ColorScheme` �
 final isDark = context.isDarkMode;
 ```
 
+### 3.5 Icônes — utiliser LucideIcons
+
+Toutes les icônes de l'app viennent de la bibliothèque **[Lucide](https://lucide.dev/icons)** via le package `lucide_icons`. Ne jamais utiliser `Icons.*` de Material.
+
+```dart
+import 'package:lucide_icons/lucide_icons.dart';
+
+// ✅ Correct
+Icon(LucideIcons.home)
+Icon(LucideIcons.settings)
+Icon(LucideIcons.mapPin)
+Icon(LucideIcons.history)
+Icon(LucideIcons.user)
+Icon(LucideIcons.qrCode)
+Icon(LucideIcons.bell)
+Icon(LucideIcons.trash2)
+Icon(LucideIcons.chevronRight)
+Icon(LucideIcons.arrowLeft)
+
+// ❌ Interdit
+Icon(Icons.home)
+Icon(Icons.settings)
+```
+
+> Pour trouver le nom d'une icône : [lucide.dev/icons](https://lucide.dev/icons) → chercher → le nom Flutter est en `camelCase` (`map-pin` → `LucideIcons.mapPin`).
+
 ---
 
 ## 4. Widgets préconfigurés
@@ -820,6 +846,7 @@ features/
 | `AppSpacing.*` au lieu de valeurs en dur | Cohérence de la grille 4 px |
 | `context.textTheme.*` au lieu de `TextStyle()` custom | Cohérence typographique |
 | Extensions de navigation au lieu de `go(AppRoutes.xxx)` en dur | Centralisation, pas de strings en dur |
+| `LucideIcons.*` au lieu de `Icons.*` | Cohérence visuelle, set d'icônes unique dans l'app |
 | `Log.*` au lieu de `print()` | Logs filtrables par niveau, visibles dans DevTools |
 | `@riverpod` + `build_runner` | Pas de providers manuels |
 | Clés de stockage via `AppKeys.*` | Pas de strings magiques dans les prefs |
@@ -833,6 +860,7 @@ features/
 - [ ] Aucune valeur d'espacement en dur (`SizedBox(height: 16)` → `AppSpacing.gapVLg`)
 - [ ] Les fichiers `*.g.dart` sont à jour (`build_runner` lancé)
 - [ ] Les routes passent par les extensions de navigation
+- [ ] Les icônes utilisent `LucideIcons.*` (pas `Icons.*`)
 - [ ] Les logs utilisent `Log.*`
 - [ ] Les nouvelles clés de stockage sont ajoutées dans `AppKeys`
 - [ ] Les nouvelles chaînes UI sont dans les fichiers ARB (`app_fr.arb`, `app_en.arb`)
