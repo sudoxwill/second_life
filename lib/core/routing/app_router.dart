@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
+import "package:lucide_icons_flutter/lucide_icons.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../configs/env.dart";
@@ -210,16 +211,22 @@ class AppShell extends StatelessWidget {
       body: navigationShell,
       bottomNavigationBar: BottomNavigationBar(
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Accueil"),
           BottomNavigationBarItem(
-            icon: Icon(Icons.place),
+            icon: Icon(LucideIcons.home),
+            label: "Accueil",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(LucideIcons.map),
             label: "Points de recyclage",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history),
+            icon: Icon(LucideIcons.rotateCcwClock),
             label: "Historique",
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profil"),
+          BottomNavigationBarItem(
+            icon: Icon(LucideIcons.userRound),
+            label: "Profil",
+          ),
         ],
       ),
     );
@@ -237,7 +244,7 @@ class _RouterErrorPage extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.of(context).maybePop(),
-          icon: const Icon(Icons.arrow_back_ios_new),
+          icon: const Icon(LucideIcons.arrowLeft),
         ),
       ),
       body: Center(
