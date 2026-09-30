@@ -8,8 +8,7 @@ class AppAssets {
   static const String _imagesBase = "assets/images";
   static const String _svgBase = "assets/svg";
 
-  static const String logo = "$_imagesBase/logo.png";
-  static const String logoDark = "$_imagesBase/logo_dark.png";
+  static const String logo = "$_imagesBase/logos/logo.png";
 
   // ------------- ONBOARDING -------------
   // static const String exemple = "$_imagesBase/exemple.jpg";

@@ -44,7 +44,7 @@ class NotificationService {
     final plugin = FlutterLocalNotificationsPlugin();
 
     const androidSettings =
-        AndroidInitializationSettings("@mipmap/ic_launcher");
+        AndroidInitializationSettings("notification_icon");
 
     // Les permissions iOS sont demandées explicitement via requestPermission()
     // au bon moment UX — PAS au démarrage de l'app.

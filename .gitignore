@@ -52,6 +52,7 @@ app.*.map.json
 /docs/
 docs/
 .env
+.claude
 
 # Generator
 **/*.g.dart
