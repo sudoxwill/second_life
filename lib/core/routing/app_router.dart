@@ -3,6 +3,7 @@ import "package:go_router/go_router.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../../features/waste_analysis/waste_analysis.dart";
 import "../configs/env.dart";
 import "../theme/app_spacing.dart";
 import "app_navigator_key.dart";
@@ -74,7 +75,7 @@ GoRouter appRouter(Ref ref) {
         pageBuilder: (context, state) => AppTransitions.fade(
           context: context,
           state: state,
-          child: const _Placeholder(title: "Scanning..."),
+          child: const WasteScanPage(),
         ),
       ),
 
