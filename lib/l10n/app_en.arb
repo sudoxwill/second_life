@@ -46,5 +46,64 @@
   "@commonOfflineBanner": { "description": "Banner shown at the top of a screen when the device is offline" },
 
   "commonOr": "Or",
-  "@commonOr": { "description": "Generic separator between two options (e.g. between form and OAuth)" }
+  "@commonOr": { "description": "Generic separator between two options (e.g. between form and OAuth)" },
+
+  "authOrContinueWith": "Or continue with",
+  "@authOrContinueWith": { "description": "Divider label between email/password form and multiple OAuth providers (Google/GitHub/Apple)" },
+
+  "@__sectionOnboarding": {
+    "description": "━━━━ ONBOARDING — 3 recycling slides + navigation ━━━━"
+  },
+  "onboardingSkip": "Skip",
+  "@onboardingSkip": { "description": "Button to skip onboarding" },
+
+  "onboardingSkipTooltip": "Skip the introduction",
+  "@onboardingSkipTooltip": { "description": "Tooltip / accessibility label for the Skip button" },
+
+  "onboardingNextTooltip": "Go to next step",
+  "@onboardingNextTooltip": { "description": "Tooltip / accessibility label for the Next button" },
+
+  "onboardingFinishTooltip": "Finish and get started",
+  "@onboardingFinishTooltip": { "description": "Tooltip / accessibility label for the Get Started button (last slide)" },
+
+  "onboardingGetStarted": "Get started",
+  "@onboardingGetStarted": { "description": "Finish onboarding button (last slide)" },
+
+  "onboardingTitle1": "Your waste has value",
+  "@onboardingTitle1": { "description": "Title of slide 1 — drop off waste and earn points" },
+
+  "onboardingDescription1": "Scan it, drop it off at a relay point. After weighing, you earn points.",
+  "@onboardingDescription1": { "description": "Description of slide 1 — scan → drop-off → points flow" },
+
+  "onboardingTitle2": "Spot the trouble spots",
+  "@onboardingTitle2": { "description": "Title of slide 2 — report illegal dumping" },
+
+  "onboardingDescription2": "See waste blocking a drain? Take a photo. Your neighbours are alerted, and your report is rewarded once the area is cleaned.",
+  "@onboardingDescription2": { "description": "Description of slide 2 — photo → neighbour alert → reward after clean-up" },
+
+  "onboardingTitle3": "Points for what matters",
+  "@onboardingTitle3": { "description": "Title of slide 3 — use points for food, education, healthcare" },
+
+  "onboardingDescription3": "Your points can't be withdrawn as cash. They'll soon be used for food, education and healthcare.",
+  "@onboardingDescription3": { "description": "Description of slide 3 — points value in essential goods" },
+
+  "onboardingProgressLabel": "Step {current} of {total}",
+  "@onboardingProgressLabel": {
+    "description": "Accessibility label for onboarding progress indicator",
+    "placeholders": {
+      "current": { "type": "int", "example": "1" },
+      "total": { "type": "int", "example": "3" }
+    }
+  },
+
+  "onboardingNotificationTitle": "Welcome to {appName}",
+  "@onboardingNotificationTitle": {
+    "description": "Title of the notification shown at the end of onboarding",
+    "placeholders": {
+      "appName": { "type": "String", "example": "SecondLife" }
+    }
+  },
+
+  "onboardingNotificationBody": "Your first drop-off awaits — scan a waste item now.",
+  "@onboardingNotificationBody": { "description": "Body of the end-of-onboarding notification" }
 }

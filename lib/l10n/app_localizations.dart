@@ -181,6 +181,96 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Ou'**
   String get commonOr;
+
+  /// Séparateur DIVIDER entre formulaire email/password et boutons OAuth multiples (Google/GitHub/Apple)
+  ///
+  /// In fr, this message translates to:
+  /// **'Ou continuer avec'**
+  String get authOrContinueWith;
+
+  /// Bouton pour ignorer l'onboarding
+  ///
+  /// In fr, this message translates to:
+  /// **'Passer'**
+  String get onboardingSkip;
+
+  /// Tooltip/label d'accessibilité du bouton Passer
+  ///
+  /// In fr, this message translates to:
+  /// **'Ignorer l\'introduction'**
+  String get onboardingSkipTooltip;
+
+  /// Tooltip/label d'accessibilité du bouton Suivant
+  ///
+  /// In fr, this message translates to:
+  /// **'Aller à l\'étape suivante'**
+  String get onboardingNextTooltip;
+
+  /// Tooltip/label d'accessibilité du bouton Commencer (dernier slide)
+  ///
+  /// In fr, this message translates to:
+  /// **'Terminer et commencer'**
+  String get onboardingFinishTooltip;
+
+  /// Bouton de fin d'onboarding (dernier slide)
+  ///
+  /// In fr, this message translates to:
+  /// **'Commencer'**
+  String get onboardingGetStarted;
+
+  /// Titre du slide 1 — déposer ses déchets contre des points
+  ///
+  /// In fr, this message translates to:
+  /// **'Vos déchets ont de la valeur'**
+  String get onboardingTitle1;
+
+  /// Description du slide 1 — flux scan → dépôt → points
+  ///
+  /// In fr, this message translates to:
+  /// **'Scannez-les, déposez-les dans un point relais. Après la pesée, vous gagnez des points.'**
+  String get onboardingDescription1;
+
+  /// Titre du slide 2 — signaler un dépôt sauvage
+  ///
+  /// In fr, this message translates to:
+  /// **'Repérez les points noirs'**
+  String get onboardingTitle2;
+
+  /// Description du slide 2 — photo → alerte voisins → récompense après nettoyage
+  ///
+  /// In fr, this message translates to:
+  /// **'Un tas de déchets bouche un caniveau ? Prenez-le en photo. Vos voisins sont alertés, et votre signalement est récompensé une fois le lieu nettoyé.'**
+  String get onboardingDescription2;
+
+  /// Titre du slide 3 — usage des points (nourriture, études, santé)
+  ///
+  /// In fr, this message translates to:
+  /// **'Des points pour l\'essentiel'**
+  String get onboardingTitle3;
+
+  /// Description du slide 3 — valeur des points en biens essentiels
+  ///
+  /// In fr, this message translates to:
+  /// **'Vos points ne se retirent pas en espèces. Ils serviront bientôt pour manger, étudier et se soigner.'**
+  String get onboardingDescription3;
+
+  /// Label d'accessibilité pour l'indicateur de progression de l'onboarding
+  ///
+  /// In fr, this message translates to:
+  /// **'Étape {current} sur {total}'**
+  String onboardingProgressLabel(int current, int total);
+
+  /// Titre de la notification affichée à la fin de l'onboarding
+  ///
+  /// In fr, this message translates to:
+  /// **'Bienvenue sur {appName}'**
+  String onboardingNotificationTitle(String appName);
+
+  /// Corps de la notification de fin d'onboarding
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre premier dépôt vous attend — scannez un déchet dès maintenant.'**
+  String get onboardingNotificationBody;
 }
 
 class _AppLocalizationsDelegate
