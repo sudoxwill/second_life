@@ -58,5 +58,64 @@
   "commonOr": "Ou",
   "@commonOr": {
     "description": "Séparateur générique entre deux options (ex: entre formulaire et OAuth)"
-  }
+  },
+
+  "authOrContinueWith": "Ou continuer avec",
+  "@authOrContinueWith": { "description": "Séparateur DIVIDER entre formulaire email/password et boutons OAuth multiples (Google/GitHub/Apple)" },
+
+  "@__sectionOnboarding": {
+    "description": "━━━━ ONBOARDING — 3 slides recyclage + navigation ━━━━"
+  },
+  "onboardingSkip": "Passer",
+  "@onboardingSkip": { "description": "Bouton pour ignorer l'onboarding" },
+
+  "onboardingSkipTooltip": "Ignorer l'introduction",
+  "@onboardingSkipTooltip": { "description": "Tooltip/label d'accessibilité du bouton Passer" },
+
+  "onboardingNextTooltip": "Aller à l'étape suivante",
+  "@onboardingNextTooltip": { "description": "Tooltip/label d'accessibilité du bouton Suivant" },
+
+  "onboardingFinishTooltip": "Terminer et commencer",
+  "@onboardingFinishTooltip": { "description": "Tooltip/label d'accessibilité du bouton Commencer (dernier slide)" },
+
+  "onboardingGetStarted": "Commencer",
+  "@onboardingGetStarted": { "description": "Bouton de fin d'onboarding (dernier slide)" },
+
+  "onboardingTitle1": "Vos déchets ont de la valeur",
+  "@onboardingTitle1": { "description": "Titre du slide 1 — déposer ses déchets contre des points" },
+
+  "onboardingDescription1": "Scannez-les, déposez-les dans un point relais. Après la pesée, vous gagnez des points.",
+  "@onboardingDescription1": { "description": "Description du slide 1 — flux scan → dépôt → points" },
+
+  "onboardingTitle2": "Repérez les points noirs",
+  "@onboardingTitle2": { "description": "Titre du slide 2 — signaler un dépôt sauvage" },
+
+  "onboardingDescription2": "Un tas de déchets bouche un caniveau ? Prenez-le en photo. Vos voisins sont alertés, et votre signalement est récompensé une fois le lieu nettoyé.",
+  "@onboardingDescription2": { "description": "Description du slide 2 — photo → alerte voisins → récompense après nettoyage" },
+
+  "onboardingTitle3": "Des points pour l'essentiel",
+  "@onboardingTitle3": { "description": "Titre du slide 3 — usage des points (nourriture, études, santé)" },
+
+  "onboardingDescription3": "Vos points ne se retirent pas en espèces. Ils serviront bientôt pour manger, étudier et se soigner.",
+  "@onboardingDescription3": { "description": "Description du slide 3 — valeur des points en biens essentiels" },
+
+  "onboardingProgressLabel": "Étape {current} sur {total}",
+  "@onboardingProgressLabel": {
+    "description": "Label d'accessibilité pour l'indicateur de progression de l'onboarding",
+    "placeholders": {
+      "current": { "type": "int", "example": "1" },
+      "total": { "type": "int", "example": "3" }
+    }
+  },
+
+  "onboardingNotificationTitle": "Bienvenue sur {appName}",
+  "@onboardingNotificationTitle": {
+    "description": "Titre de la notification affichée à la fin de l'onboarding",
+    "placeholders": {
+      "appName": { "type": "String", "example": "SecondLife" }
+    }
+  },
+
+  "onboardingNotificationBody": "Votre premier dépôt vous attend — scannez un déchet dès maintenant.",
+  "@onboardingNotificationBody": { "description": "Corps de la notification de fin d'onboarding" }
 }
