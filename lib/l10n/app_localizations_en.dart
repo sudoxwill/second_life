@@ -103,4 +103,144 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get onboardingNotificationBody =>
       'Your first drop-off awaits — scan a waste item now.';
+
+  @override
+  String get authLoginTitle => 'Sign in';
+
+  @override
+  String get authLoginButton => 'Sign in';
+
+  @override
+  String get authSignupTitle => 'Create an account';
+
+  @override
+  String get authSignupButton => 'Sign up';
+
+  @override
+  String get authEmailLabel => 'Email address';
+
+  @override
+  String get authEmailHint => 'you@email.com';
+
+  @override
+  String get authUsernameLabel => 'Username';
+
+  @override
+  String get authUsernameHint => 'Ama Kwatcha';
+
+  @override
+  String get authAlreadyHaveAccount => 'Already have an account?';
+
+  @override
+  String get authNoAccount => 'No account yet?';
+
+  @override
+  String get authLoginLink => 'Sign in';
+
+  @override
+  String get authSignupLink => 'Create an account';
+
+  @override
+  String get authOAuthGoogle => 'Continue with Google';
+
+  @override
+  String authSignupSuccess(String username) {
+    return 'Account created! Welcome $username!';
+  }
+
+  @override
+  String get authLogout => 'Sign out';
+
+  @override
+  String get authLogoutButton => 'Sign out';
+
+  @override
+  String get authLogoutConfirmTitle => 'Sign out?';
+
+  @override
+  String get authLogoutConfirmMessage => 'Are you sure you want to sign out?';
+
+  @override
+  String get authLogoutSuccess => 'Signed out successfully.';
+
+  @override
+  String authLoginSuccess(String username) {
+    return 'Welcome back, $username!';
+  }
+
+  @override
+  String get authLoginError => 'Failed to sign in. Check your credentials.';
+
+  @override
+  String get authSignupError => 'Failed to create account. Try again.';
+
+  @override
+  String get authLogoutError => 'Failed to sign out. Try again.';
+
+  @override
+  String get validationRequired => 'This field is required.';
+
+  @override
+  String get validationInvalidEmail => 'Invalid email address.';
+
+  @override
+  String get validationEmailIncorrect => 'Incorrect email address.';
+
+  @override
+  String get validationPasswordTooShort =>
+      'Password must be at least 8 characters.';
+
+  @override
+  String get validationPasswordsDoNotMatch => 'Passwords do not match.';
+
+  @override
+  String validationUsernameTooShort(int minLength) {
+    return 'At least $minLength characters.';
+  }
+
+  @override
+  String validationUsernameTooLong(int maxLength) {
+    return '$maxLength characters max.';
+  }
+
+  @override
+  String get validationUsernameInvalid => 'Letters, numbers and _ only.';
+
+  @override
+  String get routerErrorTitle => 'This screen does not exist yet.';
+
+  @override
+  String get routerErrorSubtitle => 'Come back later, or return to home.';
+
+  @override
+  String routerSoon(String title) {
+    return '$title — coming soon.';
+  }
+
+  @override
+  String get errorNetwork => 'Network error. Check your internet connection.';
+
+  @override
+  String get errorServer => 'Server error. Try again later.';
+
+  @override
+  String get errorValidation => 'Invalid data. Check the fields.';
+
+  @override
+  String get errorUnknown => 'An unknown error occurred.';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navPlaces => 'Places';
+
+  @override
+  String get navHistory => 'History';
+
+  @override
+  String get navProfile => 'Profile';
+
+  @override
+  String get navAnalyzeCta => 'Analyse';
 }
