@@ -9,6 +9,9 @@ import "../models/reward_card_model.dart";
 import "../models/reward_tier_model.dart";
 
 /// Source de données locale pour les récompenses et la gestion du solde de points.
+///
+/// Dans SecondLife, les points sont non monétisables en espèces et ne financent
+/// que les besoins vitaux stricts : alimentation, santé, scolarisation et eau/hygiène.
 class RewardsLocalDataSource {
   RewardsLocalDataSource({SharedPreferences? preferences})
     : _prefsFuture = preferences != null
@@ -33,13 +36,12 @@ class RewardsLocalDataSource {
     await prefs.setInt(_pointsKey, max(0, points));
   }
 
-  /// Retourne le catalogue complet des récompenses partenaires.
+  /// Retourne le catalogue complet des récompenses de première nécessité.
   Future<List<RewardCardModel>> getCatalog() async {
-    // Catalogue local prédéfini et réaliste pour l'Afrique de l'Ouest
     return _staticCatalog;
   }
 
-  /// Récupère la liste des bons déjà échangés par l'utilisateur.
+  /// Récupère la liste des bons de subsistance déjà débloqués par l'utilisateur.
   Future<List<RedemptionVoucherModel>> getVouchers() async {
     final prefs = await _prefsFuture;
     final jsonString = prefs.getString(_vouchersKey);
@@ -60,7 +62,7 @@ class RewardsLocalDataSource {
     }
   }
 
-  /// Enregistre un nouveau bon d'achat débloqué.
+  /// Enregistre un nouveau bon de subsistance débloqué.
   Future<void> saveVoucher(RedemptionVoucherModel voucher) async {
     final prefs = await _prefsFuture;
     final current = await getVouchers();
@@ -103,291 +105,327 @@ class RewardsLocalDataSource {
   }
 
   static const List<RewardCardModel> _staticCatalog = [
-    // ── 1. T-Money (Togocom) ──
+    // ══════════════════════════════════════════════════════════
+    // 1. ALIMENTATION & RAVITAILLEMENT (PRODUITS DE BASE)
+    // ══════════════════════════════════════════════════════════
     RewardCardModel(
-      id: "tmoney_recharge",
-      title: "Recharge T-Money",
-      brand: "Togocom",
-      category: RewardCategory.telecom,
+      id: "panier_alimentaire_base",
+      title: "Panier Alimentaire de Première Nécessité",
+      brand: "Supermarchés & Épiceries Partenaires",
+      category: RewardCategory.food,
       description:
-          "Convertissez directement vos points de recyclage en argent liquide sur votre compte T-Money. Les fonds sont crédités sous quelques minutes sur le numéro renseigné.",
-      shortDescription: "Transfert direct vers votre compte Mobile Money",
+          "Bon de ravitaillement réservé exclusivement aux denrées alimentaires de base : riz, maïs, huile végétale, farine, sucre et haricots secs. Utilisable en caisse dans les supermarchés et épiceries partenaires agréées.",
+      shortDescription:
+          "Ravitaillement en denrées de base (riz, huile, farine)",
       isPopular: true,
-      badgeText: "Populaire",
-      accentColorHex: "#FFCC00",
-      validityDays: 180,
+      badgeText: "Vital",
+      accentColorHex: "#007A3D",
+      validityDays: 60,
       termsAndConditions: [
-        "Valable pour tous les numéros Togocom actifs.",
-        "Le compte T-Money destinataire doit être vérifié.",
-        "Transfert irréversible une fois confirmé.",
+        "Strictement réservé aux produits alimentaires de première nécessité.",
+        "Non échangeable contre de l'alcool, du tabac ou des espèces.",
+        "À présenter à la caisse d'un supermarché partenaire sous forme de code ou QR.",
       ],
       tiers: [
         RewardTierModel(
-          id: "tm_500",
-          name: "500 FCFA",
-          pointsCost: 100,
-          monetaryValue: 500,
+          id: "panier_1500",
+          name: "Ravitaillement 1 500 FCFA",
+          pointsCost: 300,
+          monetaryValue: 1500,
         ),
         RewardTierModel(
-          id: "tm_1000",
-          name: "1 000 FCFA",
-          pointsCost: 200,
-          monetaryValue: 1000,
+          id: "panier_3000",
+          name: "Ravitaillement 3 000 FCFA",
+          pointsCost: 600,
+          monetaryValue: 3000,
         ),
         RewardTierModel(
-          id: "tm_2500",
-          name: "2 500 FCFA",
-          pointsCost: 500,
-          monetaryValue: 2500,
-        ),
-        RewardTierModel(
-          id: "tm_5000",
-          name: "5 000 FCFA",
-          pointsCost: 1000,
-          monetaryValue: 5000,
-        ),
-      ],
-    ),
-
-    // ── 2. Moov Money ──
-    RewardCardModel(
-      id: "moov_money",
-      title: "Transfert Moov Money",
-      brand: "Moov Africa",
-      category: RewardCategory.telecom,
-      description:
-          "Recevez vos gains de recyclage sur votre portefeuille Moov Money Flooz. Utilisable pour vos achats quotidiens, factures et retraits.",
-      shortDescription: "Recharge instantanée sur portefeuille Moov Money",
-      isPopular: true,
-      badgeText: "Recommandé",
-      accentColorHex: "#0066B3",
-      validityDays: 180,
-      termsAndConditions: [
-        "Disponible pour les abonnés Moov Africa.",
-        "Aucun frais de transfert prélevé sur vos gains.",
-      ],
-      tiers: [
-        RewardTierModel(
-          id: "moov_500",
-          name: "500 FCFA",
-          pointsCost: 100,
-          monetaryValue: 500,
-        ),
-        RewardTierModel(
-          id: "moov_1000",
-          name: "1 000 FCFA",
-          pointsCost: 200,
-          monetaryValue: 1000,
-        ),
-        RewardTierModel(
-          id: "moov_2500",
-          name: "2 500 FCFA",
-          pointsCost: 500,
-          monetaryValue: 2500,
-        ),
-      ],
-    ),
-
-    // ── 3. Forfait Internet & Data ──
-    RewardCardModel(
-      id: "telecom_data_bundle",
-      title: "Pass Internet & Data",
-      brand: "Multi-Opérateurs",
-      category: RewardCategory.telecom,
-      description:
-          "Convertissez vos points en volume data Internet haut débit (1 Go, 2.5 Go ou 5 Go) valable sur votre réseau mobile local.",
-      shortDescription: "Recharge data mobile 1 Go à 5 Go",
-      accentColorHex: "#008C45",
-      validityDays: 30,
-      termsAndConditions: [
-        "Code de recharge envoyé par SMS.",
-        "Volume valable 30 jours à compter de l'activation.",
-      ],
-      tiers: [
-        RewardTierModel(
-          id: "data_1gb",
-          name: "1 Go Internet",
-          pointsCost: 100,
-          monetaryValue: 500,
-        ),
-        RewardTierModel(
-          id: "data_25gb",
-          name: "2.5 Go Internet",
-          pointsCost: 200,
-          monetaryValue: 1000,
-        ),
-        RewardTierModel(
-          id: "data_5gb",
-          name: "5 Go Internet",
-          pointsCost: 400,
-          monetaryValue: 2000,
-        ),
-      ],
-    ),
-
-    // ── 4. Bons d'achat Ramco Supermarché ──
-    RewardCardModel(
-      id: "ramco_voucher",
-      title: "Bon d'achat Supermarché",
-      brand: "Supermarché Ramco",
-      category: RewardCategory.shopping,
-      description:
-          "Profitez de réductions et bons d'achat valables dans tous les supermarchés et boutiques partenaires de votre ville. Valable au rayon alimentaire et hygiène.",
-      shortDescription: "Bons d'achat pour vos courses alimentaires",
-      isPopular: true,
-      badgeText: "Courses",
-      accentColorHex: "#D32F2F",
-      termsAndConditions: [
-        "À présenter à la caisse du magasin sous forme de code ou QR.",
-        "Cumulable avec d'autres promotions en cours.",
-        "Non remboursable en espèces.",
-      ],
-      tiers: [
-        RewardTierModel(
-          id: "ramco_2000",
-          name: "2 000 FCFA",
-          pointsCost: 400,
-          monetaryValue: 2000,
-        ),
-        RewardTierModel(
-          id: "ramco_5000",
-          name: "5 000 FCFA",
+          id: "panier_5000",
+          name: "Sac de riz & huile (5 000 FCFA)",
           pointsCost: 1000,
           monetaryValue: 5000,
         ),
         RewardTierModel(
-          id: "ramco_10000",
-          name: "10 000 FCFA",
+          id: "panier_10000",
+          name: "Grand Panier Familial (10 000 FCFA)",
           pointsCost: 2000,
           monetaryValue: 10000,
         ),
       ],
     ),
 
-    // ── 5. Jumia Bon d'achat ──
     RewardCardModel(
-      id: "jumia_gift_card",
-      title: "Bon d'achat Jumia",
-      brand: "Jumia",
-      category: RewardCategory.shopping,
+      id: "nutrition_infantile",
+      title: "Pack Nutrition Enfant & Bébé",
+      brand: "Réseau Petite Enfance Partenaire",
+      category: RewardCategory.food,
       description:
-          "Code promo déductible sur vos commandes en ligne sur l'application et le site Jumia. Livraison à domicile ou en point relais.",
-      shortDescription: "Code promotionnel sur tout le catalogue en ligne",
-      accentColorHex: "#F68B1E",
-      validityDays: 60,
+          "Prise en charge de farines infantiles enrichies, lait de croissance et compléments nutritionnels essentiels pour assurer la bonne croissance des jeunes enfants.",
+      shortDescription: "Farines enrichies et lait pour bébés et enfants",
+      isPopular: true,
+      badgeText: "Nutrition",
+      accentColorHex: "#E65100",
+      validityDays: 90,
       termsAndConditions: [
-        "Valable sur l'ensemble du catalogue Jumia hors frais de port.",
-        "Utilisation unique par commande.",
+        "Délivré en pharmacie ou supérette partenaire.",
+        "Réservé à l'alimentation des nourrissons et enfants en bas âge.",
       ],
       tiers: [
         RewardTierModel(
-          id: "jumia_1500",
-          name: "1 500 FCFA",
+          id: "bebe_2000",
+          name: "Farines infantiles (2 000 FCFA)",
+          pointsCost: 400,
+          monetaryValue: 2000,
+        ),
+        RewardTierModel(
+          id: "bebe_4000",
+          name: "Pack Lait & Céréales (4 000 FCFA)",
+          pointsCost: 800,
+          monetaryValue: 4000,
+        ),
+      ],
+    ),
+
+    // ══════════════════════════════════════════════════════════
+    // 2. SANTÉ & SOINS MÉDICAUX
+    // ══════════════════════════════════════════════════════════
+    RewardCardModel(
+      id: "bon_pharmacie_essentiel",
+      title: "Bon Pharmacie — Médicaments Essentiels",
+      brand: "Pharmacies Partenaires Agréées",
+      category: RewardCategory.health,
+      description:
+          "Couvre l'achat de médicaments essentiels sur ordonnance : traitements antipaludiques, antibiotiques de base, paracétamol, solutés de réhydratation et antiseptiques.",
+      shortDescription: "Médicaments vitaux et premiers soins en pharmacie",
+      isPopular: true,
+      badgeText: "Santé",
+      accentColorHex: "#D32F2F",
+      validityDays: 90,
+      termsAndConditions: [
+        "Valable dans toutes les pharmacies affiliées au réseau SecondLife.",
+        "Présentation d'une ordonnance médicale requise pour les traitements régulés.",
+        "Aucun rendu de monnaie en espèces.",
+      ],
+      tiers: [
+        RewardTierModel(
+          id: "pharma_1000",
+          name: "Soins & Fièvre (1 000 FCFA)",
+          pointsCost: 200,
+          monetaryValue: 1000,
+        ),
+        RewardTierModel(
+          id: "pharma_2500",
+          name: "Traitement Paludisme / Soins (2 500 FCFA)",
+          pointsCost: 500,
+          monetaryValue: 2500,
+        ),
+        RewardTierModel(
+          id: "pharma_5000",
+          name: "Ordonnance Complète (5 000 FCFA)",
+          pointsCost: 1000,
+          monetaryValue: 5000,
+        ),
+      ],
+    ),
+
+    RewardCardModel(
+      id: "consultation_dispensaire",
+      title: "Consultation Médicale Dispensaire",
+      brand: "Centres de Santé & Dispensaires Partenaires",
+      category: RewardCategory.health,
+      description:
+          "Prise en charge intégrale d'une consultation médicale générale ou pédiatrique dans un centre médico-social ou dispensaire de quartier partenaire.",
+      shortDescription: "Prise en charge d'une consultation médicale",
+      accentColorHex: "#C2185B",
+      validityDays: 120,
+      termsAndConditions: [
+        "Valable pour un patient dans les dispensaires communautaires affiliés.",
+        "Comprend l'examen clinique de base par un professionnel de santé.",
+      ],
+      tiers: [
+        RewardTierModel(
+          id: "consult_1500",
+          name: "Consultation Générale (1 500 FCFA)",
           pointsCost: 300,
           monetaryValue: 1500,
         ),
         RewardTierModel(
-          id: "jumia_3000",
-          name: "3 000 FCFA",
+          id: "consult_3000",
+          name: "Consultation + Bilan Simple (3 000 FCFA)",
+          pointsCost: 600,
+          monetaryValue: 3000,
+        ),
+      ],
+    ),
+
+    // ══════════════════════════════════════════════════════════
+    // 3. SCOLARISATION & ÉDUCATION
+    // ══════════════════════════════════════════════════════════
+    RewardCardModel(
+      id: "fournitures_scolaires",
+      title: "Kit Fournitures Scolaires Élève",
+      brand: "Papeteries & Librairies Partenaires",
+      category: RewardCategory.education,
+      description:
+          "Pack complet de rentrée scolaire comprenant cahiers d'exercices, stylos, règles, crayons, taille-crayon, boîte de géométrie et trousse pour un élève du primaire ou secondaire.",
+      shortDescription: "Cahiers, stylos et fournitures indispensables",
+      isPopular: true,
+      badgeText: "Éducation",
+      accentColorHex: "#1565C0",
+      validityDays: 120,
+      termsAndConditions: [
+        "À retirer auprès des librairies scolaires agréées.",
+        "Kit remis sous forme de paquet scellé conforme aux programmes scolaires.",
+      ],
+      tiers: [
+        RewardTierModel(
+          id: "fourniture_1500",
+          name: "Kit Essentiel Primaire (1 500 FCFA)",
+          pointsCost: 300,
+          monetaryValue: 1500,
+        ),
+        RewardTierModel(
+          id: "fourniture_3000",
+          name: "Kit Complet + Sac d'école (3 000 FCFA)",
           pointsCost: 600,
           monetaryValue: 3000,
         ),
         RewardTierModel(
-          id: "jumia_6000",
-          name: "6 000 FCFA",
+          id: "fourniture_6000",
+          name: "Pack Fratrie (6 000 FCFA)",
           pointsCost: 1200,
           monetaryValue: 6000,
         ),
       ],
     ),
 
-    // ── 6. TotalEnergies Carburant ──
     RewardCardModel(
-      id: "total_energies_fuel",
-      title: "Bon Carburant Station",
-      brand: "TotalEnergies",
-      category: RewardCategory.services,
+      id: "frais_scolarite_ecolage",
+      title: "Participation aux Frais de Scolarité",
+      brand: "Établissements Scolaires Partenaires",
+      category: RewardCategory.education,
       description:
-          "Bon électronique à présenter en station-service TotalEnergies pour le plein d'essence, de gasoil ou l'achat d'une bouteille de gaz domestique.",
-      shortDescription: "Plein de carburant ou recharge de gaz",
-      accentColorHex: "#EE3124",
+          "Bon de scolarité remis directement à l'administration de l'école primaire ou du collège partenaire afin de régler une partie ou la totalité de l'écolage trimestriel d'un enfant.",
+      shortDescription: "Règlement direct de l'écolage auprès de l'école",
+      isPopular: true,
+      badgeText: "Prioritaire",
+      accentColorHex: "#0D47A1",
+      validityDays: 180,
       termsAndConditions: [
-        "Valable dans toutes les stations TotalEnergies du réseau national.",
-        "Scannez le bon directement auprès du pompiste.",
+        "Virement direct vers le compte de l'établissement scolaire partenaire.",
+        "Indiquer le nom de l'élève et sa classe lors de la confirmation.",
+        "Un reçu de scolarité officiel est délivré par l'école.",
       ],
       tiers: [
         RewardTierModel(
-          id: "total_2000",
-          name: "2 000 FCFA",
+          id: "ecole_2500",
+          name: "Aide Écolage Trimestre (2 500 FCFA)",
+          pointsCost: 500,
+          monetaryValue: 2500,
+        ),
+        RewardTierModel(
+          id: "ecole_5000",
+          name: "Trimestre Scolaire (5 000 FCFA)",
+          pointsCost: 1000,
+          monetaryValue: 5000,
+        ),
+        RewardTierModel(
+          id: "ecole_10000",
+          name: "Semestre d'Écolage (10 000 FCFA)",
+          pointsCost: 2000,
+          monetaryValue: 10000,
+        ),
+      ],
+    ),
+
+    RewardCardModel(
+      id: "cantine_scolaire",
+      title: "Repas Cantine Scolaire Mensuel",
+      brand: "Cantines Scolaires Communautaires",
+      category: RewardCategory.education,
+      description:
+          "Assurez à un enfant scolarisé un repas chaud, nutritif et équilibré chaque midi à la cantine de son école pendant tout un mois de cours.",
+      shortDescription: "Repas chauds le midi pour un écolier pendant 1 mois",
+      accentColorHex: "#2E7D32",
+      validityDays: 90,
+      termsAndConditions: [
+        "Directement crédité auprès du gestionnaire de cantine de l'école.",
+        "Garantit la présence et la bonne concentration de l'élève en classe.",
+      ],
+      tiers: [
+        RewardTierModel(
+          id: "cantine_2000",
+          name: "2 Semaines de Repas (2 000 FCFA)",
           pointsCost: 400,
           monetaryValue: 2000,
         ),
         RewardTierModel(
-          id: "total_5000",
-          name: "5 000 FCFA",
-          pointsCost: 1000,
-          monetaryValue: 5000,
+          id: "cantine_4000",
+          name: "1 Mois Complet Cantine (4 000 FCFA)",
+          pointsCost: 800,
+          monetaryValue: 4000,
         ),
       ],
     ),
 
-    // ── 7. Canal+ Réabonnement ──
+    // ══════════════════════════════════════════════════════════
+    // 4. EAU POTABLE & HYGIÈNE VITALE
+    // ══════════════════════════════════════════════════════════
     RewardCardModel(
-      id: "canal_plus_sub",
-      title: "Réabonnement Canal+",
-      brand: "Canal+ Afrique",
-      category: RewardCategory.entertainment,
+      id: "eau_potable_borne",
+      title: "Recharge Eau Potable Filtrée",
+      brand: "Kiosques à Eau Potable Partenaires",
+      category: RewardCategory.hygieneWater,
       description:
-          "Financez tout ou partie de votre réabonnement aux formules Access, Évasion ou Tout Canal+. Le code est utilisable via l'espace client ou en agence.",
-      shortDescription: "Réduction sur votre formule TV Canal+",
-      accentColorHex: "#000000",
+          "Crédit de recharge pour bidons d'eau potable saine et traitée dans les bornes fontaines et kiosques à eau partenaires, pour prévenir les maladies d'origine hydrique.",
+      shortDescription: "Eau saine et traitée pour le foyer en borne fontaine",
+      badgeText: "Vital",
+      accentColorHex: "#0288D1",
       validityDays: 60,
       termsAndConditions: [
-        "Indiquer votre numéro de décodeur lors de la commande.",
-        "Le montant sera déduit de votre prochaine mensualité.",
+        "Valable aux bornes fontaines du réseau partenaire.",
+        "Permet de remplir plusieurs bidons de 20 à 25 litres.",
       ],
       tiers: [
         RewardTierModel(
-          id: "canal_3000",
-          name: "3 000 FCFA",
-          pointsCost: 600,
-          monetaryValue: 3000,
-        ),
-        RewardTierModel(
-          id: "canal_5000",
-          name: "5 000 FCFA",
-          pointsCost: 1000,
-          monetaryValue: 5000,
-        ),
-      ],
-    ),
-
-    // ── 8. Don Écologique / Reboisement ──
-    RewardCardModel(
-      id: "eco_tree_planting",
-      title: "Plantation d'arbres & Écologie",
-      brand: "Collectif Éco-Togo",
-      category: RewardCategory.ecoImpact,
-      description:
-          "Faites don de vos points de recyclage à des projets communautaires locaux : plantation d'arbres, équipement d'écoles en poubelles de tri et soutien aux ramasseurs informels.",
-      shortDescription: "Soutenez des actions concrètes pour la planète",
-      badgeText: "Solidaire",
-      accentColorHex: "#2E7D32",
-      validityDays: 365,
-      termsAndConditions: [
-        "Un certificat d'impact environnemental vous sera adressé par email.",
-        "100 % des fonds convertis sont alloués aux actions sur le terrain.",
-      ],
-      tiers: [
-        RewardTierModel(
-          id: "tree_500",
-          name: "Planter 1 Arbre",
+          id: "eau_500",
+          name: "10 Bidons de 25L (500 FCFA)",
           pointsCost: 100,
           monetaryValue: 500,
         ),
         RewardTierModel(
-          id: "tree_2500",
-          name: "Bosquet (5 Arbres)",
+          id: "eau_1000",
+          name: "Pack Eau Mois Foyer (1 000 FCFA)",
+          pointsCost: 200,
+          monetaryValue: 1000,
+        ),
+      ],
+    ),
+
+    RewardCardModel(
+      id: "kit_hygiene_foyer",
+      title: "Kit Hygiène & Savon Familial",
+      brand: "Partenaires Santé & Hygiène",
+      category: RewardCategory.hygieneWater,
+      description:
+          "Pack d'hygiène essentiel pour le foyer : savons corporels locaux, produit de lavage pour vêtements, eau de Javel pour la désinfection de l'eau et matériel de lavage des mains.",
+      shortDescription: "Savons, désinfection de l'eau et hygiène du foyer",
+      accentColorHex: "#00838F",
+      validityDays: 90,
+      termsAndConditions: [
+        "Retrait dans les points relais communautaires partenaires.",
+        "Produits conformes aux normes sanitaires d'hygiène publique.",
+      ],
+      tiers: [
+        RewardTierModel(
+          id: "hygiene_1000",
+          name: "Kit Savon & Hygiène (1 000 FCFA)",
+          pointsCost: 200,
+          monetaryValue: 1000,
+        ),
+        RewardTierModel(
+          id: "hygiene_2500",
+          name: "Pack Famille Complet (2 500 FCFA)",
           pointsCost: 500,
           monetaryValue: 2500,
         ),

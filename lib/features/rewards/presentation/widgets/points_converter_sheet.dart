@@ -243,7 +243,7 @@ class _PointsConverterSheetState extends State<PointsConverterSheet> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Valeur de rachat",
+                      "Valeur en biens essentiels",
                       style: textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
@@ -265,7 +265,7 @@ class _PointsConverterSheetState extends State<PointsConverterSheet> {
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    LucideIcons.banknote,
+                    LucideIcons.heartHandshake,
                     color: colorScheme.primary,
                     size: 24,
                   ),

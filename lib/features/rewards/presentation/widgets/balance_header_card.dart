@@ -146,13 +146,14 @@ class BalanceHeaderCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
-                        LucideIcons.wallet,
+                        LucideIcons.heartHandshake,
                         size: 14,
                         color: colorScheme.onSurface,
                       ),
                       AppSpacing.gapHSm,
                       Text(
-                        "Valeur estimée : ${PointsConversion.formatFcfa(equivalentFcfa)}",
+                        "Valeur en biens essentiels : "
+                        "${PointsConversion.formatFcfa(equivalentFcfa)}",
                         style: textTheme.bodySmall?.copyWith(
                           color: colorScheme.onSurface,
                           fontWeight: FontWeight.w700,

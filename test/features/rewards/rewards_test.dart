@@ -39,7 +39,7 @@ void main() {
           id: "test_card",
           title: "Test Card",
           brand: "Test Brand",
-          category: RewardCategory.telecom,
+          category: RewardCategory.food,
           description: "Test desc",
           shortDescription: "Short desc",
           termsAndConditions: [],
@@ -89,8 +89,16 @@ void main() {
 
       final catalog = await repository.getCatalog();
       expect(catalog, isNotEmpty);
-      expect(catalog.any((c) => c.brand == "Togocom"), isTrue);
-      expect(catalog.any((c) => c.brand == "Moov Africa"), isTrue);
+      expect(catalog.any((c) => c.category == RewardCategory.food), isTrue);
+      expect(catalog.any((c) => c.category == RewardCategory.health), isTrue);
+      expect(
+        catalog.any((c) => c.category == RewardCategory.education),
+        isTrue,
+      );
+      expect(
+        catalog.any((c) => c.category == RewardCategory.hygieneWater),
+        isTrue,
+      );
     });
 
     test(

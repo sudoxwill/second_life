@@ -68,13 +68,13 @@ class _RewardsCatalogPageState extends ConsumerState<RewardsCatalogPage>
               children: [
                 // Titre principal
                 Text(
-                  "Récompenses & Cartes",
+                  "Besoins Essentiels",
                   style: textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  "Valorisez vos efforts de recyclage en bons d'achat",
+                  "Transformez vos points en alimentation, santé et éducation",
                   style: textTheme.bodySmall?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                   ),
@@ -171,7 +171,7 @@ class _RewardsCatalogPageState extends ConsumerState<RewardsCatalogPage>
             padding: const EdgeInsets.only(bottom: AppSpacing.md),
             child: AppTextFormField(
               controller: _searchController,
-              hintText: "Rechercher une enseigne, T-Money, Jumia...",
+              hintText: "Rechercher riz, pharmacie, écolage, kits...",
               prefixIconData: LucideIcons.search,
               onChanged: (val) => notifier.updateSearch(val ?? ""),
               suffixIconData: _searchController.text.isNotEmpty

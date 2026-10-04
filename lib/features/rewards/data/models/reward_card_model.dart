@@ -27,7 +27,7 @@ class RewardCardModel extends RewardCard {
       brand: json["brand"] as String,
       category: RewardCategory.values.firstWhere(
         (c) => c.name == json["category"],
-        orElse: () => RewardCategory.telecom,
+        orElse: () => RewardCategory.food,
       ),
       description: json["description"] as String,
       shortDescription: json["short_description"] as String,

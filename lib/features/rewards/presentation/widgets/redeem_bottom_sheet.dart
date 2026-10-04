@@ -149,7 +149,26 @@ class _RedeemBottomSheetState extends ConsumerState<RedeemBottomSheet> {
   }) {
     final colorScheme = context.colorScheme;
     final textTheme = context.textTheme;
-    final isTelecom = widget.card.category == RewardCategory.telecom;
+    final String recipientLabel;
+    final String recipientHint;
+    final IconData recipientIcon;
+
+    switch (widget.card.category) {
+      case RewardCategory.education:
+        recipientLabel = "Nom de l'élève & classe (optionnel)";
+        recipientHint = "Ex: Koffi Mensah — CM2";
+        recipientIcon = LucideIcons.graduationCap;
+      case RewardCategory.health:
+        recipientLabel = "Nom du patient (optionnel)";
+        recipientHint = "Ex: Patient ou membre du foyer";
+        recipientIcon = LucideIcons.heartPulse;
+      case RewardCategory.food:
+      case RewardCategory.hygieneWater:
+      case RewardCategory.all:
+        recipientLabel = "Nom du foyer bénéficiaire (optionnel)";
+        recipientHint = "Ex: Famille Mensah";
+        recipientIcon = LucideIcons.users;
+    }
 
     return Column(
       key: const ValueKey("form_view"),
@@ -253,16 +272,9 @@ class _RedeemBottomSheetState extends ConsumerState<RedeemBottomSheet> {
         // Champ destinataire optionnel selon le type
         AppTextFormField(
           controller: _recipientController,
-          labelText: isTelecom
-              ? "Numéro de téléphone destinataire"
-              : "Email ou bénéficiaire (optionnel)",
-          hintText: isTelecom
-              ? "Ex: +228 90 00 00 00"
-              : "Ex: contact@email.com",
-          keyboardType: isTelecom
-              ? TextInputType.phone
-              : TextInputType.emailAddress,
-          prefixIconData: isTelecom ? LucideIcons.phone : LucideIcons.mail,
+          labelText: recipientLabel,
+          hintText: recipientHint,
+          prefixIconData: recipientIcon,
         ),
         AppSpacing.gapVLg,
 
