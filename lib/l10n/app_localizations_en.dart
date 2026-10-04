@@ -50,4 +50,57 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get commonOr => 'Or';
+
+  @override
+  String get authOrContinueWith => 'Or continue with';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingSkipTooltip => 'Skip the introduction';
+
+  @override
+  String get onboardingNextTooltip => 'Go to next step';
+
+  @override
+  String get onboardingFinishTooltip => 'Finish and get started';
+
+  @override
+  String get onboardingGetStarted => 'Get started';
+
+  @override
+  String get onboardingTitle1 => 'Your waste has value';
+
+  @override
+  String get onboardingDescription1 =>
+      'Scan it, drop it off at a relay point. After weighing, you earn points.';
+
+  @override
+  String get onboardingTitle2 => 'Spot the trouble spots';
+
+  @override
+  String get onboardingDescription2 =>
+      'See waste blocking a drain? Take a photo. Your neighbours are alerted, and your report is rewarded once the area is cleaned.';
+
+  @override
+  String get onboardingTitle3 => 'Points for what matters';
+
+  @override
+  String get onboardingDescription3 =>
+      'Your points can\'t be withdrawn as cash. They\'ll soon be used for food, education and healthcare.';
+
+  @override
+  String onboardingProgressLabel(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String onboardingNotificationTitle(String appName) {
+    return 'Welcome to $appName';
+  }
+
+  @override
+  String get onboardingNotificationBody =>
+      'Your first drop-off awaits — scan a waste item now.';
 }

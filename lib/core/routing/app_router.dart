@@ -3,6 +3,7 @@ import "package:go_router/go_router.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../../features/onboarding/presentation/pages/index.dart";
 import "../configs/env.dart";
 import "../theme/app_spacing.dart";
 import "app_navigator_key.dart";
@@ -22,16 +23,24 @@ GoRouter appRouter(Ref ref) {
     redirect: (_, _) => null,
     errorBuilder: (context, state) => const _RouterErrorPage(),
     routes: [
-      // ─── Onboarding ───────────────────────────
+      // ─── Splash ───────────────────────────
       GoRoute(
         path: AppRoutes.root,
-        pageBuilder: (context, state) {
-          return AppTransitions.fade(
-            context: context,
-            state: state,
-            child: const _Placeholder(title: "Onboarding"),
-          );
-        },
+        pageBuilder: (context, state) => AppTransitions.fade(
+          context: context,
+          state: state,
+          child: const SplashPage(),
+        ),
+      ),
+
+      // ─── Onboarding ───────────────────────────
+      GoRoute(
+        path: AppRoutes.onboarding,
+        pageBuilder: (context, state) => AppTransitions.fade(
+          context: context,
+          state: state,
+          child: const OnboardingPage(),
+        ),
       ),
 
       // ─── Authentification ────────────────────
