@@ -115,6 +115,7 @@ class _LoginPageState extends State<LoginPage> {
     // Simulate a login process
     await Future<void>.delayed(const Duration(seconds: 2));
     if (mounted) setState(() => _isLoading = false);
+    if (mounted) context.goHome();
   }
 
   Future<void> _googleSignIn() async {
@@ -122,5 +123,6 @@ class _LoginPageState extends State<LoginPage> {
     // Simulate a login process
     await Future<void>.delayed(const Duration(seconds: 2));
     if (mounted) setState(() => _isLoading = false);
+    if (mounted) context.goHome();
   }
 }

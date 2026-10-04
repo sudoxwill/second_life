@@ -126,6 +126,7 @@ class _RegisterPageState extends State<RegisterPage> {
     // Simulate a login process
     await Future<void>.delayed(const Duration(seconds: 2));
     if (mounted) setState(() => _isLoading = false);
+    if (mounted) context.goHome();
   }
 
   Future<void> _googleSignIn() async {
@@ -133,5 +134,6 @@ class _RegisterPageState extends State<RegisterPage> {
     // Simulate a login process
     await Future<void>.delayed(const Duration(seconds: 2));
     if (mounted) setState(() => _isLoading = false);
+    if (mounted) context.goHome();
   }
 }
