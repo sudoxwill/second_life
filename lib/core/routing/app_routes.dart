@@ -31,4 +31,7 @@ class AppRoutes {
 
   // ─── Settings ─────────────────────────
   static const settings = "/settings";
+
+  // ─── Récompenses & Cartes cadeaux ─────────
+  static const String rewards = "/rewards";
 }

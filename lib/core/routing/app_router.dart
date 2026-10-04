@@ -4,6 +4,7 @@ import "package:lucide_icons_flutter/lucide_icons.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../../features/onboarding/presentation/pages/index.dart";
+import "../../features/rewards/rewards.dart";
 import "../configs/env.dart";
 import "../theme/app_spacing.dart";
 import "app_navigator_key.dart";
@@ -178,6 +179,16 @@ GoRouter appRouter(Ref ref) {
           context: context,
           state: state,
           child: const _Placeholder(title: "Settings"),
+        ),
+      ),
+
+      // ─── Récompenses & Cartes Cadeaux ──────────
+      GoRoute(
+        path: AppRoutes.rewards,
+        pageBuilder: (context, state) => AppTransitions.fade(
+          context: context,
+          state: state,
+          child: const RewardsCatalogPage(),
         ),
       ),
     ],
