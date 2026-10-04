@@ -4,6 +4,7 @@ import "package:lucide_icons_flutter/lucide_icons.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../../features/auth/presentation/pages/index.dart";
+import "../../features/home/presentation/pages/home_page.dart";
 import "../../features/onboarding/presentation/pages/index.dart";
 import "../../shared/presentation/app_shell.dart";
 import "../configs/env.dart";
@@ -14,7 +15,7 @@ import "app_transitions.dart";
 
 part "app_router.g.dart";
 
-/// GoRouter global de Dogbale.
+/// GoRouter global de SecondLife.
 ///
 @riverpod
 GoRouter appRouter(Ref ref) {
@@ -102,7 +103,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const _Placeholder(title: "Dashboard"),
+                  child: const HomePage(),
                 ),
               ),
             ],

@@ -147,8 +147,8 @@ class AppSpacing {
   // ─────────────────────────────────────────────
 
   static const EdgeInsets screenPadding = EdgeInsets.symmetric(
-    horizontal: lg,
-    vertical: md,
+    horizontal: md,
+    vertical: sm,
   );
 
   static const EdgeInsets screenPaddingLg = EdgeInsets.symmetric(

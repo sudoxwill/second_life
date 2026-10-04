@@ -76,7 +76,7 @@ class AppShell extends StatelessWidget {
                 label: item.label,
                 selected: selected,
                 color: selected
-                    ? colorScheme.primary
+                    ? colorScheme.secondary
                     : colorScheme.onSurfaceVariant,
                 onTap: () => navigationShell.goBranch(
                   i,
@@ -94,7 +94,7 @@ class AppShell extends StatelessWidget {
                 label: item.label,
                 selected: selected,
                 color: selected
-                    ? colorScheme.primary
+                    ? colorScheme.secondary
                     : colorScheme.onSurfaceVariant,
                 onTap: () => navigationShell.goBranch(
                   idx,
@@ -127,26 +127,53 @@ class _NavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: IconButton(
-        onPressed: onTap,
-        icon: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: color, size: AppSpacing.iconLg),
-            const SizedBox(height: 2),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                color: color,
+      child: InkWell(
+        borderRadius: AppSpacing.roundedLg,
+        onTap: onTap,
+        // Zone de tap ≥ 44×44 pt (accessibilité CDC)
+        child: SizedBox(
+          height: 56,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: color, size: 22),
+              const SizedBox(height: 2),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                  color: color,
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
+    // return Expanded(
+    //   child: IconButton(
+    //     onPressed: onTap,
+    //     splashRadius: AppSpacing.sm,
+    //     icon: Column(
+    //       mainAxisAlignment: MainAxisAlignment.center,
+    //       children: [
+    //         Icon(icon, color: color, size: AppSpacing.iconLg),
+    //         const SizedBox(height: 2),
+    //         Text(
+    //           label,
+    //           style: TextStyle(
+    //             fontSize: 11,
+    //             fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+    //             color: color,
+    //           ),
+    //           overflow: TextOverflow.ellipsis,
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }
 
