@@ -32,7 +32,7 @@ class Env {
   // Timeouts
   static Duration get apiTimeout => const Duration(seconds: 15);
   static Duration get connectTimeout => const Duration(seconds: 15);
-  static Duration get mistralReceiveTimeout => const Duration(seconds: 120);
+  static Duration get receiveTimeout => const Duration(seconds: 30);
 
   // Storage Keys
   static String get storagePrefix {

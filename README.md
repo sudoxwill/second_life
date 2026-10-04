@@ -1,3 +1,3 @@
 # SecondLife
 
-Une application mobile de recyclage rémunéré assisté par IA 
+Une application mobile de recyclage rémunéré.
