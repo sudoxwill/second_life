@@ -273,8 +273,102 @@
   "navProfile": "Profile",
   "@navProfile": { "description": "Label for Profile destination in navigation bar" },
 
+  "navAgentDeposits": "Deposits",
+  "@navAgentDeposits": { "description": "Label for Deposits tab in agent shell" },
+
   "navAnalyzeCta": "Analyse",
   "@navAnalyzeCta": {
     "description": "Label for image Analyse FAB destination in navigation bar"
+  },
+
+  "@__sectionHome": {
+    "description": "━━━━ HOME — User and agent home ━━━━"
+  },
+  "homeGreeting": "Hello, {name}",
+  "@homeGreeting": {
+    "description": "Home page title, personalised with the user's first name",
+    "placeholders": {
+      "name": { "type": "String", "example": "Ama" }
+    }
+  },
+
+  "homeAgentRoleLabel": "Agent",
+  "@homeAgentRoleLabel": { "description": "Role of the signed-in user, used instead of the first name in the agent home title" },
+
+  "homePointsTitle": "My points",
+  "@homePointsTitle": { "description": "Title of the points balance card on the home screen" },
+
+  "homePointsRedeemCta": "Redeem",
+  "@homePointsRedeemCta": { "description": "Button to redeem points for vouchers at the partner" },
+
+  "homePointsBalance": "{amount} pts",
+  "@homePointsBalance": {
+    "description": "Points balance shown on the main home card",
+    "placeholders": {
+      "amount": { "type": "int", "example": "350" }
+    }
+  },
+
+  "homePointsPendingValidation": "+{amount} pts awaiting validation",
+  "@homePointsPendingValidation": {
+    "description": "Chip showing points earned but not validated yet",
+    "placeholders": {
+      "amount": { "type": "int", "example": "80" }
+    }
+  },
+
+  "homePointsNotCash": "Not convertible into cash. Redeemable for vouchers at our partner.",
+  "@homePointsNotCash": { "description": "Text under the points balance explaining that points are not converted into cash" },
+
+  "homePendingDepositsTitle": "Pending deposits",
+  "@homePendingDepositsTitle": { "description": "Title of the card listing deposits awaiting validation" },
+
+  "homeDepositItemBottle": "Bottle",
+  "@homeDepositItemBottle": { "description": "Deposited waste type: bottle" },
+
+  "homeDepositItemIron": "Iron",
+  "@homeDepositItemIron": { "description": "Deposited waste type: iron" },
+
+  "homeDepositPointsGain": "+{amount} pts",
+  "@homeDepositPointsGain": {
+    "description": "Points earned for a deposit, shown in the pending deposits list",
+    "placeholders": {
+      "amount": { "type": "int", "example": "50" }
+    }
+  },
+
+  "homeEcoImpactTitle": "Every action counts for the planet.",
+  "@homeEcoImpactTitle": { "description": "Title of the environmental impact card on the home screen" },
+
+  "homeEcoImpactSubtitle": "Recycle your plastic and metal waste and collect vouchers with your recycling points",
+  "@homeEcoImpactSubtitle": { "description": "Subtitle of the environmental impact card: recycling in exchange for vouchers" },
+
+  "@__sectionAgentDashboard": {
+    "description": "━━━━ AGENT DASHBOARD — Stats and deposit point stock ━━━━"
+  },
+
+  "agentStatsTreatedDeposits": "Deposits processed",
+  "@agentStatsTreatedDeposits": { "description": "Label for the Deposits processed stat card on the agent dashboard" },
+
+  "agentStatsValidatedPoints": "Points validated",
+  "@agentStatsValidatedPoints": { "description": "Label for the Points validated stat card on the agent dashboard" },
+
+  "agentStockTitle": "Deposit point stock",
+  "@agentStockTitle": { "description": "Title of the stock card on the agent dashboard" },
+
+  "agentStockKgCollected": "{amount} kg collected",
+  "@agentStockKgCollected": {
+    "description": "Kilograms collected shown in the stock card",
+    "placeholders": {
+      "amount": { "type": "int", "example": "142" }
+    }
+  },
+
+  "agentStockKgGoal": "Goal: {amount} kg",
+  "@agentStockKgGoal": {
+    "description": "Goal in kilograms shown in the stock card",
+    "placeholders": {
+      "amount": { "type": "int", "example": "200" }
+    }
   }
 }

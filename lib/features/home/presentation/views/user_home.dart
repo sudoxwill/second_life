@@ -4,13 +4,19 @@ import "package:lucide_icons_flutter/lucide_icons.dart";
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/app_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
-import "../../../../shared/presentation/widgets/others/app_divider.dart";
 
 class UserHome extends StatelessWidget {
   const UserHome({super.key});
 
+  static const int demoBalancePoints = 350;
+  static const int demoPendingValidationPoints = 80;
+  static const int demoPendingDepositsCount = 2;
+  static const int demoBottleDepositPoints = 50;
+  static const int demoIronDepositPoints = 80;
+
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
     return Column(
@@ -31,7 +37,7 @@ class UserHome extends StatelessWidget {
                 Row(
                   mainAxisAlignment: .spaceBetween,
                   children: [
-                    Text("Mes points", style: textTheme.titleMedium),
+                    Text(l10n.homePointsTitle, style: textTheme.titleMedium),
                     InkWell(
                       borderRadius: AppSpacing.roundedXxl,
                       child: Container(
@@ -51,7 +57,7 @@ class UserHome extends StatelessWidget {
                               size: AppSpacing.iconSm,
                             ),
                             Text(
-                              "Échanger",
+                              l10n.homePointsRedeemCta,
                               style: textTheme.bodySmall!.copyWith(
                                 color: AppColors.neutral50,
                               ),
@@ -64,25 +70,11 @@ class UserHome extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // FilledButton.icon(
-                    //   style: FilledButton.styleFrom(
-                    //     backgroundColor: AppColors.neutral50
-                    //     .withValues(alpha: .2),
-                    //     padding: EdgeInsets
-                    //     .symmetric(horizontal: AppSpacing.sm),
-                    //     iconColor: AppColors.neutral50,
-                    //   ),
-                    //   icon: const Icon(LucideIcons.gift),
-                    //   label: const Text("Échanger", style: TextStyle(
-                    //     color: AppColors.neutral50,
-                    //   ),),
-                    //   onPressed: () {},
-                    // ),
                   ],
                 ),
                 AppSpacing.gapVSm,
                 Text(
-                  "350 pts",
+                  l10n.homePointsBalance(demoBalancePoints),
                   style: textTheme.headlineMedium!.copyWith(fontWeight: .bold),
                 ),
                 AppSpacing.gapVSm,
@@ -95,80 +87,81 @@ class UserHome extends StatelessWidget {
                     size: AppSpacing.iconSm,
                   ),
                   label: Text(
-                    "+80 pts en attende de validation",
+                    l10n.homePointsPendingValidation(
+                      demoPendingValidationPoints,
+                    ),
                     style: TextStyle(color: colorScheme.secondary),
                     overflow: .ellipsis,
                   ),
                 ),
                 AppSpacing.gapVXs,
-                Text(
-                  "Non convertie en argent liquide. Échangeable contre des bons chez le partenaire.",
-                  style: textTheme.labelMedium,
-                ),
+                Text(l10n.homePointsNotCash, style: textTheme.labelMedium),
               ],
             ),
           ),
         ),
 
         /// Waiting deposit
-        // Column(
-        //   children: [
-        //     Row(
-        //       mainAxisAlignment: .spaceBetween,
-        //       children: [
-        //         Row(
-        //           spacing: AppSpacing.sm,
-        //           children: [
-        //             const Text("Dépôts en attente"),
-        //             Badge(
-        //               label: Text(
-        //                 "2",
-        //                 style: TextStyle(color: colorScheme.onSecondary),
-        //               ),
-        //               backgroundColor: colorScheme.secondary,
-        //             ),
-        //           ],
-        //         ),
-        //         TextButton(onPressed: () {}, child: const Text("Voir plus")),
-        //       ],
-        //     ),
-        //     ListView.builder(
-        //       shrinkWrap: true,
-        //       itemCount: 3,
-        //       itemBuilder: (context, index) {
-        //         return ListTile(
-        //           contentPadding: AppSpacing.insetVXs,
-        //           leading: Container(
-        //             width: AppSpacing.mega,
-        //             height: AppSpacing.mega,
-        //             padding: AppSpacing.insetSm,
-        //             decoration: BoxDecoration(
-        //               color: colorScheme.secondary.withValues(alpha: .2),
-        //               borderRadius: AppSpacing.roundedLg,
-        //             ),
-        //             child: Icon(
-        //               LucideIcons.bottleWine,
-        //               color: colorScheme.secondary,
-        //             ),
-        //           ),
-        //           title: Text("Bouteille", style: textTheme.bodyLarge),
-        //           trailing: Text(
-        //             "+50 pts",
-        //             style: textTheme.labelLarge!.copyWith(
-        //               color: colorScheme.secondary,
-        //             ),
-        //           ),
-        //           // subtitle: Text(
-        //           //   "+50 pts",
-        //           //   style: textTheme.labelLarge!.copyWith(
-        //           //     color: colorScheme.secondary,
-        //           //   ),
-        //           // ),
-        //         );
-        //       },
-        //     ),
-        //   ],
-        // ),
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: .spaceBetween,
+              children: [
+                Row(
+                  spacing: AppSpacing.sm,
+                  children: [
+                    Text(l10n.homePendingDepositsTitle),
+                    Badge(
+                      label: Text(
+                        "2",
+                        style: TextStyle(color: colorScheme.onSecondary),
+                      ),
+                      backgroundColor: colorScheme.secondary,
+                    ),
+                  ],
+                ),
+                TextButton(onPressed: () {}, child: const Text("Voir plus")),
+                // TextButton(onPressed: () {}, child: Text(l10n.seeMore)),
+              ],
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  contentPadding: AppSpacing.insetVXs,
+                  leading: Container(
+                    width: AppSpacing.mega,
+                    height: AppSpacing.mega,
+                    padding: AppSpacing.insetSm,
+                    decoration: BoxDecoration(
+                      color: colorScheme.secondary.withValues(alpha: .2),
+                      borderRadius: AppSpacing.roundedLg,
+                    ),
+                    child: Icon(
+                      LucideIcons.bottleWine,
+                      color: colorScheme.secondary,
+                    ),
+                  ),
+                  title: Text("Bouteille", style: textTheme.bodyLarge),
+                  trailing: Text(
+                    "+50 pts",
+                    style: textTheme.labelLarge!.copyWith(
+                      color: colorScheme.secondary,
+                    ),
+                  ),
+                  // subtitle: Text(
+                  //   "+50 pts",
+                  //   style: textTheme.labelLarge!.copyWith(
+                  //     color: colorScheme.secondary,
+                  //   ),
+                  // ),
+                );
+              },
+            ),
+          ],
+        ),
+        /*
         Container(
           padding: AppSpacing.insetSm,
           decoration: BoxDecoration(
@@ -194,10 +187,10 @@ class UserHome extends StatelessWidget {
                 title: Row(
                   spacing: AppSpacing.md,
                   children: [
-                    const Text("Dépôts en attente"),
+                    Text(l10n.homePendingDepositsTitle),
                     Badge(
                       label: Text(
-                        "2",
+                        "$demoPendingDepositsCount",
                         style: TextStyle(color: colorScheme.onSecondary),
                       ),
                       backgroundColor: colorScheme.secondary,
@@ -217,11 +210,13 @@ class UserHome extends StatelessWidget {
                   Chip(
                     label: RichText(
                       text: TextSpan(
-                        text: "Bouteille ",
+                        text: "${l10n.homeDepositItemBottle} ",
                         style: textTheme.labelLarge,
                         children: [
                           TextSpan(
-                            text: "+50 pts",
+                            text: l10n.homeDepositPointsGain(
+                              demoBottleDepositPoints,
+                            ),
                             style: TextStyle(color: colorScheme.secondary),
                           ),
                         ],
@@ -231,11 +226,13 @@ class UserHome extends StatelessWidget {
                   Chip(
                     label: RichText(
                       text: TextSpan(
-                        text: "Fer ",
+                        text: "${l10n.homeDepositItemIron} ",
                         style: textTheme.labelLarge,
                         children: [
                           TextSpan(
-                            text: "+80 pts",
+                            text: l10n.homeDepositPointsGain(
+                              demoIronDepositPoints,
+                            ),
                             style: TextStyle(color: colorScheme.secondary),
                           ),
                         ],
@@ -246,7 +243,7 @@ class UserHome extends StatelessWidget {
               ),
             ],
           ),
-        ),
+        ),*/
         //
         Container(
           padding: AppSpacing.insetXs,
@@ -267,13 +264,9 @@ class UserHome extends StatelessWidget {
               ),
               child: Icon(LucideIcons.badgeInfo, color: colorScheme.surface),
             ),
-            title: Text(
-              "Chaque geste compte pour la planète.",
-              style: textTheme.labelMedium,
-            ),
+            title: Text(l10n.homeEcoImpactTitle, style: textTheme.labelMedium),
             subtitle: Text(
-              "Recyclez vos déchets plastiques et métalliques et récupérez "
-              "des bons avec vos points de recyclage",
+              l10n.homeEcoImpactSubtitle,
               style: textTheme.labelSmall,
             ),
           ),

@@ -248,5 +248,76 @@ class AppLocalizationsFr extends AppLocalizations {
   String get navProfile => 'Profil';
 
   @override
+  String get navAgentDeposits => 'Dépôts';
+
+  @override
   String get navAnalyzeCta => 'Analyser';
+
+  @override
+  String homeGreeting(String name) {
+    return 'Bonjour, $name';
+  }
+
+  @override
+  String get homeAgentRoleLabel => 'Agent';
+
+  @override
+  String get homePointsTitle => 'Mes points';
+
+  @override
+  String get homePointsRedeemCta => 'Échanger';
+
+  @override
+  String homePointsBalance(int amount) {
+    return '$amount pts';
+  }
+
+  @override
+  String homePointsPendingValidation(int amount) {
+    return '+$amount pts en attente de validation';
+  }
+
+  @override
+  String get homePointsNotCash =>
+      'Non convertie en argent liquide. Échangeable contre des bons chez le partenaire.';
+
+  @override
+  String get homePendingDepositsTitle => 'Dépôts en attente';
+
+  @override
+  String get homeDepositItemBottle => 'Bouteille';
+
+  @override
+  String get homeDepositItemIron => 'Fer';
+
+  @override
+  String homeDepositPointsGain(int amount) {
+    return '+$amount pts';
+  }
+
+  @override
+  String get homeEcoImpactTitle => 'Chaque geste compte pour la planète.';
+
+  @override
+  String get homeEcoImpactSubtitle =>
+      'Recyclez vos déchets plastiques et métalliques et récupérez des bons avec vos points de recyclage';
+
+  @override
+  String get agentStatsTreatedDeposits => 'Dépôts traités';
+
+  @override
+  String get agentStatsValidatedPoints => 'Points validés';
+
+  @override
+  String get agentStockTitle => 'Stock du point de dépôt';
+
+  @override
+  String agentStockKgCollected(int amount) {
+    return '$amount kg récoltés';
+  }
+
+  @override
+  String agentStockKgGoal(int amount) {
+    return 'Objectif : $amount kg';
+  }
 }

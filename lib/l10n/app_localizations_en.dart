@@ -242,5 +242,76 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navProfile => 'Profile';
 
   @override
+  String get navAgentDeposits => 'Deposits';
+
+  @override
   String get navAnalyzeCta => 'Analyse';
+
+  @override
+  String homeGreeting(String name) {
+    return 'Hello, $name';
+  }
+
+  @override
+  String get homeAgentRoleLabel => 'Agent';
+
+  @override
+  String get homePointsTitle => 'My points';
+
+  @override
+  String get homePointsRedeemCta => 'Redeem';
+
+  @override
+  String homePointsBalance(int amount) {
+    return '$amount pts';
+  }
+
+  @override
+  String homePointsPendingValidation(int amount) {
+    return '+$amount pts awaiting validation';
+  }
+
+  @override
+  String get homePointsNotCash =>
+      'Not convertible into cash. Redeemable for vouchers at our partner.';
+
+  @override
+  String get homePendingDepositsTitle => 'Pending deposits';
+
+  @override
+  String get homeDepositItemBottle => 'Bottle';
+
+  @override
+  String get homeDepositItemIron => 'Iron';
+
+  @override
+  String homeDepositPointsGain(int amount) {
+    return '+$amount pts';
+  }
+
+  @override
+  String get homeEcoImpactTitle => 'Every action counts for the planet.';
+
+  @override
+  String get homeEcoImpactSubtitle =>
+      'Recycle your plastic and metal waste and collect vouchers with your recycling points';
+
+  @override
+  String get agentStatsTreatedDeposits => 'Deposits processed';
+
+  @override
+  String get agentStatsValidatedPoints => 'Points validated';
+
+  @override
+  String get agentStockTitle => 'Deposit point stock';
+
+  @override
+  String agentStockKgCollected(int amount) {
+    return '$amount kg collected';
+  }
+
+  @override
+  String agentStockKgGoal(int amount) {
+    return 'Goal: $amount kg';
+  }
 }

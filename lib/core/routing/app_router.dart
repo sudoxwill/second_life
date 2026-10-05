@@ -4,8 +4,11 @@ import "package:lucide_icons_flutter/lucide_icons.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../../features/auth/presentation/pages/index.dart";
+import "../../features/auth/presentation/providers/auth_provider.dart";
+import "../../features/home/presentation/pages/agent_dashboard_page.dart";
 import "../../features/home/presentation/pages/home_page.dart";
 import "../../features/onboarding/presentation/pages/index.dart";
+import "../../shared/presentation/agent_shell.dart";
 import "../../shared/presentation/app_shell.dart";
 import "../configs/env.dart";
 import "../theme/app_spacing.dart";
@@ -16,14 +19,32 @@ import "app_transitions.dart";
 part "app_router.g.dart";
 
 /// GoRouter global de SecondLife.
-///
 @riverpod
 GoRouter appRouter(Ref ref) {
   return GoRouter(
     initialLocation: AppRoutes.root,
     navigatorKey: AppNavigatorKey.instance,
     debugLogDiagnostics: Env.enableLogging,
-    redirect: (_, _) => null,
+    redirect: (context, state) {
+      final role = ref.read(authProvider);
+      final loc = state.matchedLocation;
+
+      if (role == AppRole.agent) {
+        // Agent ne doit pas atterrir dans le shell user
+        if (loc == AppRoutes.home ||
+            loc == AppRoutes.places ||
+            loc == AppRoutes.history ||
+            loc == AppRoutes.profile) {
+          return AppRoutes.agentHome;
+        }
+      } else if (role == AppRole.user) {
+        // User ne doit pas atterrir dans le shell agent
+        if (loc.startsWith("/agent")) {
+          return AppRoutes.home;
+        }
+      }
+      return null;
+    },
     errorBuilder: (context, state) => const _RouterErrorPage(),
     routes: [
       // ─── Splash ───────────────────────────
@@ -90,12 +111,11 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // ─── Shell — 4 onglets ────────────────────
+      // ─── Shell User — 4 onglets ──────────────
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
-            AppShell(navigationShell: navigationShell),
+            UserShell(navigationShell: navigationShell),
         branches: [
-          // ── Home ───────────────────────────────
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -108,8 +128,6 @@ GoRouter appRouter(Ref ref) {
               ),
             ],
           ),
-
-          // ── Places ───────────────────────────────
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -122,8 +140,6 @@ GoRouter appRouter(Ref ref) {
               ),
             ],
           ),
-
-          // ── History ───────────────────────────────
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -131,13 +147,11 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const _Placeholder(title: "Historique complet"),
+                  child: const _Placeholder(title: "Historique"),
                 ),
               ),
             ],
           ),
-
-          // ── Profile ───────────────────────────────
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -146,6 +160,62 @@ GoRouter appRouter(Ref ref) {
                   context: context,
                   state: state,
                   child: const _Placeholder(title: "Profil"),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+
+      // ─── Shell Agent — 4 onglets ─────────────
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            AgentShell(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.agentHome,
+                pageBuilder: (context, state) => AppTransitions.fade(
+                  context: context,
+                  state: state,
+                  child: const AgentDashboardPage(),
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.agentDeposits,
+                pageBuilder: (context, state) => AppTransitions.fade(
+                  context: context,
+                  state: state,
+                  child: const _Placeholder(title: "Dépôts"),
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.agentHistory,
+                pageBuilder: (context, state) => AppTransitions.fade(
+                  context: context,
+                  state: state,
+                  child: const _Placeholder(title: "Historique agent"),
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.agentProfile,
+                pageBuilder: (context, state) => AppTransitions.fade(
+                  context: context,
+                  state: state,
+                  child: const _Placeholder(title: "Profil agent"),
                 ),
               ),
             ],
@@ -163,17 +233,6 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      GoRoute(
-        path: AppRoutes.history,
-        pageBuilder: (context, state) => AppTransitions.fade(
-          context: context,
-          state: state,
-          child: _Placeholder(
-            title: "Historique ${state.pathParameters["id"]!}",
-          ),
-        ),
-      ),
-
       // ─── Settings ──────────────────────────────
       GoRoute(
         path: AppRoutes.settings,
@@ -187,7 +246,6 @@ GoRouter appRouter(Ref ref) {
   );
 }
 
-/// Écran placeholder — texte centré, en attendant l'implémentation réelle.
 class _Placeholder extends StatelessWidget {
   const _Placeholder({required this.title});
 
@@ -211,41 +269,6 @@ class _Placeholder extends StatelessWidget {
   }
 }
 
-/// AppShell
-// class AppShell extends StatelessWidget {
-//   const AppShell({required this.navigationShell, super.key});
-//
-//   final StatefulNavigationShell navigationShell;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: navigationShell,
-//       bottomNavigationBar: BottomNavigationBar(
-//         items: const [
-//           BottomNavigationBarItem(
-//             icon: Icon(LucideIcons.home),
-//             label: "Accueil",
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(LucideIcons.map),
-//             label: "Points de recyclage",
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(LucideIcons.rotateCcwClock),
-//             label: "Historique",
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(LucideIcons.userRound),
-//             label: "Profil",
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-/// Écran d'erreur du router.
 class _RouterErrorPage extends StatelessWidget {
   const _RouterErrorPage();
 

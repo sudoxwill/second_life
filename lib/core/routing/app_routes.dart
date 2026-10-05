@@ -18,6 +18,12 @@ class AppRoutes {
   static const String history = "/history";
   static const String profile = "/profile";
 
+  // ─── Shell Agent (4 branches) ────────────────────
+  static const String agentHome     = "/agent/home";
+  static const String agentDeposits = "/agent/deposits";
+  static const String agentHistory  = "/agent/history";
+  static const String agentProfile  = "/agent/profile";
+
   // ─── Scan ─────────────────────────
   static const String scan = "/scan";
 

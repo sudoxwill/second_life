@@ -524,11 +524,125 @@ abstract class AppLocalizations {
   /// **'Profil'**
   String get navProfile;
 
+  /// Label de l'onglet Dépôts dans le shell agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôts'**
+  String get navAgentDeposits;
+
   /// Label de la destination Analyse du FAB dans la barre de navigation
   ///
   /// In fr, this message translates to:
   /// **'Analyser'**
   String get navAnalyzeCta;
+
+  /// Titre de la page d'accueil, personnalisé avec le prénom de l'utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'Bonjour, {name}'**
+  String homeGreeting(String name);
+
+  /// Rôle de l'utilisateur connecté, utilisé à la place du prénom dans le titre de l'accueil agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Agent'**
+  String get homeAgentRoleLabel;
+
+  /// Titre de la carte de solde de points sur l'accueil
+  ///
+  /// In fr, this message translates to:
+  /// **'Mes points'**
+  String get homePointsTitle;
+
+  /// Bouton d'échange des points contre des bons chez le partenaire
+  ///
+  /// In fr, this message translates to:
+  /// **'Échanger'**
+  String get homePointsRedeemCta;
+
+  /// Solde de points affiché sur la carte principale de l'accueil
+  ///
+  /// In fr, this message translates to:
+  /// **'{amount} pts'**
+  String homePointsBalance(int amount);
+
+  /// Pastille indiquant les points gagnés mais pas encore validés
+  ///
+  /// In fr, this message translates to:
+  /// **'+{amount} pts en attente de validation'**
+  String homePointsPendingValidation(int amount);
+
+  /// Explication sous le solde de points : les points ne sont pas convertis en espèces
+  ///
+  /// In fr, this message translates to:
+  /// **'Non convertie en argent liquide. Échangeable contre des bons chez le partenaire.'**
+  String get homePointsNotCash;
+
+  /// Titre de la carte listant les dépôts en attente de validation
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôts en attente'**
+  String get homePendingDepositsTitle;
+
+  /// Type de déchet déposé : bouteille
+  ///
+  /// In fr, this message translates to:
+  /// **'Bouteille'**
+  String get homeDepositItemBottle;
+
+  /// Type de déchet déposé : fer
+  ///
+  /// In fr, this message translates to:
+  /// **'Fer'**
+  String get homeDepositItemIron;
+
+  /// Points gagnés par un dépôt, affichés dans la liste des dépôts en attente
+  ///
+  /// In fr, this message translates to:
+  /// **'+{amount} pts'**
+  String homeDepositPointsGain(int amount);
+
+  /// Titre de la carte d'impact environnemental sur l'accueil
+  ///
+  /// In fr, this message translates to:
+  /// **'Chaque geste compte pour la planète.'**
+  String get homeEcoImpactTitle;
+
+  /// Sous-titre de la carte d'impact environnemental : explication du recyclage contre des bons
+  ///
+  /// In fr, this message translates to:
+  /// **'Recyclez vos déchets plastiques et métalliques et récupérez des bons avec vos points de recyclage'**
+  String get homeEcoImpactSubtitle;
+
+  /// Label de la stat card Dépôts traités sur le dashboard agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôts traités'**
+  String get agentStatsTreatedDeposits;
+
+  /// Label de la stat card Points validés sur le dashboard agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Points validés'**
+  String get agentStatsValidatedPoints;
+
+  /// Titre de la card stock sur le dashboard agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Stock du point de dépôt'**
+  String get agentStockTitle;
+
+  /// Kilogrammes récoltés affichés dans la card stock
+  ///
+  /// In fr, this message translates to:
+  /// **'{amount} kg récoltés'**
+  String agentStockKgCollected(int amount);
+
+  /// Objectif en kilogrammes affiché dans la card stock
+  ///
+  /// In fr, this message translates to:
+  /// **'Objectif : {amount} kg'**
+  String agentStockKgGoal(int amount);
 }
 
 class _AppLocalizationsDelegate

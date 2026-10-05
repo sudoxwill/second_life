@@ -4,12 +4,10 @@ import "package:lucide_icons_flutter/lucide_icons.dart";
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/app_spacing.dart";
 import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
-import "../views/user_home.dart";
+import "../views/agent_home.dart";
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  static const String demoUserName = "John";
+class AgentDashboardPage extends StatelessWidget {
+  const AgentDashboardPage({super.key});
   static const int demoNotificationCount = 1;
 
   @override
@@ -17,12 +15,13 @@ class HomePage extends StatelessWidget {
     final l10n = context.l10n;
     final textTheme = context.textTheme;
     return AppScaffold(
+      scrollable: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: RichText(
           text: TextSpan(
-            text: l10n.homeGreeting(demoUserName),
+            text: l10n.homeGreeting(l10n.homeAgentRoleLabel),
             style: textTheme.headlineMedium,
           ),
         ),
@@ -37,7 +36,7 @@ class HomePage extends StatelessWidget {
           AppSpacing.gapHSm,
         ],
       ),
-      body: const UserHome(),
+      body: const AgentHome(),
     );
   }
 }
