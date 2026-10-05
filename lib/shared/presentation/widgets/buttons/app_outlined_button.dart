@@ -45,7 +45,7 @@ class AppOutlinedButton extends StatelessWidget {
     this.isLoading = false,
     this.enabled = true,
     this.elevation = AppSpacing.elevationNone,
-    this.borderRadius = AppSpacing.radiusXl,
+    this.borderRadius = AppSpacing.radiusMd,
     this.icon,
     this.textAlign = .center,
   });

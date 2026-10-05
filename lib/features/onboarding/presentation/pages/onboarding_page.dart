@@ -159,8 +159,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                                 ),
                                 decoration: BoxDecoration(
                                   color: isActive
-                                      ? AppColors.textInverse
-                                      : AppColors.textInverse.withAlpha(100),
+                                      ? context.colorScheme.secondary
+                                      : context.colorScheme.
+                                  secondary.withAlpha(100),
                                   borderRadius: AppSpacing.roundedFull,
                                 ),
                               );

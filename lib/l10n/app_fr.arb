@@ -117,5 +117,176 @@
   },
 
   "onboardingNotificationBody": "Votre premier dépôt vous attend — scannez un déchet dès maintenant.",
-  "@onboardingNotificationBody": { "description": "Corps de la notification de fin d'onboarding" }
+  "@onboardingNotificationBody": { "description": "Corps de la notification de fin d'onboarding" },
+
+  "@__sectionAuth": {
+    "description": "━━━━ AUTH — Connexion, inscription et mots de passe ━━━━"
+  },
+  "authLoginTitle": "Connexion",
+  "@authLoginTitle": { "description": "Titre de la page de connexion" },
+
+  "authLoginButton": "Se connecter",
+  "@authLoginButton": { "description": "Libellé du bouton de connexion" },
+
+  "authSignupTitle": "Inscription",
+  "@authSignupTitle": { "description": "Titre de la page d'inscription" },
+
+  "authSignupButton": "S'inscrire",
+  "@authSignupButton": { "description": "Libellé du bouton d'inscription" },
+
+  "authEmailLabel": "Email",
+  "@authEmailLabel": { "description": "Label du champ e-mail" },
+
+  "authEmailHint": "ton@email.com",
+  "@authEmailHint": { "description": "Placeholder du champ e-mail" },
+
+  "authUsernameLabel": "Nom d'utilisateur",
+  "@authUsernameLabel": { "description": "Label du champ nom d'utilisateur" },
+
+  "authUsernameHint": "Ama Kwatcha",
+  "@authUsernameHint": { "description": "Placeholder du champ de nom d'utilisateur" },
+
+  "authAlreadyHaveAccount": "Déjà un compte ?",
+  "@authAlreadyHaveAccount": { "description": "Texte précédant le lien vers la page de connexion" },
+
+  "authNoAccount": "Pas de compte ?",
+  "@authNoAccount": { "description": "Texte précédant le lien vers la page d'inscription" },
+
+  "authLoginLink": "Se connecter",
+  "@authLoginLink": { "description": "Lien vers la page de connexion" },
+
+  "authSignupLink": "Créer un compte",
+  "@authSignupLink": { "description": "Lien vers la page d'inscription" },
+
+  "authOAuthGoogle": "Continuer avec Google",
+  "@authOAuthGoogle": { "description": "Bouton OAuth — continuer avec Google" },
+
+  "authSignupSuccess": "Compte créé ! Bienvenue {username} !",
+  "@authSignupSuccess": {
+    "description": "Message de succès après inscription avec pseudo",
+    "placeholders": {
+      "username": { "type": "String", "example": "MagiMaster" }
+    }
+  },
+
+  "authLogout": "Déconnexion",
+  "@authLogout": { "description": "Libellé générique de déconnexion" },
+
+  "authLogoutButton": "Se déconnecter",
+  "@authLogoutButton": { "description": "Bouton de déconnexion" },
+
+  "authLogoutConfirmTitle": "Se déconnecter ?",
+  "@authLogoutConfirmTitle": { "description": "Titre du dialogue de confirmation de déconnexion" },
+
+  "authLogoutConfirmMessage": "Es-tu sûr de vouloir te déconnecter ?",
+  "@authLogoutConfirmMessage": { "description": "Message du dialogue de confirmation de déconnexion" },
+
+  "authLogoutSuccess": "Déconnecté avec succès.",
+  "@authLogoutSuccess": { "description": "Message de succès après déconnexion" },
+
+  "authLoginSuccess": "Connexion réussie ! Ravie de te revoir, {username} !",
+  "@authLoginSuccess": {
+    "description": "Message de succès après connexion",
+    "placeholders": {
+      "username": { "type": "String", "example": "MagiMaster" }
+    }
+  },
+
+  "authLoginError": "Échec de la connexion. Vérifie tes identifiants.",
+  "@authLoginError": { "description": "Message d'erreur générique après échec de connexion" },
+
+  "authSignupError": "Échec de l'inscription. Réessaie.",
+  "@authSignupError": { "description": "Message d'erreur générique après échec d'inscription" },
+
+  "authLogoutError": "Échec de la déconnexion. Réessaie.",
+  "@authLogoutError": { "description": "Message d'erreur après échec de déconnexion" },
+
+  "@__sectionValidation": {
+    "description": "━━━━ VALIDATION — Messages d'erreur de formulaire ━━━━"
+  },
+  "validationRequired": "Ce champ est obligatoire.",
+  "@validationRequired": { "description": "Message d'erreur pour un champ obligatoire vide" },
+
+  "validationInvalidEmail": "Adresse e-mail invalide.",
+  "@validationInvalidEmail": { "description": "Message d'erreur pour un e-mail mal formaté" },
+
+  "validationEmailIncorrect": "Adresse e-mail incorrecte.",
+  "@validationEmailIncorrect": { "description": "Message d'erreur pour un e-mail ne correspondant à aucun compte / incorrect lors de la connexion" },
+
+  "validationPasswordTooShort": "Le mot de passe doit contenir au moins 8 caractères.",
+  "@validationPasswordTooShort": { "description": "Message d'erreur pour un mot de passe trop court" },
+
+  "validationPasswordsDoNotMatch": "Les mots de passe ne correspondent pas.",
+  "@validationPasswordsDoNotMatch": { "description": "Message d'erreur quand les deux mots de passe diffèrent" },
+
+  "validationUsernameTooShort": "Au moins {minLength} caractères.",
+  "@validationUsernameTooShort": {
+    "description": "Message d'erreur quand le nom d'utilisateur est trop court",
+    "placeholders": {
+      "minLength": { "type": "int", "example": "3" }
+    }
+  },
+
+  "validationUsernameTooLong": "{maxLength} caractères maximum.",
+  "@validationUsernameTooLong": {
+    "description": "Message d'erreur quand le nom d'utilisateur est trop long",
+    "placeholders": {
+      "maxLength": { "type": "int", "example": "20" }
+    }
+  },
+
+  "validationUsernameInvalid": "Lettres, chiffres et _ uniquement.",
+  "@validationUsernameInvalid": { "description": "Message d'erreur quand le nom d'utilisateur contient des caractères invalides" },
+
+  "@__sectionRouting": {
+    "description": "━━━━ ROUTING — Erreurs et placeholders ━━━━"
+  },
+  "routerErrorTitle": "Cet écran n'existe pas encore.",
+  "@routerErrorTitle": { "description": "Titre de la page d'erreur de routing" },
+
+  "routerErrorSubtitle": "Reviens plus tard, ou reprends depuis l'accueil.",
+  "@routerErrorSubtitle": { "description": "Sous-titre de la page d'erreur de routing" },
+
+  "routerSoon": "{title} — bientôt.",
+  "@routerSoon": {
+    "description": "Placeholder générique pour écran bientôt disponible",
+    "placeholders": {
+      "title": { "type": "String", "example": "Lobby" }
+    }
+  },
+
+  "@__sectionGenericErrors": {
+    "description": "━━━━ GENERIC ERRORS — Erreurs réseau/serveur/validation ━━━━"
+  },
+  "errorNetwork": "Erreur réseau. Vérifie ta connexion internet.",
+  "@errorNetwork": { "description": "Erreur réseau générique (NetworkFailure)" },
+
+  "errorServer": "Erreur serveur. Réessaie plus tard.",
+  "@errorServer": { "description": "Erreur serveur générique (ServerFailure)" },
+
+  "errorValidation": "Données invalides. Vérifie les champs.",
+  "@errorValidation": { "description": "Erreur de validation générique (ValidationFailure)" },
+
+  "errorUnknown": "Une erreur inconnue est survenue.",
+  "@errorUnknown": { "description": "Erreur inconnue (fallback Failure)" },
+
+  "@__sectionShell": {
+    "description": "━━━━ SHELL — Navigation principale (bottom bar) ━━━━"
+  },
+  "navHome": "Accueil",
+  "@navHome": { "description": "Label de la destination Accueil dans la barre de navigation" },
+
+  "navPlaces": "Carte",
+  "@navPlaces": { "description": "Label de la destination Map dans la barre de navigation" },
+
+  "navHistory": "Historique",
+  "@navHistory": { "description": "Label de la destination History dans la barre de navigation" },
+
+  "navProfile": "Profil",
+  "@navProfile": { "description": "Label de la destination Profile dans la barre de navigation" },
+
+  "navAnalyzeCta": "Analyser",
+  "@navAnalyzeCta": {
+    "description": "Label de la destination Analyse du FAB dans la barre de navigation"
+  }
 }

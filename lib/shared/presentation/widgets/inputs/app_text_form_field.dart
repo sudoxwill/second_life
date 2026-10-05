@@ -127,6 +127,7 @@ class AppTextFormField extends StatelessWidget {
           validator: (value) {
             if (!shouldValidate) return null;
             if (isRequired && (value ?? "").trim().isEmpty) {
+              // TODO Ajouter la traduction l10n ici
               return "L'attribut $labelText est requis.";
             }
             return validatorFunction?.call(value);

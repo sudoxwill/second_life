@@ -83,7 +83,7 @@ class AppColors {
   // SURFACES — Mode clair
   // ───────────────────────────────────────────────
 
-  static const Color surfacePage = springWhite;
+  static const Color surfacePage = Color(0xFFFCFAF7);
   static const Color surfaceCard = Color(0xFFFFFFFF);
   static const Color surfaceRaised = Color(0xFFF4F0E4);
   static const Color surfaceSunken = Color(0xFFF0EBDD);
@@ -94,7 +94,7 @@ class AppColors {
   // SURFACES — Mode sombre
   // ───────────────────────────────────────────────
 
-  static const Color surfacePageDark = Color(0xFF0B1F1A);
+  static const Color surfacePageDark = Color(0xFF131A18);
   static const Color surfaceCardDark = jungleGreen;
   static const Color surfaceRaisedDark = Color(0xFF1B4038);
   static const Color surfaceSunkenDark = Color(0xFF071511);

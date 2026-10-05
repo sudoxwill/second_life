@@ -271,6 +271,264 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Votre premier dépôt vous attend — scannez un déchet dès maintenant.'**
   String get onboardingNotificationBody;
+
+  /// Titre de la page de connexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion'**
+  String get authLoginTitle;
+
+  /// Libellé du bouton de connexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Se connecter'**
+  String get authLoginButton;
+
+  /// Titre de la page d'inscription
+  ///
+  /// In fr, this message translates to:
+  /// **'Inscription'**
+  String get authSignupTitle;
+
+  /// Libellé du bouton d'inscription
+  ///
+  /// In fr, this message translates to:
+  /// **'S\'inscrire'**
+  String get authSignupButton;
+
+  /// Label du champ e-mail
+  ///
+  /// In fr, this message translates to:
+  /// **'Email'**
+  String get authEmailLabel;
+
+  /// Placeholder du champ e-mail
+  ///
+  /// In fr, this message translates to:
+  /// **'ton@email.com'**
+  String get authEmailHint;
+
+  /// Label du champ nom d'utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom d\'utilisateur'**
+  String get authUsernameLabel;
+
+  /// Placeholder du champ de nom d'utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'Ama Kwatcha'**
+  String get authUsernameHint;
+
+  /// Texte précédant le lien vers la page de connexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Déjà un compte ?'**
+  String get authAlreadyHaveAccount;
+
+  /// Texte précédant le lien vers la page d'inscription
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas de compte ?'**
+  String get authNoAccount;
+
+  /// Lien vers la page de connexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Se connecter'**
+  String get authLoginLink;
+
+  /// Lien vers la page d'inscription
+  ///
+  /// In fr, this message translates to:
+  /// **'Créer un compte'**
+  String get authSignupLink;
+
+  /// Bouton OAuth — continuer avec Google
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer avec Google'**
+  String get authOAuthGoogle;
+
+  /// Message de succès après inscription avec pseudo
+  ///
+  /// In fr, this message translates to:
+  /// **'Compte créé ! Bienvenue {username} !'**
+  String authSignupSuccess(String username);
+
+  /// Libellé générique de déconnexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Déconnexion'**
+  String get authLogout;
+
+  /// Bouton de déconnexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Se déconnecter'**
+  String get authLogoutButton;
+
+  /// Titre du dialogue de confirmation de déconnexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Se déconnecter ?'**
+  String get authLogoutConfirmTitle;
+
+  /// Message du dialogue de confirmation de déconnexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Es-tu sûr de vouloir te déconnecter ?'**
+  String get authLogoutConfirmMessage;
+
+  /// Message de succès après déconnexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Déconnecté avec succès.'**
+  String get authLogoutSuccess;
+
+  /// Message de succès après connexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion réussie ! Ravie de te revoir, {username} !'**
+  String authLoginSuccess(String username);
+
+  /// Message d'erreur générique après échec de connexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Échec de la connexion. Vérifie tes identifiants.'**
+  String get authLoginError;
+
+  /// Message d'erreur générique après échec d'inscription
+  ///
+  /// In fr, this message translates to:
+  /// **'Échec de l\'inscription. Réessaie.'**
+  String get authSignupError;
+
+  /// Message d'erreur après échec de déconnexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Échec de la déconnexion. Réessaie.'**
+  String get authLogoutError;
+
+  /// Message d'erreur pour un champ obligatoire vide
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce champ est obligatoire.'**
+  String get validationRequired;
+
+  /// Message d'erreur pour un e-mail mal formaté
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse e-mail invalide.'**
+  String get validationInvalidEmail;
+
+  /// Message d'erreur pour un e-mail ne correspondant à aucun compte / incorrect lors de la connexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse e-mail incorrecte.'**
+  String get validationEmailIncorrect;
+
+  /// Message d'erreur pour un mot de passe trop court
+  ///
+  /// In fr, this message translates to:
+  /// **'Le mot de passe doit contenir au moins 8 caractères.'**
+  String get validationPasswordTooShort;
+
+  /// Message d'erreur quand les deux mots de passe diffèrent
+  ///
+  /// In fr, this message translates to:
+  /// **'Les mots de passe ne correspondent pas.'**
+  String get validationPasswordsDoNotMatch;
+
+  /// Message d'erreur quand le nom d'utilisateur est trop court
+  ///
+  /// In fr, this message translates to:
+  /// **'Au moins {minLength} caractères.'**
+  String validationUsernameTooShort(int minLength);
+
+  /// Message d'erreur quand le nom d'utilisateur est trop long
+  ///
+  /// In fr, this message translates to:
+  /// **'{maxLength} caractères maximum.'**
+  String validationUsernameTooLong(int maxLength);
+
+  /// Message d'erreur quand le nom d'utilisateur contient des caractères invalides
+  ///
+  /// In fr, this message translates to:
+  /// **'Lettres, chiffres et _ uniquement.'**
+  String get validationUsernameInvalid;
+
+  /// Titre de la page d'erreur de routing
+  ///
+  /// In fr, this message translates to:
+  /// **'Cet écran n\'existe pas encore.'**
+  String get routerErrorTitle;
+
+  /// Sous-titre de la page d'erreur de routing
+  ///
+  /// In fr, this message translates to:
+  /// **'Reviens plus tard, ou reprends depuis l\'accueil.'**
+  String get routerErrorSubtitle;
+
+  /// Placeholder générique pour écran bientôt disponible
+  ///
+  /// In fr, this message translates to:
+  /// **'{title} — bientôt.'**
+  String routerSoon(String title);
+
+  /// Erreur réseau générique (NetworkFailure)
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur réseau. Vérifie ta connexion internet.'**
+  String get errorNetwork;
+
+  /// Erreur serveur générique (ServerFailure)
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur serveur. Réessaie plus tard.'**
+  String get errorServer;
+
+  /// Erreur de validation générique (ValidationFailure)
+  ///
+  /// In fr, this message translates to:
+  /// **'Données invalides. Vérifie les champs.'**
+  String get errorValidation;
+
+  /// Erreur inconnue (fallback Failure)
+  ///
+  /// In fr, this message translates to:
+  /// **'Une erreur inconnue est survenue.'**
+  String get errorUnknown;
+
+  /// Label de la destination Accueil dans la barre de navigation
+  ///
+  /// In fr, this message translates to:
+  /// **'Accueil'**
+  String get navHome;
+
+  /// Label de la destination Map dans la barre de navigation
+  ///
+  /// In fr, this message translates to:
+  /// **'Carte'**
+  String get navPlaces;
+
+  /// Label de la destination History dans la barre de navigation
+  ///
+  /// In fr, this message translates to:
+  /// **'Historique'**
+  String get navHistory;
+
+  /// Label de la destination Profile dans la barre de navigation
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil'**
+  String get navProfile;
+
+  /// Label de la destination Analyse du FAB dans la barre de navigation
+  ///
+  /// In fr, this message translates to:
+  /// **'Analyser'**
+  String get navAnalyzeCta;
 }
 
 class _AppLocalizationsDelegate

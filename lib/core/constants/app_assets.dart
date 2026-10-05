@@ -14,4 +14,10 @@ class AppAssets {
   static const String step1 = "$_imagesBase/step1.jpg";
   static const String step2 = "$_imagesBase/step2.jpg";
   static const String step3 = "$_imagesBase/step3.jpg";
+
+  // ------------- AUTH -------------
+  static const String login = "$_imagesBase/login.png";
+  static const String register = "$_imagesBase/register.png";
+  static const String googleLogo = "$_imagesBase/google.png";
+
 }

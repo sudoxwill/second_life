@@ -3,7 +3,9 @@ import "package:go_router/go_router.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../../features/auth/presentation/pages/index.dart";
 import "../../features/onboarding/presentation/pages/index.dart";
+import "../../shared/presentation/app_shell.dart";
 import "../configs/env.dart";
 import "../theme/app_spacing.dart";
 import "app_navigator_key.dart";
@@ -49,7 +51,7 @@ GoRouter appRouter(Ref ref) {
         pageBuilder: (context, state) => AppTransitions.fade(
           context: context,
           state: state,
-          child: const _Placeholder(title: "Login"),
+          child: const LoginPage(),
         ),
       ),
       GoRoute(
@@ -57,7 +59,7 @@ GoRouter appRouter(Ref ref) {
         pageBuilder: (context, state) => AppTransitions.pushedScreen(
           context: context,
           state: state,
-          child: const _Placeholder(title: "Signup"),
+          child: const RegisterPage(),
         ),
       ),
       GoRoute(
@@ -209,38 +211,38 @@ class _Placeholder extends StatelessWidget {
 }
 
 /// AppShell
-class AppShell extends StatelessWidget {
-  const AppShell({required this.navigationShell, super.key});
-
-  final StatefulNavigationShell navigationShell;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(LucideIcons.home),
-            label: "Accueil",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(LucideIcons.map),
-            label: "Points de recyclage",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(LucideIcons.rotateCcwClock),
-            label: "Historique",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(LucideIcons.userRound),
-            label: "Profil",
-          ),
-        ],
-      ),
-    );
-  }
-}
+// class AppShell extends StatelessWidget {
+//   const AppShell({required this.navigationShell, super.key});
+//
+//   final StatefulNavigationShell navigationShell;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: navigationShell,
+//       bottomNavigationBar: BottomNavigationBar(
+//         items: const [
+//           BottomNavigationBarItem(
+//             icon: Icon(LucideIcons.home),
+//             label: "Accueil",
+//           ),
+//           BottomNavigationBarItem(
+//             icon: Icon(LucideIcons.map),
+//             label: "Points de recyclage",
+//           ),
+//           BottomNavigationBarItem(
+//             icon: Icon(LucideIcons.rotateCcwClock),
+//             label: "Historique",
+//           ),
+//           BottomNavigationBarItem(
+//             icon: Icon(LucideIcons.userRound),
+//             label: "Profil",
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 /// Écran d'erreur du router.
 class _RouterErrorPage extends StatelessWidget {
