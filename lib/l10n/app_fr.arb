@@ -60,6 +60,12 @@
     "description": "Séparateur générique entre deux options (ex: entre formulaire et OAuth)"
   },
 
+  "commonSeeMore": "Voir plus",
+  "@commonSeeMore": { "description": "Bouton générique affichant la liste complète (ex: tous les dépôts en attente)" },
+
+  "commonInfo": "Info",
+  "@commonInfo": { "description": "Titre générique d'une carte d'information ou de rappel" },
+
   "authOrContinueWith": "Ou continuer avec",
   "@authOrContinueWith": { "description": "Séparateur DIVIDER entre formulaire email/password et boutons OAuth multiples (Google/GitHub/Apple)" },
 
@@ -207,6 +213,14 @@
   "validationRequired": "Ce champ est obligatoire.",
   "@validationRequired": { "description": "Message d'erreur pour un champ obligatoire vide" },
 
+  "validationFieldRequired": "L'attribut {field} est requis.",
+  "@validationFieldRequired": {
+    "description": "Message d'erreur d'un champ obligatoire, citant son libellé",
+    "placeholders": {
+      "field": { "type": "String", "example": "Email" }
+    }
+  },
+
   "validationInvalidEmail": "Adresse e-mail invalide.",
   "@validationInvalidEmail": { "description": "Message d'erreur pour un e-mail mal formaté" },
 
@@ -254,6 +268,47 @@
       "title": { "type": "String", "example": "Lobby" }
     }
   },
+
+  "@__sectionRouterScreens": {
+    "description": "━━━━ ROUTER SCREENS — Titres des écrans placeholder ━━━━"
+  },
+  "routerScreenForgotPassword": "Mot de passe oublié",
+  "@routerScreenForgotPassword": { "description": "Titre de l'écran placeholder de réinitialisation par e-mail" },
+
+  "routerScreenResetPassword": "Nouveau mot de passe",
+  "@routerScreenResetPassword": { "description": "Titre de l'écran placeholder de choix d'un nouveau mot de passe" },
+
+  "routerScreenScanning": "Analyse en cours…",
+  "@routerScreenScanning": { "description": "Titre de l'écran placeholder de scan d'un déchet" },
+
+  "routerScreenPlaces": "Points de recyclage",
+  "@routerScreenPlaces": { "description": "Titre de l'écran placeholder de la carte des points de recyclage" },
+
+  "routerScreenHistory": "Historique",
+  "@routerScreenHistory": { "description": "Titre de l'écran placeholder de l'historique utilisateur" },
+
+  "routerScreenProfile": "Profil",
+  "@routerScreenProfile": { "description": "Titre de l'écran placeholder du profil utilisateur" },
+
+  "routerScreenAgentDeposits": "Dépôts",
+  "@routerScreenAgentDeposits": { "description": "Titre de l'écran placeholder de la liste des dépôts à traiter" },
+
+  "routerScreenAgentHistory": "Historique agent",
+  "@routerScreenAgentHistory": { "description": "Titre de l'écran placeholder de l'historique agent" },
+
+  "routerScreenAgentProfile": "Profil agent",
+  "@routerScreenAgentProfile": { "description": "Titre de l'écran placeholder du profil agent" },
+
+  "routerScreenPlaceDetail": "Point de recyclage {id}",
+  "@routerScreenPlaceDetail": {
+    "description": "Titre de l'écran placeholder du détail d'un point de recyclage",
+    "placeholders": {
+      "id": { "type": "String", "example": "42" }
+    }
+  },
+
+  "routerScreenSettings": "Paramètres",
+  "@routerScreenSettings": { "description": "Titre de l'écran placeholder des paramètres" },
 
   "@__sectionGenericErrors": {
     "description": "━━━━ GENERIC ERRORS — Erreurs réseau/serveur/validation ━━━━"
@@ -382,5 +437,11 @@
     "placeholders": {
       "amount": { "type": "int", "example": "200" }
     }
-  }
+  },
+
+  "agentStockSiteName": "EcoCentre de Bè",
+  "@agentStockSiteName": { "description": "Nom du point de dépôt affiché sous le titre de la card stock" },
+
+  "agentInfoMessage": "Lot bientôt prêt pour l'enlèvement par le camion municipal.",
+  "@agentInfoMessage": { "description": "Message d'information du dashboard agent sur l'enlèvement du lot en cours" }
 }

@@ -52,6 +52,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonOr => 'Or';
 
   @override
+  String get commonSeeMore => 'See more';
+
+  @override
+  String get commonInfo => 'Info';
+
+  @override
   String get authOrContinueWith => 'Or continue with';
 
   @override
@@ -181,6 +187,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get validationRequired => 'This field is required.';
 
   @override
+  String validationFieldRequired(String field) {
+    return 'The $field field is required.';
+  }
+
+  @override
   String get validationInvalidEmail => 'Invalid email address.';
 
   @override
@@ -216,6 +227,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String routerSoon(String title) {
     return '$title — coming soon.';
   }
+
+  @override
+  String get routerScreenForgotPassword => 'Forgot password';
+
+  @override
+  String get routerScreenResetPassword => 'New password';
+
+  @override
+  String get routerScreenScanning => 'Analysing…';
+
+  @override
+  String get routerScreenPlaces => 'Recycling points';
+
+  @override
+  String get routerScreenHistory => 'History';
+
+  @override
+  String get routerScreenProfile => 'Profile';
+
+  @override
+  String get routerScreenAgentDeposits => 'Deposits';
+
+  @override
+  String get routerScreenAgentHistory => 'Agent history';
+
+  @override
+  String get routerScreenAgentProfile => 'Agent profile';
+
+  @override
+  String routerScreenPlaceDetail(String id) {
+    return 'Recycling point $id';
+  }
+
+  @override
+  String get routerScreenSettings => 'Settings';
 
   @override
   String get errorNetwork => 'Network error. Check your internet connection.';
@@ -314,4 +360,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String agentStockKgGoal(int amount) {
     return 'Goal: $amount kg';
   }
+
+  @override
+  String get agentStockSiteName => 'Bè EcoCentre';
+
+  @override
+  String get agentInfoMessage =>
+      'The batch will soon be ready for collection by the municipal truck.';
 }

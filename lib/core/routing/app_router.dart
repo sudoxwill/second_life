@@ -11,6 +11,7 @@ import "../../features/onboarding/presentation/pages/index.dart";
 import "../../shared/presentation/agent_shell.dart";
 import "../../shared/presentation/app_shell.dart";
 import "../configs/env.dart";
+import "../extensions/build_context_extension.dart";
 import "../theme/app_spacing.dart";
 import "app_navigator_key.dart";
 import "app_routes.dart";
@@ -89,7 +90,7 @@ GoRouter appRouter(Ref ref) {
         pageBuilder: (context, state) => AppTransitions.pushedScreen(
           context: context,
           state: state,
-          child: const _Placeholder(title: "ForgotPassword"),
+          child: _Placeholder(title: context.l10n.routerScreenForgotPassword),
         ),
       ),
       GoRoute(
@@ -97,7 +98,7 @@ GoRouter appRouter(Ref ref) {
         pageBuilder: (context, state) => AppTransitions.fadeSlide(
           context: context,
           state: state,
-          child: const _Placeholder(title: "AuthResetPassword"),
+          child: _Placeholder(title: context.l10n.routerScreenResetPassword),
         ),
       ),
 
@@ -107,7 +108,7 @@ GoRouter appRouter(Ref ref) {
         pageBuilder: (context, state) => AppTransitions.fade(
           context: context,
           state: state,
-          child: const _Placeholder(title: "Scanning..."),
+          child: _Placeholder(title: context.l10n.routerScreenScanning),
         ),
       ),
 
@@ -135,7 +136,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const _Placeholder(title: "Points de recyclage"),
+                  child: _Placeholder(title: context.l10n.routerScreenPlaces),
                 ),
               ),
             ],
@@ -147,7 +148,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const _Placeholder(title: "Historique"),
+                  child: _Placeholder(title: context.l10n.routerScreenHistory),
                 ),
               ),
             ],
@@ -159,7 +160,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const _Placeholder(title: "Profil"),
+                  child: _Placeholder(title: context.l10n.routerScreenProfile),
                 ),
               ),
             ],
@@ -191,7 +192,9 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const _Placeholder(title: "Dépôts"),
+                  child: _Placeholder(
+                    title: context.l10n.routerScreenAgentDeposits,
+                  ),
                 ),
               ),
             ],
@@ -203,7 +206,9 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const _Placeholder(title: "Historique agent"),
+                  child: _Placeholder(
+                    title: context.l10n.routerScreenAgentHistory,
+                  ),
                 ),
               ),
             ],
@@ -215,7 +220,9 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const _Placeholder(title: "Profil agent"),
+                  child: _Placeholder(
+                    title: context.l10n.routerScreenAgentProfile,
+                  ),
                 ),
               ),
             ],
@@ -229,7 +236,11 @@ GoRouter appRouter(Ref ref) {
         pageBuilder: (context, state) => AppTransitions.fade(
           context: context,
           state: state,
-          child: _Placeholder(title: "Place ${state.pathParameters["id"]!}"),
+          child: _Placeholder(
+            title: context.l10n.routerScreenPlaceDetail(
+              state.pathParameters["id"]!,
+            ),
+          ),
         ),
       ),
 
@@ -239,7 +250,7 @@ GoRouter appRouter(Ref ref) {
         pageBuilder: (context, state) => AppTransitions.fade(
           context: context,
           state: state,
-          child: const _Placeholder(title: "Settings"),
+          child: _Placeholder(title: context.l10n.routerScreenSettings),
         ),
       ),
     ],
@@ -253,13 +264,14 @@ class _Placeholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       appBar: AppBar(title: Text(title), elevation: 0),
       body: Center(
         child: Padding(
           padding: AppSpacing.screenPaddingH,
           child: Text(
-            "$title — bientôt.",
+            l10n.routerSoon(title),
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
@@ -274,6 +286,7 @@ class _RouterErrorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
@@ -289,7 +302,7 @@ class _RouterErrorPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "Cet écran n'existe pas encore.",
+                l10n.routerErrorTitle,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -297,7 +310,7 @@ class _RouterErrorPage extends StatelessWidget {
               ),
               AppSpacing.gapVSm,
               Text(
-                "Reviens plus tard, ou reprends depuis l'accueil.",
+                l10n.routerErrorSubtitle,
                 style: theme.textTheme.bodySmall,
                 textAlign: TextAlign.center,
               ),

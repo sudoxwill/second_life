@@ -48,6 +48,12 @@
   "commonOr": "Or",
   "@commonOr": { "description": "Generic separator between two options (e.g. between form and OAuth)" },
 
+  "commonSeeMore": "See more",
+  "@commonSeeMore": { "description": "Generic button opening the full list (e.g. all pending deposits)" },
+
+  "commonInfo": "Info",
+  "@commonInfo": { "description": "Generic title for an information or reminder card" },
+
   "authOrContinueWith": "Or continue with",
   "@authOrContinueWith": { "description": "Divider label between email/password form and multiple OAuth providers (Google/GitHub/Apple)" },
 
@@ -195,6 +201,14 @@
   "validationRequired": "This field is required.",
   "@validationRequired": { "description": "Error for empty required field" },
 
+  "validationFieldRequired": "The {field} field is required.",
+  "@validationFieldRequired": {
+    "description": "Error for a required field, naming the field label",
+    "placeholders": {
+      "field": { "type": "String", "example": "Email" }
+    }
+  },
+
   "validationInvalidEmail": "Invalid email address.",
   "@validationInvalidEmail": { "description": "Error for badly formatted email" },
 
@@ -242,6 +256,47 @@
       "title": { "type": "String", "example": "Lobby" }
     }
   },
+
+  "@__sectionRouterScreens": {
+    "description": "━━━━ ROUTER SCREENS — Placeholder screen titles ━━━━"
+  },
+  "routerScreenForgotPassword": "Forgot password",
+  "@routerScreenForgotPassword": { "description": "Title of the placeholder screen for password reset by email" },
+
+  "routerScreenResetPassword": "New password",
+  "@routerScreenResetPassword": { "description": "Title of the placeholder screen for choosing a new password" },
+
+  "routerScreenScanning": "Analysing…",
+  "@routerScreenScanning": { "description": "Title of the placeholder screen for scanning a waste item" },
+
+  "routerScreenPlaces": "Recycling points",
+  "@routerScreenPlaces": { "description": "Title of the placeholder screen for the recycling points map" },
+
+  "routerScreenHistory": "History",
+  "@routerScreenHistory": { "description": "Title of the placeholder screen for the user history" },
+
+  "routerScreenProfile": "Profile",
+  "@routerScreenProfile": { "description": "Title of the placeholder screen for the user profile" },
+
+  "routerScreenAgentDeposits": "Deposits",
+  "@routerScreenAgentDeposits": { "description": "Title of the placeholder screen listing deposits to process" },
+
+  "routerScreenAgentHistory": "Agent history",
+  "@routerScreenAgentHistory": { "description": "Title of the placeholder screen for the agent history" },
+
+  "routerScreenAgentProfile": "Agent profile",
+  "@routerScreenAgentProfile": { "description": "Title of the placeholder screen for the agent profile" },
+
+  "routerScreenPlaceDetail": "Recycling point {id}",
+  "@routerScreenPlaceDetail": {
+    "description": "Title of the placeholder screen for a recycling point details",
+    "placeholders": {
+      "id": { "type": "String", "example": "42" }
+    }
+  },
+
+  "routerScreenSettings": "Settings",
+  "@routerScreenSettings": { "description": "Title of the placeholder screen for the settings" },
 
   "@__sectionGenericErrors": {
     "description": "━━━━ GENERIC ERRORS — Network/server/validation errors ━━━━"
@@ -370,5 +425,11 @@
     "placeholders": {
       "amount": { "type": "int", "example": "200" }
     }
-  }
+  },
+
+  "agentStockSiteName": "Bè EcoCentre",
+  "@agentStockSiteName": { "description": "Name of the drop-off site shown below the stock card title" },
+
+  "agentInfoMessage": "The batch will soon be ready for collection by the municipal truck.",
+  "@agentInfoMessage": { "description": "Information message on the agent dashboard about the ongoing batch collection" }
 }

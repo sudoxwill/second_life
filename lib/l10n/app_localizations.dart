@@ -182,6 +182,18 @@ abstract class AppLocalizations {
   /// **'Ou'**
   String get commonOr;
 
+  /// Bouton générique affichant la liste complète (ex: tous les dépôts en attente)
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir plus'**
+  String get commonSeeMore;
+
+  /// Titre générique d'une carte d'information ou de rappel
+  ///
+  /// In fr, this message translates to:
+  /// **'Info'**
+  String get commonInfo;
+
   /// Séparateur DIVIDER entre formulaire email/password et boutons OAuth multiples (Google/GitHub/Apple)
   ///
   /// In fr, this message translates to:
@@ -416,6 +428,12 @@ abstract class AppLocalizations {
   /// **'Ce champ est obligatoire.'**
   String get validationRequired;
 
+  /// Message d'erreur d'un champ obligatoire, citant son libellé
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'attribut {field} est requis.'**
+  String validationFieldRequired(String field);
+
   /// Message d'erreur pour un e-mail mal formaté
   ///
   /// In fr, this message translates to:
@@ -475,6 +493,72 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'{title} — bientôt.'**
   String routerSoon(String title);
+
+  /// Titre de l'écran placeholder de réinitialisation par e-mail
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot de passe oublié'**
+  String get routerScreenForgotPassword;
+
+  /// Titre de l'écran placeholder de choix d'un nouveau mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'Nouveau mot de passe'**
+  String get routerScreenResetPassword;
+
+  /// Titre de l'écran placeholder de scan d'un déchet
+  ///
+  /// In fr, this message translates to:
+  /// **'Analyse en cours…'**
+  String get routerScreenScanning;
+
+  /// Titre de l'écran placeholder de la carte des points de recyclage
+  ///
+  /// In fr, this message translates to:
+  /// **'Points de recyclage'**
+  String get routerScreenPlaces;
+
+  /// Titre de l'écran placeholder de l'historique utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'Historique'**
+  String get routerScreenHistory;
+
+  /// Titre de l'écran placeholder du profil utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil'**
+  String get routerScreenProfile;
+
+  /// Titre de l'écran placeholder de la liste des dépôts à traiter
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôts'**
+  String get routerScreenAgentDeposits;
+
+  /// Titre de l'écran placeholder de l'historique agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Historique agent'**
+  String get routerScreenAgentHistory;
+
+  /// Titre de l'écran placeholder du profil agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil agent'**
+  String get routerScreenAgentProfile;
+
+  /// Titre de l'écran placeholder du détail d'un point de recyclage
+  ///
+  /// In fr, this message translates to:
+  /// **'Point de recyclage {id}'**
+  String routerScreenPlaceDetail(String id);
+
+  /// Titre de l'écran placeholder des paramètres
+  ///
+  /// In fr, this message translates to:
+  /// **'Paramètres'**
+  String get routerScreenSettings;
 
   /// Erreur réseau générique (NetworkFailure)
   ///
@@ -643,6 +727,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Objectif : {amount} kg'**
   String agentStockKgGoal(int amount);
+
+  /// Nom du point de dépôt affiché sous le titre de la card stock
+  ///
+  /// In fr, this message translates to:
+  /// **'EcoCentre de Bè'**
+  String get agentStockSiteName;
+
+  /// Message d'information du dashboard agent sur l'enlèvement du lot en cours
+  ///
+  /// In fr, this message translates to:
+  /// **'LOT bientôt prêt pour l\'enlèvement par le camion municipal.'**
+  String get agentInfoMessage;
 }
 
 class _AppLocalizationsDelegate

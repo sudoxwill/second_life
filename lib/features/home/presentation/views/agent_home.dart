@@ -17,6 +17,8 @@ class _AgentHomeState extends State<AgentHome> {
   static const int _demoPoints = 1250;
   static const int _demoCollectedKg = 142;
   static const int _demoGoalKg = 200;
+  static const int _demoPendingDepositsCount = 2;
+  static const int _demoDepositPoints = 50;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,7 @@ class _AgentHomeState extends State<AgentHome> {
         ),
         _AgentStockCard(
           title: l10n.agentStockTitle,
+          siteName: l10n.agentStockSiteName,
           collectedLabel: l10n.agentStockKgCollected(_demoCollectedKg),
           goalLabel: l10n.agentStockKgGoal(_demoGoalKg),
           percent: percent,
@@ -64,15 +67,17 @@ class _AgentHomeState extends State<AgentHome> {
                     Text(l10n.homePendingDepositsTitle),
                     Badge(
                       label: Text(
-                        "2",
+                        "$_demoPendingDepositsCount",
                         style: TextStyle(color: colorScheme.onSecondary),
                       ),
                       backgroundColor: colorScheme.secondary,
                     ),
                   ],
                 ),
-                TextButton(onPressed: () {}, child: const Text("Voir plus")),
-                // TextButton(onPressed: () {}, child: Text(l10n.seeMore)),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(l10n.commonSeeMore),
+                ),
               ],
             ),
             ListView.builder(
@@ -94,9 +99,12 @@ class _AgentHomeState extends State<AgentHome> {
                       color: colorScheme.secondary,
                     ),
                   ),
-                  title: Text("Bouteille", style: textTheme.bodyLarge),
+                  title: Text(
+                    l10n.homeDepositItemBottle,
+                    style: textTheme.bodyLarge,
+                  ),
                   trailing: Text(
-                    "+50 pts",
+                    l10n.homeDepositPointsGain(_demoDepositPoints),
                     style: textTheme.labelLarge!.copyWith(
                       color: colorScheme.secondary,
                     ),
@@ -132,9 +140,9 @@ class _AgentHomeState extends State<AgentHome> {
               ),
               child: Icon(LucideIcons.badgeInfo, color: colorScheme.surface),
             ),
-            title: Text("Info", style: textTheme.labelMedium),
+            title: Text(l10n.commonInfo, style: textTheme.labelMedium),
             subtitle: Text(
-              "Lôt bientôt prêt pour l'enlèvement par le camion municipal.",
+              l10n.agentInfoMessage,
               style: textTheme.labelSmall,
             ),
           ),
@@ -190,6 +198,7 @@ class _AgentStatCard extends StatelessWidget {
 class _AgentStockCard extends StatelessWidget {
   const _AgentStockCard({
     required this.title,
+    required this.siteName,
     required this.collectedLabel,
     required this.goalLabel,
     required this.percent,
@@ -197,6 +206,7 @@ class _AgentStockCard extends StatelessWidget {
   });
 
   final String title;
+  final String siteName;
   final String collectedLabel;
   final String goalLabel;
   final int percent;
@@ -229,7 +239,7 @@ class _AgentStockCard extends StatelessWidget {
                   crossAxisAlignment: .start,
                   children: [
                     Text(title, style: textTheme.titleMedium),
-                    const Text("EcoCentre de Bè"),
+                    Text(siteName),
                   ],
                 ),
                 const Spacer(),
