@@ -21,6 +21,8 @@ class _AgentHomeState extends State<AgentHome> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final textTheme = context.textTheme;
+    final colorScheme = context.colorScheme;
     final percent = (_demoCollectedKg / _demoGoalKg * 100).round();
     return Column(
       spacing: AppSpacing.md,
@@ -50,6 +52,92 @@ class _AgentHomeState extends State<AgentHome> {
           goalLabel: l10n.agentStockKgGoal(_demoGoalKg),
           percent: percent,
           progress: _demoCollectedKg / _demoGoalKg,
+        ),
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: .spaceBetween,
+              children: [
+                Row(
+                  spacing: AppSpacing.sm,
+                  children: [
+                    Text(l10n.homePendingDepositsTitle),
+                    Badge(
+                      label: Text(
+                        "2",
+                        style: TextStyle(color: colorScheme.onSecondary),
+                      ),
+                      backgroundColor: colorScheme.secondary,
+                    ),
+                  ],
+                ),
+                TextButton(onPressed: () {}, child: const Text("Voir plus")),
+                // TextButton(onPressed: () {}, child: Text(l10n.seeMore)),
+              ],
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  contentPadding: AppSpacing.insetVXs,
+                  leading: Container(
+                    width: AppSpacing.mega,
+                    height: AppSpacing.mega,
+                    padding: AppSpacing.insetSm,
+                    decoration: BoxDecoration(
+                      color: colorScheme.secondary.withValues(alpha: .2),
+                      borderRadius: AppSpacing.roundedLg,
+                    ),
+                    child: Icon(
+                      LucideIcons.bottleWine,
+                      color: colorScheme.secondary,
+                    ),
+                  ),
+                  title: Text("Bouteille", style: textTheme.bodyLarge),
+                  trailing: Text(
+                    "+50 pts",
+                    style: textTheme.labelLarge!.copyWith(
+                      color: colorScheme.secondary,
+                    ),
+                  ),
+                  // subtitle: Text(
+                  //   "+50 pts",
+                  //   style: textTheme.labelLarge!.copyWith(
+                  //     color: colorScheme.secondary,
+                  //   ),
+                  // ),
+                );
+              },
+            ),
+          ],
+        ),
+        // Info
+        Container(
+          padding: AppSpacing.insetXs,
+          decoration: BoxDecoration(
+            borderRadius: AppSpacing.roundedLg,
+            border: Border.all(
+              color: colorScheme.onSurface.withValues(alpha: .5),
+            ),
+          ),
+          child: ListTile(
+            leading: Container(
+              width: AppSpacing.mega,
+              height: AppSpacing.mega,
+              padding: AppSpacing.insetSm,
+              decoration: BoxDecoration(
+                borderRadius: AppSpacing.roundedLg,
+                color: colorScheme.onSurface,
+              ),
+              child: Icon(LucideIcons.badgeInfo, color: colorScheme.surface),
+            ),
+            title: Text("Info", style: textTheme.labelMedium),
+            subtitle: Text(
+              "Lôt bientôt prêt pour l'enlèvement par le camion municipal.",
+              style: textTheme.labelSmall,
+            ),
+          ),
         ),
       ],
     );

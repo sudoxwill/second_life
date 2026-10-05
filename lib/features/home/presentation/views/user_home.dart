@@ -244,7 +244,7 @@ class UserHome extends StatelessWidget {
             ],
           ),
         ),*/
-        //
+        // Info
         Container(
           padding: AppSpacing.insetXs,
           decoration: BoxDecoration(
