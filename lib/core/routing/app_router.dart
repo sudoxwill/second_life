@@ -6,15 +6,14 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 import "../../features/auth/presentation/pages/index.dart";
 import "../../features/auth/presentation/providers/auth_provider.dart";
 import "../../features/onboarding/presentation/pages/index.dart";
+import "../../features/profile/presentation/pages/profile_page.dart";
 import "../../features/ticket_validation/presentation/pages/agent_dashboard_page.dart";
 import "../../features/ticket_validation/presentation/pages/agent_history_page.dart";
-import "../../features/ticket_validation/presentation/pages/agent_profile_page.dart";
 import "../../features/ticket_validation/presentation/pages/agent_scanner_page.dart";
 import "../../features/ticket_validation/presentation/pages/pending_deposits_page.dart";
 import "../../features/ticket_validation/presentation/widgets/relay_agent_builder.dart";
 import "../../features/waste_analysis/presentation/pages/citizen_history_page.dart";
 import "../../features/waste_analysis/presentation/pages/citizen_home_page.dart";
-import "../../features/waste_analysis/presentation/pages/citizen_profile_page.dart";
 import "../../features/waste_analysis/presentation/pages/relay_map_page.dart";
 import "../../features/waste_analysis/presentation/pages/waste_scan_page.dart";
 import "../../shared/presentation/agent_shell.dart";
@@ -183,7 +182,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const CitizenProfilePage(),
+                  child: const ProfilePage(),
                 ),
               ),
             ],
@@ -250,9 +249,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: RelayAgentBuilder(
-                    builder: (context, agent) => AgentProfilePage(agent: agent),
-                  ),
+                  child: const ProfilePage(),
                 ),
               ),
             ],
