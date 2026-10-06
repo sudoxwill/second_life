@@ -18,12 +18,13 @@ class OAuthSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final tt = context.textTheme;
     final cs = context.colorScheme;
     return Column(
       children: [
         AppDivider(
-          label: "ou",
+          label: l10n.authOrContinueWith,
           style: tt.titleMedium!.copyWith(
             color: cs.onSurface.withValues(alpha: .6),
           ),
@@ -42,7 +43,7 @@ class OAuthSection extends StatelessWidget {
                 height: AppSpacing.xl,
               ),
               Text(
-                context.l10n.authOAuthGoogle,
+                l10n.authOAuthGoogle,
                 style: tt.titleSmall!.copyWith(
                   color: cs.onSurface.withValues(alpha: .8),
                 ),

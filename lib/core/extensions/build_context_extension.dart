@@ -85,8 +85,8 @@ extension BuildContextExtensions on BuildContext {
   Future<bool?> showConfirmDialog({
     required String title,
     required String content,
-    String confirmLabel = "OK",
-    String cancelLabel = "Annuler",
+    String? confirmLabel,
+    String? cancelLabel,
     bool destructive = false,
   }) {
     return showDialog<bool>(
@@ -105,7 +105,7 @@ extension BuildContextExtensions on BuildContext {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text(cancelLabel),
+            child: Text(cancelLabel ?? l10n.commonCancel),
           ),
           // AppSpacing.gapHSm,
           ElevatedButton(
@@ -115,7 +115,7 @@ extension BuildContextExtensions on BuildContext {
               backgroundColor: colorScheme.error,
             )
                 : null,
-            child: Text(confirmLabel),
+            child: Text(confirmLabel ?? l10n.commonOk),
           ),
         ],
       ),
@@ -126,7 +126,7 @@ extension BuildContextExtensions on BuildContext {
   Future<void> showInfoDialog({
     required String title,
     required String content,
-    String buttonLabel = "OK",
+    String? buttonLabel,
   }) {
     return showDialog<void>(
       context: this,
@@ -144,7 +144,7 @@ extension BuildContextExtensions on BuildContext {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(buttonLabel),
+            child: Text(buttonLabel ?? l10n.commonOk),
           ),
         ],
       ),

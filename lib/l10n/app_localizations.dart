@@ -182,6 +182,18 @@ abstract class AppLocalizations {
   /// **'Ou'**
   String get commonOr;
 
+  /// Bouton générique affichant la liste complète (ex: tous les dépôts en attente)
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir plus'**
+  String get commonSeeMore;
+
+  /// Titre générique d'une carte d'information ou de rappel
+  ///
+  /// In fr, this message translates to:
+  /// **'Info'**
+  String get commonInfo;
+
   /// Séparateur DIVIDER entre formulaire email/password et boutons OAuth multiples (Google/GitHub/Apple)
   ///
   /// In fr, this message translates to:
@@ -416,6 +428,12 @@ abstract class AppLocalizations {
   /// **'Ce champ est obligatoire.'**
   String get validationRequired;
 
+  /// Message d'erreur d'un champ obligatoire, citant son libellé
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'attribut {field} est requis.'**
+  String validationFieldRequired(String field);
+
   /// Message d'erreur pour un e-mail mal formaté
   ///
   /// In fr, this message translates to:
@@ -476,6 +494,72 @@ abstract class AppLocalizations {
   /// **'{title} — bientôt.'**
   String routerSoon(String title);
 
+  /// Titre de l'écran placeholder de réinitialisation par e-mail
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot de passe oublié'**
+  String get routerScreenForgotPassword;
+
+  /// Titre de l'écran placeholder de choix d'un nouveau mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'Nouveau mot de passe'**
+  String get routerScreenResetPassword;
+
+  /// Titre de l'écran placeholder de scan d'un déchet
+  ///
+  /// In fr, this message translates to:
+  /// **'Analyse en cours…'**
+  String get routerScreenScanning;
+
+  /// Titre de l'écran placeholder de la carte des points de recyclage
+  ///
+  /// In fr, this message translates to:
+  /// **'Points de recyclage'**
+  String get routerScreenPlaces;
+
+  /// Titre de l'écran placeholder de l'historique utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'Historique'**
+  String get routerScreenHistory;
+
+  /// Titre de l'écran placeholder du profil utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil'**
+  String get routerScreenProfile;
+
+  /// Titre de l'écran placeholder de la liste des dépôts à traiter
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôts'**
+  String get routerScreenAgentDeposits;
+
+  /// Titre de l'écran placeholder de l'historique agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Historique agent'**
+  String get routerScreenAgentHistory;
+
+  /// Titre de l'écran placeholder du profil agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil agent'**
+  String get routerScreenAgentProfile;
+
+  /// Titre de l'écran placeholder du détail d'un point de recyclage
+  ///
+  /// In fr, this message translates to:
+  /// **'Point de recyclage {id}'**
+  String routerScreenPlaceDetail(String id);
+
+  /// Titre de l'écran placeholder des paramètres
+  ///
+  /// In fr, this message translates to:
+  /// **'Paramètres'**
+  String get routerScreenSettings;
+
   /// Erreur réseau générique (NetworkFailure)
   ///
   /// In fr, this message translates to:
@@ -524,11 +608,137 @@ abstract class AppLocalizations {
   /// **'Profil'**
   String get navProfile;
 
+  /// Label de l'onglet Dépôts dans le shell agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôts'**
+  String get navAgentDeposits;
+
   /// Label de la destination Analyse du FAB dans la barre de navigation
   ///
   /// In fr, this message translates to:
   /// **'Analyser'**
   String get navAnalyzeCta;
+
+  /// Titre de la page d'accueil, personnalisé avec le prénom de l'utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'Bonjour, {name}'**
+  String homeGreeting(String name);
+
+  /// Rôle de l'utilisateur connecté, utilisé à la place du prénom dans le titre de l'accueil agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Agent'**
+  String get homeAgentRoleLabel;
+
+  /// Titre de la carte de solde de points sur l'accueil
+  ///
+  /// In fr, this message translates to:
+  /// **'Mes points'**
+  String get homePointsTitle;
+
+  /// Bouton d'échange des points contre des bons chez le partenaire
+  ///
+  /// In fr, this message translates to:
+  /// **'Échanger'**
+  String get homePointsRedeemCta;
+
+  /// Solde de points affiché sur la carte principale de l'accueil
+  ///
+  /// In fr, this message translates to:
+  /// **'{amount} pts'**
+  String homePointsBalance(int amount);
+
+  /// Pastille indiquant les points gagnés mais pas encore validés
+  ///
+  /// In fr, this message translates to:
+  /// **'+{amount} pts en attente de validation'**
+  String homePointsPendingValidation(int amount);
+
+  /// Explication sous le solde de points : les points ne sont pas convertis en espèces
+  ///
+  /// In fr, this message translates to:
+  /// **'Non convertie en argent liquide. Échangeable contre des bons chez le partenaire.'**
+  String get homePointsNotCash;
+
+  /// Titre de la carte listant les dépôts en attente de validation
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôts en attente'**
+  String get homePendingDepositsTitle;
+
+  /// Type de déchet déposé : bouteille
+  ///
+  /// In fr, this message translates to:
+  /// **'Bouteille'**
+  String get homeDepositItemBottle;
+
+  /// Type de déchet déposé : fer
+  ///
+  /// In fr, this message translates to:
+  /// **'Fer'**
+  String get homeDepositItemIron;
+
+  /// Points gagnés par un dépôt, affichés dans la liste des dépôts en attente
+  ///
+  /// In fr, this message translates to:
+  /// **'+{amount} pts'**
+  String homeDepositPointsGain(int amount);
+
+  /// Titre de la carte d'impact environnemental sur l'accueil
+  ///
+  /// In fr, this message translates to:
+  /// **'Chaque geste compte pour la planète.'**
+  String get homeEcoImpactTitle;
+
+  /// Sous-titre de la carte d'impact environnemental : explication du recyclage contre des bons
+  ///
+  /// In fr, this message translates to:
+  /// **'Recyclez vos déchets plastiques et métalliques et récupérez des bons avec vos points de recyclage'**
+  String get homeEcoImpactSubtitle;
+
+  /// Label de la stat card Dépôts traités sur le dashboard agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôts traités'**
+  String get agentStatsTreatedDeposits;
+
+  /// Label de la stat card Points validés sur le dashboard agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Points validés'**
+  String get agentStatsValidatedPoints;
+
+  /// Titre de la card stock sur le dashboard agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Stock du point de dépôt'**
+  String get agentStockTitle;
+
+  /// Kilogrammes récoltés affichés dans la card stock
+  ///
+  /// In fr, this message translates to:
+  /// **'{amount} kg récoltés'**
+  String agentStockKgCollected(int amount);
+
+  /// Objectif en kilogrammes affiché dans la card stock
+  ///
+  /// In fr, this message translates to:
+  /// **'Objectif : {amount} kg'**
+  String agentStockKgGoal(int amount);
+
+  /// Nom du point de dépôt affiché sous le titre de la card stock
+  ///
+  /// In fr, this message translates to:
+  /// **'EcoCentre de Bè'**
+  String get agentStockSiteName;
+
+  /// Message d'information du dashboard agent sur l'enlèvement du lot en cours
+  ///
+  /// In fr, this message translates to:
+  /// **'LOT bientôt prêt pour l\'enlèvement par le camion municipal.'**
+  String get agentInfoMessage;
 }
 
 class _AppLocalizationsDelegate

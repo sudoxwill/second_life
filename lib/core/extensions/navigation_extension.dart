@@ -22,12 +22,19 @@ extension NavigationExtensions on BuildContext {
   void goAuthResetPassword() => go(AppRoutes.authResetPassword);
   void pushAuthResetPassword() => push(AppRoutes.authResetPassword);
 
-  // ─── AppShell ──────────────────────────────
+  // ─── UserShell ─────────────────────────────
 
   void goHome() => go(AppRoutes.home);
   void goPlaces() => go(AppRoutes.places);
   void goHistory() => go(AppRoutes.history);
   void goProfile() => go(AppRoutes.profile);
+
+  // ─── AgentShell ─────────────────────────────
+
+  void goAgentHome()     => go(AppRoutes.agentHome);
+  void goAgentDeposits() => go(AppRoutes.agentDeposits);
+  void goAgentHistory()  => go(AppRoutes.agentHistory);
+  void goAgentProfile()  => go(AppRoutes.agentProfile);
 
   // ─── Places Details ──────────────────────────────
 
