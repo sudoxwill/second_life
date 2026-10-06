@@ -22,6 +22,9 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   static const String _demoUsername = "Ama Kwatcha";
   static const String _demoEmail = "ama@secondlife.com";
   static const String _demoLocation = "Bè-Kpota";
+  static const int _demoAvailablePoints = 1250;
+  static const int _demoPendingPoints = 80;
+  static const double _demoRecycledKg = 18.4;
 
   String get _initials {
     final parts = _demoUsername.trim().split(" ");
@@ -31,19 +34,28 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     return parts[0][0].toUpperCase();
   }
 
-  final userStats = <UserStat>[
-    (value: 1250, label: "Disponibles", unit: "pts"),
-    (value: "+80", label: "En attente", unit: "pts"),
-    (value: 18.4, label: "Recyclés", unit: "kg"),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
+    final userStats = <UserStat>[
+      (
+        value: l10n.profileStatAvailableValue(_demoAvailablePoints),
+        label: l10n.profileStatAvailableLabel,
+      ),
+      (
+        value: l10n.profileStatPendingValue(_demoPendingPoints),
+        label: l10n.profileStatPendingLabel,
+      ),
+      (
+        value: l10n.profileStatRecycledValue(_demoRecycledKg),
+        label: l10n.profileStatRecycledLabel,
+      ),
+    ];
     return AppScaffold(
       scrollable: true,
-      appBar: AppBar(elevation: 0, title: const Text("Mon profil")),
+      appBar: AppBar(elevation: 0, title: Text(l10n.profileTitle)),
       body: Column(
         spacing: AppSpacing.lg,
         children: [
@@ -152,7 +164,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "${userStats[i].value} ${userStats[i].unit}",
+                                  userStats[i].value,
                                   style: textTheme.titleMedium!.copyWith(
                                     color: colorScheme.secondary,
                                   ),
@@ -182,7 +194,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
           AppSpacing.gapVLg,
           AppElevatedButton(
             onPressed: () {},
-            text: "Déconnexion",
+            text: l10n.authLogout,
             icon: const Icon(LucideIcons.logOut500, size: AppSpacing.iconMd),
             backgroundColor: colorScheme.error,
           ),
@@ -193,4 +205,4 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   }
 }
 
-typedef UserStat = ({dynamic value, String label, String unit});
+typedef UserStat = ({String value, String label});

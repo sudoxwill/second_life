@@ -287,17 +287,11 @@
   "routerScreenHistory": "Historique",
   "@routerScreenHistory": { "description": "Titre de l'écran placeholder de l'historique utilisateur" },
 
-  "routerScreenProfile": "Profil",
-  "@routerScreenProfile": { "description": "Titre de l'écran placeholder du profil utilisateur" },
-
   "routerScreenAgentDeposits": "Dépôts",
   "@routerScreenAgentDeposits": { "description": "Titre de l'écran placeholder de la liste des dépôts à traiter" },
 
   "routerScreenAgentHistory": "Historique agent",
   "@routerScreenAgentHistory": { "description": "Titre de l'écran placeholder de l'historique agent" },
-
-  "routerScreenAgentProfile": "Profil agent",
-  "@routerScreenAgentProfile": { "description": "Titre de l'écran placeholder du profil agent" },
 
   "routerScreenPlaceDetail": "Point de recyclage {id}",
   "@routerScreenPlaceDetail": {
@@ -443,5 +437,80 @@
   "@agentStockSiteName": { "description": "Nom du point de dépôt affiché sous le titre de la card stock" },
 
   "agentInfoMessage": "Lot bientôt prêt pour l'enlèvement par le camion municipal.",
-  "@agentInfoMessage": { "description": "Message d'information du dashboard agent sur l'enlèvement du lot en cours" }
+  "@agentInfoMessage": { "description": "Message d'information du dashboard agent sur l'enlèvement du lot en cours" },
+
+  "@__sectionProfile": {
+    "description": "━━━━ PROFILE — Profils utilisateur/agent et réglages ━━━━"
+  },
+  "profileTitle": "Mon profil",
+  "@profileTitle": { "description": "Titre de la barre d'application des écrans de profil" },
+
+  "profileStatAvailableValue": "{value} pts",
+  "@profileStatAvailableValue": {
+    "description": "Valeur des points disponibles affichée dans les statistiques du profil",
+    "placeholders": {
+      "value": { "type": "int", "example": "1250" }
+    }
+  },
+
+  "profileStatAvailableLabel": "Disponibles",
+  "@profileStatAvailableLabel": { "description": "Libellé de la statistique points disponibles" },
+
+  "profileStatPendingValue": "+{value} pts",
+  "@profileStatPendingValue": {
+    "description": "Valeur des points en attente de validation affichée dans les statistiques du profil",
+    "placeholders": {
+      "value": { "type": "int", "example": "80" }
+    }
+  },
+
+  "profileStatPendingLabel": "En attente",
+  "@profileStatPendingLabel": { "description": "Libellé de la statistique points en attente de validation" },
+
+  "profileStatRecycledValue": "{value} kg",
+  "@profileStatRecycledValue": {
+    "description": "Poids des déchets recyclés affiché dans les statistiques du profil",
+    "placeholders": {
+      "value": { "type": "double", "example": "18.4" }
+    }
+  },
+
+  "profileStatRecycledLabel": "Recyclés",
+  "@profileStatRecycledLabel": { "description": "Libellé de la statistique poids recyclé" },
+
+  "profileAgentRole": "Agent de collecte",
+  "@profileAgentRole": { "description": "Rôle affiché sous le nom de l'agent sur son profil" },
+
+  "profileCenterHours": "Lun – Sam, 8h – 18h",
+  "@profileCenterHours": { "description": "Horaires d'ouverture du centre de dépôt affichés sur le profil agent" },
+
+  "profileStatusOpen": "Ouvert",
+  "@profileStatusOpen": { "description": "Pastille indiquant que le centre de dépôt est ouvert" },
+
+  "profileStatusClosed": "Fermé",
+  "@profileStatusClosed": { "description": "Pastille indiquant que le centre de dépôt est fermé" },
+
+  "profileSettingsTitle": "Paramètres",
+  "@profileSettingsTitle": { "description": "Titre de la section réglages sur les pages de profil" },
+
+  "profileSettingsNotifications": "Notifications",
+  "@profileSettingsNotifications": { "description": "Réglage d'activation des notifications" },
+
+  "profileSettingsTheme": "Thème",
+  "@profileSettingsTheme": { "description": "Réglage du thème clair/sombre/système" },
+
+  "profileSettingsLanguage": "Langue",
+  "@profileSettingsLanguage": { "description": "Réglage de la langue de l'application" },
+
+  "profileSettingsDyslexicFont": "Police dyslexique",
+  "@profileSettingsDyslexicFont": { "description": "Réglage d'activation de la police adaptée à la dyslexie" },
+
+  "profileThemeLight": "Clair",
+  "@profileThemeLight": { "description": "Option de thème clair dans le sélecteur de thème" },
+
+  "profileThemeDark": "Sombre",
+  "@profileThemeDark": { "description": "Option de thème sombre dans le sélecteur de thème" },
+
+  "profileThemeSystem": "Système",
+  "@profileThemeSystem": { "description": "Option de thème suivant le système dans le sélecteur de thème" }
 }

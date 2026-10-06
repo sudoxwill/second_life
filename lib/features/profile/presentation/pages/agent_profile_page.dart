@@ -13,10 +13,8 @@ class AgentProfilePage extends StatelessWidget {
 
   static const String _demoAgentName = "Kofi Mensah";
   static const String _demoAgentEmail = "kofi@secondlife.com";
-  static const String _demoAgentRole = "Agent de collecte";
   static const String _demoCenterName = "Centre Bè-Kpota";
   static const String _demoCenterAddress = "Bè-Kpota, Lomé";
-  static const String _demoCenterHours = "Lun – Sam, 8h – 18h";
   static const bool _demoIsOpen = true;
 
   static String get _initials {
@@ -28,11 +26,12 @@ class AgentProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
     return AppScaffold(
       scrollable: true,
-      appBar: AppBar(elevation: 0, title: const Text("Mon profil")),
+      appBar: AppBar(elevation: 0, title: Text(l10n.profileTitle)),
       body: Column(
         spacing: AppSpacing.lg,
         children: [
@@ -79,7 +78,7 @@ class AgentProfilePage extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          _demoAgentRole,
+                          l10n.profileAgentRole,
                           style: textTheme.bodyMedium!.copyWith(
                             color: AppColors.neutral50.withValues(alpha: 0.75),
                           ),
@@ -157,7 +156,9 @@ class AgentProfilePage extends StatelessWidget {
                           borderRadius: AppSpacing.roundedFull,
                         ),
                         child: Text(
-                          _demoIsOpen ? "Ouvert" : "Fermé",
+                          _demoIsOpen
+                              ? l10n.profileStatusOpen
+                              : l10n.profileStatusClosed,
                           style: textTheme.labelSmall!.copyWith(
                             color: _demoIsOpen
                                 ? AppColors.semanticSuccess
@@ -176,7 +177,7 @@ class AgentProfilePage extends StatelessWidget {
                   ),
                   _InfoRow(
                     icon: LucideIcons.clock,
-                    label: _demoCenterHours,
+                    label: l10n.profileCenterHours,
                     color: colorScheme.onSurfaceVariant,
                     textTheme: textTheme,
                   ),
@@ -190,7 +191,7 @@ class AgentProfilePage extends StatelessWidget {
           AppSpacing.gapVLg,
           AppElevatedButton(
             onPressed: () {},
-            text: "Déconnexion",
+            text: l10n.authLogout,
             icon: const Icon(LucideIcons.logOut500, size: AppSpacing.iconMd),
             backgroundColor: colorScheme.error,
           ),

@@ -221,7 +221,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: AgentProfilePage(),
+                  child: const AgentProfilePage(),
                 ),
               ),
             ],

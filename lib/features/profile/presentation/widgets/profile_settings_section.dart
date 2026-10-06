@@ -19,13 +19,35 @@ class ProfileSettingsSection extends ConsumerStatefulWidget {
 
 class _ProfileSettingsSectionState
     extends ConsumerState<ProfileSettingsSection> {
+  /// Noms des langues dans leur propre langue (endonymes) — jamais traduits.
+  static const Map<String, String> _languageNames = {
+    "fr": "Français",
+    "en": "English",
+  };
+
   bool _notificationsEnabled = true;
 
+  String _languageLabel(Locale locale) =>
+      _languageNames[locale.languageCode] ?? _languageNames.entries.last.value;
+
   void _showThemePicker(ThemeMode current) {
+    final l10n = context.l10n;
     final options = [
-      (mode: ThemeMode.light, label: "Clair", icon: LucideIcons.sun),
-      (mode: ThemeMode.dark, label: "Sombre", icon: LucideIcons.moon),
-      (mode: ThemeMode.system, label: "Système", icon: LucideIcons.monitor),
+      (
+        mode: ThemeMode.light,
+        label: l10n.profileThemeLight,
+        icon: LucideIcons.sun,
+      ),
+      (
+        mode: ThemeMode.dark,
+        label: l10n.profileThemeDark,
+        icon: LucideIcons.moon,
+      ),
+      (
+        mode: ThemeMode.system,
+        label: l10n.profileThemeSystem,
+        icon: LucideIcons.monitor,
+      ),
     ];
     showModalBottomSheet<void>(
       context: context,
@@ -57,10 +79,6 @@ class _ProfileSettingsSectionState
   }
 
   void _showLanguagePicker(Locale current) {
-    final options = [
-      (code: "fr", label: "Français"),
-      (code: "en", label: "English"),
-    ];
     showModalBottomSheet<void>(
       context: context,
       useRootNavigator: true,
@@ -68,10 +86,10 @@ class _ProfileSettingsSectionState
       builder: (ctx) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          for (final opt in options)
+          for (final entry in _languageNames.entries)
             ListTile(
-              title: Text(opt.label),
-              trailing: current.languageCode == opt.code
+              title: Text(entry.value),
+              trailing: current.languageCode == entry.key
                   ? const Icon(
                       LucideIcons.check,
                       size: AppSpacing.iconMd,
@@ -81,7 +99,7 @@ class _ProfileSettingsSectionState
               onTap: () {
                 ref
                     .read(appLocaleProvider.notifier)
-                    .setLocale(Locale(opt.code));
+                    .setLocale(Locale(entry.key));
                 Navigator.pop(ctx);
               },
             ),
@@ -93,6 +111,7 @@ class _ProfileSettingsSectionState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
     final themeMode = ref.watch(appThemeModeProvider);
@@ -106,7 +125,7 @@ class _ProfileSettingsSectionState
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
           child: Text(
-            "Paramètres",
+            l10n.profileSettingsTitle,
             style: textTheme.titleSmall!.copyWith(
               color: colorScheme.onSurfaceVariant,
             ),
@@ -118,7 +137,7 @@ class _ProfileSettingsSectionState
             children: [
               _SettingsTile(
                 icon: LucideIcons.bell,
-                title: "Notifications",
+                title: l10n.profileSettingsNotifications,
                 trailing: Switch(
                   value: _notificationsEnabled,
                   onChanged: (v) => setState(() => _notificationsEnabled = v),
@@ -127,16 +146,16 @@ class _ProfileSettingsSectionState
               const Divider(height: 1, indent: 56),
               _SettingsTile(
                 icon: LucideIcons.sunMoon,
-                title: "Thème",
+                title: l10n.profileSettingsTheme,
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   spacing: AppSpacing.xs,
                   children: [
                     Text(
                       switch (themeMode) {
-                        ThemeMode.light => "Clair",
-                        ThemeMode.dark => "Sombre",
-                        ThemeMode.system => "Système",
+                        ThemeMode.light => l10n.profileThemeLight,
+                        ThemeMode.dark => l10n.profileThemeDark,
+                        ThemeMode.system => l10n.profileThemeSystem,
                       },
                       style: textTheme.bodyMedium!.copyWith(
                         color: colorScheme.onSurfaceVariant,
@@ -154,13 +173,13 @@ class _ProfileSettingsSectionState
               const Divider(height: 1, indent: 56),
               _SettingsTile(
                 icon: LucideIcons.globe,
-                title: "Langue",
+                title: l10n.profileSettingsLanguage,
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   spacing: AppSpacing.xs,
                   children: [
                     Text(
-                      locale.languageCode == "fr" ? "Français" : "English",
+                      _languageLabel(locale),
                       style: textTheme.bodyMedium!.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
@@ -177,7 +196,7 @@ class _ProfileSettingsSectionState
               const Divider(height: 1, indent: 56),
               _SettingsTile(
                 icon: LucideIcons.type,
-                title: "Police dyslexique",
+                title: l10n.profileSettingsDyslexicFont,
                 trailing: Switch(
                   value: dyslexic,
                   onChanged: (_) =>

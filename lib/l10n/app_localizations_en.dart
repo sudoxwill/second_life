@@ -244,16 +244,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get routerScreenHistory => 'History';
 
   @override
-  String get routerScreenProfile => 'Profile';
-
-  @override
   String get routerScreenAgentDeposits => 'Deposits';
 
   @override
   String get routerScreenAgentHistory => 'Agent history';
-
-  @override
-  String get routerScreenAgentProfile => 'Agent profile';
 
   @override
   String routerScreenPlaceDetail(String id) {
@@ -367,4 +361,67 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get agentInfoMessage =>
       'The batch will soon be ready for collection by the municipal truck.';
+
+  @override
+  String get profileTitle => 'My profile';
+
+  @override
+  String profileStatAvailableValue(int value) {
+    return '$value pts';
+  }
+
+  @override
+  String get profileStatAvailableLabel => 'Available';
+
+  @override
+  String profileStatPendingValue(int value) {
+    return '+$value pts';
+  }
+
+  @override
+  String get profileStatPendingLabel => 'Pending';
+
+  @override
+  String profileStatRecycledValue(double value) {
+    return '$value kg';
+  }
+
+  @override
+  String get profileStatRecycledLabel => 'Recycled';
+
+  @override
+  String get profileAgentRole => 'Collection agent';
+
+  @override
+  String get profileCenterHours => 'Mon – Sat, 8am – 6pm';
+
+  @override
+  String get profileStatusOpen => 'Open';
+
+  @override
+  String get profileStatusClosed => 'Closed';
+
+  @override
+  String get profileSettingsTitle => 'Settings';
+
+  @override
+  String get profileSettingsNotifications => 'Notifications';
+
+  @override
+  String get profileSettingsTheme => 'Theme';
+
+  @override
+  String get profileSettingsLanguage => 'Language';
+
+  @override
+  String get profileSettingsDyslexicFont => 'Dyslexic font';
+
+  @override
+  String get profileThemeLight => 'Light';
+
+  @override
+  String get profileThemeDark => 'Dark';
+
+  @override
+  String get profileThemeSystem => 'System';
 }
