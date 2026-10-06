@@ -17,7 +17,6 @@ import "../../features/waste_analysis/presentation/pages/citizen_home_page.dart"
 import "../../features/waste_analysis/presentation/pages/citizen_profile_page.dart";
 import "../../features/waste_analysis/presentation/pages/relay_map_page.dart";
 import "../../features/waste_analysis/presentation/pages/waste_scan_page.dart";
-import "../../features/profile/presentation/pages/index.dart";
 import "../../shared/presentation/agent_shell.dart";
 import "../../shared/presentation/user_shell.dart";
 import "../configs/env.dart";
@@ -132,7 +131,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // Shell User, 4 onglets
+      // Espace usager, 4 onglets
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             UserShell(navigationShell: navigationShell),
@@ -184,7 +183,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const UserProfilePage(),
+                  child: const CitizenProfilePage(),
                 ),
               ),
             ],
@@ -192,7 +191,7 @@ GoRouter appRouter(Ref ref) {
         ],
       ),
 
-      // Shell Agent, 4 onglets
+      // Espace agent, 4 onglets
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             AgentShell(navigationShell: navigationShell),
@@ -251,7 +250,9 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const AgentProfilePage(),
+                  child: RelayAgentBuilder(
+                    builder: (context, agent) => AgentProfilePage(agent: agent),
+                  ),
                 ),
               ),
             ],
@@ -259,7 +260,7 @@ GoRouter appRouter(Ref ref) {
         ],
       ),
 
-      // Detailed screens
+      // Écrans de détail
       GoRoute(
         path: AppRoutes.placeDetail,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -273,7 +274,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // Settings
+      // Paramètres
       GoRoute(
         path: AppRoutes.settings,
         pageBuilder: (context, state) => AppTransitions.fade(

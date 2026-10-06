@@ -33,17 +33,16 @@ void main() async {
 
   Log.i("Starting application in ${AppConfig.instance.appName} mode...");
 
-  // Firebase doit être prêt avant le premier accès à Auth ou Firestore
-  await Firebase.initializeApp(
-    options: await DefaultFirebaseOptions.currentPlatform(),
-  );
+  // Firebase passe en premier : Auth et Firestore en ont besoin dès le départ.
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   Log.i("Firebase initialisé");
 
-  // SharedPreferences doit être initialisé avant runApp
+  // Chargées ici pour pouvoir les injecter dans le ProviderScope.
   final prefs = await SharedPreferences.getInstance();
   Log.i("SharedPreferences initialisé");
 
-  // Nécessaire pour planifier les notifications (zonedSchedule)
+  // Sans le fuseau horaire local, les notifications programmées partiraient
+  // à la mauvaise heure.
   tz.initializeTimeZones();
   final timezoneInfo = await FlutterTimezone.getLocalTimezone();
   tz.setLocalLocation(tz.getLocation(timezoneInfo.identifier));
@@ -56,9 +55,9 @@ void main() async {
 
   runApp(
     ProviderScope(
-      // Pas de relance automatique pour nos Failure : ce sont des réponses
-      // métier (ex. NotRelayAgentFailure pour un usager) que l'UI doit
-      // recevoir tout de suite. Riverpod les relancerait ~40 s sinon.
+      // Nos Failure sont des réponses métier (par exemple un usager qui n'est
+      // pas agent relais), pas des pannes passagères : inutile de réessayer,
+      // l'UI doit les afficher tout de suite. Sinon Riverpod insiste ~40 s.
       retry: (retryCount, error) => error is Failure
           ? null
           : ProviderContainer.defaultRetry(retryCount, error),
@@ -73,7 +72,7 @@ void main() async {
   );
 }
 
-// Tap sur une notification pendant que l'app tourne
+// L'utilisateur a touché une notification alors que l'app était ouverte.
 void _onNotificationTap(NotificationResponse response) {
   final rawPayload = response.payload;
   if (rawPayload == null || rawPayload.isEmpty) return;

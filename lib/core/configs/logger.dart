@@ -276,10 +276,10 @@ class AppLogger {
 
   static void _printLog(String message, LogLevel level) {
     if (kDebugMode) {
-      // debugPrint ne coupe pas les longs messages
+      // debugPrint évite que les longs messages soient tronqués.
       debugPrint(message);
 
-      // pour les retrouver aussi dans DevTools
+      // Et on les envoie aussi à DevTools.
       developer.log(
         message,
         name: _appName,

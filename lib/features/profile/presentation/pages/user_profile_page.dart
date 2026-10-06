@@ -18,7 +18,7 @@ class UserProfilePage extends ConsumerStatefulWidget {
 }
 
 class _UserProfilePageState extends ConsumerState<UserProfilePage> {
-  // Demo — remplacer par les données du provider auth
+  // Données de démo, à remplacer par celles du provider auth.
   static const String _demoUsername = "Ama Kwatcha";
   static const String _demoEmail = "ama@secondlife.com";
   static const String _demoLocation = "Bè-Kpota";

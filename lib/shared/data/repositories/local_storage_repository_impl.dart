@@ -10,7 +10,7 @@ class StorageRepositoryImpl {
 
   final StorageRepository _regular;
 
-  // Core
+  // Accès de base
 
   Future<void> write(String key, String value) =>
       _regular.write(key, value);
@@ -24,7 +24,7 @@ class StorageRepositoryImpl {
   Future<void> clearAll() =>
       _regular.clear();
 
-  // Typed helpers
+  // Lecture et écriture typées
 
   Future<void> writeBool(String key, bool value) =>
       write(key, value.toString());

@@ -27,7 +27,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
 
   static const _slideCount = 3;
 
-  // TODO Find more interesting images to use
+  // TODO: trouver des images plus parlantes.
   static const _slideImages = [
     AppAssets.step1,
     AppAssets.step2,
@@ -220,7 +220,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                       ),
                     ),
 
-                    // Bouton CTA
+                    // Bouton principal
                     _ButtonSection(isLast: _isLast, onNext: _next),
                   ],
                 ),

@@ -10,7 +10,7 @@ class AppTheme {
 
   static const String fontFamily = AppTextStyles.fontFamily;
 
-  // Shapes
+  // Formes
 
   static const shapeLarge = RoundedRectangleBorder(
     borderRadius: AppSpacing.roundedXxl,
@@ -22,7 +22,7 @@ class AppTheme {
     borderRadius: AppSpacing.roundedSm,
   );
 
-  // Colorscheme, clair
+  // Couleurs, mode clair
 
   static const ColorScheme lightColorScheme = ColorScheme(
     brightness: Brightness.light,
@@ -53,7 +53,7 @@ class AppTheme {
     surfaceTint: Colors.transparent,
   );
 
-  // Colorscheme, sombre
+  // Couleurs, mode sombre
 
   static const ColorScheme darkColorScheme = ColorScheme(
     brightness: Brightness.dark,
@@ -112,7 +112,7 @@ class AppTheme {
     return fontFamily;
   }
 
-  // Light theme
+  // Thème clair
 
   static ThemeData light({bool useDyslexicFont = false}) {
     final textTheme = _textTheme(
@@ -147,7 +147,6 @@ class AppTheme {
 
       textTheme: textTheme,
 
-      // AppBar
       appBarTheme: AppBarTheme(
         backgroundColor: lightColorScheme.surface,
         foregroundColor: lightColorScheme.onSurface,
@@ -159,7 +158,6 @@ class AppTheme {
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
 
-      // Buttons
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: lightColorScheme.primary,
@@ -206,7 +204,6 @@ class AppTheme {
         ),
       ),
 
-      // Input Decoration (TextField)
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surfaceSunken,
@@ -256,7 +253,6 @@ class AppTheme {
         helperMaxLines: 3,
       ),
 
-      // Card
       cardTheme: CardThemeData(
         color: lightColorScheme.surfaceContainer,
         elevation: AppSpacing.elevationNone,
@@ -269,7 +265,6 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
       ),
 
-      // FloatingActionButton
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: lightColorScheme.primary,
         foregroundColor: lightColorScheme.onPrimary,
@@ -277,7 +272,6 @@ class AppTheme {
         shape: const CircleBorder(),
       ),
 
-      // Bottom Navigation Bar
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         type: BottomNavigationBarType.fixed,
         backgroundColor: AppColors.surfaceNav,
@@ -289,7 +283,6 @@ class AppTheme {
         showUnselectedLabels: true,
       ),
 
-      // Dialog
       dialogTheme: DialogThemeData(
         backgroundColor: lightColorScheme.surfaceContainer,
         surfaceTintColor: Colors.transparent,
@@ -298,7 +291,6 @@ class AppTheme {
         contentTextStyle: textTheme.bodyMedium,
       ),
 
-      // Bottom sheet
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: AppColors.surfaceCard,
         surfaceTintColor: Colors.transparent,
@@ -306,7 +298,6 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: AppSpacing.roundedTopXl),
       ),
 
-      // SnackBar
       snackBarTheme: SnackBarThemeData(
         backgroundColor: lightColorScheme.inverseSurface,
         contentTextStyle: textTheme.bodyMedium?.copyWith(
@@ -317,7 +308,6 @@ class AppTheme {
         shape: shapeSmall,
       ),
 
-      // Chip
       chipTheme: ChipThemeData(
         selectedColor: lightColorScheme.primaryContainer,
         checkmarkColor: lightColorScheme.onPrimaryContainer,
@@ -326,27 +316,23 @@ class AppTheme {
         side: BorderSide(color: lightColorScheme.outline),
       ),
 
-      // Icon
       iconTheme: IconThemeData(
         color: lightColorScheme.onSurfaceVariant,
         size: AppSpacing.iconLg,
       ),
 
-      // Progress
       progressIndicatorTheme: ProgressIndicatorThemeData(
         color: lightColorScheme.primary,
         linearTrackColor: lightColorScheme.primaryContainer,
         circularTrackColor: lightColorScheme.primaryContainer,
       ),
 
-      // Divider
       dividerTheme: DividerThemeData(
         color: lightColorScheme.outlineVariant,
         thickness: AppSpacing.dividerThickness,
         space: AppSpacing.dividerThickness,
       ),
 
-      // Switch
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
@@ -368,7 +354,6 @@ class AppTheme {
         }),
       ),
 
-      // Checkbox
       checkboxTheme: CheckboxThemeData(
         fillColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
@@ -386,7 +371,6 @@ class AppTheme {
         ),
       ),
 
-      // Radio
       radioTheme: RadioThemeData(
         fillColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
@@ -398,7 +382,7 @@ class AppTheme {
     );
   }
 
-  // Dark theme
+  // Thème sombre
 
   static ThemeData dark({bool useDyslexicFont = false}) {
     final textTheme = _textTheme(
@@ -433,7 +417,6 @@ class AppTheme {
 
       textTheme: textTheme,
 
-      // AppBar
       appBarTheme: AppBarTheme(
         backgroundColor: darkColorScheme.surface,
         foregroundColor: darkColorScheme.onSurface,
@@ -445,7 +428,6 @@ class AppTheme {
         systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
 
-      // Buttons
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: darkColorScheme.primary,
@@ -492,7 +474,6 @@ class AppTheme {
         ),
       ),
 
-      // Input Decoration (TextField)
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surfaceSunkenDark,
@@ -542,7 +523,6 @@ class AppTheme {
         helperMaxLines: 3,
       ),
 
-      // Card
       cardTheme: CardThemeData(
         color: darkColorScheme.surfaceContainer,
         elevation: AppSpacing.elevationNone,
@@ -555,7 +535,6 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
       ),
 
-      // FloatingActionButton
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: darkColorScheme.primary,
         foregroundColor: darkColorScheme.onPrimary,
@@ -563,7 +542,6 @@ class AppTheme {
         shape: const CircleBorder(),
       ),
 
-      // Bottom Navigation Bar
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         type: BottomNavigationBarType.fixed,
         backgroundColor: AppColors.surfaceNavDark,
@@ -575,7 +553,6 @@ class AppTheme {
         showUnselectedLabels: true,
       ),
 
-      // Dialog
       dialogTheme: DialogThemeData(
         backgroundColor: darkColorScheme.surfaceContainer,
         surfaceTintColor: Colors.transparent,
@@ -584,7 +561,6 @@ class AppTheme {
         contentTextStyle: textTheme.bodyMedium,
       ),
 
-      // Bottom sheet
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: AppColors.surfaceCardDark,
         surfaceTintColor: Colors.transparent,
@@ -592,7 +568,6 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: AppSpacing.roundedTopXl),
       ),
 
-      // SnackBar
       snackBarTheme: SnackBarThemeData(
         backgroundColor: darkColorScheme.inverseSurface,
         contentTextStyle: textTheme.bodyMedium?.copyWith(
@@ -603,7 +578,6 @@ class AppTheme {
         shape: shapeSmall,
       ),
 
-      // Chip
       chipTheme: ChipThemeData(
         selectedColor: darkColorScheme.primaryContainer,
         checkmarkColor: darkColorScheme.onPrimaryContainer,
@@ -612,27 +586,23 @@ class AppTheme {
         side: BorderSide(color: darkColorScheme.outline),
       ),
 
-      // Icon
       iconTheme: IconThemeData(
         color: darkColorScheme.onSurfaceVariant,
         size: AppSpacing.iconLg,
       ),
 
-      // Progress
       progressIndicatorTheme: ProgressIndicatorThemeData(
         color: darkColorScheme.primary,
         linearTrackColor: darkColorScheme.primaryContainer,
         circularTrackColor: darkColorScheme.primaryContainer,
       ),
 
-      // Divider
       dividerTheme: DividerThemeData(
         color: darkColorScheme.outlineVariant,
         thickness: AppSpacing.dividerThickness,
         space: AppSpacing.dividerThickness,
       ),
 
-      // Switch
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
@@ -654,7 +624,6 @@ class AppTheme {
         }),
       ),
 
-      // Checkbox
       checkboxTheme: CheckboxThemeData(
         fillColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
@@ -672,7 +641,6 @@ class AppTheme {
         ),
       ),
 
-      // Radio
       radioTheme: RadioThemeData(
         fillColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {

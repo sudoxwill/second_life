@@ -142,7 +142,7 @@ class NotificationService {
     return await androidPlugin.canScheduleExactNotifications() ?? false;
   }
 
-  // Show
+  // Affichage immédiat
 
   Future<void> show({
     required int id,
@@ -176,7 +176,7 @@ class NotificationService {
     );
   }
 
-  // Schedule
+  // Notifications programmées
 
   /// zonedSchedule gère les changements d'heure. Sans droit aux alarmes
   /// exactes, la notification passe en mode inexact.
@@ -229,7 +229,7 @@ class NotificationService {
     );
   }
 
-  // Cancel
+  // Annulation
 
   Future<void> cancel(int id) => _plugin.cancel(id: id);
 

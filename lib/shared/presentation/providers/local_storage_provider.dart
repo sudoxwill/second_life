@@ -6,7 +6,7 @@ import "../../data/sources/shared_prefs_storage_source.dart";
 
 part "local_storage_provider.g.dart";
 
-// Injecté depuis main(), ça évite un provider async
+// Injecté depuis main(), ce qui évite un provider async.
 @Riverpod(keepAlive: true)
 SharedPreferences sharedPreferences(Ref ref) {
   throw UnimplementedError("Override in main via ProviderScope");

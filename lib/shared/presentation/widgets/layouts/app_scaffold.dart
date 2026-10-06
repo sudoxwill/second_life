@@ -28,12 +28,12 @@ class AppScaffold extends ConsumerWidget {
     this.showOfflineBanner = false,
   });
 
-  // Navigation / Pop
+  // Retour arrière
 
   final void Function(bool, Object?)? onPopInvokedWithResult;
   final bool canPop;
 
-  // Layout
+  // Mise en page
 
   final Widget? body;
   final Widget? bottomNavigationBar;
@@ -47,16 +47,16 @@ class AppScaffold extends ConsumerWidget {
   final bool scrollable;
   final bool scrollReverse;
 
-  // FAB
+  // Bouton flottant
 
   final Widget? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
 
-  // Background
+  // Arrière-plan
 
   final Widget Function(Widget child)? backgroundBuilder;
 
-  // Refresh
+  // Tirer pour rafraîchir
 
   /// Active aussi [scrollable].
   final Future<void> Function()? onRefresh;
@@ -101,9 +101,9 @@ class AppScaffold extends ConsumerWidget {
                   Directionality.of(context),
                 );
 
-                // The SafeArea already handled the system insets, so we only
-                // Apply the caller's decorative padding here. Behind a bottom
-                // Bar (extendBody) we drop the bottom padding.
+                // La SafeArea gère déjà les barres système : on n'ajoute que
+                // la marge voulue par l'appelant. Sous une barre du bas
+                // (extendBody), on retire la marge du bas.
                 final effectivePadding = extendBody
                     ? resolvedPadding.copyWith(bottom: 0)
                     : resolvedPadding;
@@ -111,17 +111,14 @@ class AppScaffold extends ConsumerWidget {
                 Widget content;
 
                 if (isScrollable) {
-                  // Scrollable
-                  // AlwaysScrollablePhysics lets the RefreshIndicator trigger
-                  // Even when the content is shorter than the viewport.
+                  // AlwaysScrollable : le rafraîchissement reste possible
+                  // même quand le contenu est plus court que l'écran.
                   content = SingleChildScrollView(
                     physics: onRefresh != null
                         ? const AlwaysScrollableScrollPhysics()
                         : null,
                     reverse: scrollReverse,
                     child: Padding(
-                      // The scroll view already gives full width; no need to
-                      // Force `size.width`.
                       padding: effectivePadding,
                       child: body,
                     ),
@@ -134,7 +131,7 @@ class AppScaffold extends ConsumerWidget {
                     );
                   }
                 } else {
-                  // Non-scrollable
+                  // Sans défilement
                   content = Container(
                     constraints: const BoxConstraints.expand(),
                     color: color,

@@ -4,7 +4,7 @@ import "package:flutter/material.dart" show Color, MaterialColor;
 class AppColors {
   const AppColors._();
 
-  // Brand
+  // Marque
 
   static const Color supernova = Color(0xFFFFCD00);
   static const Color grassCourt = Color(0xFF008C45);
