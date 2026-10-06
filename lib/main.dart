@@ -1,3 +1,4 @@
+import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
@@ -9,17 +10,19 @@ import "package:timezone/timezone.dart" as tz;
 
 import "app.dart";
 import "core/configs/index.dart";
+import "core/configs/secrets.dart";
+import "core/errors/failure.dart";
 import "core/routing/app_navigator_key.dart";
+import "firebase_options.dart";
 import "shared/data/services/notification_service.dart";
-import "shared/presentation/providers/index.dart" show sharedPreferencesProvider, flutterLocalNotificationsPluginProvider;
+import "shared/presentation/providers/index.dart"
+    show sharedPreferencesProvider, flutterLocalNotificationsPluginProvider;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialisation de la configuration globale
-  AppConfig.initialize(environment: Env.current);
+  AppConfig.initialize(environment: Env.current, apiKey: Secrets.rodiumApiKey);
 
-  // Configure Logger
   AppLogger.configure(
     enabled: Env.enableLogging,
     showTimestamp: true,
@@ -30,17 +33,22 @@ void main() async {
 
   Log.i("Starting application in ${AppConfig.instance.appName} mode...");
 
+  // Firebase doit être prêt avant le premier accès à Auth ou Firestore
+  await Firebase.initializeApp(
+    options: await DefaultFirebaseOptions.currentPlatform(),
+  );
+  Log.i("Firebase initialisé");
+
   // SharedPreferences doit être initialisé avant runApp
   final prefs = await SharedPreferences.getInstance();
   Log.i("SharedPreferences initialisé");
 
-  // Timezone — requis pour zonedSchedule (notifications planifiées)
+  // Nécessaire pour planifier les notifications (zonedSchedule)
   tz.initializeTimeZones();
   final timezoneInfo = await FlutterTimezone.getLocalTimezone();
   tz.setLocalLocation(tz.getLocation(timezoneInfo.identifier));
   Log.d("Timezone local: ${timezoneInfo.identifier}");
 
-  // Notifications
   final notificationPlugin = await NotificationService.createAndInit(
     onTap: _onNotificationTap,
   );
@@ -48,6 +56,12 @@ void main() async {
 
   runApp(
     ProviderScope(
+      // Pas de relance automatique pour nos Failure : ce sont des réponses
+      // métier (ex. NotRelayAgentFailure pour un usager) que l'UI doit
+      // recevoir tout de suite. Riverpod les relancerait ~40 s sinon.
+      retry: (retryCount, error) => error is Failure
+          ? null
+          : ProviderContainer.defaultRetry(retryCount, error),
       overrides: [
         sharedPreferencesProvider.overrideWithValue(prefs),
         flutterLocalNotificationsPluginProvider.overrideWithValue(
@@ -59,7 +73,7 @@ void main() async {
   );
 }
 
-// Tap depuis premier plan ou arrière-plan (app vivante)
+// Tap sur une notification pendant que l'app tourne
 void _onNotificationTap(NotificationResponse response) {
   final rawPayload = response.payload;
   if (rawPayload == null || rawPayload.isEmpty) return;

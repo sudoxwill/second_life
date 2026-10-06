@@ -2,19 +2,15 @@ import "package:flutter/material.dart";
 
 import "app_colors.dart";
 
-/// Espacements, rayons, tailles, durées et ombres SecondLife (grille de 4px).
+/// Grille de 4px.
 class AppSpacing {
   AppSpacing._();
 
-  // ─────────────────────────────────────────────
-  // BASE UNIT
-  // ─────────────────────────────────────────────
+  // Base unit
 
   static const double unit = 4.0;
 
-  // ─────────────────────────────────────────────
-  // SPACING SCALE
-  // ─────────────────────────────────────────────
+  // Spacing scale
 
   static const double xs = unit * 1;
   static const double sm = unit * 2;
@@ -36,18 +32,14 @@ class AppSpacing {
 
   static const double sectionLabelGap = sm;
 
-  // ─────────────────────────────────────────────
-  // BORDER WIDTH
-  // ─────────────────────────────────────────────
+  // Border width
 
   static const double borderWidthThin = 0.5;
   static const double borderWidthBase = 1.0;
   static const double borderWidthMedium = 1.5;
   static const double borderWidthThick = 2.0;
 
-  // ─────────────────────────────────────────────
-  // BORDER RADIUS — doubles
-  // ─────────────────────────────────────────────
+  // Border radius, doubles
 
   static const double radiusXs = 4.0;
   static const double radiusSm = 8.0;
@@ -58,9 +50,7 @@ class AppSpacing {
   static const double radiusXxxl = 30.0;
   static const double radiusFull = 999.0;
 
-  // ─────────────────────────────────────────────
-  // BORDER RADIUS — objets prêts à l'emploi
-  // ─────────────────────────────────────────────
+  // Border radius, objets prêts à l'emploi
 
   static const BorderRadius roundedXs = BorderRadius.all(
     Radius.circular(radiusXs),
@@ -104,9 +94,7 @@ class AppSpacing {
     bottomRight: Radius.circular(radiusXl),
   );
 
-  // ─────────────────────────────────────────────
-  // EDGE INSETS — all sides
-  // ─────────────────────────────────────────────
+  // Edge insets, all sides
 
   static const EdgeInsets insetZero = EdgeInsets.zero;
   static const EdgeInsets insetXs = EdgeInsets.all(xs);
@@ -118,9 +106,7 @@ class AppSpacing {
   static const EdgeInsets insetXxxl = EdgeInsets.all(xxxl);
   static EdgeInsets insetX(double x) => EdgeInsets.all(x);
 
-  // ─────────────────────────────────────────────
-  // EDGE INSETS — horizontal
-  // ─────────────────────────────────────────────
+  // Edge insets, horizontal
 
   static const EdgeInsets insetHXs = EdgeInsets.symmetric(horizontal: xs);
   static const EdgeInsets insetHSm = EdgeInsets.symmetric(horizontal: sm);
@@ -130,9 +116,7 @@ class AppSpacing {
   static const EdgeInsets insetHXxl = EdgeInsets.symmetric(horizontal: xxl);
   static EdgeInsets insetHX(double x) => EdgeInsets.symmetric(horizontal: x);
 
-  // ─────────────────────────────────────────────
-  // EDGE INSETS — vertical
-  // ─────────────────────────────────────────────
+  // Edge insets, vertical
 
   static const EdgeInsets insetVXs = EdgeInsets.symmetric(vertical: xs);
   static const EdgeInsets insetVSm = EdgeInsets.symmetric(vertical: sm);
@@ -142,9 +126,7 @@ class AppSpacing {
   static const EdgeInsets insetVXxl = EdgeInsets.symmetric(vertical: xxl);
   static EdgeInsets insetVX(double x) => EdgeInsets.symmetric(vertical: x);
 
-  // ─────────────────────────────────────────────
-  // EDGE INSETS — combinaisons communes
-  // ─────────────────────────────────────────────
+  // Edge insets, combinaisons communes
 
   static const EdgeInsets screenPadding = EdgeInsets.symmetric(
     horizontal: md,
@@ -227,9 +209,7 @@ class AppSpacing {
     vertical: xs,
   );
 
-  // ─────────────────────────────────────────────
-  // GAPS (SizedBox)
-  // ─────────────────────────────────────────────
+  // Gaps (SizedBox)
 
   // Horizontaux
   static const Widget gapHXs = SizedBox(width: xs);
@@ -251,9 +231,7 @@ class AppSpacing {
   static const Widget gapVHuge = SizedBox(height: huge);
   static const Widget gapVMega = SizedBox(height: mega);
 
-  // ─────────────────────────────────────────────
-  // ICÔNES
-  // ─────────────────────────────────────────────
+  // Icônes
 
   static const double iconXs = 12.0;
   static const double iconSm = 16.0;
@@ -265,9 +243,7 @@ class AppSpacing {
   static const double iconXxxl = 64.0;
   static const double iconNav = 22.0;
 
-  // ─────────────────────────────────────────────
-  // AVATARS
-  // ─────────────────────────────────────────────
+  // Avatars
 
   static const double avatarXs = 24.0;
   static const double avatarSm = 32.0;
@@ -275,9 +251,7 @@ class AppSpacing {
   static const double avatarLg = 56.0;
   static const double avatarXl = 80.0;
 
-  // ─────────────────────────────────────────────
-  // COMPOSANTS
-  // ─────────────────────────────────────────────
+  // Composants
 
   static const double tapTargetMin = 48.0;
 
@@ -314,9 +288,7 @@ class AppSpacing {
   static const double sectionSpacing = xxl;
   static const double sectionSpacingLg = xxxl;
 
-  // ─────────────────────────────────────────────
-  // CONTRAINTES DE CONTENU
-  // ─────────────────────────────────────────────
+  // Contraintes de contenu
 
   static const double maxContentWidth = 1200.0;
   static const double maxFormWidth = 480.0;
@@ -332,9 +304,7 @@ class AppSpacing {
     maxWidth: maxContentWidth,
   );
 
-  // ─────────────────────────────────────────────
-  // ANIMATIONS — DURÉES
-  // ─────────────────────────────────────────────
+  // Animations, durées
 
   static const Duration durationFast = Duration(milliseconds: 200);
   static const Duration durationBase = Duration(milliseconds: 300);
@@ -345,18 +315,14 @@ class AppSpacing {
   static const Duration durationGigaSlow = Duration(milliseconds: 1200);
   static const Duration durationTeraSlow = Duration(milliseconds: 1400);
 
-  // ─────────────────────────────────────────────
-  // ANIMATIONS — COURBES
-  // ─────────────────────────────────────────────
+  // Animations, courbes
 
   static const Curve curveDefault = Curves.easeInOutCubic;
   static const Curve curveEnter = Curves.easeOutCubic;
   static const Curve curveExit = Curves.easeIn;
   static const Curve curveBounce = Curves.easeOutBack;
 
-  // ─────────────────────────────────────────────
-  // ÉLÉVATIONS / OMBRES
-  // ─────────────────────────────────────────────
+  // Élévations / ombres
 
   static const double elevationNone = 0.0;
   static const double elevationXs = 1.0;

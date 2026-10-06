@@ -112,6 +112,10 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
         statusBarBrightness: Brightness.light,
       ),
       child: Scaffold(
+        // Le fond couvre tout l'écran même quand le système annonce un
+        // clavier (sinon bande vide en bas) ; seul le contenu remonte.
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.black,
         body: Stack(
           fit: StackFit.expand,
           children: [
@@ -130,91 +134,96 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
               );
             }),
             SafeArea(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: AppSpacing.insetHMd,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Semantics(
-                          label: l10n.onboardingProgressLabel(
-                            _current + 1,
-                            _slideCount,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.viewInsetsOf(context).bottom,
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: AppSpacing.insetHMd,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Semantics(
+                            label: l10n.onboardingProgressLabel(
+                              _current + 1,
+                              _slideCount,
+                            ),
+                            excludeSemantics: true,
+                            child: Row(
+                              mainAxisSize: .min,
+                              children: List.generate(_slideCount, (i) {
+                                final isActive = i == _current;
+                                return AnimatedContainer(
+                                  duration: AppSpacing.durationBase,
+                                  curve: AppSpacing.curveDefault,
+                                  width: isActive
+                                      ? AppSpacing.xl
+                                      : AppSpacing.sm + 2,
+                                  height: AppSpacing.sm + 2,
+                                  margin: const EdgeInsets.symmetric(
+                                    horizontal: AppSpacing.xs / 2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: isActive
+                                        ? context.colorScheme.secondary
+                                        : context.colorScheme.secondary
+                                              .withAlpha(100),
+                                    borderRadius: AppSpacing.roundedFull,
+                                  ),
+                                );
+                              }),
+                            ),
                           ),
-                          excludeSemantics: true,
-                          child: Row(
-                            mainAxisSize: .min,
-                            children: List.generate(_slideCount, (i) {
-                              final isActive = i == _current;
-                              return AnimatedContainer(
-                                duration: AppSpacing.durationBase,
-                                curve: AppSpacing.curveDefault,
-                                width: isActive
-                                    ? AppSpacing.xl
-                                    : AppSpacing.sm + 2,
-                                height: AppSpacing.sm + 2,
-                                margin: const EdgeInsets.symmetric(
-                                  horizontal: AppSpacing.xs / 2,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: isActive
-                                      ? context.colorScheme.secondary
-                                      : context.colorScheme.
-                                  secondary.withAlpha(100),
-                                  borderRadius: AppSpacing.roundedFull,
-                                ),
-                              );
-                            }),
-                          ),
-                        ),
-                        AnimatedOpacity(
-                          opacity: _isLast ? 0.0 : 1.0,
-                          duration: AppSpacing.durationBase,
-                          curve: AppSpacing.curveDefault,
-                          child: IgnorePointer(
-                            ignoring: _isLast,
-                            child: TextButton(
-                              onPressed: _finish,
-                              child: Text(
-                                l10n.onboardingSkip,
-                                semanticsLabel: l10n.onboardingSkipTooltip,
-                                style: textTheme.titleSmall!.copyWith(
-                                  color: AppColors.textInverse,
+                          AnimatedOpacity(
+                            opacity: _isLast ? 0.0 : 1.0,
+                            duration: AppSpacing.durationBase,
+                            curve: AppSpacing.curveDefault,
+                            child: IgnorePointer(
+                              ignoring: _isLast,
+                              child: TextButton(
+                                onPressed: _finish,
+                                child: Text(
+                                  l10n.onboardingSkip,
+                                  semanticsLabel: l10n.onboardingSkipTooltip,
+                                  style: textTheme.titleSmall!.copyWith(
+                                    color: AppColors.textInverse,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
 
-                  // Slides
-                  Expanded(
-                    child: PageView(
-                      controller: _pageViewController,
-                      onPageChanged: (v) => setState(() => _current = v),
-                      children: [
-                        _OnboardingSlide(
-                          title: l10n.onboardingTitle1,
-                          description: l10n.onboardingDescription1,
-                        ),
-                        _OnboardingSlide(
-                          title: l10n.onboardingTitle2,
-                          description: l10n.onboardingDescription2,
-                        ),
-                        _OnboardingSlide(
-                          title: l10n.onboardingTitle3,
-                          description: l10n.onboardingDescription3,
-                        ),
-                      ],
+                    // Slides
+                    Expanded(
+                      child: PageView(
+                        controller: _pageViewController,
+                        onPageChanged: (v) => setState(() => _current = v),
+                        children: [
+                          _OnboardingSlide(
+                            title: l10n.onboardingTitle1,
+                            description: l10n.onboardingDescription1,
+                          ),
+                          _OnboardingSlide(
+                            title: l10n.onboardingTitle2,
+                            description: l10n.onboardingDescription2,
+                          ),
+                          _OnboardingSlide(
+                            title: l10n.onboardingTitle3,
+                            description: l10n.onboardingDescription3,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
 
-                  // Bouton CTA
-                  _ButtonSection(isLast: _isLast, onNext: _next),
-                ],
+                    // Bouton CTA
+                    _ButtonSection(isLast: _isLast, onNext: _next),
+                  ],
+                ),
               ),
             ),
           ],
@@ -239,14 +248,9 @@ class _ButtonSection extends StatelessWidget {
           : l10n.onboardingNextTooltip,
       child: AppElevatedButton(
         onPressed: onNext,
-        text: _isLast
-            ? l10n.onboardingGetStarted
-            : l10n.commonNext,
+        text: _isLast ? l10n.onboardingGetStarted : l10n.commonNext,
         margin: AppSpacing.insetVMd,
-        icon: const Icon(
-          LucideIcons.arrowRight,
-          size: AppSpacing.iconLg,
-        ),
+        icon: const Icon(LucideIcons.arrowRight, size: AppSpacing.iconLg),
         iconAlignment: .end,
       ),
     );
