@@ -147,7 +147,7 @@ class NotificationService {
     return await androidPlugin.canScheduleExactNotifications() ?? false;
   }
 
-  // ─── Show ──────────────────────────────────────────────────────────────────
+  // Affichage immédiat
 
   Future<void> show({
     required int id,
@@ -181,7 +181,7 @@ class NotificationService {
     );
   }
 
-  // ─── Schedule ──────────────────────────────────────────────────────────────
+  // Notifications programmées
 
   /// Planifie une notification à [scheduledDate] dans le fuseau horaire local.
   /// Utilise zonedSchedule() pour respecter les changements d'heure (DST).
@@ -235,7 +235,7 @@ class NotificationService {
     );
   }
 
-  // ─── Cancel ────────────────────────────────────────────────────────────────
+  // Annulation
 
   Future<void> cancel(int id) => _plugin.cancel(id: id);
 

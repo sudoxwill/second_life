@@ -8,6 +8,17 @@ import "../../features/auth/presentation/providers/auth_provider.dart";
 import "../../features/home/presentation/pages/agent_dashboard_page.dart";
 import "../../features/home/presentation/pages/home_page.dart";
 import "../../features/onboarding/presentation/pages/index.dart";
+import "../../features/ticket_validation/presentation/pages/agent_dashboard_page.dart";
+import "../../features/ticket_validation/presentation/pages/agent_history_page.dart";
+import "../../features/ticket_validation/presentation/pages/agent_profile_page.dart";
+import "../../features/ticket_validation/presentation/pages/agent_scanner_page.dart";
+import "../../features/ticket_validation/presentation/pages/pending_deposits_page.dart";
+import "../../features/ticket_validation/presentation/widgets/relay_agent_builder.dart";
+import "../../features/waste_analysis/presentation/pages/citizen_history_page.dart";
+import "../../features/waste_analysis/presentation/pages/citizen_home_page.dart";
+import "../../features/waste_analysis/presentation/pages/citizen_profile_page.dart";
+import "../../features/waste_analysis/presentation/pages/relay_map_page.dart";
+import "../../features/waste_analysis/presentation/pages/waste_scan_page.dart";
 import "../../features/profile/presentation/pages/index.dart";
 import "../../shared/presentation/agent_shell.dart";
 import "../../shared/presentation/app_shell.dart";
@@ -113,7 +124,17 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // ─── Shell User — 4 onglets ──────────────
+      // Scan du QR de dépôt (agent)
+      GoRoute(
+        path: AppRoutes.agentScan,
+        pageBuilder: (context, state) => AppTransitions.fade(
+          context: context,
+          state: state,
+          child: const AgentScannerPage(),
+        ),
+      ),
+
+      // Espace usager, 4 onglets
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             UserShell(navigationShell: navigationShell),
@@ -161,7 +182,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const UserProfilePage(),
+                  child: const CitizenProfilePage(),
                 ),
               ),
             ],
@@ -169,7 +190,7 @@ GoRouter appRouter(Ref ref) {
         ],
       ),
 
-      // ─── Shell Agent — 4 onglets ─────────────
+      // Espace agent, 4 onglets
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             AgentShell(navigationShell: navigationShell),
@@ -221,7 +242,9 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const AgentProfilePage(),
+                  child: RelayAgentBuilder(
+                    builder: (context, agent) => AgentProfilePage(agent: agent),
+                  ),
                 ),
               ),
             ],
@@ -229,7 +252,7 @@ GoRouter appRouter(Ref ref) {
         ],
       ),
 
-      // ─── Detailed screens ────────────────────
+      // Écrans de détail
       GoRoute(
         path: AppRoutes.placeDetail,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -243,7 +266,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // ─── Settings ──────────────────────────────
+      // Paramètres
       GoRoute(
         path: AppRoutes.settings,
         pageBuilder: (context, state) => AppTransitions.fade(

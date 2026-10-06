@@ -185,7 +185,7 @@ class _SkeletonLoaderState extends State<SkeletonLoader>
     super.initState();
     _controller = AnimationController(vsync: this, duration: widget.period)
       ..repeat();
-    // value range: -1 -> 2 (so gradient runs fully across)
+    // De -1 à 2 pour que le dégradé traverse tout le bloc.
     _animation = Tween<double>(
       begin: -1.0,
       end: 2.0,
@@ -296,7 +296,7 @@ class Skeleton extends StatelessWidget {
     );
 
     if (animation == null) {
-      // Pas d'animation fournie -> rendre un simple placeholder statique
+      // Sans animation, on affiche simplement un bloc fixe.
       return box;
     }
 
@@ -324,7 +324,8 @@ class Skeleton extends StatelessWidget {
               // We compute a rect that starts at offset depending on animValue
               final dx = (bounds.width) * animValue;
               final dy = (bounds.height) * animValue;
-              // Choose translation by major axis (horizontal for ltr/rtl, vertical for ttb/btt)
+              // Le reflet glisse à l'horizontale (ltr/rtl) ou à la
+              // verticale (ttb/btt).
               Rect shaderRect;
               if (direction == SkeletonDirection.ltr ||
                   direction == SkeletonDirection.rtl) {
@@ -363,7 +364,7 @@ class SkeletonText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultWidths = List<double>.generate(lines, (i) {
-      // make last line shorter
+      // Dernière ligne plus courte, comme un vrai paragraphe.
       if (i == lines - 1) return 0.6;
       if (lines == 1) return 0.9;
       return 0.9 - (i * 0.08);
@@ -1093,7 +1094,7 @@ class SkeletonChart extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Bar (rendered as a Skeleton with the computed height)
+                // Barre : un Skeleton à la hauteur calculée.
                 Skeleton(width: barWidth, height: height * barHeightFactor),
                 if (barCount <= 7) ...[
                   const SizedBox(height: AppSpacing.xs),

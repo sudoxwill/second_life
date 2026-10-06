@@ -22,26 +22,26 @@ extension NavigationExtensions on BuildContext {
   void goAuthResetPassword() => go(AppRoutes.authResetPassword);
   void pushAuthResetPassword() => push(AppRoutes.authResetPassword);
 
-  // ─── UserShell ─────────────────────────────
+  // Espace usager
 
   void goHome() => go(AppRoutes.home);
   void goPlaces() => go(AppRoutes.places);
   void goHistory() => go(AppRoutes.history);
   void goProfile() => go(AppRoutes.profile);
 
-  // ─── AgentShell ─────────────────────────────
+  // Espace agent
 
   void goAgentHome()     => go(AppRoutes.agentHome);
   void goAgentDeposits() => go(AppRoutes.agentDeposits);
   void goAgentHistory()  => go(AppRoutes.agentHistory);
   void goAgentProfile()  => go(AppRoutes.agentProfile);
 
-  // ─── Places Details ──────────────────────────────
+  // Détail d'un lieu
 
   void goPlaceDetail(String id) => go(AppRoutes.placeDetailPath(id));
   void pushPlaceDetail(String id) => push(AppRoutes.placeDetailPath(id));
 
-  // ─── History Details ──────────────────────────────
+  // Détail d'un dépôt
 
   void goHistoryDetail(String id) => go(AppRoutes.historyDetailPath(id));
   void pushHistoryDetail(String id) => push(AppRoutes.historyDetailPath(id));
@@ -51,12 +51,12 @@ extension NavigationExtensions on BuildContext {
   void goScan() => go(AppRoutes.scan);
   void pushScan() => push(AppRoutes.scan);
 
-  // ─── Settings ─────────────────────────────
+  // Paramètres
 
   void goTrash() => go(AppRoutes.settings);
   void pushTrash() => push(AppRoutes.settings);
 
-  // ─── Back ───────────────────────────────
+  // Retour
 
   void popScreen<T extends Object?>([T? result]) {
     if (canPop()) pop<T>(result);

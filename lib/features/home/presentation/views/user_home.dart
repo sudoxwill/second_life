@@ -22,7 +22,7 @@ class UserHome extends StatelessWidget {
     return Column(
       spacing: AppSpacing.lg,
       children: [
-        /// Main Card
+        // Carte principale
         Card(
           shape: const RoundedRectangleBorder(
             borderRadius: AppSpacing.roundedLg,
@@ -114,7 +114,7 @@ class UserHome extends StatelessWidget {
           ),
         ),
 
-        /// Waiting deposit
+        // Dépôt en attente
         Column(
           children: [
             Row(

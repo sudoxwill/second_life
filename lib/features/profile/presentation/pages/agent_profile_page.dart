@@ -35,7 +35,7 @@ class AgentProfilePage extends StatelessWidget {
       body: Column(
         spacing: AppSpacing.lg,
         children: [
-          // ── Profile Card ──────────────────────────
+          // Carte de profil
           Card(
             margin: EdgeInsets.zero,
             shape: const RoundedRectangleBorder(
@@ -114,7 +114,7 @@ class AgentProfilePage extends StatelessWidget {
             ),
           ),
 
-          // ── Centre de dépôts ──────────────────────
+          // Centre de dépôts
           Card(
             margin: EdgeInsets.zero,
             child: Padding(

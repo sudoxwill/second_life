@@ -6,15 +6,11 @@ import "app_colors.dart";
 class AppSpacing {
   AppSpacing._();
 
-  // ─────────────────────────────────────────────
-  // BASE UNIT
-  // ─────────────────────────────────────────────
+  // Unité de base
 
   static const double unit = 4.0;
 
-  // ─────────────────────────────────────────────
-  // SPACING SCALE
-  // ─────────────────────────────────────────────
+  // Échelle des espacements
 
   static const double xs = unit * 1;
   static const double sm = unit * 2;
@@ -36,18 +32,14 @@ class AppSpacing {
 
   static const double sectionLabelGap = sm;
 
-  // ─────────────────────────────────────────────
-  // BORDER WIDTH
-  // ─────────────────────────────────────────────
+  // Épaisseur des bordures
 
   static const double borderWidthThin = 0.5;
   static const double borderWidthBase = 1.0;
   static const double borderWidthMedium = 1.5;
   static const double borderWidthThick = 2.0;
 
-  // ─────────────────────────────────────────────
-  // BORDER RADIUS — doubles
-  // ─────────────────────────────────────────────
+  // Arrondis, en double
 
   static const double radiusXs = 4.0;
   static const double radiusSm = 8.0;
@@ -58,9 +50,7 @@ class AppSpacing {
   static const double radiusXxxl = 30.0;
   static const double radiusFull = 999.0;
 
-  // ─────────────────────────────────────────────
-  // BORDER RADIUS — objets prêts à l'emploi
-  // ─────────────────────────────────────────────
+  // Arrondis prêts à l'emploi
 
   static const BorderRadius roundedXs = BorderRadius.all(
     Radius.circular(radiusXs),
@@ -104,9 +94,7 @@ class AppSpacing {
     bottomRight: Radius.circular(radiusXl),
   );
 
-  // ─────────────────────────────────────────────
-  // EDGE INSETS — all sides
-  // ─────────────────────────────────────────────
+  // Marges, tous les côtés
 
   static const EdgeInsets insetZero = EdgeInsets.zero;
   static const EdgeInsets insetXs = EdgeInsets.all(xs);
@@ -118,9 +106,7 @@ class AppSpacing {
   static const EdgeInsets insetXxxl = EdgeInsets.all(xxxl);
   static EdgeInsets insetX(double x) => EdgeInsets.all(x);
 
-  // ─────────────────────────────────────────────
-  // EDGE INSETS — horizontal
-  // ─────────────────────────────────────────────
+  // Marges horizontales
 
   static const EdgeInsets insetHXs = EdgeInsets.symmetric(horizontal: xs);
   static const EdgeInsets insetHSm = EdgeInsets.symmetric(horizontal: sm);
@@ -130,9 +116,7 @@ class AppSpacing {
   static const EdgeInsets insetHXxl = EdgeInsets.symmetric(horizontal: xxl);
   static EdgeInsets insetHX(double x) => EdgeInsets.symmetric(horizontal: x);
 
-  // ─────────────────────────────────────────────
-  // EDGE INSETS — vertical
-  // ─────────────────────────────────────────────
+  // Marges verticales
 
   static const EdgeInsets insetVXs = EdgeInsets.symmetric(vertical: xs);
   static const EdgeInsets insetVSm = EdgeInsets.symmetric(vertical: sm);
@@ -142,9 +126,7 @@ class AppSpacing {
   static const EdgeInsets insetVXxl = EdgeInsets.symmetric(vertical: xxl);
   static EdgeInsets insetVX(double x) => EdgeInsets.symmetric(vertical: x);
 
-  // ─────────────────────────────────────────────
-  // EDGE INSETS — combinaisons communes
-  // ─────────────────────────────────────────────
+  // Marges, combinaisons courantes
 
   static const EdgeInsets screenPadding = EdgeInsets.symmetric(
     horizontal: md,
@@ -227,9 +209,7 @@ class AppSpacing {
     vertical: xs,
   );
 
-  // ─────────────────────────────────────────────
-  // GAPS (SizedBox)
-  // ─────────────────────────────────────────────
+  // Espaces entre widgets (SizedBox)
 
   // Horizontaux
   static const Widget gapHXs = SizedBox(width: xs);
@@ -295,18 +275,18 @@ class AppSpacing {
   // Chip
   static const double chipHeight = 36.0;
 
-  // App bar
+  // Barre du haut
   static const double appBarHeight = 56.0;
   static const double toolbarHeight = 56.0;
 
-  // Bottom navigation
+  // Barre du bas
   static const double bottomNavHeight = 72.0;
   static const double bottomNavIconSize = iconLg;
 
-  // FAB
+  // Bouton flottant
   static const double fabSize = 56.0;
 
-  // Divider
+  // Séparateur
   static const double dividerThickness = 1.0;
   static const double dividerIndent = sm;
 

@@ -18,9 +18,7 @@ class AppTextStyles {
   static const double _dyslexicWordSpacing = 1.5;
   static const double _dyslexicLargeTextScale = 0.85;
 
-  // ─────────────────────────────────────────────
-  // ÉCHELLE DE TYPE
-  // ─────────────────────────────────────────────
+  // Échelle des tailles
 
   static const TextStyle display = TextStyle(
     fontFamily: fontFamilyDisplay,
@@ -103,9 +101,7 @@ class AppTextStyles {
     height: 1.38,
   );
 
-  // ─────────────────────────────────────────────
-  // LIGHT MODE — Text theme
-  // ─────────────────────────────────────────────
+  // Textes, mode clair
 
   static const TextTheme lightTextTheme = TextTheme(
     displayLarge: TextStyle(
@@ -231,9 +227,7 @@ class AppTextStyles {
     ),
   );
 
-  // ─────────────────────────────────────────────
-  // DARK MODE — Text theme
-  // ─────────────────────────────────────────────
+  // Textes, mode sombre
 
   static const TextTheme darkTextTheme = TextTheme(
     displayLarge: TextStyle(
@@ -359,9 +353,7 @@ class AppTextStyles {
     ),
   );
 
-  // ─────────────────────────────────────────────
-  // STYLES STANDALONE
-  // ─────────────────────────────────────────────
+  // Styles à utiliser directement
 
   static const TextStyle buttonText = TextStyle(
     fontFamily: fontFamily,

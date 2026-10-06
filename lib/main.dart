@@ -30,6 +30,12 @@ void main() async {
 
   Log.i("Starting application in ${AppConfig.instance.appName} mode...");
 
+  // Firebase passe en premier : Auth et Firestore en ont besoin dès le départ.
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  Log.i("Firebase initialisé");
+
+  // Sans le fuseau horaire local, les notifications programmées partiraient
+  // à la mauvaise heure.
   // SharedPreferences doit être initialisé avant runApp
   final prefs = await SharedPreferences.getInstance();
   Log.i("SharedPreferences initialisé");
@@ -48,6 +54,12 @@ void main() async {
 
   runApp(
     ProviderScope(
+      // Nos Failure sont des réponses métier (par exemple un usager qui n'est
+      // pas agent relais), pas des pannes passagères : inutile de réessayer,
+      // l'UI doit les afficher tout de suite. Sinon Riverpod insiste ~40 s.
+      retry: (retryCount, error) => error is Failure
+          ? null
+          : ProviderContainer.defaultRetry(retryCount, error),
       overrides: [
         sharedPreferencesProvider.overrideWithValue(prefs),
         flutterLocalNotificationsPluginProvider.overrideWithValue(

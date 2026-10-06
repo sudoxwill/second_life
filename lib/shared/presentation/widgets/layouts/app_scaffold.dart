@@ -112,9 +112,9 @@ class AppScaffold extends ConsumerWidget {
                   Directionality.of(context),
                 );
 
-                // The SafeArea already handled the system insets, so we only
-                // apply the caller's decorative padding here. Behind a bottom
-                // bar (extendBody) we drop the bottom padding.
+                // La SafeArea gère déjà les barres système : on n'ajoute que
+                // la marge voulue par l'appelant. Sous une barre du bas
+                // (extendBody), on retire la marge du bas.
                 final effectivePadding = extendBody
                     ? resolvedPadding.copyWith(bottom: 0)
                     : resolvedPadding;
@@ -122,17 +122,14 @@ class AppScaffold extends ConsumerWidget {
                 Widget content;
 
                 if (isScrollable) {
-                  // ─── Scrollable ──────────────────────────────────────────
-                  // AlwaysScrollablePhysics lets the RefreshIndicator trigger
-                  // even when the content is shorter than the viewport.
+                  // AlwaysScrollable : le rafraîchissement reste possible
+                  // même quand le contenu est plus court que l'écran.
                   content = SingleChildScrollView(
                     physics: onRefresh != null
                         ? const AlwaysScrollableScrollPhysics()
                         : null,
                     reverse: scrollReverse,
                     child: Padding(
-                      // The scroll view already gives full width; no need to
-                      // force `size.width`.
                       padding: effectivePadding,
                       child: body,
                     ),

@@ -19,7 +19,7 @@ class ProfileSettingsSection extends ConsumerStatefulWidget {
 
 class _ProfileSettingsSectionState
     extends ConsumerState<ProfileSettingsSection> {
-  /// Noms des langues dans leur propre langue (endonymes) — jamais traduits.
+  /// Chaque langue est écrite dans sa propre langue, on ne la traduit pas.
   static const Map<String, String> _languageNames = {
     "fr": "Français",
     "en": "English",
