@@ -19,7 +19,6 @@ class MainApp extends ConsumerStatefulWidget {
 }
 
 class _MainAppState extends ConsumerState<MainApp> {
-
   @override
   void initState() {
     super.initState();
@@ -47,8 +46,8 @@ class _MainAppState extends ConsumerState<MainApp> {
     );
   }
 
-  // Gère le tap sur notification quand l'app était terminée.
-  // Les cas foreground/background sont gérés par _onNotificationTap dans main.dart.
+  // L'app a été ouverte depuis une notification alors qu'elle était fermée.
+  // Les autres cas passent par _onNotificationTap dans main.dart.
   Future<void> _handleLaunchFromNotification() async {
     final plugin = ref.read(flutterLocalNotificationsPluginProvider);
     final details = await plugin.getNotificationAppLaunchDetails();
@@ -64,7 +63,7 @@ class _MainAppState extends ConsumerState<MainApp> {
         "App lancée depuis notification, route: ${payload.route}",
         tag: "App",
       );
-      // addPostFrameCallback : GoRouter doit être monté avant de naviguer
+      // On attend la première frame, GoRouter doit être monté pour naviguer.
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
           AppNavigatorKey.instance.currentState?.context.go(payload.route);

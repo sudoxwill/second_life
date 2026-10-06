@@ -7,10 +7,9 @@ import "package:timezone/timezone.dart" as tz;
 import "../../../core/configs/logger.dart";
 import "../../../core/constants/notification_channels.dart";
 
-// Doit être top-level + @pragma pour survivre au tree-shaking en release build.
-// Appelé quand l'app est TERMINÉE et que l'utilisateur tappe une notification.
-// La navigation est prise en charge par App.initState()
-// via getNotificationAppLaunchDetails().
+// Top-level avec @pragma, sinon la fonction disparaît du build release.
+// Appelée quand l'app était fermée. La navigation se fait ensuite dans
+// App.initState() avec getNotificationAppLaunchDetails().
 @pragma("vm:entry-point")
 void _backgroundTapHandler(NotificationResponse response) {}
 
@@ -36,8 +35,7 @@ class NotificationService {
 
   final FlutterLocalNotificationsPlugin _plugin;
 
-  /// Crée et initialise le plugin. À appeler dans main() avant runApp().
-  /// Retourne le plugin initialisé pour l'injecter dans le ProviderScope.
+  /// À appeler dans main() avant runApp().
   static Future<FlutterLocalNotificationsPlugin> createAndInit({
     required void Function(NotificationResponse) onTap,
   }) async {
@@ -46,8 +44,8 @@ class NotificationService {
     const androidSettings =
         AndroidInitializationSettings("notification_icon");
 
-    // Les permissions iOS sont demandées explicitement via requestPermission()
-    // au bon moment UX — PAS au démarrage de l'app.
+    // Sur iOS on demande la permission plus tard avec requestPermission(),
+    // pas au démarrage.
     const iosSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
@@ -106,11 +104,9 @@ class NotificationService {
     );
   }
 
-  // ─── Permissions ───────────────────────────────────────────────────────────
+  // Permissions
 
-  /// Demande la permission de notifications.
-  /// Android < 13 : retourne true (permission implicite).
-  /// iOS : affiche le dialog système si pas encore décidé.
+  /// Toujours true sur Android < 13, la permission y est implicite.
   Future<bool> requestPermission() async {
     if (defaultTargetPlatform == TargetPlatform.android) {
       final androidPlugin = _plugin.resolvePlatformSpecificImplementation<
@@ -137,8 +133,7 @@ class NotificationService {
     return false;
   }
 
-  /// Android 12+ uniquement : vérifie si les alarmes exactes sont autorisées.
-  /// Sur iOS et Android < 12 : retourne toujours true.
+  /// Ne concerne qu'Android 12+, renvoie true ailleurs.
   Future<bool> canScheduleExact() async {
     if (defaultTargetPlatform != TargetPlatform.android) return true;
     final androidPlugin = _plugin.resolvePlatformSpecificImplementation<
@@ -147,7 +142,7 @@ class NotificationService {
     return await androidPlugin.canScheduleExactNotifications() ?? false;
   }
 
-  // ─── Show ──────────────────────────────────────────────────────────────────
+  // Show
 
   Future<void> show({
     required int id,
@@ -181,11 +176,10 @@ class NotificationService {
     );
   }
 
-  // ─── Schedule ──────────────────────────────────────────────────────────────
+  // Schedule
 
-  /// Planifie une notification à [scheduledDate] dans le fuseau horaire local.
-  /// Utilise zonedSchedule() pour respecter les changements d'heure (DST).
-  /// Si les alarmes exactes ne sont pas autorisées, bascule en mode inexact.
+  /// zonedSchedule gère les changements d'heure. Sans droit aux alarmes
+  /// exactes, la notification passe en mode inexact.
   Future<void> schedule({
     required int id,
     required String title,
@@ -235,7 +229,7 @@ class NotificationService {
     );
   }
 
-  // ─── Cancel ────────────────────────────────────────────────────────────────
+  // Cancel
 
   Future<void> cancel(int id) => _plugin.cancel(id: id);
 
@@ -244,7 +238,7 @@ class NotificationService {
   Future<List<PendingNotificationRequest>> pendingNotifications() =>
       _plugin.pendingNotificationRequests();
 
-  // ─── Helpers privés ────────────────────────────────────────────────────────
+  // Helpers privés
 
   static String _channelNameFor(String channelId) {
     switch (channelId) {

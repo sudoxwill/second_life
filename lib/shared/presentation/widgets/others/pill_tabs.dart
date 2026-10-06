@@ -6,7 +6,7 @@ class PillTab {
   const PillTab(this.label, {this.icon, this.badge});
   final String label;
   final IconData? icon;
-  // Pastille orange à côté du libellé (ex. nombre en attente).
+  // Pastille à côté du libellé (ex. nombre en attente).
   final int? badge;
 }
 

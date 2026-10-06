@@ -19,7 +19,6 @@ import "app_transitions.dart";
 
 part "app_router.g.dart";
 
-/// GoRouter global de SecondLife.
 @riverpod
 GoRouter appRouter(Ref ref) {
   return GoRouter(
@@ -31,7 +30,7 @@ GoRouter appRouter(Ref ref) {
       final loc = state.matchedLocation;
 
       if (role == AppRole.agent) {
-        // Agent ne doit pas atterrir dans le shell user
+        // Un agent n'a rien à faire dans l'espace usager
         if (loc == AppRoutes.home ||
             loc == AppRoutes.places ||
             loc == AppRoutes.history ||
@@ -39,7 +38,7 @@ GoRouter appRouter(Ref ref) {
           return AppRoutes.agentHome;
         }
       } else if (role == AppRole.user) {
-        // User ne doit pas atterrir dans le shell agent
+        // et inversement
         if (loc.startsWith("/agent")) {
           return AppRoutes.home;
         }
@@ -48,7 +47,7 @@ GoRouter appRouter(Ref ref) {
     },
     errorBuilder: (context, state) => const _RouterErrorPage(),
     routes: [
-      // ─── Splash ───────────────────────────
+      // Splash
       GoRoute(
         path: AppRoutes.root,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -58,7 +57,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // ─── Onboarding ───────────────────────────
+      // Onboarding
       GoRoute(
         path: AppRoutes.onboarding,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -68,7 +67,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // ─── Authentification ────────────────────
+      // Authentification
       GoRoute(
         path: AppRoutes.authLogin,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -102,7 +101,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // ─── Scan ───────────────────────────
+      // Scan
       GoRoute(
         path: AppRoutes.scan,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -112,7 +111,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // ─── Shell User — 4 onglets ──────────────
+      // Shell User, 4 onglets
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             UserShell(navigationShell: navigationShell),
@@ -168,7 +167,7 @@ GoRouter appRouter(Ref ref) {
         ],
       ),
 
-      // ─── Shell Agent — 4 onglets ─────────────
+      // Shell Agent, 4 onglets
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             AgentShell(navigationShell: navigationShell),
@@ -230,7 +229,7 @@ GoRouter appRouter(Ref ref) {
         ],
       ),
 
-      // ─── Detailed screens ────────────────────
+      // Detailed screens
       GoRoute(
         path: AppRoutes.placeDetail,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -244,7 +243,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // ─── Settings ──────────────────────────────
+      // Settings
       GoRoute(
         path: AppRoutes.settings,
         pageBuilder: (context, state) => AppTransitions.fade(

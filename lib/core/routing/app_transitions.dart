@@ -3,22 +3,12 @@ import "package:go_router/go_router.dart";
 
 import "../theme/app_spacing.dart";
 
-/// Transitions d'écran Dogbale.
-///
-/// Les durées sont alignées sur les tokens
-/// - `quick` 200ms — apparition d'élément, changement d'onglet
-/// - `standard` 300ms — transition d'écran, bottom sheet
-/// - `slow` 450ms — transformation d'élément
-///
-/// Aucune animation ne dépasse 450ms.
 class AppTransitions {
   AppTransitions._();
 
-  // ─────────────────────────────────────────────
-  // TRANSITIONS PUBLIQUES
-  // ─────────────────────────────────────────────
+  // Transitions publiques
 
-  /// Fade simple — changement d'onglet, splash.
+  /// Changement d'onglet, splash.
   static CustomTransitionPage<T> fade<T>({
     required BuildContext context,
     required GoRouterState state,
@@ -37,7 +27,6 @@ class AppTransitions {
     );
   }
 
-  /// Slide depuis une direction.
   static CustomTransitionPage<T> slide<T>({
     required BuildContext context,
     required GoRouterState state,
@@ -62,7 +51,7 @@ class AppTransitions {
     );
   }
 
-  /// Fade + glissement vertical subtil — pages de contenu.
+  /// Pages de contenu.
   static CustomTransitionPage<T> fadeSlide<T>({
     required BuildContext context,
     required GoRouterState state,
@@ -93,7 +82,7 @@ class AppTransitions {
     );
   }
 
-  /// Fade + scale — modals, pages de détail.
+  /// Modales et pages de détail.
   static CustomTransitionPage<T> fadeScale<T>({
     required BuildContext context,
     required GoRouterState state,
@@ -121,7 +110,7 @@ class AppTransitions {
     );
   }
 
-  /// Scale seul — popups, overlays.
+  /// Popups.
   static CustomTransitionPage<T> scale<T>({
     required BuildContext context,
     required GoRouterState state,
@@ -146,10 +135,8 @@ class AppTransitions {
     );
   }
 
-  /// Transition d'écran poussé (spec §11.3) — glissement depuis la droite en
-  /// 300ms, l'écran sortant recule de 8% en échelle et perd 30% d'opacité.
-  ///
-  /// À utiliser pour les navigations `push` vers un écran détail, éditeur, etc.
+  /// Pour un push vers un détail ou un éditeur : le nouvel écran arrive par la
+  /// droite et l'ancien recule un peu.
   static CustomTransitionPage<T> pushedScreen<T>({
     required BuildContext context,
     required GoRouterState state,
@@ -167,13 +154,11 @@ class AppTransitions {
         final curvedIn = _curved(animation, curve);
         final curvedOut = _curved(secondaryAnimation, curve);
 
-        // Écran entrant : glissement depuis la droite
         final slideIn = Tween<Offset>(
           begin: const Offset(1.0, 0.0),
           end: Offset.zero,
         ).animate(curvedIn);
 
-        // Écran sortant : recule de 8% + perd 30% d'opacité
         final scaleOut = Tween<double>(
           begin: 1.0,
           end: 0.92,
@@ -191,7 +176,6 @@ class AppTransitions {
     );
   }
 
-  /// Aucune transition — affichage instantané.
   static CustomTransitionPage<T> none<T>({
     required BuildContext context,
     required GoRouterState state,
@@ -205,9 +189,7 @@ class AppTransitions {
     );
   }
 
-  // ─────────────────────────────────────────────
-  // HELPERS
-  // ─────────────────────────────────────────────
+  // Helpers
 
   static CustomTransitionPage<T> _page<T>({
     required GoRouterState state,

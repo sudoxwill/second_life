@@ -1,4 +1,3 @@
-// Mise en forme des valeurs affichées.
 abstract final class Formatters {
   static const _months = [
     "janv.",

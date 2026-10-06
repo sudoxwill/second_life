@@ -5,8 +5,8 @@ import "package:flutter/material.dart"
 
 import "app_colors.dart";
 
-/// Typographie SecondLife : Bricolage Grotesque (titres, montants), Figtree
-/// (texte) et OpenDyslexic (mode dyslexie activable dans les paramètres).
+/// Bricolage Grotesque pour les titres et les montants, Figtree pour le
+/// texte, OpenDyslexic quand le mode dyslexie est activé.
 class AppTextStyles {
   const AppTextStyles._();
 
@@ -19,9 +19,7 @@ class AppTextStyles {
   static const double _dyslexicWordSpacing = 1.5;
   static const double _dyslexicLargeTextScale = 0.85;
 
-  // ─────────────────────────────────────────────
-  // ÉCHELLE DE TYPE
-  // ─────────────────────────────────────────────
+  // Échelle de type
 
   static const TextStyle display = TextStyle(
     fontFamily: fontFamilyDisplay,
@@ -48,7 +46,7 @@ class AppTextStyles {
     height: 1.23,
   );
 
-  /// Titre en police display à une taille libre (en-têtes de page, montants).
+  /// Titre à la taille voulue (en-têtes, montants).
   static TextStyle heading(double size, {Color? color}) => TextStyle(
     fontFamily: fontFamilyDisplay,
     fontSize: size,
@@ -113,9 +111,7 @@ class AppTextStyles {
     height: 1.38,
   );
 
-  // ─────────────────────────────────────────────
-  // LIGHT MODE — Text theme
-  // ─────────────────────────────────────────────
+  // Light mode, text theme
 
   static const TextTheme lightTextTheme = TextTheme(
     displayLarge: TextStyle(
@@ -241,9 +237,7 @@ class AppTextStyles {
     ),
   );
 
-  // ─────────────────────────────────────────────
-  // DARK MODE — Text theme
-  // ─────────────────────────────────────────────
+  // Dark mode, text theme
 
   static const TextTheme darkTextTheme = TextTheme(
     displayLarge: TextStyle(
@@ -369,9 +363,7 @@ class AppTextStyles {
     ),
   );
 
-  // ─────────────────────────────────────────────
-  // STYLES STANDALONE
-  // ─────────────────────────────────────────────
+  // Styles standalone
 
   static const TextStyle buttonText = TextStyle(
     fontFamily: fontFamily,
@@ -405,9 +397,7 @@ class AppTextStyles {
     height: 1.37,
   );
 
-  // ─────────────────────────────────────────────
-  // MODE DYSLEXIE
-  // ─────────────────────────────────────────────
+  // Mode dyslexie
 
   static TextStyle toDyslexic(TextStyle style) {
     final fontSize = style.fontSize ?? 16;

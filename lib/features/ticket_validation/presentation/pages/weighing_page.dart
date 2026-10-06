@@ -55,7 +55,7 @@ class _WeighingPageState extends ConsumerState<WeighingPage> {
     super.dispose();
   }
 
-  // Saisie en kg, virgule ou point → grammes.
+  // L'agent saisit des kg (virgule ou point), on stocke des grammes.
   double? get _measuredGrams {
     final kg = double.tryParse(
       _weightController.text.trim().replaceAll(",", "."),

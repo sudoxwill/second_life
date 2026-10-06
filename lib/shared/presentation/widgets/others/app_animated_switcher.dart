@@ -4,14 +4,14 @@ import "../../../../core/theme/app_spacing.dart";
 import "app_switcher_transitions.dart";
 
 enum SwitcherTransitionType {
-  /// Fade + subtle upward slide — default behavior.
+  /// Fondu avec une petite montée (par défaut).
   fadeSlide,
 
-  /// Pure opacity fade, no positional movement.
-  /// Best when the loading widget has the same size as the content.
+  /// Fondu seul.
+  /// Le mieux quand le loader a la même taille que le contenu.
   fade,
 
-  /// Fade combined with a scale from 0.85 → 1.0.
+  /// Fondu et zoom de 0.85 à 1.
   fadeScale,
 }
 
@@ -28,12 +28,9 @@ class AppAnimatedSwitcher extends StatelessWidget {
   final bool isLoading;
   final Widget child;
 
-  /// Widget shown while loading.
-  /// Defaults to a 24×24 [CircularProgressIndicator].
-  /// Pass a skeleton widget to replace the spinner with a shimmer placeholder.
+  /// Un spinner par défaut, ou un skeleton.
   final Widget? loadingWidget;
 
-  /// Defaults to [AppSpacing.durationBase] (250 ms).
   final Duration? duration;
 
   final SwitcherTransitionType transitionType;
