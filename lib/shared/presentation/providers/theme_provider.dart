@@ -2,6 +2,8 @@ import "package:flutter/material.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../../../core/theme/app_theme.dart";
+import "dyslexic_font_provider.dart";
+
 part "theme_provider.g.dart";
 
 @riverpod
@@ -25,7 +27,13 @@ class AppThemeMode extends _$AppThemeMode {
 }
 
 @riverpod
-ThemeData lightTheme(Ref ref) => AppTheme.lightTheme;
+ThemeData lightTheme(Ref ref) {
+  final dyslexic = ref.watch(appDyslexicFontProvider);
+  return AppTheme.light(useDyslexicFont: dyslexic);
+}
 
 @riverpod
-ThemeData darkTheme(Ref ref) => AppTheme.darkTheme;
+ThemeData darkTheme(Ref ref) {
+  final dyslexic = ref.watch(appDyslexicFontProvider);
+  return AppTheme.dark(useDyslexicFont: dyslexic);
+}

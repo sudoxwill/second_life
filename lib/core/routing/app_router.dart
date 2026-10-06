@@ -17,6 +17,7 @@ import "../../features/waste_analysis/presentation/pages/citizen_home_page.dart"
 import "../../features/waste_analysis/presentation/pages/citizen_profile_page.dart";
 import "../../features/waste_analysis/presentation/pages/relay_map_page.dart";
 import "../../features/waste_analysis/presentation/pages/waste_scan_page.dart";
+import "../../features/profile/presentation/pages/index.dart";
 import "../../shared/presentation/agent_shell.dart";
 import "../../shared/presentation/user_shell.dart";
 import "../configs/env.dart";
@@ -183,7 +184,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const CitizenProfilePage(),
+                  child: const UserProfilePage(),
                 ),
               ),
             ],
@@ -250,9 +251,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: RelayAgentBuilder(
-                    builder: (context, agent) => AgentProfilePage(agent: agent),
-                  ),
+                  child: const AgentProfilePage(),
                 ),
               ),
             ],

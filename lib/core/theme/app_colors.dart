@@ -44,7 +44,7 @@ class AppColors {
 
   // Accent, jaune (crédits, récompenses)
 
-  static const Color accent = supernova;
+  static const Color accent = Color(0xFFD4A800);
   static const Color onAccent = jungleGreen;
   static const Color accentSubtle = Color(0xFFFFF3C2);
   static const Color onAccentSubtle = Color(0xFF7A5A00);
