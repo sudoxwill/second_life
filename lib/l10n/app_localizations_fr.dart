@@ -52,4 +52,201 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get commonOr => 'Ou';
+
+  @override
+  String get authOrContinueWith => 'Ou continuer avec';
+
+  @override
+  String get onboardingSkip => 'Passer';
+
+  @override
+  String get onboardingSkipTooltip => 'Ignorer l\'introduction';
+
+  @override
+  String get onboardingNextTooltip => 'Aller à l\'étape suivante';
+
+  @override
+  String get onboardingFinishTooltip => 'Terminer et commencer';
+
+  @override
+  String get onboardingGetStarted => 'Commencer';
+
+  @override
+  String get onboardingTitle1 => 'Vos déchets ont de la valeur';
+
+  @override
+  String get onboardingDescription1 =>
+      'Scannez-les, déposez-les dans un point relais. Après la pesée, vous gagnez des points.';
+
+  @override
+  String get onboardingTitle2 => 'Repérez les points noirs';
+
+  @override
+  String get onboardingDescription2 =>
+      'Un tas de déchets bouche un caniveau ? Prenez-le en photo. Vos voisins sont alertés, et votre signalement est récompensé une fois le lieu nettoyé.';
+
+  @override
+  String get onboardingTitle3 => 'Des points pour l\'essentiel';
+
+  @override
+  String get onboardingDescription3 =>
+      'Vos points ne se retirent pas en espèces. Ils serviront bientôt pour manger, étudier et se soigner.';
+
+  @override
+  String onboardingProgressLabel(int current, int total) {
+    return 'Étape $current sur $total';
+  }
+
+  @override
+  String onboardingNotificationTitle(String appName) {
+    return 'Bienvenue sur $appName';
+  }
+
+  @override
+  String get onboardingNotificationBody =>
+      'Votre premier dépôt vous attend — scannez un déchet dès maintenant.';
+
+  @override
+  String get authLoginTitle => 'Connexion';
+
+  @override
+  String get authLoginButton => 'Se connecter';
+
+  @override
+  String get authSignupTitle => 'Inscription';
+
+  @override
+  String get authSignupButton => 'S\'inscrire';
+
+  @override
+  String get authEmailLabel => 'Email';
+
+  @override
+  String get authEmailHint => 'ton@email.com';
+
+  @override
+  String get authUsernameLabel => 'Nom d\'utilisateur';
+
+  @override
+  String get authUsernameHint => 'Ama Kwatcha';
+
+  @override
+  String get authAlreadyHaveAccount => 'Déjà un compte ?';
+
+  @override
+  String get authNoAccount => 'Pas de compte ?';
+
+  @override
+  String get authLoginLink => 'Se connecter';
+
+  @override
+  String get authSignupLink => 'Créer un compte';
+
+  @override
+  String get authOAuthGoogle => 'Continuer avec Google';
+
+  @override
+  String authSignupSuccess(String username) {
+    return 'Compte créé ! Bienvenue $username !';
+  }
+
+  @override
+  String get authLogout => 'Déconnexion';
+
+  @override
+  String get authLogoutButton => 'Se déconnecter';
+
+  @override
+  String get authLogoutConfirmTitle => 'Se déconnecter ?';
+
+  @override
+  String get authLogoutConfirmMessage =>
+      'Es-tu sûr de vouloir te déconnecter ?';
+
+  @override
+  String get authLogoutSuccess => 'Déconnecté avec succès.';
+
+  @override
+  String authLoginSuccess(String username) {
+    return 'Connexion réussie ! Ravie de te revoir, $username !';
+  }
+
+  @override
+  String get authLoginError =>
+      'Échec de la connexion. Vérifie tes identifiants.';
+
+  @override
+  String get authSignupError => 'Échec de l\'inscription. Réessaie.';
+
+  @override
+  String get authLogoutError => 'Échec de la déconnexion. Réessaie.';
+
+  @override
+  String get validationRequired => 'Ce champ est obligatoire.';
+
+  @override
+  String get validationInvalidEmail => 'Adresse e-mail invalide.';
+
+  @override
+  String get validationEmailIncorrect => 'Adresse e-mail incorrecte.';
+
+  @override
+  String get validationPasswordTooShort =>
+      'Le mot de passe doit contenir au moins 8 caractères.';
+
+  @override
+  String get validationPasswordsDoNotMatch =>
+      'Les mots de passe ne correspondent pas.';
+
+  @override
+  String validationUsernameTooShort(int minLength) {
+    return 'Au moins $minLength caractères.';
+  }
+
+  @override
+  String validationUsernameTooLong(int maxLength) {
+    return '$maxLength caractères maximum.';
+  }
+
+  @override
+  String get validationUsernameInvalid => 'Lettres, chiffres et _ uniquement.';
+
+  @override
+  String get routerErrorTitle => 'Cet écran n\'existe pas encore.';
+
+  @override
+  String get routerErrorSubtitle =>
+      'Reviens plus tard, ou reprends depuis l\'accueil.';
+
+  @override
+  String routerSoon(String title) {
+    return '$title — bientôt.';
+  }
+
+  @override
+  String get errorNetwork => 'Erreur réseau. Vérifie ta connexion internet.';
+
+  @override
+  String get errorServer => 'Erreur serveur. Réessaie plus tard.';
+
+  @override
+  String get errorValidation => 'Données invalides. Vérifie les champs.';
+
+  @override
+  String get errorUnknown => 'Une erreur inconnue est survenue.';
+
+  @override
+  String get navHome => 'Accueil';
+
+  @override
+  String get navPlaces => 'Carte';
+
+  @override
+  String get navHistory => 'Historique';
+
+  @override
+  String get navProfile => 'Profil';
+
+  @override
+  String get navAnalyzeCta => 'Analyser';
 }

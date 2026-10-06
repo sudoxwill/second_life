@@ -46,5 +46,235 @@
   "@commonOfflineBanner": { "description": "Banner shown at the top of a screen when the device is offline" },
 
   "commonOr": "Or",
-  "@commonOr": { "description": "Generic separator between two options (e.g. between form and OAuth)" }
+  "@commonOr": { "description": "Generic separator between two options (e.g. between form and OAuth)" },
+
+  "authOrContinueWith": "Or continue with",
+  "@authOrContinueWith": { "description": "Divider label between email/password form and multiple OAuth providers (Google/GitHub/Apple)" },
+
+  "@__sectionOnboarding": {
+    "description": "━━━━ ONBOARDING — 3 recycling slides + navigation ━━━━"
+  },
+  "onboardingSkip": "Skip",
+  "@onboardingSkip": { "description": "Button to skip onboarding" },
+
+  "onboardingSkipTooltip": "Skip the introduction",
+  "@onboardingSkipTooltip": { "description": "Tooltip / accessibility label for the Skip button" },
+
+  "onboardingNextTooltip": "Go to next step",
+  "@onboardingNextTooltip": { "description": "Tooltip / accessibility label for the Next button" },
+
+  "onboardingFinishTooltip": "Finish and get started",
+  "@onboardingFinishTooltip": { "description": "Tooltip / accessibility label for the Get Started button (last slide)" },
+
+  "onboardingGetStarted": "Get started",
+  "@onboardingGetStarted": { "description": "Finish onboarding button (last slide)" },
+
+  "onboardingTitle1": "Your waste has value",
+  "@onboardingTitle1": { "description": "Title of slide 1 — drop off waste and earn points" },
+
+  "onboardingDescription1": "Scan it, drop it off at a relay point. After weighing, you earn points.",
+  "@onboardingDescription1": { "description": "Description of slide 1 — scan → drop-off → points flow" },
+
+  "onboardingTitle2": "Spot the trouble spots",
+  "@onboardingTitle2": { "description": "Title of slide 2 — report illegal dumping" },
+
+  "onboardingDescription2": "See waste blocking a drain? Take a photo. Your neighbours are alerted, and your report is rewarded once the area is cleaned.",
+  "@onboardingDescription2": { "description": "Description of slide 2 — photo → neighbour alert → reward after clean-up" },
+
+  "onboardingTitle3": "Points for what matters",
+  "@onboardingTitle3": { "description": "Title of slide 3 — use points for food, education, healthcare" },
+
+  "onboardingDescription3": "Your points can't be withdrawn as cash. They'll soon be used for food, education and healthcare.",
+  "@onboardingDescription3": { "description": "Description of slide 3 — points value in essential goods" },
+
+  "onboardingProgressLabel": "Step {current} of {total}",
+  "@onboardingProgressLabel": {
+    "description": "Accessibility label for onboarding progress indicator",
+    "placeholders": {
+      "current": { "type": "int", "example": "1" },
+      "total": { "type": "int", "example": "3" }
+    }
+  },
+
+  "onboardingNotificationTitle": "Welcome to {appName}",
+  "@onboardingNotificationTitle": {
+    "description": "Title of the notification shown at the end of onboarding",
+    "placeholders": {
+      "appName": { "type": "String", "example": "SecondLife" }
+    }
+  },
+
+  "onboardingNotificationBody": "Your first drop-off awaits — scan a waste item now.",
+  "@onboardingNotificationBody": { "description": "Body of the end-of-onboarding notification" },
+
+  "@__sectionAuth": {
+    "description": "━━━━ AUTH — Sign in, sign up and passwords ━━━━"
+  },
+  "authLoginTitle": "Sign in",
+  "@authLoginTitle": { "description": "Sign-in page title" },
+
+  "authLoginButton": "Sign in",
+  "@authLoginButton": { "description": "Sign-in button label" },
+
+  "authSignupTitle": "Create an account",
+  "@authSignupTitle": { "description": "Sign-up page title" },
+
+  "authSignupButton": "Sign up",
+  "@authSignupButton": { "description": "Sign-up button label" },
+
+  "authEmailLabel": "Email address",
+  "@authEmailLabel": { "description": "Email field label" },
+
+  "authEmailHint": "you@email.com",
+  "@authEmailHint": { "description": "Email field placeholder" },
+
+  "authUsernameLabel": "Username",
+  "@authUsernameLabel": { "description": "Username field label" },
+
+  "authUsernameHint": "Ama Kwatcha",
+  "@authUsernameHint": { "description": "Username field placeholder" },
+
+  "authAlreadyHaveAccount": "Already have an account?",
+  "@authAlreadyHaveAccount": { "description": "Text before sign-in link" },
+
+  "authNoAccount": "No account yet?",
+  "@authNoAccount": { "description": "Text before sign-up link" },
+
+  "authLoginLink": "Sign in",
+  "@authLoginLink": { "description": "Link to sign-in page" },
+
+  "authSignupLink": "Create an account",
+  "@authSignupLink": { "description": "Link to sign-up page" },
+
+  "authOAuthGoogle": "Continue with Google",
+  "@authOAuthGoogle": { "description": "OAuth button — continue with Google" },
+
+  "authSignupSuccess": "Account created! Welcome {username}!",
+  "@authSignupSuccess": {
+    "description": "Success message after sign-up with username",
+    "placeholders": {
+      "username": { "type": "String", "example": "MagiMaster" }
+    }
+  },
+
+  "authLogout": "Sign out",
+  "@authLogout": { "description": "Generic sign-out label" },
+
+  "authLogoutButton": "Sign out",
+  "@authLogoutButton": { "description": "Sign-out button" },
+
+  "authLogoutConfirmTitle": "Sign out?",
+  "@authLogoutConfirmTitle": { "description": "Title of sign-out confirmation dialog" },
+
+  "authLogoutConfirmMessage": "Are you sure you want to sign out?",
+  "@authLogoutConfirmMessage": { "description": "Message of sign-out confirmation dialog" },
+
+  "authLogoutSuccess": "Signed out successfully.",
+  "@authLogoutSuccess": { "description": "Success message after sign-out" },
+
+  "authLoginSuccess": "Welcome back, {username}!",
+  "@authLoginSuccess": {
+    "description": "Success message after sign-in",
+    "placeholders": {
+      "username": { "type": "String", "example": "MagiMaster" }
+    }
+  },
+
+  "authLoginError": "Failed to sign in. Check your credentials.",
+  "@authLoginError": { "description": "Generic error message after sign-in failure" },
+
+  "authSignupError": "Failed to create account. Try again.",
+  "@authSignupError": { "description": "Generic error message after sign-up failure" },
+
+  "authLogoutError": "Failed to sign out. Try again.",
+  "@authLogoutError": { "description": "Error message after sign-out failure" },
+
+  "@__sectionValidation": {
+    "description": "━━━━ VALIDATION — Form error messages ━━━━"
+  },
+  "validationRequired": "This field is required.",
+  "@validationRequired": { "description": "Error for empty required field" },
+
+  "validationInvalidEmail": "Invalid email address.",
+  "@validationInvalidEmail": { "description": "Error for badly formatted email" },
+
+  "validationEmailIncorrect": "Incorrect email address.",
+  "@validationEmailIncorrect": { "description": "Error for email that does not match any account / incorrect on sign-in" },
+
+  "validationPasswordTooShort": "Password must be at least 8 characters.",
+  "@validationPasswordTooShort": { "description": "Error for password too short" },
+
+  "validationPasswordsDoNotMatch": "Passwords do not match.",
+  "@validationPasswordsDoNotMatch": { "description": "Error when passwords differ" },
+
+  "validationUsernameTooShort": "At least {minLength} characters.",
+  "@validationUsernameTooShort": {
+    "description": "Error when username is too short",
+    "placeholders": {
+      "minLength": { "type": "int", "example": "3" }
+    }
+  },
+
+  "validationUsernameTooLong": "{maxLength} characters max.",
+  "@validationUsernameTooLong": {
+    "description": "Error when username is too long",
+    "placeholders": {
+      "maxLength": { "type": "int", "example": "20" }
+    }
+  },
+
+  "validationUsernameInvalid": "Letters, numbers and _ only.",
+  "@validationUsernameInvalid": { "description": "Error when username contains invalid characters" },
+
+  "@__sectionRouting": {
+    "description": "━━━━ ROUTING — Errors and placeholders ━━━━"
+  },
+  "routerErrorTitle": "This screen does not exist yet.",
+  "@routerErrorTitle": { "description": "Title of routing error page" },
+
+  "routerErrorSubtitle": "Come back later, or return to home.",
+  "@routerErrorSubtitle": { "description": "Subtitle of routing error page" },
+
+  "routerSoon": "{title} — coming soon.",
+  "@routerSoon": {
+    "description": "Generic placeholder for coming-soon screen",
+    "placeholders": {
+      "title": { "type": "String", "example": "Lobby" }
+    }
+  },
+
+  "@__sectionGenericErrors": {
+    "description": "━━━━ GENERIC ERRORS — Network/server/validation errors ━━━━"
+  },
+  "errorNetwork": "Network error. Check your internet connection.",
+  "@errorNetwork": { "description": "Generic network error (NetworkFailure)" },
+
+  "errorServer": "Server error. Try again later.",
+  "@errorServer": { "description": "Generic server error (ServerFailure)" },
+
+  "errorValidation": "Invalid data. Check the fields.",
+  "@errorValidation": { "description": "Generic validation error (ValidationFailure)" },
+
+  "errorUnknown": "An unknown error occurred.",
+  "@errorUnknown": { "description": "Unknown error (fallback Failure)" },
+
+  "@__sectionShell": {
+    "description": "━━━━ SHELL — Main navigation (bottom bar) ━━━━"
+  },
+  "navHome": "Home",
+  "@navHome": { "description": "Label for Home destination in navigation bar" },
+
+  "navPlaces": "Places",
+  "@navPlaces": { "description": "Label for Places destination in navigation bar" },
+
+  "navHistory": "History",
+  "@navHistory": { "description": "Label for History destination in navigation bar" },
+
+  "navProfile": "Profile",
+  "@navProfile": { "description": "Label for Profile destination in navigation bar" },
+
+  "navAnalyzeCta": "Analyse",
+  "@navAnalyzeCta": {
+    "description": "Label for image Analyse FAB destination in navigation bar"
+  }
 }

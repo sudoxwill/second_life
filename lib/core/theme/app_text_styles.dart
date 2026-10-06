@@ -33,7 +33,7 @@ class AppTextStyles {
 
   static const TextStyle h1 = TextStyle(
     fontFamily: fontFamilyDisplay,
-    fontSize: 36,
+    fontSize: 40,
     fontWeight: FontWeight.w700,
     letterSpacing: -0.36,
     height: 1.11,
@@ -41,7 +41,7 @@ class AppTextStyles {
 
   static const TextStyle h2 = TextStyle(
     fontFamily: fontFamilyDisplay,
-    fontSize: 26,
+    fontSize: 32,
     fontWeight: FontWeight.w700,
     letterSpacing: 0.0,
     height: 1.23,
@@ -49,7 +49,7 @@ class AppTextStyles {
 
   static const TextStyle h3 = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 19,
+    fontSize: 24,
     fontWeight: FontWeight.w600,
     letterSpacing: 0.0,
     height: 1.37,
@@ -57,7 +57,7 @@ class AppTextStyles {
 
   static const TextStyle h4 = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: FontWeight.w600,
     letterSpacing: 0.0,
     height: 1.41,
@@ -65,7 +65,7 @@ class AppTextStyles {
 
   static const TextStyle bodyLarge = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.0,
     height: 1.41,
@@ -73,7 +73,7 @@ class AppTextStyles {
 
   static const TextStyle bodyMedium = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.0,
     height: 1.47,
@@ -81,7 +81,7 @@ class AppTextStyles {
 
   static const TextStyle bodySmall = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.0,
     height: 1.38,
@@ -89,7 +89,7 @@ class AppTextStyles {
 
   static const TextStyle label = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: FontWeight.w600,
     letterSpacing: 0.0,
     height: 1.33,
@@ -97,7 +97,7 @@ class AppTextStyles {
 
   static const TextStyle caption = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.0,
     height: 1.38,
@@ -119,7 +119,7 @@ class AppTextStyles {
     ),
     displayMedium: TextStyle(
       fontFamily: fontFamilyDisplay,
-      fontSize: 36,
+      fontSize: 40,
       fontWeight: FontWeight.w700,
       letterSpacing: -0.36,
       height: 1.11,
@@ -127,7 +127,7 @@ class AppTextStyles {
     ),
     displaySmall: TextStyle(
       fontFamily: fontFamilyDisplay,
-      fontSize: 26,
+      fontSize: 32,
       fontWeight: FontWeight.w700,
       letterSpacing: 0.0,
       height: 1.23,
@@ -135,7 +135,7 @@ class AppTextStyles {
     ),
     headlineLarge: TextStyle(
       fontFamily: fontFamilyDisplay,
-      fontSize: 36,
+      fontSize: 32,
       fontWeight: FontWeight.w700,
       letterSpacing: -0.36,
       height: 1.11,
@@ -143,7 +143,7 @@ class AppTextStyles {
     ),
     headlineMedium: TextStyle(
       fontFamily: fontFamilyDisplay,
-      fontSize: 26,
+      fontSize: 28,
       fontWeight: FontWeight.w700,
       letterSpacing: 0.0,
       height: 1.23,
@@ -151,7 +151,7 @@ class AppTextStyles {
     ),
     headlineSmall: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 19,
+      fontSize: 24,
       fontWeight: FontWeight.w600,
       letterSpacing: 0.0,
       height: 1.37,
@@ -159,7 +159,7 @@ class AppTextStyles {
     ),
     titleLarge: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 19,
+      fontSize: 22,
       fontWeight: FontWeight.w600,
       letterSpacing: 0.0,
       height: 1.37,
@@ -167,7 +167,7 @@ class AppTextStyles {
     ),
     titleMedium: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 17,
+      fontSize: 18,
       fontWeight: FontWeight.w600,
       letterSpacing: 0.0,
       height: 1.41,
@@ -175,7 +175,7 @@ class AppTextStyles {
     ),
     titleSmall: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 15,
+      fontSize: 16,
       fontWeight: FontWeight.w600,
       letterSpacing: 0.0,
       height: 1.33,
@@ -183,7 +183,7 @@ class AppTextStyles {
     ),
     bodyLarge: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 17,
+      fontSize: 18,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.0,
       height: 1.41,
@@ -191,7 +191,7 @@ class AppTextStyles {
     ),
     bodyMedium: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 15,
+      fontSize: 16,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.0,
       height: 1.47,
@@ -199,7 +199,7 @@ class AppTextStyles {
     ),
     bodySmall: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 13,
+      fontSize: 14,
       fontWeight: FontWeight.w500,
       letterSpacing: 0.0,
       height: 1.38,
@@ -207,7 +207,7 @@ class AppTextStyles {
     ),
     labelLarge: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 15,
+      fontSize: 14,
       fontWeight: FontWeight.w600,
       letterSpacing: 0.0,
       height: 1.33,
@@ -215,7 +215,7 @@ class AppTextStyles {
     ),
     labelMedium: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 13,
+      fontSize: 12,
       fontWeight: FontWeight.w600,
       letterSpacing: 0.0,
       height: 1.38,
@@ -223,7 +223,7 @@ class AppTextStyles {
     ),
     labelSmall: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 13,
+      fontSize: 11,
       fontWeight: FontWeight.w500,
       letterSpacing: 0.0,
       height: 1.38,
@@ -247,7 +247,7 @@ class AppTextStyles {
     ),
     displayMedium: TextStyle(
       fontFamily: fontFamilyDisplay,
-      fontSize: 36,
+      fontSize: 40,
       fontWeight: FontWeight.w700,
       letterSpacing: -0.36,
       height: 1.11,
@@ -255,7 +255,7 @@ class AppTextStyles {
     ),
     displaySmall: TextStyle(
       fontFamily: fontFamilyDisplay,
-      fontSize: 26,
+      fontSize: 32,
       fontWeight: FontWeight.w700,
       letterSpacing: 0.0,
       height: 1.23,
@@ -263,7 +263,7 @@ class AppTextStyles {
     ),
     headlineLarge: TextStyle(
       fontFamily: fontFamilyDisplay,
-      fontSize: 36,
+      fontSize: 32,
       fontWeight: FontWeight.w700,
       letterSpacing: -0.36,
       height: 1.11,
@@ -271,7 +271,7 @@ class AppTextStyles {
     ),
     headlineMedium: TextStyle(
       fontFamily: fontFamilyDisplay,
-      fontSize: 26,
+      fontSize: 28,
       fontWeight: FontWeight.w700,
       letterSpacing: 0.0,
       height: 1.23,
@@ -279,7 +279,7 @@ class AppTextStyles {
     ),
     headlineSmall: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 19,
+      fontSize: 24,
       fontWeight: FontWeight.w600,
       letterSpacing: 0.0,
       height: 1.37,
@@ -287,7 +287,7 @@ class AppTextStyles {
     ),
     titleLarge: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 19,
+      fontSize: 22,
       fontWeight: FontWeight.w600,
       letterSpacing: 0.0,
       height: 1.37,
@@ -295,7 +295,7 @@ class AppTextStyles {
     ),
     titleMedium: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 17,
+      fontSize: 18,
       fontWeight: FontWeight.w600,
       letterSpacing: 0.0,
       height: 1.41,
@@ -303,7 +303,7 @@ class AppTextStyles {
     ),
     titleSmall: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 15,
+      fontSize: 16,
       fontWeight: FontWeight.w600,
       letterSpacing: 0.0,
       height: 1.33,
@@ -311,7 +311,7 @@ class AppTextStyles {
     ),
     bodyLarge: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 17,
+      fontSize: 18,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.0,
       height: 1.41,
@@ -319,7 +319,7 @@ class AppTextStyles {
     ),
     bodyMedium: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 15,
+      fontSize: 16,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.0,
       height: 1.47,
@@ -327,7 +327,7 @@ class AppTextStyles {
     ),
     bodySmall: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 13,
+      fontSize: 14,
       fontWeight: FontWeight.w500,
       letterSpacing: 0.0,
       height: 1.38,
@@ -335,7 +335,7 @@ class AppTextStyles {
     ),
     labelLarge: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 15,
+      fontSize: 14,
       fontWeight: FontWeight.w600,
       letterSpacing: 0.0,
       height: 1.33,
@@ -343,7 +343,7 @@ class AppTextStyles {
     ),
     labelMedium: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 13,
+      fontSize: 12,
       fontWeight: FontWeight.w600,
       letterSpacing: 0.0,
       height: 1.38,
@@ -351,7 +351,7 @@ class AppTextStyles {
     ),
     labelSmall: TextStyle(
       fontFamily: fontFamily,
-      fontSize: 13,
+      fontSize: 11,
       fontWeight: FontWeight.w500,
       letterSpacing: 0.0,
       height: 1.38,
@@ -365,7 +365,7 @@ class AppTextStyles {
 
   static const TextStyle buttonText = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: FontWeight.w600,
     letterSpacing: 0.0,
     height: 1.33,
@@ -373,7 +373,7 @@ class AppTextStyles {
 
   static const TextStyle inputText = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.0,
     height: 1.47,
@@ -381,7 +381,7 @@ class AppTextStyles {
 
   static const TextStyle inputLabel = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: FontWeight.w600,
     letterSpacing: 0.0,
     height: 1.33,
@@ -389,7 +389,7 @@ class AppTextStyles {
 
   static const TextStyle appBarTitle = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 19,
+    fontSize: 22,
     fontWeight: FontWeight.w600,
     letterSpacing: 0.0,
     height: 1.37,
@@ -400,7 +400,7 @@ class AppTextStyles {
   // ─────────────────────────────────────────────
 
   static TextStyle toDyslexic(TextStyle style) {
-    final fontSize = style.fontSize ?? 15;
+    final fontSize = style.fontSize ?? 16;
     final height = style.height ?? _dyslexicMinHeight;
 
     var adjustedFontSize = fontSize;
@@ -424,44 +424,26 @@ class AppTextStyles {
 
   static TextTheme toDyslexicTheme(TextTheme theme) {
     return TextTheme(
-
       displayLarge: _toDyslexicOrNull(theme.displayLarge),
-
       displayMedium: _toDyslexicOrNull(theme.displayMedium),
-
       displaySmall: _toDyslexicOrNull(theme.displaySmall),
-
       headlineLarge: _toDyslexicOrNull(theme.headlineLarge),
-
       headlineMedium: _toDyslexicOrNull(theme.headlineMedium),
-
       headlineSmall: _toDyslexicOrNull(theme.headlineSmall),
-
       titleLarge: _toDyslexicOrNull(theme.titleLarge),
-
       titleMedium: _toDyslexicOrNull(theme.titleMedium),
-
       titleSmall: _toDyslexicOrNull(theme.titleSmall),
-
       bodyLarge: _toDyslexicOrNull(theme.bodyLarge),
-
       bodyMedium: _toDyslexicOrNull(theme.bodyMedium),
-
       bodySmall: _toDyslexicOrNull(theme.bodySmall),
-
       labelLarge: _toDyslexicOrNull(theme.labelLarge),
-
       labelMedium: _toDyslexicOrNull(theme.labelMedium),
-
       labelSmall: _toDyslexicOrNull(theme.labelSmall),
-
     );
   }
 
   static TextStyle? _toDyslexicOrNull(TextStyle? style) {
-    if (style == null) {
-      return null;
-    }
+    if (style == null) return null;
     return toDyslexic(style);
   }
 }

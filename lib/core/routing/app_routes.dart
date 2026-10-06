@@ -4,9 +4,7 @@ class AppRoutes {
   // ─── Racine & onboarding ───────────────────
   static const String root = "/";
 
-  /// L'écran d'onboarding est actuellement monté sur
-  /// [root]. Conservée pour lisibilité des call sites.
-  static const String onboarding = root;
+  static const String onboarding = "/onboarding";
 
   // ─── Authentification ──────────────────────
   static const String authLogin = "/auth/login";
@@ -33,6 +31,4 @@ class AppRoutes {
 
   // ─── Settings ─────────────────────────
   static const settings = "/settings";
-
-
 }
