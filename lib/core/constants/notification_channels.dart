@@ -29,10 +29,10 @@ class NotificationId {
   static const int goodBye = 3;
   static const int checkout = 4;
 
-  // Une seule notification pour la fin de la file d'attente,
-  // remplacée à chaque nouveau lot.
+  /// Fin de traitement de la file d'attente — une seule notification
+  /// agrégée, remplacée à chaque nouvelle fin de lot.
   static const int queueDone = 10000;
 
-  // Ids 100 à 9999 : rappels liés à une entité
+  // Plage 100–9999 réservée aux rappels dynamiques (entityId-based)
   static int forReminder(int entityId) => 100 + (entityId % 9900);
 }

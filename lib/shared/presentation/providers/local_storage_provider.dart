@@ -12,6 +12,7 @@ SharedPreferences sharedPreferences(Ref ref) {
   throw UnimplementedError("Override in main via ProviderScope");
 }
 
+
 @Riverpod(keepAlive: true)
 StorageRepositoryImpl localStorageRepository(Ref ref) {
   final prefs = ref.watch(sharedPreferencesProvider);

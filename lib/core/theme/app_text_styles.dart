@@ -1,12 +1,11 @@
 import "dart:ui" show FontFeature;
 
-import "package:flutter/material.dart"
-    show Color, TextTheme, FontWeight, TextStyle;
+import "package:flutter/material.dart" show TextTheme, FontWeight, TextStyle;
 
 import "app_colors.dart";
 
-/// Bricolage Grotesque pour les titres et les montants, Figtree pour le
-/// texte, OpenDyslexic quand le mode dyslexie est activé.
+/// Typographie SecondLife : Bricolage Grotesque (titres, montants), Figtree
+/// (texte) et OpenDyslexic (mode dyslexie activable dans les paramètres).
 class AppTextStyles {
   const AppTextStyles._();
 
@@ -44,15 +43,6 @@ class AppTextStyles {
     fontWeight: FontWeight.w700,
     letterSpacing: 0.0,
     height: 1.23,
-  );
-
-  /// Titre à la taille voulue (en-têtes, montants).
-  static TextStyle heading(double size, {Color? color}) => TextStyle(
-    fontFamily: fontFamilyDisplay,
-    fontSize: size,
-    color: color,
-    fontWeight: FontWeight.w700,
-    height: 1.2,
   );
 
   static const TextStyle h3 = TextStyle(
@@ -397,7 +387,9 @@ class AppTextStyles {
     height: 1.37,
   );
 
-  // Mode dyslexie
+  // ─────────────────────────────────────────────
+  // MODE DYSLEXIE
+  // ─────────────────────────────────────────────
 
   static TextStyle toDyslexic(TextStyle style) {
     final fontSize = style.fontSize ?? 16;

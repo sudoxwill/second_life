@@ -28,12 +28,16 @@ class AppScaffold extends ConsumerWidget {
     this.showOfflineBanner = false,
   });
 
-  // Retour arrière
+  // ---------------------------------------------------------------------------
+  // Navigation / Pop
+  // ---------------------------------------------------------------------------
 
   final void Function(bool, Object?)? onPopInvokedWithResult;
   final bool canPop;
 
-  // Mise en page
+  // ---------------------------------------------------------------------------
+  // Layout
+  // ---------------------------------------------------------------------------
 
   final Widget? body;
   final Widget? bottomNavigationBar;
@@ -47,18 +51,25 @@ class AppScaffold extends ConsumerWidget {
   final bool scrollable;
   final bool scrollReverse;
 
-  // Bouton flottant
+  // ---------------------------------------------------------------------------
+  // FAB
+  // ---------------------------------------------------------------------------
 
   final Widget? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
 
-  // Arrière-plan
+  // ---------------------------------------------------------------------------
+  // Background
+  // ---------------------------------------------------------------------------
 
   final Widget Function(Widget child)? backgroundBuilder;
 
-  // Tirer pour rafraîchir
+  // ---------------------------------------------------------------------------
+  // Refresh
+  // ---------------------------------------------------------------------------
 
-  /// Active aussi [scrollable].
+  /// Wraps scrollable content in a [RefreshIndicator].
+  /// Implies [scrollable] — no need to set both.
   final Future<void> Function()? onRefresh;
   final bool showOfflineBanner;
 
@@ -131,7 +142,7 @@ class AppScaffold extends ConsumerWidget {
                     );
                   }
                 } else {
-                  // Sans défilement
+                  // ─── Non-scrollable ──────────────────────────────────────
                   content = Container(
                     constraints: const BoxConstraints.expand(),
                     color: color,

@@ -1,4 +1,3 @@
-import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
@@ -10,19 +9,17 @@ import "package:timezone/timezone.dart" as tz;
 
 import "app.dart";
 import "core/configs/index.dart";
-import "core/configs/secrets.dart";
-import "core/errors/failure.dart";
 import "core/routing/app_navigator_key.dart";
-import "firebase_options.dart";
 import "shared/data/services/notification_service.dart";
-import "shared/presentation/providers/index.dart"
-    show sharedPreferencesProvider, flutterLocalNotificationsPluginProvider;
+import "shared/presentation/providers/index.dart" show sharedPreferencesProvider, flutterLocalNotificationsPluginProvider;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  AppConfig.initialize(environment: Env.current, apiKey: Secrets.rodiumApiKey);
+  // Initialisation de la configuration globale
+  AppConfig.initialize(environment: Env.current);
 
+  // Configure Logger
   AppLogger.configure(
     enabled: Env.enableLogging,
     showTimestamp: true,
@@ -37,17 +34,19 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   Log.i("Firebase initialisé");
 
-  // Chargées ici pour pouvoir les injecter dans le ProviderScope.
+  // Sans le fuseau horaire local, les notifications programmées partiraient
+  // à la mauvaise heure.
+  // SharedPreferences doit être initialisé avant runApp
   final prefs = await SharedPreferences.getInstance();
   Log.i("SharedPreferences initialisé");
 
-  // Sans le fuseau horaire local, les notifications programmées partiraient
-  // à la mauvaise heure.
+  // Timezone — requis pour zonedSchedule (notifications planifiées)
   tz.initializeTimeZones();
   final timezoneInfo = await FlutterTimezone.getLocalTimezone();
   tz.setLocalLocation(tz.getLocation(timezoneInfo.identifier));
   Log.d("Timezone local: ${timezoneInfo.identifier}");
 
+  // Notifications
   final notificationPlugin = await NotificationService.createAndInit(
     onTap: _onNotificationTap,
   );
@@ -72,7 +71,7 @@ void main() async {
   );
 }
 
-// L'utilisateur a touché une notification alors que l'app était ouverte.
+// Tap depuis premier plan ou arrière-plan (app vivante)
 void _onNotificationTap(NotificationResponse response) {
   final rawPayload = response.payload;
   if (rawPayload == null || rawPayload.isEmpty) return;

@@ -3,8 +3,78 @@
 import "dart:developer" as developer;
 import "package:flutter/foundation.dart";
 
+
+/*
+J'ai créé une classe de logging complète.
+Voici les fonctionnalités principales :
+
+## **Fonctionnalités**
+
+### Logs simples avec niveaux :
+- `Log.d()` - Debug 🔍
+- `Log.i()` - Info ℹ️
+- `Log.w()` - Warning ⚠️
+- `Log.e()` - Error ❌
+- `Log.s()` - Success ✅
+
+### Logs avancés :
+- `AppLogger.json()` - Afficher des données JSON structurées
+- `AppLogger.list()` - Logger des listes avec index
+- `AppLogger.method()` - Logger des appels de méthodes avec paramètres
+- `AppLogger.route()` - Logger la navigation
+- `AppLogger.apiRequest()` / `apiResponse()` - Logger les appels API
+- `AppLogger.table()` - Afficher des données en tableau
+- `AppLogger.section()` - Créer des sections visuelles
+
+### Performance :
+- `AppLogger.startTimer()` / `stopTimer()` - Chronomètre
+- `AppLogger.performance()` - Mesurer les performances
+
+### Configuration :
+```dart
+AppLogger.configure(
+  enabled: true,
+  showTimestamp: true,
+  showEmoji: true,
+  minLevel: LogLevel.debug,
+  appName: 'MonApp',
+);
+```
+
+## **Exemple d'utilisation**
+
+```dart
+// Simple
+Log.d('Message de debug');
+Log.e('Erreur détectée', error: exception, stackTrace: stack);
+
+// API
+AppLogger.apiRequest(
+  method: 'POST',
+  url: 'https://api.example.com/users',
+  body: {'name': 'John'},
+);
+
+// Performance
+final timer = AppLogger.startTimer('Chargement données');
+// ... code ...
+AppLogger.stopTimer('Chargement données', timer);
+
+// Section
+AppLogger.section('INITIALISATION', () {
+  Log.i('Étape 1');
+  Log.i('Étape 2');
+});
+```
+
+Le système utilise `debugPrint` et `developer.log` pour éviter la troncature et
+être visible dans les DevTools !
+*/
+
+/// Niveaux de log disponibles
 enum LogLevel { debug, info, warning, error, success }
 
+/// Classe principale de logging personnalisée
 class AppLogger {
   static bool _enabled = true;
   static bool _showTimestamp = true;
@@ -12,6 +82,7 @@ class AppLogger {
   static LogLevel _minLevel = LogLevel.debug;
   static String _appName = "Dogbale";
 
+  // Configuration
   static void configure({
     bool? enabled,
     bool? showTimestamp,
@@ -26,6 +97,7 @@ class AppLogger {
     if (appName != null) _appName = appName;
   }
 
+  // Méthodes de logging simples
   static void d(dynamic message, {String? tag}) {
     _log(message, LogLevel.debug, tag);
   }
@@ -51,6 +123,7 @@ class AppLogger {
     _log(message, LogLevel.success, tag);
   }
 
+  // Log avec données structurées
   static void json(Map<String, dynamic> data, {String? tag}) {
     if (!_shouldLog(LogLevel.debug)) return;
 
@@ -63,6 +136,7 @@ class AppLogger {
     _printLog(buffer.toString(), LogLevel.debug);
   }
 
+  // Log de liste
   static void list(List<dynamic> items, {String? tag, String? title}) {
     if (!_shouldLog(LogLevel.debug)) return;
 
@@ -78,6 +152,7 @@ class AppLogger {
     _printLog(buffer.toString(), LogLevel.debug);
   }
 
+  // Log de méthode/fonction
   static void method(
     String methodName, {
     Map<String, dynamic>? params,
@@ -98,6 +173,7 @@ class AppLogger {
     _printLog(buffer.toString(), LogLevel.debug);
   }
 
+  // Log de navigation
   static void route(String routeName, {Map<String, dynamic>? arguments}) {
     if (!_shouldLog(LogLevel.info)) return;
 
@@ -113,6 +189,7 @@ class AppLogger {
     _printLog(buffer.toString(), LogLevel.info);
   }
 
+  // Log de requête API
   static void apiRequest({
     required String method,
     required String url,
@@ -140,6 +217,7 @@ class AppLogger {
     _printLog(buffer.toString(), LogLevel.info);
   }
 
+  // Log de réponse API
   static void apiResponse({
     required int statusCode,
     required String url,
@@ -173,6 +251,7 @@ class AppLogger {
     _printLog(buffer.toString(), level);
   }
 
+  // Log de bloc séparé visuellement
   static void section(String title, void Function() content) {
     if (!_enabled) return;
 
@@ -183,6 +262,7 @@ class AppLogger {
     _printLog('${'=' * 60}\n', LogLevel.info);
   }
 
+  // Log de performance
   static void performance(String operation, Duration duration) {
     if (!_shouldLog(LogLevel.info)) return;
 
@@ -198,6 +278,7 @@ class AppLogger {
     );
   }
 
+  // Chronomètre
   static Stopwatch startTimer(String label) {
     final stopwatch = Stopwatch()..start();
     d("⏱️ Timer started: $label");
@@ -209,6 +290,7 @@ class AppLogger {
     performance(label, stopwatch.elapsed);
   }
 
+  // Log de table
   static void table(List<Map<String, dynamic>> data, {String? title}) {
     if (!_shouldLog(LogLevel.debug)) return;
 
@@ -232,6 +314,7 @@ class AppLogger {
     _printLog(buffer.toString(), LogLevel.debug);
   }
 
+  // Méthode interne de log
   static void _log(
     dynamic message,
     LogLevel level,
@@ -243,25 +326,31 @@ class AppLogger {
 
     final buffer = StringBuffer();
 
+    // Emoji et niveau
     if (_showEmoji) {
       buffer.write("${_getEmoji(level)} ");
     }
     buffer.write("[${_getLevelName(level)}]");
 
+    // Tag
     if (tag != null) {
       buffer.write(" [$tag]");
     }
 
+    // Timestamp
     if (_showTimestamp) {
       buffer.write(" ${_getTimestamp()}");
     }
 
+    // Message
     buffer.write(": $message");
 
+    // Erreur
     if (error != null) {
       buffer.write("\n  Error: $error");
     }
 
+    // Stack trace
     if (stackTrace != null) {
       buffer.write("\n  StackTrace:\n${_formatStackTrace(stackTrace)}");
     }
@@ -348,6 +437,7 @@ class AppLogger {
   }
 }
 
+// Alias court pour utilisation rapide
 class Log {
   static void d(dynamic message, {String? tag}) =>
       AppLogger.d(message, tag: tag);

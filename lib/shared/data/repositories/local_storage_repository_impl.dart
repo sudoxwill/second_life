@@ -77,12 +77,12 @@ class StorageRepositoryImpl {
     }
   }
 
-  // Utilitaires
+  // ─── Utilitaires ────────────────────────────────
 
   Future<bool> has(String key) async =>
       (await read(key)) != null;
 
-  // Onboarding
+  // ─── Onboarding ─────────────────────────────
 
   Future<bool> get isOnboardingCompleted async =>
       (await readBool(AppKeys.onboardingCompleted)) ?? false;
@@ -90,9 +90,10 @@ class StorageRepositoryImpl {
   Future<void> setOnboardingCompleted({bool value = true}) =>
       writeBool(AppKeys.onboardingCompleted, value);
 
-  // Thème
+  // ─── Thème ──────────────────────────────────
 
-  /// 'system', 'light' ou 'dark' ('system' par défaut).
+  /// Retourne le mode de thème stocké (`'system'`, `'light'`, `'dark'`).
+  /// Défaut : `'system'`.
   Future<String> get themeMode async =>
       (await read(AppKeys.themeMode)) ?? "system";
 

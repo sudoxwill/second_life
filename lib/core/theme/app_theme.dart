@@ -5,6 +5,8 @@ import "app_colors.dart";
 import "app_spacing.dart";
 import "app_text_styles.dart";
 
+/// Thème global SecondLife, clair et sombre, avec police OpenDyslexic
+/// activable via `useDyslexicFont`.
 class AppTheme {
   const AppTheme._();
 
@@ -84,12 +86,16 @@ class AppTheme {
     surfaceTint: Colors.transparent,
   );
 
-  // Thèmes par défaut
+  // ─────────────────────────────────────────────
+  // THÈMES PAR DÉFAUT
+  // ─────────────────────────────────────────────
 
   static final ThemeData lightTheme = light();
   static final ThemeData darkTheme = dark();
 
-  // Police
+  // ─────────────────────────────────────────────
+  // POLICE
+  // ─────────────────────────────────────────────
 
   static TextTheme _textTheme(TextTheme base, bool useDyslexicFont) {
     if (useDyslexicFont) {

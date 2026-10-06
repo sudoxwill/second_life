@@ -6,7 +6,9 @@ import "local_storage_provider.dart";
 
 part "locale_provider.g.dart";
 
-/// Langue de l'app, sauvegardée dans les préférences (fr par défaut).
+/// Locale active de l'application, persistée dans les préférences partagées.
+///
+/// Défaut : `fr`. Langues supportées : `fr`, `en`.
 @Riverpod(keepAlive: true)
 class AppLocale extends _$AppLocale {
   static const _supportedCodes = ["fr", "en"];
@@ -19,6 +21,7 @@ class AppLocale extends _$AppLocale {
     return Locale(resolved);
   }
 
+  /// Change et persiste la locale.
   Future<void> setLocale(Locale locale) async {
     final prefs = ref.read(sharedPreferencesProvider);
     await prefs.setString(AppKeys.locale, locale.languageCode);

@@ -5,6 +5,7 @@ import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/app_spacing.dart";
 
 class AppTextFormField extends StatelessWidget {
+  /// Creates a custom text form field that follows the project design system.
   const AppTextFormField({
     super.key,
     this.labelText = "",
@@ -87,6 +88,8 @@ class AppTextFormField extends StatelessWidget {
   final int? maxLines;
   final int? maxLength;
 
+  /// Optional minimum height for the field.
+  /// If null, it will be determined by content.
   final double? height;
   final String? initialValue;
   final void Function()? prefixIconOnClick;
@@ -180,7 +183,7 @@ class AppTextFormField extends StatelessWidget {
                           : theme.disabledColor),
                 ),
                 alignLabelWithHint: maxLines != null && maxLines! > 1,
-                isCollapsed: false,
+                isCollapsed: false, // Better alignment with custom themes
                 labelText: labelText.isNotEmpty
                     ? "$labelText${isRequired ? " *" : ""}"
                     : null,

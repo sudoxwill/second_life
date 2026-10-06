@@ -2,7 +2,30 @@ import "package:flutter/material.dart";
 
 import "../../../../core/theme/app_spacing.dart";
 
+/// A customizable elevated button widget.
+///
+/// This widget provides a flexible way to create elevated buttons with various
+/// properties such as text, style, background color, size, margin, loading
+/// indicator, and enabled/disabled states.
 class AppElevatedButton extends StatelessWidget {
+  /// Creates a [AppElevatedButton].
+  ///
+  /// The [onPressed] callback must not be null.
+  ///
+  /// The [margin] property defaults to `EdgeInsets.symmetric(vertical: 5,
+  /// horizontal: 5)`.
+  /// The [isLoading] property defaults to `false`.
+  /// The [enabled] property defaults to `true`.
+  /// The [elevation] property defaults to `3`.
+  ///
+  /// The [text] and [child] properties are mutually exclusive. If both are
+  /// provided, [child] takes precedence. If neither is provided, an empty
+  /// text widget is rendered.
+  ///
+  /// The [style] and [textColor] properties allow customization of the text
+  /// within the button. If not provided, the default text style is used
+  /// from the theme.
+  ///
   const AppElevatedButton({
     required this.onPressed,
     super.key,
@@ -24,38 +47,55 @@ class AppElevatedButton extends StatelessWidget {
     this.textAlign = .center,
   });
 
+  /// The callback that is called when the button is tapped.
   final void Function()? onPressed;
 
+  /// The background color of the button.
   final Color? backgroundColor;
 
+  /// The icon alignment of the button.
   final IconAlignment? iconAlignment;
 
+  /// The size of the button.
   final Size? buttonSize;
 
+  /// The max size of the button.
   final Size? buttonMaxSize;
 
+  /// The min size of the button.
   final Size? buttonMinSize;
 
+  /// The child widget to display inside the button.
   final Widget? child;
 
+  /// An optional icon to display alongside the text.
   final Widget? icon;
 
+  /// The elevation of the button.
   final double? elevation;
 
+  /// Whether the button is enabled.
   final bool enabled;
 
+  /// Whether to show a loading indicator.
   final bool isLoading;
 
+  /// The margin around the button.
   final EdgeInsetsGeometry? margin;
 
+  /// The text style of the button's text.
   final TextStyle? style;
 
+  /// The button text
   final String? text;
 
+  /// The button text color
   final Color? textColor;
 
+  /// The text alignment
   final TextAlign textAlign;
 
+  /// The text alignment
   final double borderRadius;
 
   @override
