@@ -52,6 +52,7 @@ app.*.map.json
 /docs/
 docs/
 .env
+lib/core/configs/secrets.dart
 .claude
 .gemini
 

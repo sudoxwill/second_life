@@ -9,6 +9,8 @@ class AuthNotifier extends _$AuthNotifier {
   @override
   AppRole? build() => .agent;
 
+  // Action métier (connexion), pas un simple setter.
+  // ignore: use_setters_to_change_properties
   void signIn(AppRole role) => state = role;
   void signOut() => state = null;
 }

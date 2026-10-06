@@ -19,6 +19,7 @@ class AppConfig {
 
     _instance = AppConfigData(
       environment: environment,
+      apiKey: apiKey ?? "",
       customConfig: customConfig ?? {},
     );
   }
@@ -27,10 +28,14 @@ class AppConfig {
 class AppConfigData {
   const AppConfigData({
     required this.environment,
+    this.apiKey = "",
     this.customConfig = const {},
   });
 
   final Environment environment;
+
+  /// Clé de l'API Rodium (IA), envoyée en `Authorization: Bearer`.
+  final String apiKey;
   final Map<String, dynamic> customConfig;
 
   // Getters

@@ -198,6 +198,13 @@ class AppColors {
   static const Color materialOrganicBgDark = primarySubtleDark;
 
   // ───────────────────────────────────────────────
+  // SCAN — écrans caméra, toujours sombres
+  // ───────────────────────────────────────────────
+
+  static const Color scanBackground = surfaceSunkenDark;
+  static const Color scanFrame = primaryDark;
+
+  // ───────────────────────────────────────────────
   // OMBRE FLOTTANTE
   // ───────────────────────────────────────────────
 

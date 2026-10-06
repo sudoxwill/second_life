@@ -9,7 +9,7 @@ import "../../features/home/presentation/pages/agent_dashboard_page.dart";
 import "../../features/home/presentation/pages/home_page.dart";
 import "../../features/onboarding/presentation/pages/index.dart";
 import "../../shared/presentation/agent_shell.dart";
-import "../../shared/presentation/app_shell.dart";
+import "../../shared/presentation/user_shell.dart";
 import "../configs/env.dart";
 import "../extensions/build_context_extension.dart";
 import "../theme/app_spacing.dart";

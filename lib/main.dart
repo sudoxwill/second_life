@@ -9,6 +9,7 @@ import "package:timezone/timezone.dart" as tz;
 
 import "app.dart";
 import "core/configs/index.dart";
+import "core/configs/secrets.dart";
 import "core/routing/app_navigator_key.dart";
 import "shared/data/services/notification_service.dart";
 import "shared/presentation/providers/index.dart" show sharedPreferencesProvider, flutterLocalNotificationsPluginProvider;
@@ -17,7 +18,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialisation de la configuration globale
-  AppConfig.initialize(environment: Env.current);
+  AppConfig.initialize(
+    environment: Env.current,
+    apiKey: Secrets.rodiumApiKey,
+  );
 
   // Configure Logger
   AppLogger.configure(

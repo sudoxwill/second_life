@@ -372,5 +372,5 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get agentInfoMessage =>
-      'LOT bientôt prêt pour l\'enlèvement par le camion municipal.';
+      'Lot bientôt prêt pour l\'enlèvement par le camion municipal.';
 }
