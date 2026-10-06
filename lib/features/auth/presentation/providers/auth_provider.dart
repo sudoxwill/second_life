@@ -1,42 +1,56 @@
-import "package:cloud_firestore/cloud_firestore.dart";
+import "package:firebase_auth/firebase_auth.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../../../../core/errors/failure.dart";
 import "../../../../shared/presentation/providers/core_providers.dart";
+import "../../../ticket_validation/presentation/providers/current_relay_agent_provider.dart";
 
 part "auth_provider.g.dart";
 
 enum AppRole { user, agent }
 
-// Auth temporaire pour les tests : connexion anonyme Firebase, le rôle est
-// choisi par l'écran de connexion. À remplacer par la vraie auth.
+// Connexion anonyme Firebase en attendant la vraie auth. Le rôle vient de
+// relay_agents : une fiche active pour l'uid fait de l'utilisateur un agent.
 @Riverpod(keepAlive: true)
 class AuthNotifier extends _$AuthNotifier {
   @override
   AppRole? build() => null;
 
-  Future<void> signIn(AppRole role) async {
-    final auth = ref.read(firebaseAuthProvider);
-    // On garde le même compte anonyme d'une session à l'autre, sinon
-    // l'historique des tickets serait perdu à chaque connexion.
-    final user = auth.currentUser ?? (await auth.signInAnonymously()).user!;
+  Future<AppRole> signIn() async {
+    await _ensureSignedIn(ref.read(firebaseAuthProvider));
 
-    if (role == AppRole.agent) {
-      // Sans fiche dans relay_agents, l'espace agent refuse l'accès.
-      await ref
-          .read(firebaseFirestoreProvider)
-          .collection("relay_agents")
-          .doc(user.uid)
-          .set({
-            "displayName": "Agent de test",
-            "relayPointId": "relais-test",
-            "relayPointName": "Point relais de test",
-            "isActive": true,
-          }, SetOptions(merge: true));
+    // La fiche agent a pu changer depuis la dernière connexion.
+    ref.invalidate(currentRelayAgentProvider);
+    try {
+      await ref.read(currentRelayAgentProvider.future);
+      state = AppRole.agent;
+    } on NotRelayAgentFailure {
+      state = AppRole.user;
     }
+    return state!;
+  }
 
-    state = role;
+  // On garde le même compte anonyme d'une session à l'autre, sinon
+  // l'historique des tickets serait perdu à chaque connexion.
+  Future<void> _ensureSignedIn(FirebaseAuth auth) async {
+    final user = auth.currentUser;
+    if (user != null) {
+      try {
+        // Le compte en cache a pu être supprimé ou désactivé dans la console :
+        // son jeton ne se renouvelle plus et Firestore attend indéfiniment.
+        await user.reload();
+        return;
+      } on FirebaseAuthException catch (e) {
+        if (e.code == "network-request-failed") rethrow;
+        await auth.signOut();
+      }
+    }
+    await auth.signInAnonymously();
   }
 
   // Ne déconnecte pas Firebase : un nouveau compte anonyme repartirait de zéro.
-  void signOut() => state = null;
+  void signOut() {
+    ref.invalidate(currentRelayAgentProvider);
+    state = null;
+  }
 }

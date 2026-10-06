@@ -33,8 +33,8 @@ class UserShell extends StatelessWidget {
         ),
         ShellDestination(
           label: l10n.navPlaces,
-          icon: LucideIcons.map,
-          selectedIcon: LucideIcons.map,
+          icon: LucideIcons.mapPinned,
+          selectedIcon: LucideIcons.mapPinned,
         ),
         ShellDestination(
           label: l10n.navHistory,

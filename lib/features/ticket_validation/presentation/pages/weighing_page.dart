@@ -22,10 +22,13 @@ void openWeighing(BuildContext context, String input, {bool replace = false}) {
     listen: false,
   ).read(ticketValidationProvider.notifier).loadTicket(input);
   final route = MaterialPageRoute<void>(builder: (_) => const WeighingPage());
+  // Navigateur racine : la pesée s'affiche par-dessus la barre du bas, même
+  // quand elle est ouverte depuis un onglet de la coque.
+  final navigator = Navigator.of(context, rootNavigator: true);
   if (replace) {
-    Navigator.pushReplacement(context, route);
+    navigator.pushReplacement(route);
   } else {
-    Navigator.push(context, route);
+    navigator.push(route);
   }
 }
 
@@ -156,32 +159,33 @@ class _WeighingPageState extends ConsumerState<WeighingPage> {
           ),
         ],
         const SizedBox(height: 14),
-        IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: AppCard(
-                  child: _WeightColumn(
-                    title: "Poids estimé (IA)",
-                    value: Text(
-                      Formatters.kg(estimated),
-                      style: AppTextStyles.heading(30),
-                    ),
-                    caption: Text(
-                      "≈ ${Formatters.points(estimatedPoints)} pts estimés",
-                      style: TextStyle(color: context.warning),
-                    ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: AppCard(
+                child: _WeightColumn(
+                  title: "Poids estimé (IA)",
+                  value: Text(
+                    Formatters.kg(estimated),
+                    style: AppTextStyles.heading(30),
+                  ),
+                  caption: Text(
+                    "≈ ${Formatters.points(estimatedPoints)} pts estimés",
+                    style: TextStyle(color: context.warning),
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: AppCard(
-                  borderColor: AppColors.primary,
-                  child: _WeightColumn(
-                    title: "Poids réel (Balance)",
-                    value: TextField(
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: AppCard(
+                borderColor: AppColors.primary,
+                child: _WeightColumn(
+                  title: "Poids réel (Balance)",
+                  // Largeur du texte saisi : "kg" reste collé au nombre.
+                  value: IntrinsicWidth(
+                    child: TextField(
                       controller: _weightController,
                       enabled: canProcess,
                       autofocus: ticket.canBeProcessed,
@@ -206,18 +210,18 @@ class _WeighingPageState extends ConsumerState<WeighingPage> {
                         disabledBorder: InputBorder.none,
                       ),
                     ),
-                    caption: Text(
-                      certifiedPoints == null
-                          ? "Saisir le poids pesé"
-                          : "= ${Formatters.points(certifiedPoints)} "
-                                "pts certifiés",
-                      style: TextStyle(color: context.primaryText),
-                    ),
+                  ),
+                  caption: Text(
+                    certifiedPoints == null
+                        ? "Saisir le poids pesé"
+                        : "= ${Formatters.points(certifiedPoints)} "
+                              "pts certifiés",
+                    style: TextStyle(color: context.primaryText),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         if (measured != null) ...[
           const SizedBox(height: 14),
@@ -283,35 +287,23 @@ class _DepositorCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SectionLabel("Déposant"),
-                    const SizedBox(height: 6),
-                    Text(
-                      Formatters.userLabel(ticket.userId),
-                      style: AppTextStyles.heading(20),
-                    ),
-                    Text(
-                      "Dépôt ID : ${Formatters.shortCode(ticket.code)}",
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: scheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Pill(
-                label: item.itemMainCategory,
-                color: context.primaryText,
-                background: context.primarySoft,
-              ),
-            ],
+          const SectionLabel("Déposant"),
+          const SizedBox(height: 6),
+          Text(
+            Formatters.userLabel(ticket.userId),
+            style: AppTextStyles.heading(20),
+          ),
+          Text(
+            "Dépôt ID : ${Formatters.shortCode(ticket.code)}",
+            style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant),
+          ),
+          // Sous l'en-tête : les catégories de l'IA peuvent être très longues
+          // (ex. "Déchets d'Équipements Électriques et Électroniques").
+          const SizedBox(height: 10),
+          Pill(
+            label: item.itemMainCategory,
+            color: context.primaryText,
+            background: context.primarySoft,
           ),
           const SizedBox(height: 12),
           const Divider(),
@@ -370,7 +362,6 @@ class _WeightColumn extends StatelessWidget {
             const Text("kg", style: TextStyle(fontWeight: FontWeight.w600)),
           ],
         ),
-        const Spacer(),
         const SizedBox(height: 8),
         DefaultTextStyle.merge(
           style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),

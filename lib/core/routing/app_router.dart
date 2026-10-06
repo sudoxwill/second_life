@@ -5,13 +5,23 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../../features/auth/presentation/pages/index.dart";
 import "../../features/auth/presentation/providers/auth_provider.dart";
-import "../../features/home/presentation/pages/agent_dashboard_page.dart";
-import "../../features/home/presentation/pages/home_page.dart";
 import "../../features/onboarding/presentation/pages/index.dart";
+import "../../features/ticket_validation/presentation/pages/agent_dashboard_page.dart";
+import "../../features/ticket_validation/presentation/pages/agent_history_page.dart";
+import "../../features/ticket_validation/presentation/pages/agent_profile_page.dart";
+import "../../features/ticket_validation/presentation/pages/agent_scanner_page.dart";
+import "../../features/ticket_validation/presentation/pages/pending_deposits_page.dart";
+import "../../features/ticket_validation/presentation/widgets/relay_agent_builder.dart";
+import "../../features/waste_analysis/presentation/pages/citizen_history_page.dart";
+import "../../features/waste_analysis/presentation/pages/citizen_home_page.dart";
+import "../../features/waste_analysis/presentation/pages/citizen_profile_page.dart";
+import "../../features/waste_analysis/presentation/pages/relay_map_page.dart";
+import "../../features/waste_analysis/presentation/pages/waste_scan_page.dart";
 import "../../shared/presentation/agent_shell.dart";
 import "../../shared/presentation/user_shell.dart";
 import "../configs/env.dart";
 import "../extensions/build_context_extension.dart";
+import "../extensions/navigation_extension.dart";
 import "../theme/app_spacing.dart";
 import "app_navigator_key.dart";
 import "app_routes.dart";
@@ -101,13 +111,23 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // Scan
+      // Scan d'un déchet (usager)
       GoRoute(
         path: AppRoutes.scan,
         pageBuilder: (context, state) => AppTransitions.fade(
           context: context,
           state: state,
-          child: _Placeholder(title: context.l10n.routerScreenScanning),
+          child: const WasteScanPage(),
+        ),
+      ),
+
+      // Scan du QR de dépôt (agent)
+      GoRoute(
+        path: AppRoutes.agentScan,
+        pageBuilder: (context, state) => AppTransitions.fade(
+          context: context,
+          state: state,
+          child: const AgentScannerPage(),
         ),
       ),
 
@@ -123,7 +143,11 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const HomePage(),
+                  child: CitizenHomePage(
+                    onScan: context.pushScan,
+                    onOpenMap: context.goPlaces,
+                    onOpenHistory: context.goHistory,
+                  ),
                 ),
               ),
             ],
@@ -135,7 +159,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: _Placeholder(title: context.l10n.routerScreenPlaces),
+                  child: const RelayMapPage(),
                 ),
               ),
             ],
@@ -147,7 +171,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: _Placeholder(title: context.l10n.routerScreenHistory),
+                  child: const CitizenHistoryPage(),
                 ),
               ),
             ],
@@ -159,7 +183,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: _Placeholder(title: context.l10n.routerScreenProfile),
+                  child: const CitizenProfilePage(),
                 ),
               ),
             ],
@@ -179,7 +203,13 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const AgentDashboardPage(),
+                  child: RelayAgentBuilder(
+                    builder: (context, agent) => AgentDashboardPage(
+                      agent: agent,
+                      onScan: context.pushAgentScan,
+                      onOpenPending: context.goAgentDeposits,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -191,8 +221,9 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: _Placeholder(
-                    title: context.l10n.routerScreenAgentDeposits,
+                  child: RelayAgentBuilder(
+                    builder: (context, agent) =>
+                        PendingDepositsPage(agent: agent),
                   ),
                 ),
               ),
@@ -205,8 +236,8 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: _Placeholder(
-                    title: context.l10n.routerScreenAgentHistory,
+                  child: RelayAgentBuilder(
+                    builder: (context, agent) => AgentHistoryPage(agent: agent),
                   ),
                 ),
               ),
@@ -219,8 +250,8 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: _Placeholder(
-                    title: context.l10n.routerScreenAgentProfile,
+                  child: RelayAgentBuilder(
+                    builder: (context, agent) => AgentProfilePage(agent: agent),
                   ),
                 ),
               ),

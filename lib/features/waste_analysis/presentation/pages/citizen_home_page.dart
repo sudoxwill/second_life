@@ -49,8 +49,8 @@ class CitizenHomePage extends ConsumerWidget {
             Row(
               children: [
                 Expanded(
-                  child: FilledButton.icon(
-                    style: FilledButton.styleFrom(textStyle: _actionText),
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(textStyle: _actionText),
                     onPressed: onScan,
                     icon: const Icon(Icons.photo_camera_outlined, size: 20),
                     label: const _OneLine("Scanner un déchet"),
@@ -100,26 +100,30 @@ class _Greeting extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Bonjour 👋", style: AppTextStyles.heading(22)),
+              const SizedBox(height: 2),
               Text(
                 "Ensemble pour un avenir plus propre !",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 13,
+                  height: 1.3,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
             ],
           ),
         ),
-        const _ComingSoonChip(label: "Boutique", icon: Icons.redeem_outlined),
       ],
     );
   }
 }
 
-// Boutique et échange de points : pas encore de back-end.
+// Échange de points : pas encore de back-end.
 class _ComingSoonChip extends StatelessWidget {
   const _ComingSoonChip({
     required this.label,
@@ -431,7 +435,7 @@ class _ImpactCard extends StatelessWidget {
             children: [
               const Expanded(child: SectionLabel("Mon impact écologique")),
               Pill(
-                label: "Lomé Propre 🌴",
+                label: "Ville Propre 🌿",
                 color: context.primaryText,
                 background: context.primarySoft,
               ),

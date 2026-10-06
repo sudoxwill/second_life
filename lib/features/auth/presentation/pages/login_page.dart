@@ -119,16 +119,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Future<void> _googleSignIn() => _signIn();
 
   Future<void> _signIn() async {
-    // En attendant la vraie auth : un email qui contient "agent" ouvre
-    // l'espace agent, tout le reste l'espace usager.
-    final role = _emailController.text.contains("agent")
-        ? AppRole.agent
-        : AppRole.user;
-
     setState(() => _isLoading = true);
+    final AppRole role;
     try {
-      await ref.read(authProvider.notifier).signIn(role);
-    } on Exception {
+      role = await ref.read(authProvider.notifier).signIn();
+      // Failure n'est pas une Exception : on attrape tout.
+    } catch (_) {
       if (!mounted) return;
       setState(() => _isLoading = false);
       context.showSnackBar(context.l10n.commonError);

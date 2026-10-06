@@ -131,9 +131,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
   Future<void> _signIn() async {
     setState(() => _isLoading = true);
+    final AppRole role;
     try {
-      await ref.read(authProvider.notifier).signIn(AppRole.user);
-    } on Exception {
+      role = await ref.read(authProvider.notifier).signIn();
+      // Failure n'est pas une Exception : on attrape tout.
+    } catch (_) {
       if (!mounted) return;
       setState(() => _isLoading = false);
       context.showSnackBar(context.l10n.commonError);
@@ -141,6 +143,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     }
     if (!mounted) return;
     setState(() => _isLoading = false);
-    context.goHome();
+
+    if (role == AppRole.agent) {
+      context.goAgentHome();
+    } else {
+      context.goHome();
+    }
   }
 }

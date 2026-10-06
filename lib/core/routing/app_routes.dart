@@ -24,6 +24,9 @@ class AppRoutes {
   static const String agentHistory  = "/agent/history";
   static const String agentProfile  = "/agent/profile";
 
+  // Scan du QR de dépôt par l'agent
+  static const String agentScan = "/agent/scan";
+
   // Scan
   static const String scan = "/scan";
 

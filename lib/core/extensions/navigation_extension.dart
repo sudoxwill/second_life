@@ -32,6 +32,7 @@ extension NavigationExtensions on BuildContext {
   void goAgentDeposits() => go(AppRoutes.agentDeposits);
   void goAgentHistory()  => go(AppRoutes.agentHistory);
   void goAgentProfile()  => go(AppRoutes.agentProfile);
+  void pushAgentScan()   => push(AppRoutes.agentScan);
 
   // Places Details
 

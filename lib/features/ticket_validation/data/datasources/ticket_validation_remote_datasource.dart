@@ -151,7 +151,12 @@ class TicketValidationRemoteDatasourceImpl
   }
 
   Future<RelayAgentModel> _getActiveAgent(String uid) async {
-    final snapshot = await firestore.collection(agentsPath).doc(uid).get();
+    // Délai max : sans lui, un jeton invalide fait attendre sans fin.
+    final snapshot = await firestore
+        .collection(agentsPath)
+        .doc(uid)
+        .get()
+        .timeout(writeTimeout);
     final data = snapshot.data();
     if (!snapshot.exists || data == null || data["isActive"] != true) {
       throw NotRelayAgentException();

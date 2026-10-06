@@ -11,18 +11,17 @@ import "package:timezone/timezone.dart" as tz;
 import "app.dart";
 import "core/configs/index.dart";
 import "core/configs/secrets.dart";
+import "core/errors/failure.dart";
 import "core/routing/app_navigator_key.dart";
 import "firebase_options.dart";
 import "shared/data/services/notification_service.dart";
-import "shared/presentation/providers/index.dart" show sharedPreferencesProvider, flutterLocalNotificationsPluginProvider;
+import "shared/presentation/providers/index.dart"
+    show sharedPreferencesProvider, flutterLocalNotificationsPluginProvider;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  AppConfig.initialize(
-    environment: Env.current,
-    apiKey: Secrets.rodiumApiKey,
-  );
+  AppConfig.initialize(environment: Env.current, apiKey: Secrets.rodiumApiKey);
 
   AppLogger.configure(
     enabled: Env.enableLogging,
@@ -55,6 +54,12 @@ void main() async {
 
   runApp(
     ProviderScope(
+      // Pas de relance automatique pour nos Failure : ce sont des réponses
+      // métier (ex. NotRelayAgentFailure pour un usager) que l'UI doit
+      // recevoir tout de suite. Riverpod les relancerait ~40 s sinon.
+      retry: (retryCount, error) => error is Failure
+          ? null
+          : ProviderContainer.defaultRetry(retryCount, error),
       overrides: [
         sharedPreferencesProvider.overrideWithValue(prefs),
         flutterLocalNotificationsPluginProvider.overrideWithValue(

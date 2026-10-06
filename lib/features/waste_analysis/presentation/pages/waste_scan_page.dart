@@ -195,7 +195,7 @@ class _WasteScanPageState extends State<WasteScanPage>
                       const Spacer(),
                       const ScanChip(
                         icon: Icons.auto_awesome_rounded,
-                        label: "IA Gemini Vision",
+                        label: "IA SecondLife Vision",
                       ),
                       const Spacer(),
                       ScanRoundButton(

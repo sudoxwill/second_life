@@ -22,9 +22,9 @@ class AgentShell extends StatelessWidget {
         i,
         initialLocation: i == navigationShell.currentIndex,
       ),
-      centerIcon: LucideIcons.scanBox,
+      centerIcon: LucideIcons.scanQrCode,
       centerTooltip: l10n.navAnalyzeCta,
-      onCenterPressed: context.pushScan,
+      onCenterPressed: context.pushAgentScan,
       destinations: [
         ShellDestination(
           label: l10n.navHome,
