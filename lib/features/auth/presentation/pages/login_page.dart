@@ -1,5 +1,6 @@
 import "package:flutter/gestures.dart" show TapGestureRecognizer;
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/constants/app_assets.dart";
@@ -9,16 +10,17 @@ import "../../../../core/theme/app_spacing.dart";
 import "../../../../shared/presentation/widgets/buttons/index.dart";
 import "../../../../shared/presentation/widgets/inputs/app_text_form_field.dart";
 import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
+import "../providers/auth_provider.dart";
 import "../widgets/oauth_section.dart";
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   late GlobalKey<FormState> _formKey;
   late TextEditingController _emailController;
   bool _isLoading = false;
@@ -112,17 +114,29 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
-    // Simulate a login process
     await Future<void>.delayed(const Duration(seconds: 2));
-    if (mounted) setState(() => _isLoading = false);
-    if (mounted) context.goHome();
+    if (!mounted) return;
+    setState(() => _isLoading = false);
+    _redirectByRole(_emailController.text);
   }
 
   Future<void> _googleSignIn() async {
     setState(() => _isLoading = true);
-    // Simulate a login process
     await Future<void>.delayed(const Duration(seconds: 2));
-    if (mounted) setState(() => _isLoading = false);
-    if (mounted) context.goHome();
+    if (!mounted) return;
+    setState(() => _isLoading = false);
+    _redirectByRole(_emailController.text);
+  }
+
+  void _redirectByRole(String email) {
+    // Mock : email contenant "agent" → rôle agent.
+    // Remplacer par la réponse backend.
+    final role = email.contains("agent") ? AppRole.agent : AppRole.user;
+    ref.read(authProvider.notifier).signIn(role);
+    if (role == AppRole.agent) {
+      context.goAgentHome();
+    } else {
+      context.goHome();
+    }
   }
 }

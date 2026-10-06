@@ -48,6 +48,12 @@
   "commonOr": "Or",
   "@commonOr": { "description": "Generic separator between two options (e.g. between form and OAuth)" },
 
+  "commonSeeMore": "See more",
+  "@commonSeeMore": { "description": "Generic button opening the full list (e.g. all pending deposits)" },
+
+  "commonInfo": "Info",
+  "@commonInfo": { "description": "Generic title for an information or reminder card" },
+
   "authOrContinueWith": "Or continue with",
   "@authOrContinueWith": { "description": "Divider label between email/password form and multiple OAuth providers (Google/GitHub/Apple)" },
 
@@ -195,6 +201,14 @@
   "validationRequired": "This field is required.",
   "@validationRequired": { "description": "Error for empty required field" },
 
+  "validationFieldRequired": "The {field} field is required.",
+  "@validationFieldRequired": {
+    "description": "Error for a required field, naming the field label",
+    "placeholders": {
+      "field": { "type": "String", "example": "Email" }
+    }
+  },
+
   "validationInvalidEmail": "Invalid email address.",
   "@validationInvalidEmail": { "description": "Error for badly formatted email" },
 
@@ -243,6 +257,47 @@
     }
   },
 
+  "@__sectionRouterScreens": {
+    "description": "━━━━ ROUTER SCREENS — Placeholder screen titles ━━━━"
+  },
+  "routerScreenForgotPassword": "Forgot password",
+  "@routerScreenForgotPassword": { "description": "Title of the placeholder screen for password reset by email" },
+
+  "routerScreenResetPassword": "New password",
+  "@routerScreenResetPassword": { "description": "Title of the placeholder screen for choosing a new password" },
+
+  "routerScreenScanning": "Analysing…",
+  "@routerScreenScanning": { "description": "Title of the placeholder screen for scanning a waste item" },
+
+  "routerScreenPlaces": "Recycling points",
+  "@routerScreenPlaces": { "description": "Title of the placeholder screen for the recycling points map" },
+
+  "routerScreenHistory": "History",
+  "@routerScreenHistory": { "description": "Title of the placeholder screen for the user history" },
+
+  "routerScreenProfile": "Profile",
+  "@routerScreenProfile": { "description": "Title of the placeholder screen for the user profile" },
+
+  "routerScreenAgentDeposits": "Deposits",
+  "@routerScreenAgentDeposits": { "description": "Title of the placeholder screen listing deposits to process" },
+
+  "routerScreenAgentHistory": "Agent history",
+  "@routerScreenAgentHistory": { "description": "Title of the placeholder screen for the agent history" },
+
+  "routerScreenAgentProfile": "Agent profile",
+  "@routerScreenAgentProfile": { "description": "Title of the placeholder screen for the agent profile" },
+
+  "routerScreenPlaceDetail": "Recycling point {id}",
+  "@routerScreenPlaceDetail": {
+    "description": "Title of the placeholder screen for a recycling point details",
+    "placeholders": {
+      "id": { "type": "String", "example": "42" }
+    }
+  },
+
+  "routerScreenSettings": "Settings",
+  "@routerScreenSettings": { "description": "Title of the placeholder screen for the settings" },
+
   "@__sectionGenericErrors": {
     "description": "━━━━ GENERIC ERRORS — Network/server/validation errors ━━━━"
   },
@@ -273,8 +328,108 @@
   "navProfile": "Profile",
   "@navProfile": { "description": "Label for Profile destination in navigation bar" },
 
+  "navAgentDeposits": "Deposits",
+  "@navAgentDeposits": { "description": "Label for Deposits tab in agent shell" },
+
   "navAnalyzeCta": "Analyse",
   "@navAnalyzeCta": {
     "description": "Label for image Analyse FAB destination in navigation bar"
-  }
+  },
+
+  "@__sectionHome": {
+    "description": "━━━━ HOME — User and agent home ━━━━"
+  },
+  "homeGreeting": "Hello, {name}",
+  "@homeGreeting": {
+    "description": "Home page title, personalised with the user's first name",
+    "placeholders": {
+      "name": { "type": "String", "example": "Ama" }
+    }
+  },
+
+  "homeAgentRoleLabel": "Agent",
+  "@homeAgentRoleLabel": { "description": "Role of the signed-in user, used instead of the first name in the agent home title" },
+
+  "homePointsTitle": "My points",
+  "@homePointsTitle": { "description": "Title of the points balance card on the home screen" },
+
+  "homePointsRedeemCta": "Redeem",
+  "@homePointsRedeemCta": { "description": "Button to redeem points for vouchers at the partner" },
+
+  "homePointsBalance": "{amount} pts",
+  "@homePointsBalance": {
+    "description": "Points balance shown on the main home card",
+    "placeholders": {
+      "amount": { "type": "int", "example": "350" }
+    }
+  },
+
+  "homePointsPendingValidation": "+{amount} pts awaiting validation",
+  "@homePointsPendingValidation": {
+    "description": "Chip showing points earned but not validated yet",
+    "placeholders": {
+      "amount": { "type": "int", "example": "80" }
+    }
+  },
+
+  "homePointsNotCash": "Not convertible into cash. Redeemable for vouchers at our partner.",
+  "@homePointsNotCash": { "description": "Text under the points balance explaining that points are not converted into cash" },
+
+  "homePendingDepositsTitle": "Pending deposits",
+  "@homePendingDepositsTitle": { "description": "Title of the card listing deposits awaiting validation" },
+
+  "homeDepositItemBottle": "Bottle",
+  "@homeDepositItemBottle": { "description": "Deposited waste type: bottle" },
+
+  "homeDepositItemIron": "Iron",
+  "@homeDepositItemIron": { "description": "Deposited waste type: iron" },
+
+  "homeDepositPointsGain": "+{amount} pts",
+  "@homeDepositPointsGain": {
+    "description": "Points earned for a deposit, shown in the pending deposits list",
+    "placeholders": {
+      "amount": { "type": "int", "example": "50" }
+    }
+  },
+
+  "homeEcoImpactTitle": "Every action counts for the planet.",
+  "@homeEcoImpactTitle": { "description": "Title of the environmental impact card on the home screen" },
+
+  "homeEcoImpactSubtitle": "Recycle your plastic and metal waste and collect vouchers with your recycling points",
+  "@homeEcoImpactSubtitle": { "description": "Subtitle of the environmental impact card: recycling in exchange for vouchers" },
+
+  "@__sectionAgentDashboard": {
+    "description": "━━━━ AGENT DASHBOARD — Stats and deposit point stock ━━━━"
+  },
+
+  "agentStatsTreatedDeposits": "Deposits processed",
+  "@agentStatsTreatedDeposits": { "description": "Label for the Deposits processed stat card on the agent dashboard" },
+
+  "agentStatsValidatedPoints": "Points validated",
+  "@agentStatsValidatedPoints": { "description": "Label for the Points validated stat card on the agent dashboard" },
+
+  "agentStockTitle": "Deposit point stock",
+  "@agentStockTitle": { "description": "Title of the stock card on the agent dashboard" },
+
+  "agentStockKgCollected": "{amount} kg collected",
+  "@agentStockKgCollected": {
+    "description": "Kilograms collected shown in the stock card",
+    "placeholders": {
+      "amount": { "type": "int", "example": "142" }
+    }
+  },
+
+  "agentStockKgGoal": "Goal: {amount} kg",
+  "@agentStockKgGoal": {
+    "description": "Goal in kilograms shown in the stock card",
+    "placeholders": {
+      "amount": { "type": "int", "example": "200" }
+    }
+  },
+
+  "agentStockSiteName": "Bè EcoCentre",
+  "@agentStockSiteName": { "description": "Name of the drop-off site shown below the stock card title" },
+
+  "agentInfoMessage": "The batch will soon be ready for collection by the municipal truck.",
+  "@agentInfoMessage": { "description": "Information message on the agent dashboard about the ongoing batch collection" }
 }

@@ -1,5 +1,6 @@
 import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/constants/app_assets.dart";
@@ -9,16 +10,17 @@ import "../../../../core/theme/app_spacing.dart";
 import "../../../../shared/presentation/widgets/buttons/app_elevated_button.dart";
 import "../../../../shared/presentation/widgets/inputs/app_text_form_field.dart";
 import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
+import "../providers/auth_provider.dart";
 import "../widgets/oauth_section.dart";
 
-class RegisterPage extends StatefulWidget {
+class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  ConsumerState<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPageState extends ConsumerState<RegisterPage> {
   late GlobalKey<FormState> _formKey;
   late TextEditingController _emailController;
   late TextEditingController _usernameController;
@@ -123,17 +125,19 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> _signUp() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
-    // Simulate a login process
     await Future<void>.delayed(const Duration(seconds: 2));
-    if (mounted) setState(() => _isLoading = false);
-    if (mounted) context.goHome();
+    if (!mounted) return;
+    setState(() => _isLoading = false);
+    ref.read(authProvider.notifier).signIn(AppRole.user);
+    context.goHome();
   }
 
   Future<void> _googleSignIn() async {
     setState(() => _isLoading = true);
-    // Simulate a login process
     await Future<void>.delayed(const Duration(seconds: 2));
-    if (mounted) setState(() => _isLoading = false);
-    if (mounted) context.goHome();
+    if (!mounted) return;
+    setState(() => _isLoading = false);
+    ref.read(authProvider.notifier).signIn(AppRole.user);
+    context.goHome();
   }
 }

@@ -54,6 +54,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get commonOr => 'Ou';
 
   @override
+  String get commonSeeMore => 'Voir plus';
+
+  @override
+  String get commonInfo => 'Info';
+
+  @override
   String get authOrContinueWith => 'Ou continuer avec';
 
   @override
@@ -185,6 +191,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get validationRequired => 'Ce champ est obligatoire.';
 
   @override
+  String validationFieldRequired(String field) {
+    return 'L\'attribut $field est requis.';
+  }
+
+  @override
   String get validationInvalidEmail => 'Adresse e-mail invalide.';
 
   @override
@@ -224,6 +235,41 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get routerScreenForgotPassword => 'Mot de passe oublié';
+
+  @override
+  String get routerScreenResetPassword => 'Nouveau mot de passe';
+
+  @override
+  String get routerScreenScanning => 'Analyse en cours…';
+
+  @override
+  String get routerScreenPlaces => 'Points de recyclage';
+
+  @override
+  String get routerScreenHistory => 'Historique';
+
+  @override
+  String get routerScreenProfile => 'Profil';
+
+  @override
+  String get routerScreenAgentDeposits => 'Dépôts';
+
+  @override
+  String get routerScreenAgentHistory => 'Historique agent';
+
+  @override
+  String get routerScreenAgentProfile => 'Profil agent';
+
+  @override
+  String routerScreenPlaceDetail(String id) {
+    return 'Point de recyclage $id';
+  }
+
+  @override
+  String get routerScreenSettings => 'Paramètres';
+
+  @override
   String get errorNetwork => 'Erreur réseau. Vérifie ta connexion internet.';
 
   @override
@@ -248,5 +294,83 @@ class AppLocalizationsFr extends AppLocalizations {
   String get navProfile => 'Profil';
 
   @override
+  String get navAgentDeposits => 'Dépôts';
+
+  @override
   String get navAnalyzeCta => 'Analyser';
+
+  @override
+  String homeGreeting(String name) {
+    return 'Bonjour, $name';
+  }
+
+  @override
+  String get homeAgentRoleLabel => 'Agent';
+
+  @override
+  String get homePointsTitle => 'Mes points';
+
+  @override
+  String get homePointsRedeemCta => 'Échanger';
+
+  @override
+  String homePointsBalance(int amount) {
+    return '$amount pts';
+  }
+
+  @override
+  String homePointsPendingValidation(int amount) {
+    return '+$amount pts en attente de validation';
+  }
+
+  @override
+  String get homePointsNotCash =>
+      'Non convertie en argent liquide. Échangeable contre des bons chez le partenaire.';
+
+  @override
+  String get homePendingDepositsTitle => 'Dépôts en attente';
+
+  @override
+  String get homeDepositItemBottle => 'Bouteille';
+
+  @override
+  String get homeDepositItemIron => 'Fer';
+
+  @override
+  String homeDepositPointsGain(int amount) {
+    return '+$amount pts';
+  }
+
+  @override
+  String get homeEcoImpactTitle => 'Chaque geste compte pour la planète.';
+
+  @override
+  String get homeEcoImpactSubtitle =>
+      'Recyclez vos déchets plastiques et métalliques et récupérez des bons avec vos points de recyclage';
+
+  @override
+  String get agentStatsTreatedDeposits => 'Dépôts traités';
+
+  @override
+  String get agentStatsValidatedPoints => 'Points validés';
+
+  @override
+  String get agentStockTitle => 'Stock du point de dépôt';
+
+  @override
+  String agentStockKgCollected(int amount) {
+    return '$amount kg récoltés';
+  }
+
+  @override
+  String agentStockKgGoal(int amount) {
+    return 'Objectif : $amount kg';
+  }
+
+  @override
+  String get agentStockSiteName => 'EcoCentre de Bè';
+
+  @override
+  String get agentInfoMessage =>
+      'LOT bientôt prêt pour l\'enlèvement par le camion municipal.';
 }

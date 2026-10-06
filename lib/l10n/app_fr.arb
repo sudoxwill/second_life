@@ -60,6 +60,12 @@
     "description": "Séparateur générique entre deux options (ex: entre formulaire et OAuth)"
   },
 
+  "commonSeeMore": "Voir plus",
+  "@commonSeeMore": { "description": "Bouton générique affichant la liste complète (ex: tous les dépôts en attente)" },
+
+  "commonInfo": "Info",
+  "@commonInfo": { "description": "Titre générique d'une carte d'information ou de rappel" },
+
   "authOrContinueWith": "Ou continuer avec",
   "@authOrContinueWith": { "description": "Séparateur DIVIDER entre formulaire email/password et boutons OAuth multiples (Google/GitHub/Apple)" },
 
@@ -207,6 +213,14 @@
   "validationRequired": "Ce champ est obligatoire.",
   "@validationRequired": { "description": "Message d'erreur pour un champ obligatoire vide" },
 
+  "validationFieldRequired": "L'attribut {field} est requis.",
+  "@validationFieldRequired": {
+    "description": "Message d'erreur d'un champ obligatoire, citant son libellé",
+    "placeholders": {
+      "field": { "type": "String", "example": "Email" }
+    }
+  },
+
   "validationInvalidEmail": "Adresse e-mail invalide.",
   "@validationInvalidEmail": { "description": "Message d'erreur pour un e-mail mal formaté" },
 
@@ -255,6 +269,47 @@
     }
   },
 
+  "@__sectionRouterScreens": {
+    "description": "━━━━ ROUTER SCREENS — Titres des écrans placeholder ━━━━"
+  },
+  "routerScreenForgotPassword": "Mot de passe oublié",
+  "@routerScreenForgotPassword": { "description": "Titre de l'écran placeholder de réinitialisation par e-mail" },
+
+  "routerScreenResetPassword": "Nouveau mot de passe",
+  "@routerScreenResetPassword": { "description": "Titre de l'écran placeholder de choix d'un nouveau mot de passe" },
+
+  "routerScreenScanning": "Analyse en cours…",
+  "@routerScreenScanning": { "description": "Titre de l'écran placeholder de scan d'un déchet" },
+
+  "routerScreenPlaces": "Points de recyclage",
+  "@routerScreenPlaces": { "description": "Titre de l'écran placeholder de la carte des points de recyclage" },
+
+  "routerScreenHistory": "Historique",
+  "@routerScreenHistory": { "description": "Titre de l'écran placeholder de l'historique utilisateur" },
+
+  "routerScreenProfile": "Profil",
+  "@routerScreenProfile": { "description": "Titre de l'écran placeholder du profil utilisateur" },
+
+  "routerScreenAgentDeposits": "Dépôts",
+  "@routerScreenAgentDeposits": { "description": "Titre de l'écran placeholder de la liste des dépôts à traiter" },
+
+  "routerScreenAgentHistory": "Historique agent",
+  "@routerScreenAgentHistory": { "description": "Titre de l'écran placeholder de l'historique agent" },
+
+  "routerScreenAgentProfile": "Profil agent",
+  "@routerScreenAgentProfile": { "description": "Titre de l'écran placeholder du profil agent" },
+
+  "routerScreenPlaceDetail": "Point de recyclage {id}",
+  "@routerScreenPlaceDetail": {
+    "description": "Titre de l'écran placeholder du détail d'un point de recyclage",
+    "placeholders": {
+      "id": { "type": "String", "example": "42" }
+    }
+  },
+
+  "routerScreenSettings": "Paramètres",
+  "@routerScreenSettings": { "description": "Titre de l'écran placeholder des paramètres" },
+
   "@__sectionGenericErrors": {
     "description": "━━━━ GENERIC ERRORS — Erreurs réseau/serveur/validation ━━━━"
   },
@@ -285,8 +340,108 @@
   "navProfile": "Profil",
   "@navProfile": { "description": "Label de la destination Profile dans la barre de navigation" },
 
+  "navAgentDeposits": "Dépôts",
+  "@navAgentDeposits": { "description": "Label de l'onglet Dépôts dans le shell agent" },
+
   "navAnalyzeCta": "Analyser",
   "@navAnalyzeCta": {
     "description": "Label de la destination Analyse du FAB dans la barre de navigation"
-  }
+  },
+
+  "@__sectionHome": {
+    "description": "━━━━ HOME — Accueil utilisateur et agent ━━━━"
+  },
+  "homeGreeting": "Bonjour, {name}",
+  "@homeGreeting": {
+    "description": "Titre de la page d'accueil, personnalisé avec le prénom de l'utilisateur",
+    "placeholders": {
+      "name": { "type": "String", "example": "Ama" }
+    }
+  },
+
+  "homeAgentRoleLabel": "Agent",
+  "@homeAgentRoleLabel": { "description": "Rôle de l'utilisateur connecté, utilisé à la place du prénom dans le titre de l'accueil agent" },
+
+  "homePointsTitle": "Mes points",
+  "@homePointsTitle": { "description": "Titre de la carte de solde de points sur l'accueil" },
+
+  "homePointsRedeemCta": "Échanger",
+  "@homePointsRedeemCta": { "description": "Bouton d'échange des points contre des bons chez le partenaire" },
+
+  "homePointsBalance": "{amount} pts",
+  "@homePointsBalance": {
+    "description": "Solde de points affiché sur la carte principale de l'accueil",
+    "placeholders": {
+      "amount": { "type": "int", "example": "350" }
+    }
+  },
+
+  "homePointsPendingValidation": "+{amount} pts en attente de validation",
+  "@homePointsPendingValidation": {
+    "description": "Pastille indiquant les points gagnés mais pas encore validés",
+    "placeholders": {
+      "amount": { "type": "int", "example": "80" }
+    }
+  },
+
+  "homePointsNotCash": "Non convertie en argent liquide. Échangeable contre des bons chez le partenaire.",
+  "@homePointsNotCash": { "description": "Explication sous le solde de points : les points ne sont pas convertis en espèces" },
+
+  "homePendingDepositsTitle": "Dépôts en attente",
+  "@homePendingDepositsTitle": { "description": "Titre de la carte listant les dépôts en attente de validation" },
+
+  "homeDepositItemBottle": "Bouteille",
+  "@homeDepositItemBottle": { "description": "Type de déchet déposé : bouteille" },
+
+  "homeDepositItemIron": "Fer",
+  "@homeDepositItemIron": { "description": "Type de déchet déposé : fer" },
+
+  "homeDepositPointsGain": "+{amount} pts",
+  "@homeDepositPointsGain": {
+    "description": "Points gagnés par un dépôt, affichés dans la liste des dépôts en attente",
+    "placeholders": {
+      "amount": { "type": "int", "example": "50" }
+    }
+  },
+
+  "homeEcoImpactTitle": "Chaque geste compte pour la planète.",
+  "@homeEcoImpactTitle": { "description": "Titre de la carte d'impact environnemental sur l'accueil" },
+
+  "homeEcoImpactSubtitle": "Recyclez vos déchets plastiques et métalliques et récupérez des bons avec vos points de recyclage",
+  "@homeEcoImpactSubtitle": { "description": "Sous-titre de la carte d'impact environnemental : explication du recyclage contre des bons" },
+
+  "@__sectionAgentDashboard": {
+    "description": "━━━━ AGENT DASHBOARD — Stats et stock du point de dépôt ━━━━"
+  },
+
+  "agentStatsTreatedDeposits": "Dépôts traités",
+  "@agentStatsTreatedDeposits": { "description": "Label de la stat card Dépôts traités sur le dashboard agent" },
+
+  "agentStatsValidatedPoints": "Points validés",
+  "@agentStatsValidatedPoints": { "description": "Label de la stat card Points validés sur le dashboard agent" },
+
+  "agentStockTitle": "Stock du point de dépôt",
+  "@agentStockTitle": { "description": "Titre de la card stock sur le dashboard agent" },
+
+  "agentStockKgCollected": "{amount} kg récoltés",
+  "@agentStockKgCollected": {
+    "description": "Kilogrammes récoltés affichés dans la card stock",
+    "placeholders": {
+      "amount": { "type": "int", "example": "142" }
+    }
+  },
+
+  "agentStockKgGoal": "Objectif : {amount} kg",
+  "@agentStockKgGoal": {
+    "description": "Objectif en kilogrammes affiché dans la card stock",
+    "placeholders": {
+      "amount": { "type": "int", "example": "200" }
+    }
+  },
+
+  "agentStockSiteName": "EcoCentre de Bè",
+  "@agentStockSiteName": { "description": "Nom du point de dépôt affiché sous le titre de la card stock" },
+
+  "agentInfoMessage": "Lot bientôt prêt pour l'enlèvement par le camion municipal.",
+  "@agentInfoMessage": { "description": "Message d'information du dashboard agent sur l'enlèvement du lot en cours" }
 }

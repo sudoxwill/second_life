@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 
+import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/app_spacing.dart";
 
 class AppTextFormField extends StatelessWidget {
@@ -127,8 +128,7 @@ class AppTextFormField extends StatelessWidget {
           validator: (value) {
             if (!shouldValidate) return null;
             if (isRequired && (value ?? "").trim().isEmpty) {
-              // TODO Ajouter la traduction l10n ici
-              return "L'attribut $labelText est requis.";
+              return context.l10n.validationFieldRequired(labelText);
             }
             return validatorFunction?.call(value);
           },
