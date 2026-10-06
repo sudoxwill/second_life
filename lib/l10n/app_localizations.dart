@@ -737,7 +737,7 @@ abstract class AppLocalizations {
   /// Message d'information du dashboard agent sur l'enlèvement du lot en cours
   ///
   /// In fr, this message translates to:
-  /// **'LOT bientôt prêt pour l\'enlèvement par le camion municipal.'**
+  /// **'Lot bientôt prêt pour l\'enlèvement par le camion municipal.'**
   String get agentInfoMessage;
 }
 

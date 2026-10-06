@@ -74,10 +74,7 @@ class _AgentHomeState extends State<AgentHome> {
                     ),
                   ],
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(l10n.commonSeeMore),
-                ),
+                TextButton(onPressed: () {}, child: Text(l10n.commonSeeMore)),
               ],
             ),
             ListView.builder(
@@ -141,10 +138,7 @@ class _AgentHomeState extends State<AgentHome> {
               child: Icon(LucideIcons.badgeInfo, color: colorScheme.surface),
             ),
             title: Text(l10n.commonInfo, style: textTheme.labelMedium),
-            subtitle: Text(
-              l10n.agentInfoMessage,
-              style: textTheme.labelSmall,
-            ),
+            subtitle: Text(l10n.agentInfoMessage, style: textTheme.labelSmall),
           ),
         ),
       ],
@@ -169,7 +163,8 @@ class _AgentStatCard extends StatelessWidget {
     final colorScheme = context.colorScheme;
     return Card(
       margin: .zero,
-      color: AppColors.grassCourt,
+      elevation: AppSpacing.elevationLg,
+      color: context.isDarkMode ? null : colorScheme.primaryFixed,
       shape: const RoundedRectangleBorder(borderRadius: AppSpacing.roundedLg),
       child: Padding(
         padding: AppSpacing.insetMd,
@@ -182,6 +177,7 @@ class _AgentStatCard extends StatelessWidget {
               value,
               style: textTheme.headlineMedium!.copyWith(
                 fontWeight: FontWeight.bold,
+                color: AppColors.neutral50,
               ),
             ),
             Text(
@@ -218,7 +214,8 @@ class _AgentStockCard extends StatelessWidget {
     final colorScheme = context.colorScheme;
     return Card(
       margin: .zero,
-      // color: AppColors.grassCourt,
+      elevation: AppSpacing.elevationLg,
+      color: context.isDarkMode ? null : colorScheme.primaryFixed,
       child: Padding(
         padding: AppSpacing.insetMd,
         child: Column(
@@ -238,8 +235,16 @@ class _AgentStockCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: .start,
                   children: [
-                    Text(title, style: textTheme.titleMedium),
-                    Text(siteName),
+                    Text(
+                      title,
+                      style: textTheme.titleMedium!.copyWith(
+                        color: AppColors.neutral50,
+                      ),
+                    ),
+                    Text(
+                      siteName,
+                      style: const TextStyle(color: AppColors.neutral50),
+                    ),
                   ],
                 ),
                 const Spacer(),
@@ -247,7 +252,7 @@ class _AgentStockCard extends StatelessWidget {
                   "$percent%",
                   style: textTheme.titleMedium!.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: colorScheme.primary,
+                    color: AppColors.neutral50,
                   ),
                 ),
               ],
@@ -258,6 +263,7 @@ class _AgentStockCard extends StatelessWidget {
               child: LinearProgressIndicator(
                 value: progress.clamp(0.0, 1.0),
                 minHeight: 8,
+                color: colorScheme.secondary,
                 backgroundColor: colorScheme.surfaceContainerHighest,
               ),
             ),
@@ -265,11 +271,16 @@ class _AgentStockCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(collectedLabel, style: textTheme.bodyMedium),
+                Text(
+                  collectedLabel,
+                  style: textTheme.bodyMedium!.copyWith(
+                    color: AppColors.neutral50,
+                  ),
+                ),
                 Text(
                   goalLabel,
                   style: textTheme.labelMedium!.copyWith(
-                    color: colorScheme.onSurfaceVariant,
+                    color: AppColors.neutral50.withValues(alpha: .8),
                   ),
                 ),
               ],

@@ -37,7 +37,9 @@ class UserHome extends StatelessWidget {
                 Row(
                   mainAxisAlignment: .spaceBetween,
                   children: [
-                    Text(l10n.homePointsTitle, style: textTheme.titleMedium),
+                    Text(l10n.homePointsTitle, style: textTheme.titleMedium!.copyWith(
+                      color: AppColors.neutral50,
+                    )),
                     InkWell(
                       borderRadius: AppSpacing.roundedXxl,
                       child: Container(
@@ -75,7 +77,10 @@ class UserHome extends StatelessWidget {
                 AppSpacing.gapVSm,
                 Text(
                   l10n.homePointsBalance(demoBalancePoints),
-                  style: textTheme.headlineMedium!.copyWith(fontWeight: .bold),
+                  style: textTheme.headlineMedium!.copyWith(fontWeight: .bold,
+                    color: AppColors.neutral50,
+
+                  ),
                 ),
                 AppSpacing.gapVSm,
                 Chip(
@@ -95,7 +100,9 @@ class UserHome extends StatelessWidget {
                   ),
                 ),
                 AppSpacing.gapVXs,
-                Text(l10n.homePointsNotCash, style: textTheme.labelMedium),
+                Text(l10n.homePointsNotCash, style: textTheme.labelMedium!.copyWith(
+                  color: AppColors.neutral50.withValues(alpha: .7),
+                )),
               ],
             ),
           ),

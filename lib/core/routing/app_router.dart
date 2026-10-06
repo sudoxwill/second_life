@@ -8,6 +8,7 @@ import "../../features/auth/presentation/providers/auth_provider.dart";
 import "../../features/home/presentation/pages/agent_dashboard_page.dart";
 import "../../features/home/presentation/pages/home_page.dart";
 import "../../features/onboarding/presentation/pages/index.dart";
+import "../../features/profile/presentation/pages/index.dart";
 import "../../shared/presentation/agent_shell.dart";
 import "../../shared/presentation/app_shell.dart";
 import "../configs/env.dart";
@@ -160,7 +161,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: _Placeholder(title: context.l10n.routerScreenProfile),
+                  child: const UserProfilePage(),
                 ),
               ),
             ],
@@ -220,9 +221,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: _Placeholder(
-                    title: context.l10n.routerScreenAgentProfile,
-                  ),
+                  child: AgentProfilePage(),
                 ),
               ),
             ],
