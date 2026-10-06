@@ -3,15 +3,12 @@ import "package:go_router/go_router.dart";
 
 import "../routing/app_routes.dart";
 
-/// Extensions de navigation SecondLife — enveloppent GoRouter avec les vraies
-/// destinations métier de l'app.
 extension NavigationExtensions on BuildContext {
-
-  // ─── Onboarding ─────────────────────────────
+  // Onboarding
 
   void goOnboarding() => go(AppRoutes.onboarding);
 
-  // ─── Auth ─────────────────────────────────
+  // Auth
 
   void goAuthLogin() => go(AppRoutes.authLogin);
   void pushAuthLogin() => push(AppRoutes.authLogin);
@@ -35,6 +32,7 @@ extension NavigationExtensions on BuildContext {
   void goAgentDeposits() => go(AppRoutes.agentDeposits);
   void goAgentHistory()  => go(AppRoutes.agentHistory);
   void goAgentProfile()  => go(AppRoutes.agentProfile);
+  void pushAgentScan()   => push(AppRoutes.agentScan);
 
   // Détail d'un lieu
 
@@ -46,7 +44,7 @@ extension NavigationExtensions on BuildContext {
   void goHistoryDetail(String id) => go(AppRoutes.historyDetailPath(id));
   void pushHistoryDetail(String id) => push(AppRoutes.historyDetailPath(id));
 
-  // ─── Scan ────────────────────────────────
+  // Scan
 
   void goScan() => go(AppRoutes.scan);
   void pushScan() => push(AppRoutes.scan);

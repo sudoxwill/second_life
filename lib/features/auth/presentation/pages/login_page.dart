@@ -113,26 +113,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() => _isLoading = true);
-    await Future<void>.delayed(const Duration(seconds: 2));
-    if (!mounted) return;
-    setState(() => _isLoading = false);
-    _redirectByRole(_emailController.text);
+    await _signIn();
   }
 
-  Future<void> _googleSignIn() async {
+  Future<void> _googleSignIn() => _signIn();
+
+  Future<void> _signIn() async {
     setState(() => _isLoading = true);
-    await Future<void>.delayed(const Duration(seconds: 2));
+    final AppRole role;
+    try {
+      role = await ref.read(authProvider.notifier).signIn();
+      // Failure n'est pas une Exception : on attrape tout.
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _isLoading = false);
+      context.showSnackBar(context.l10n.commonError);
+      return;
+    }
     if (!mounted) return;
     setState(() => _isLoading = false);
-    _redirectByRole(_emailController.text);
-  }
 
-  void _redirectByRole(String email) {
-    // Mock : email contenant "agent" → rôle agent.
-    // Remplacer par la réponse backend.
-    final role = email.contains("agent") ? AppRole.agent : AppRole.user;
-    ref.read(authProvider.notifier).signIn(role);
     if (role == AppRole.agent) {
       context.goAgentHome();
     } else {
