@@ -28,12 +28,16 @@ class AppScaffold extends ConsumerWidget {
     this.showOfflineBanner = false,
   });
 
+  // ---------------------------------------------------------------------------
   // Navigation / Pop
+  // ---------------------------------------------------------------------------
 
   final void Function(bool, Object?)? onPopInvokedWithResult;
   final bool canPop;
 
+  // ---------------------------------------------------------------------------
   // Layout
+  // ---------------------------------------------------------------------------
 
   final Widget? body;
   final Widget? bottomNavigationBar;
@@ -47,18 +51,25 @@ class AppScaffold extends ConsumerWidget {
   final bool scrollable;
   final bool scrollReverse;
 
+  // ---------------------------------------------------------------------------
   // FAB
+  // ---------------------------------------------------------------------------
 
   final Widget? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
 
+  // ---------------------------------------------------------------------------
   // Background
+  // ---------------------------------------------------------------------------
 
   final Widget Function(Widget child)? backgroundBuilder;
 
+  // ---------------------------------------------------------------------------
   // Refresh
+  // ---------------------------------------------------------------------------
 
-  /// Active aussi [scrollable].
+  /// Wraps scrollable content in a [RefreshIndicator].
+  /// Implies [scrollable] — no need to set both.
   final Future<void> Function()? onRefresh;
   final bool showOfflineBanner;
 
@@ -102,8 +113,8 @@ class AppScaffold extends ConsumerWidget {
                 );
 
                 // The SafeArea already handled the system insets, so we only
-                // Apply the caller's decorative padding here. Behind a bottom
-                // Bar (extendBody) we drop the bottom padding.
+                // apply the caller's decorative padding here. Behind a bottom
+                // bar (extendBody) we drop the bottom padding.
                 final effectivePadding = extendBody
                     ? resolvedPadding.copyWith(bottom: 0)
                     : resolvedPadding;
@@ -111,9 +122,9 @@ class AppScaffold extends ConsumerWidget {
                 Widget content;
 
                 if (isScrollable) {
-                  // Scrollable
+                  // ─── Scrollable ──────────────────────────────────────────
                   // AlwaysScrollablePhysics lets the RefreshIndicator trigger
-                  // Even when the content is shorter than the viewport.
+                  // even when the content is shorter than the viewport.
                   content = SingleChildScrollView(
                     physics: onRefresh != null
                         ? const AlwaysScrollableScrollPhysics()
@@ -121,7 +132,7 @@ class AppScaffold extends ConsumerWidget {
                     reverse: scrollReverse,
                     child: Padding(
                       // The scroll view already gives full width; no need to
-                      // Force `size.width`.
+                      // force `size.width`.
                       padding: effectivePadding,
                       child: body,
                     ),
@@ -134,7 +145,7 @@ class AppScaffold extends ConsumerWidget {
                     );
                   }
                 } else {
-                  // Non-scrollable
+                  // ─── Non-scrollable ──────────────────────────────────────
                   content = Container(
                     constraints: const BoxConstraints.expand(),
                     color: color,

@@ -2,6 +2,7 @@ import "package:flutter/foundation.dart";
 
 import "env.dart";
 
+/// Main application configuration
 class AppConfig {
   AppConfig._();
 
@@ -18,7 +19,6 @@ class AppConfig {
 
     _instance = AppConfigData(
       environment: environment,
-      apiKey: apiKey ?? "",
       customConfig: customConfig ?? {},
     );
   }
@@ -27,22 +27,20 @@ class AppConfig {
 class AppConfigData {
   const AppConfigData({
     required this.environment,
-    this.apiKey = "",
     this.customConfig = const {},
   });
 
   final Environment environment;
-
-  // Clé de l'API Rodium, envoyée dans le header Authorization.
-  final String apiKey;
   final Map<String, dynamic> customConfig;
 
+  // Getters
   bool get isDebug => kDebugMode;
   bool get isRelease => kReleaseMode;
   bool get isProfile => kProfileMode;
 
   String get appName => Env.appName;
 
+  // Custom config getters
   int get maxRetries => getConfig<int>("maxRetries") ?? 0;
 
   T? getConfig<T>(String key, [T? defaultValue]) {

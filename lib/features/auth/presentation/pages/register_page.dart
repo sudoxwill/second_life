@@ -124,30 +124,20 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
   Future<void> _signUp() async {
     if (!_formKey.currentState!.validate()) return;
-    await _signIn();
-  }
-
-  Future<void> _googleSignIn() => _signIn();
-
-  Future<void> _signIn() async {
     setState(() => _isLoading = true);
-    final AppRole role;
-    try {
-      role = await ref.read(authProvider.notifier).signIn();
-      // Failure n'est pas une Exception : on attrape tout.
-    } catch (_) {
-      if (!mounted) return;
-      setState(() => _isLoading = false);
-      context.showSnackBar(context.l10n.commonError);
-      return;
-    }
+    await Future<void>.delayed(const Duration(seconds: 2));
     if (!mounted) return;
     setState(() => _isLoading = false);
+    ref.read(authProvider.notifier).signIn(AppRole.user);
+    context.goHome();
+  }
 
-    if (role == AppRole.agent) {
-      context.goAgentHome();
-    } else {
-      context.goHome();
-    }
+  Future<void> _googleSignIn() async {
+    setState(() => _isLoading = true);
+    await Future<void>.delayed(const Duration(seconds: 2));
+    if (!mounted) return;
+    setState(() => _isLoading = false);
+    ref.read(authProvider.notifier).signIn(AppRole.user);
+    context.goHome();
   }
 }
