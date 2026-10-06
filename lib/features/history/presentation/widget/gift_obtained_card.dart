@@ -12,8 +12,16 @@ bool _getRandomBool() => Random().nextBool();
 class GiftObtainedCard extends StatelessWidget {
   const GiftObtainedCard({super.key});
 
+  static const _demoCategory = "Santé";
+  static const _demoVoucherName = "Bon pharmacie 2000 FCFA";
+  static const _demoPartnerName = "Pharmacie Crésus";
+  static const _demoVoucherCode = "GIFT-3X7K";
+  static const _demoDateObtained = "10 sept. 2026";
+  static const _demoDateExpiry = "10 oct. 2026";
+
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final colorScheme = context.colorScheme;
     final textTheme = context.textTheme;
     final isDarkMode = context.isDarkMode;
@@ -43,21 +51,21 @@ class GiftObtainedCard extends StatelessWidget {
                 child: Icon(LucideIcons.gift, color: colorScheme.onSecondary),
               ),
               title: Text(
-                "Santé",
+                _demoCategory,
                 style: TextStyle(color: colorScheme.primary),
                 overflow: .ellipsis,
               ),
               subtitle: Text(
-                "Bon pharmacie 2000 FCFA",
+                _demoVoucherName,
                 style: textTheme.titleSmall!.copyWith(fontWeight: .bold),
                 overflow: .ellipsis,
               ),
               trailing: isGiftUsed
-                  ? const Chip(label: Text("Utilisé"))
+                  ? Chip(label: Text(l10n.historyVoucherStatusUsed))
                   : Chip(
                       backgroundColor: colorScheme.onSurface,
                       label: Text(
-                        "Actif",
+                        l10n.historyVoucherStatusActive,
                         style: TextStyle(color: colorScheme.surface),
                       ),
                     ),
@@ -75,7 +83,7 @@ class GiftObtainedCard extends StatelessWidget {
                       color: colorScheme.onSurfaceVariant,
                     ),
                     Text(
-                      "Pharmacie Crésus",
+                      _demoPartnerName,
                       style: textTheme.labelMedium!.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
@@ -92,7 +100,7 @@ class GiftObtainedCard extends StatelessWidget {
                     borderRadius: AppSpacing.roundedXs,
                   ),
                   child: Text(
-                    "GIFT-3X7K",
+                    _demoVoucherCode,
                     style: textTheme.labelSmall!.copyWith(
                       color: colorScheme.onSurfaceVariant,
                       letterSpacing: 1.2,
@@ -105,8 +113,14 @@ class GiftObtainedCard extends StatelessWidget {
             Row(
               mainAxisAlignment: .spaceBetween,
               children: [
-                Text("Du 10 sept. 2026", style: textTheme.labelMedium),
-                Text("Exp le 10 oct. 2026", style: textTheme.labelMedium),
+                Text(
+                  l10n.historyVoucherFrom(_demoDateObtained),
+                  style: textTheme.labelMedium,
+                ),
+                Text(
+                  l10n.historyVoucherUntil(_demoDateExpiry),
+                  style: textTheme.labelMedium,
+                ),
               ],
             )
             // if (isSuccess)
@@ -136,7 +150,7 @@ class GiftObtainedCard extends StatelessWidget {
             //           "+20 pts certifiés",
             //           style: TextStyle(color: colorScheme.primary),
             //         ),
-            //         backgroundColor: colorScheme.primary.withValues(alpha: .4),
+            //         backgroundColor: colorScheme.primary.withValues(.4),
             //       ),
             //     ],
             //   )

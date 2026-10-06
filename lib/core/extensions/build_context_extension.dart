@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:intl/intl.dart";
 
 import "../../l10n/app_localizations.dart";
 
@@ -11,6 +12,17 @@ extension BuildContextExtensions on BuildContext {
 
   /// Accès concis aux chaînes traduites. Ex : `context.l10n.commonOk`.
   AppLocalizations get l10n => AppLocalizations.of(this)!;
+
+  /// Date et heure selon la locale courante :
+  /// `10 sept. 2026 à 14:32` en fr, `Sept 10, 2026 at 2:32 PM` en en.
+  String formatDateTime(DateTime date) => l10n.commonDateTime(
+        DateFormat.yMMMd(l10n.localeName).format(date),
+        DateFormat.jm(l10n.localeName).format(date),
+      );
+
+  /// Date selon la locale courante : `10 sept. 2026` / `Sept 10, 2026`.
+  String formatDate(DateTime date) =>
+      DateFormat.yMMMd(l10n.localeName).format(date);
 
   // ═══════════════════════════════════════════════════════════════
   // Thème & apparence

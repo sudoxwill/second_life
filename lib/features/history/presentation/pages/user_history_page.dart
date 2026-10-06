@@ -5,14 +5,13 @@ import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/app_spacing.dart";
+import "../../../../l10n/app_localizations.dart";
 import "../../../../shared/presentation/widgets/buttons/app_elevated_button.dart";
 import "../../../../shared/presentation/widgets/buttons/app_segmented_button.dart";
 import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
 import "../../../../shared/presentation/widgets/others/skeleton.dart";
 import "../../domain/entities/deposit_entity.dart";
 import "../providers/history_providers.dart";
-import "../widget/deposit_detail_sheet.dart";
-import "../widget/deposit_history_card.dart";
 import "../widget/index.dart";
 
 class UserHistoryPage extends ConsumerStatefulWidget {
@@ -83,11 +82,12 @@ class _UserHistoryPageState extends ConsumerState<UserHistoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final count = ref.watch(pendingDepositsCountProvider);
     return AppScaffold(
       appBar: AppBar(
         elevation: 0,
-        title: const Text("Historique de vos activités"),
+        title: Text(l10n.historyTitle),
       ),
       body: Column(
         spacing: AppSpacing.md,
@@ -95,8 +95,8 @@ class _UserHistoryPageState extends ConsumerState<UserHistoryPage> {
           AppSegmentedButton<HistoryType>(
             segments: HistoryType.values.map((type) {
               final label = type == HistoryType.waiting && count > 0
-                  ? "${type.label} ($count)"
-                  : type.label;
+                  ? "${type.label(l10n)} ($count)"
+                  : type.label(l10n);
               return ButtonSegment(value: type, label: Text(label));
             }).toList(),
             selected: currentHistory,
@@ -117,7 +117,7 @@ class _UserHistoryPageState extends ConsumerState<UserHistoryPage> {
   }
 }
 
-// ── Listes ────────────────────────────────────────────────────────────────────
+// ── Listes ──────────────────────────────────────────────────
 
 class _WaitingDepositList extends ConsumerWidget {
   const _WaitingDepositList();
@@ -128,7 +128,7 @@ class _WaitingDepositList extends ConsumerWidget {
         .watch(pendingDepositsProvider)
         .when(
           loading: () => const _DepositSkeleton(),
-          error: (_, __) => _ErrorState(
+          error: (_, _) => _ErrorState(
             onRetry: () => ref.invalidate(pendingDepositsProvider),
           ),
           data: (deposits) => deposits.isEmpty
@@ -151,7 +151,7 @@ class _ProcessedDepositList extends ConsumerWidget {
         .watch(processedDepositsProvider)
         .when(
           loading: () => const _DepositSkeleton(),
-          error: (_, __) => _ErrorState(
+          error: (_, _) => _ErrorState(
             onRetry: () => ref.invalidate(processedDepositsProvider),
           ),
           data: (deposits) => deposits.isEmpty
@@ -174,7 +174,7 @@ class _VoucherList extends ConsumerWidget {
         .watch(vouchersProvider)
         .when(
           loading: () => const _DepositSkeleton(),
-          error: (_, __) =>
+          error: (_, _) =>
               _ErrorState(onRetry: () => ref.invalidate(vouchersProvider)),
           data: (vouchers) => vouchers.isEmpty
               ? const _EmptyState(type: HistoryType.gift)
@@ -187,7 +187,7 @@ class _VoucherList extends ConsumerWidget {
   }
 }
 
-// ── États spéciaux ────────────────────────────────────────────────────────────
+// ── États spéciaux ─────────────────────────────────────────────
 
 class _DepositSkeleton extends StatelessWidget {
   const _DepositSkeleton();
@@ -195,15 +195,12 @@ class _DepositSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SkeletonLoader(
-      isLoading: true,
       child: ListView.builder(
         itemCount: 6,
-        itemBuilder: (_, __) => const Padding(
+        itemBuilder: (_, _) => const Padding(
           padding: EdgeInsets.symmetric(vertical: AppSpacing.xs),
-          child: const SkeletonTile(
-            showLeading: true,
+          child: SkeletonTile(
             showTrailing: true,
-            lines: 2,
           ),
         ),
       ),
@@ -218,6 +215,7 @@ class _ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
     return Center(
@@ -231,12 +229,12 @@ class _ErrorState extends StatelessWidget {
             color: colorScheme.onSurfaceVariant,
           ),
           Text(
-            "Une erreur est survenue",
+            l10n.commonError,
             style: textTheme.bodyMedium!.copyWith(
               color: colorScheme.onSurfaceVariant,
             ),
           ),
-          AppElevatedButton(onPressed: onRetry, text: "Réessayer"),
+          AppElevatedButton(onPressed: onRetry, text: l10n.commonRetry),
         ],
       ),
     );
@@ -250,6 +248,7 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
     final isGift = type == HistoryType.gift;
@@ -264,14 +263,14 @@ class _EmptyState extends StatelessWidget {
             color: colorScheme.onSurfaceVariant,
           ),
           Text(
-            isGift ? "Bientôt disponible" : "Aucun dépôt pour le moment",
+            isGift ? l10n.historyEmptyGiftTitle : l10n.historyEmptyDepositTitle,
             style: textTheme.titleSmall,
           ),
           if (isGift)
             Padding(
               padding: AppSpacing.insetHXl,
               child: Text(
-                "L'échange de points contre des récompenses arrive très bientôt.",
+                l10n.historyEmptyGiftMessage,
                 style: textTheme.bodySmall!.copyWith(
                   color: colorScheme.onSurfaceVariant,
                 ),
@@ -284,14 +283,16 @@ class _EmptyState extends StatelessWidget {
   }
 }
 
-// ── Enum ──────────────────────────────────────────────────────────────────────
+// ── Enum ──────────────────────────────────────────────────
 
 enum HistoryType {
-  waiting(label: "En attente"),
-  processed(label: "Traités"),
-  gift(label: "Récompenses");
+  waiting,
+  processed,
+  gift;
 
-  const HistoryType({required this.label});
-
-  final String label;
+  String label(AppLocalizations l10n) => switch (this) {
+    HistoryType.waiting => l10n.historyTabWaiting,
+    HistoryType.processed => l10n.historyTabProcessed,
+    HistoryType.gift => l10n.historyTabGift,
+  };
 }

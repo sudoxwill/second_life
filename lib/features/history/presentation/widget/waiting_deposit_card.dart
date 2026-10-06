@@ -10,8 +10,14 @@ class WaitingDepositCard extends StatelessWidget {
     super.key,
   });
 
+  static const _demoMaterial = "Bouteille en plastique (PET)";
+  static const _demoDate = "25 sept. 2026 à 14:32";
+  static const _demoWeight = 0.5;
+  static const _demoPoints = 20;
+
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final colorScheme = context.colorScheme;
     final textTheme = context.textTheme;
     final isDarkMode = context.isDarkMode;
@@ -22,7 +28,9 @@ class WaitingDepositCard extends StatelessWidget {
         padding: AppSpacing.insetSm,
         decoration: BoxDecoration(
           borderRadius: AppSpacing.roundedMd,
-          color: colorScheme.primaryContainer.withValues(alpha: isDarkMode ? .4 : 1),
+          color: colorScheme.primaryContainer.withValues(
+            alpha: isDarkMode ? .4 : 1,
+          ),
         ),
         child: Column(
           children: [
@@ -38,11 +46,11 @@ class WaitingDepositCard extends StatelessWidget {
                 child: Icon(LucideIcons.box, color: colorScheme.onSecondary,),
               ),
               title: const Text(
-                "Bouteille en plastique (PET)",
+                _demoMaterial,
                 overflow: .ellipsis,
                 maxLines: 2,
               ),
-              subtitle: const Text("25 sept. 2026 à 14:32"),
+              subtitle: const Text(_demoDate),
               trailing: const Icon(LucideIcons.chevronRight),
             ),
             AppDivider(color: colorScheme.outline, indent: 0,),
@@ -54,22 +62,14 @@ class WaitingDepositCard extends StatelessWidget {
                   color: colorScheme.primary,
                   size: AppSpacing.iconMd,
                 ),
-                RichText(
-                  text: TextSpan(
-                    text: "Poids estimé: ",
-                    style: textTheme.bodyMedium,
-                    children: const [
-                      TextSpan(
-                        text: "~ 0.5 kg",
-                        style: TextStyle(fontWeight: .bold),
-                      ),
-                    ],
-                  ),
+                Text(
+                  l10n.historyWeightEstimated(_demoWeight),
+                  style: textTheme.bodyMedium,
                 ),
                 const Spacer(),
                 Chip(
                   label: Text(
-                    "+20 pts en attente",
+                    l10n.historyPointsPending(_demoPoints),
                     style: TextStyle(color: colorScheme.secondary),
                   ),
                   backgroundColor: colorScheme.secondary.withValues(
