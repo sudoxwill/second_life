@@ -524,12 +524,6 @@ abstract class AppLocalizations {
   /// **'Historique'**
   String get routerScreenHistory;
 
-  /// Titre de l'écran placeholder du profil utilisateur
-  ///
-  /// In fr, this message translates to:
-  /// **'Profil'**
-  String get routerScreenProfile;
-
   /// Titre de l'écran placeholder de la liste des dépôts à traiter
   ///
   /// In fr, this message translates to:
@@ -541,12 +535,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Historique agent'**
   String get routerScreenAgentHistory;
-
-  /// Titre de l'écran placeholder du profil agent
-  ///
-  /// In fr, this message translates to:
-  /// **'Profil agent'**
-  String get routerScreenAgentProfile;
 
   /// Titre de l'écran placeholder du détail d'un point de recyclage
   ///
@@ -737,8 +725,122 @@ abstract class AppLocalizations {
   /// Message d'information du dashboard agent sur l'enlèvement du lot en cours
   ///
   /// In fr, this message translates to:
-  /// **'LOT bientôt prêt pour l\'enlèvement par le camion municipal.'**
+  /// **'Lot bientôt prêt pour l\'enlèvement par le camion municipal.'**
   String get agentInfoMessage;
+
+  /// Titre de la barre d'application des écrans de profil
+  ///
+  /// In fr, this message translates to:
+  /// **'Mon profil'**
+  String get profileTitle;
+
+  /// Valeur des points disponibles affichée dans les statistiques du profil
+  ///
+  /// In fr, this message translates to:
+  /// **'{value} pts'**
+  String profileStatAvailableValue(int value);
+
+  /// Libellé de la statistique points disponibles
+  ///
+  /// In fr, this message translates to:
+  /// **'Disponibles'**
+  String get profileStatAvailableLabel;
+
+  /// Valeur des points en attente de validation affichée dans les statistiques du profil
+  ///
+  /// In fr, this message translates to:
+  /// **'+{value} pts'**
+  String profileStatPendingValue(int value);
+
+  /// Libellé de la statistique points en attente de validation
+  ///
+  /// In fr, this message translates to:
+  /// **'En attente'**
+  String get profileStatPendingLabel;
+
+  /// Poids des déchets recyclés affiché dans les statistiques du profil
+  ///
+  /// In fr, this message translates to:
+  /// **'{value} kg'**
+  String profileStatRecycledValue(double value);
+
+  /// Libellé de la statistique poids recyclé
+  ///
+  /// In fr, this message translates to:
+  /// **'Recyclés'**
+  String get profileStatRecycledLabel;
+
+  /// Rôle affiché sous le nom de l'agent sur son profil
+  ///
+  /// In fr, this message translates to:
+  /// **'Agent de collecte'**
+  String get profileAgentRole;
+
+  /// Horaires d'ouverture du centre de dépôt affichés sur le profil agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Lun – Sam, 8h – 18h'**
+  String get profileCenterHours;
+
+  /// Pastille indiquant que le centre de dépôt est ouvert
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouvert'**
+  String get profileStatusOpen;
+
+  /// Pastille indiquant que le centre de dépôt est fermé
+  ///
+  /// In fr, this message translates to:
+  /// **'Fermé'**
+  String get profileStatusClosed;
+
+  /// Titre de la section réglages sur les pages de profil
+  ///
+  /// In fr, this message translates to:
+  /// **'Paramètres'**
+  String get profileSettingsTitle;
+
+  /// Réglage d'activation des notifications
+  ///
+  /// In fr, this message translates to:
+  /// **'Notifications'**
+  String get profileSettingsNotifications;
+
+  /// Réglage du thème clair/sombre/système
+  ///
+  /// In fr, this message translates to:
+  /// **'Thème'**
+  String get profileSettingsTheme;
+
+  /// Réglage de la langue de l'application
+  ///
+  /// In fr, this message translates to:
+  /// **'Langue'**
+  String get profileSettingsLanguage;
+
+  /// Réglage d'activation de la police adaptée à la dyslexie
+  ///
+  /// In fr, this message translates to:
+  /// **'Police dyslexique'**
+  String get profileSettingsDyslexicFont;
+
+  /// Option de thème clair dans le sélecteur de thème
+  ///
+  /// In fr, this message translates to:
+  /// **'Clair'**
+  String get profileThemeLight;
+
+  /// Option de thème sombre dans le sélecteur de thème
+  ///
+  /// In fr, this message translates to:
+  /// **'Sombre'**
+  String get profileThemeDark;
+
+  /// Option de thème suivant le système dans le sélecteur de thème
+  ///
+  /// In fr, this message translates to:
+  /// **'Système'**
+  String get profileThemeSystem;
 }
 
 class _AppLocalizationsDelegate

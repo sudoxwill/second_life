@@ -8,6 +8,7 @@ import "../views/agent_home.dart";
 
 class AgentDashboardPage extends StatelessWidget {
   const AgentDashboardPage({super.key});
+
   static const int demoNotificationCount = 1;
 
   @override

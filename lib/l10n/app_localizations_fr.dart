@@ -250,16 +250,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get routerScreenHistory => 'Historique';
 
   @override
-  String get routerScreenProfile => 'Profil';
-
-  @override
   String get routerScreenAgentDeposits => 'Dépôts';
 
   @override
   String get routerScreenAgentHistory => 'Historique agent';
-
-  @override
-  String get routerScreenAgentProfile => 'Profil agent';
 
   @override
   String routerScreenPlaceDetail(String id) {
@@ -372,5 +366,68 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get agentInfoMessage =>
-      'LOT bientôt prêt pour l\'enlèvement par le camion municipal.';
+      'Lot bientôt prêt pour l\'enlèvement par le camion municipal.';
+
+  @override
+  String get profileTitle => 'Mon profil';
+
+  @override
+  String profileStatAvailableValue(int value) {
+    return '$value pts';
+  }
+
+  @override
+  String get profileStatAvailableLabel => 'Disponibles';
+
+  @override
+  String profileStatPendingValue(int value) {
+    return '+$value pts';
+  }
+
+  @override
+  String get profileStatPendingLabel => 'En attente';
+
+  @override
+  String profileStatRecycledValue(double value) {
+    return '$value kg';
+  }
+
+  @override
+  String get profileStatRecycledLabel => 'Recyclés';
+
+  @override
+  String get profileAgentRole => 'Agent de collecte';
+
+  @override
+  String get profileCenterHours => 'Lun – Sam, 8h – 18h';
+
+  @override
+  String get profileStatusOpen => 'Ouvert';
+
+  @override
+  String get profileStatusClosed => 'Fermé';
+
+  @override
+  String get profileSettingsTitle => 'Paramètres';
+
+  @override
+  String get profileSettingsNotifications => 'Notifications';
+
+  @override
+  String get profileSettingsTheme => 'Thème';
+
+  @override
+  String get profileSettingsLanguage => 'Langue';
+
+  @override
+  String get profileSettingsDyslexicFont => 'Police dyslexique';
+
+  @override
+  String get profileThemeLight => 'Clair';
+
+  @override
+  String get profileThemeDark => 'Sombre';
+
+  @override
+  String get profileThemeSystem => 'Système';
 }

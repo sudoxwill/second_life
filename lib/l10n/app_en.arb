@@ -275,17 +275,11 @@
   "routerScreenHistory": "History",
   "@routerScreenHistory": { "description": "Title of the placeholder screen for the user history" },
 
-  "routerScreenProfile": "Profile",
-  "@routerScreenProfile": { "description": "Title of the placeholder screen for the user profile" },
-
   "routerScreenAgentDeposits": "Deposits",
   "@routerScreenAgentDeposits": { "description": "Title of the placeholder screen listing deposits to process" },
 
   "routerScreenAgentHistory": "Agent history",
   "@routerScreenAgentHistory": { "description": "Title of the placeholder screen for the agent history" },
-
-  "routerScreenAgentProfile": "Agent profile",
-  "@routerScreenAgentProfile": { "description": "Title of the placeholder screen for the agent profile" },
 
   "routerScreenPlaceDetail": "Recycling point {id}",
   "@routerScreenPlaceDetail": {
@@ -431,5 +425,80 @@
   "@agentStockSiteName": { "description": "Name of the drop-off site shown below the stock card title" },
 
   "agentInfoMessage": "The batch will soon be ready for collection by the municipal truck.",
-  "@agentInfoMessage": { "description": "Information message on the agent dashboard about the ongoing batch collection" }
+  "@agentInfoMessage": { "description": "Information message on the agent dashboard about the ongoing batch collection" },
+
+  "@__sectionProfile": {
+    "description": "━━━━ PROFILE — User/agent profiles and settings ━━━━"
+  },
+  "profileTitle": "My profile",
+  "@profileTitle": { "description": "Title of the app bar on profile screens" },
+
+  "profileStatAvailableValue": "{value} pts",
+  "@profileStatAvailableValue": {
+    "description": "Available points value shown in profile statistics",
+    "placeholders": {
+      "value": { "type": "int", "example": "1250" }
+    }
+  },
+
+  "profileStatAvailableLabel": "Available",
+  "@profileStatAvailableLabel": { "description": "Label of the available points statistic" },
+
+  "profileStatPendingValue": "+{value} pts",
+  "@profileStatPendingValue": {
+    "description": "Points awaiting validation shown in profile statistics",
+    "placeholders": {
+      "value": { "type": "int", "example": "80" }
+    }
+  },
+
+  "profileStatPendingLabel": "Pending",
+  "@profileStatPendingLabel": { "description": "Label of the pending points statistic" },
+
+  "profileStatRecycledValue": "{value} kg",
+  "@profileStatRecycledValue": {
+    "description": "Recycled waste weight shown in profile statistics",
+    "placeholders": {
+      "value": { "type": "double", "example": "18.4" }
+    }
+  },
+
+  "profileStatRecycledLabel": "Recycled",
+  "@profileStatRecycledLabel": { "description": "Label of the recycled weight statistic" },
+
+  "profileAgentRole": "Collection agent",
+  "@profileAgentRole": { "description": "Role shown below the agent's name on their profile" },
+
+  "profileCenterHours": "Mon – Sat, 8am – 6pm",
+  "@profileCenterHours": { "description": "Opening hours of the drop-off centre shown on the agent profile" },
+
+  "profileStatusOpen": "Open",
+  "@profileStatusOpen": { "description": "Badge showing the drop-off centre is open" },
+
+  "profileStatusClosed": "Closed",
+  "@profileStatusClosed": { "description": "Badge showing the drop-off centre is closed" },
+
+  "profileSettingsTitle": "Settings",
+  "@profileSettingsTitle": { "description": "Title of the settings section on profile pages" },
+
+  "profileSettingsNotifications": "Notifications",
+  "@profileSettingsNotifications": { "description": "Setting enabling notifications" },
+
+  "profileSettingsTheme": "Theme",
+  "@profileSettingsTheme": { "description": "Light/dark/system theme setting" },
+
+  "profileSettingsLanguage": "Language",
+  "@profileSettingsLanguage": { "description": "App language setting" },
+
+  "profileSettingsDyslexicFont": "Dyslexic font",
+  "@profileSettingsDyslexicFont": { "description": "Setting enabling the dyslexia-friendly font" },
+
+  "profileThemeLight": "Light",
+  "@profileThemeLight": { "description": "Light theme option in the theme picker" },
+
+  "profileThemeDark": "Dark",
+  "@profileThemeDark": { "description": "Dark theme option in the theme picker" },
+
+  "profileThemeSystem": "System",
+  "@profileThemeSystem": { "description": "Follow-system theme option in the theme picker" }
 }
