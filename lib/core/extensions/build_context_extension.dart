@@ -2,19 +2,12 @@ import "package:flutter/material.dart";
 
 import "../../l10n/app_localizations.dart";
 
-/// Extensions courantes sur `BuildContext`.
-///
 extension BuildContextExtensions on BuildContext {
-  // ═══════════════════════════════════════════════════════════════
   // Localisation
-  // ═══════════════════════════════════════════════════════════════
 
-  /// Accès concis aux chaînes traduites. Ex : `context.l10n.commonOk`.
   AppLocalizations get l10n => AppLocalizations.of(this)!;
 
-  // ═══════════════════════════════════════════════════════════════
   // Thème & apparence
-  // ═══════════════════════════════════════════════════════════════
 
   ThemeData get theme => Theme.of(this);
 
@@ -26,9 +19,7 @@ extension BuildContextExtensions on BuildContext {
 
   Color get scaffoldBackgroundColor => theme.scaffoldBackgroundColor;
 
-  // ═══════════════════════════════════════════════════════════════
   // Responsive
-  // ═══════════════════════════════════════════════════════════════
 
   Size get screenSize => MediaQuery.sizeOf(this);
   double get screenWidth => screenSize.width;
@@ -45,9 +36,7 @@ extension BuildContextExtensions on BuildContext {
   EdgeInsets get padding => MediaQuery.paddingOf(this);
   EdgeInsets get viewInsets => MediaQuery.viewInsetsOf(this);
 
-  // ═══════════════════════════════════════════════════════════════
   // Navigation
-  // ═══════════════════════════════════════════════════════════════
 
   void pop<T extends Object?>([T? result]) {
     Navigator.of(this).pop(result);
@@ -55,12 +44,8 @@ extension BuildContextExtensions on BuildContext {
 
   bool get canPop => Navigator.of(this).canPop();
 
-  // ═══════════════════════════════════════════════════════════════
   // Retour utilisateur
-  // ═══════════════════════════════════════════════════════════════
 
-  /// Affiche une snackbar sobre. Le style de fond vient du thème
-  /// (`surfaceInverse`) ; on peut le remplacer via `backgroundColor`.
   void showSnackBar(
       String message, {
         Duration duration = const Duration(seconds: 3),
@@ -79,9 +64,7 @@ extension BuildContextExtensions on BuildContext {
       );
   }
 
-  /// Dialog de confirmation — tutoiement, phrases courtes.
-  ///
-  /// Retourne `true` si l'utilisateur confirme, `false` s'il annule.
+  /// Renvoie true si l'utilisateur confirme.
   Future<bool?> showConfirmDialog({
     required String title,
     required String content,
@@ -122,7 +105,6 @@ extension BuildContextExtensions on BuildContext {
     );
   }
 
-  /// Dialog informatif — un seul bouton.
   Future<void> showInfoDialog({
     required String title,
     required String content,
