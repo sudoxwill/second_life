@@ -1,10 +1,13 @@
 import "package:flutter/material.dart" show Color, MaterialColor;
 
-/// Sans suffixe : mode clair. Suffixe Dark : mode sombre.
+/// Palette SecondLife — vert pour agir, jaune pour gagner.
+/// Constantes sans suffixe = mode clair, suffixe `Dark` = mode sombre.
 class AppColors {
   const AppColors._();
 
-  // Brand
+  // ───────────────────────────────────────────────
+  // BRAND
+  // ───────────────────────────────────────────────
 
   static const Color supernova = Color(0xFFFFCD00);
   static const Color grassCourt = Color(0xFF008C45);
@@ -24,7 +27,9 @@ class AppColors {
     900: Color(0xFF123F2B),
   });
 
-  // Primary, vert
+  // ───────────────────────────────────────────────
+  // PRIMARY — Vert
+  // ───────────────────────────────────────────────
 
   static const Color primary = Color(0xFF007A3D);
   static const Color primaryHover = Color(0xFF006B35);
@@ -42,7 +47,9 @@ class AppColors {
   static const Color onPrimaryDark = Color(0xFF0B1F1A);
   static const Color onPrimarySubtleDark = Color(0xFF7BE8B0);
 
-  // Accent, jaune (crédits, récompenses)
+  // ───────────────────────────────────────────────
+  // ACCENT — Jaune (crédits, récompenses)
+  // ───────────────────────────────────────────────
 
   static const Color accent = Color(0xFFD4A800);
   static const Color onAccent = jungleGreen;
@@ -52,7 +59,9 @@ class AppColors {
   static const Color accentSubtleDark = Color(0xFF3A3000);
   static const Color onAccentSubtleDark = supernova;
 
-  // Texte, mode clair
+  // ───────────────────────────────────────────────
+  // TEXTE — Mode clair
+  // ───────────────────────────────────────────────
 
   static const Color textPrimary = jungleGreen;
   static const Color textSecondary = Color(0xFF4E625A);
@@ -60,7 +69,9 @@ class AppColors {
   static const Color textDisabled = Color(0xFF9AA59F);
   static const Color textInverse = springWhite;
 
-  // Texte, mode sombre
+  // ───────────────────────────────────────────────
+  // TEXTE — Mode sombre
+  // ───────────────────────────────────────────────
 
   static const Color textPrimaryDark = springWhite;
   static const Color textSecondaryDark = Color(0xFFAFC2BA);
@@ -68,7 +79,9 @@ class AppColors {
   static const Color textDisabledDark = Color(0xFF4A6B62);
   static const Color textInverseDark = jungleGreen;
 
-  // Surfaces, mode clair
+  // ───────────────────────────────────────────────
+  // SURFACES — Mode clair
+  // ───────────────────────────────────────────────
 
   static const Color surfacePage = Color(0xFFFCFAF7);
   static const Color surfaceCard = Color(0xFFFFFFFF);
@@ -77,7 +90,9 @@ class AppColors {
   static const Color surfaceInverse = jungleGreen;
   static const Color surfaceNav = Color(0xFFFFFFFF);
 
-  // Surfaces, mode sombre
+  // ───────────────────────────────────────────────
+  // SURFACES — Mode sombre
+  // ───────────────────────────────────────────────
 
   static const Color surfacePageDark = Color(0xFF131A18);
   static const Color surfaceCardDark = jungleGreen;
@@ -86,21 +101,27 @@ class AppColors {
   static const Color surfaceInverseDark = springWhite;
   static const Color surfaceNavDark = jungleGreen;
 
-  // Bordures, mode clair
+  // ───────────────────────────────────────────────
+  // BORDURES — Mode clair
+  // ───────────────────────────────────────────────
 
   static const Color borderHairline = Color(0xFFEEE9DC);
   static const Color borderDefault = Color(0xFFE3DDCC);
   static const Color borderStrong = Color(0xFF76827C);
   static const Color borderFocus = jungleGreen;
 
-  // Bordures, mode sombre
+  // ───────────────────────────────────────────────
+  // BORDURES — Mode sombre
+  // ───────────────────────────────────────────────
 
   static const Color borderHairlineDark = Color(0xFF1B3A33);
   static const Color borderDefaultDark = Color(0xFF24473E);
   static const Color borderStrongDark = Color(0xFF6B9187);
   static const Color borderFocusDark = supernova;
 
-  // Sémantique, mode clair
+  // ───────────────────────────────────────────────
+  // SÉMANTIQUE — Mode clair
+  // ───────────────────────────────────────────────
 
   static const Color semanticSuccess = Color(0xFF00707A);
   static const Color semanticSuccessBg = Color(0xFFD6EFF1);
@@ -120,7 +141,9 @@ class AppColors {
 
   static const Color semanticOffline = Color(0xFF5B6E66);
 
-  // Sémantique, mode sombre
+  // ───────────────────────────────────────────────
+  // SÉMANTIQUE — Mode sombre
+  // ───────────────────────────────────────────────
 
   static const Color semanticSuccessDark = Color(0xFF5DD3DD);
   static const Color semanticSuccessBgDark = Color(0xFF0F3A3F);
@@ -140,7 +163,9 @@ class AppColors {
 
   static const Color semanticOfflineDark = Color(0xFF8FA59C);
 
-  // Matériaux, chips de type de déchet
+  // ───────────────────────────────────────────────
+  // MATÉRIAUX — chips de type de déchet
+  // ───────────────────────────────────────────────
 
   static const Color materialPlastic = Color(0xFF1D4F8A);
   static const Color materialPlasticBg = Color(0xFFDCEBFA);
@@ -172,17 +197,16 @@ class AppColors {
   static const Color materialOrganicDark = onPrimarySubtleDark;
   static const Color materialOrganicBgDark = primarySubtleDark;
 
-  // Scan, écrans caméra, toujours sombres
-
-  static const Color scanBackground = surfaceSunkenDark;
-  static const Color scanFrame = primaryDark;
-
-  // Ombre flottante
+  // ───────────────────────────────────────────────
+  // OMBRE FLOTTANTE
+  // ───────────────────────────────────────────────
 
   static const Color shadowFloating = Color(0x1413322B);
   static const Color shadowFloatingDark = Color(0x80000000);
 
-  // Neutres, gris verts
+  // ───────────────────────────────────────────────
+  // NEUTRES — gris verts
+  // ───────────────────────────────────────────────
 
   static const Color neutral50 = Color(0xFFF9F6ED);
   static const Color neutral100 = Color(0xFFF0EBDD);

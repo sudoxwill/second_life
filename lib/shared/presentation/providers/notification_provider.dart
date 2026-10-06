@@ -5,7 +5,8 @@ import "../../data/services/notification_service.dart";
 
 part "notification_provider.g.dart";
 
-/// Fourni par main() dans les overrides, comme sharedPreferencesProvider.
+/// Plugin brut injecté depuis main() via ProviderScope.overrides,
+/// exactement comme sharedPreferencesProvider.
 @Riverpod(keepAlive: true)
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin(Ref ref) {
   throw UnimplementedError(
@@ -14,6 +15,8 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin(Ref ref) {
   );
 }
 
+/// Facade du service de notifications, construite synchronement
+/// à partir du plugin pré-initialisé.
 @Riverpod(keepAlive: true)
 NotificationService notificationService(Ref ref) {
   return NotificationService(

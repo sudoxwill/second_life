@@ -52,8 +52,6 @@ app.*.map.json
 /docs/
 docs/
 .env
-lib/core/configs/secrets.dart
-firebase.json
 .claude
 .gemini
 

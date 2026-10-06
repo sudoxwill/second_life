@@ -3,12 +3,15 @@ import "package:go_router/go_router.dart";
 
 import "../routing/app_routes.dart";
 
+/// Extensions de navigation SecondLife — enveloppent GoRouter avec les vraies
+/// destinations métier de l'app.
 extension NavigationExtensions on BuildContext {
-  // Onboarding
+
+  // ─── Onboarding ─────────────────────────────
 
   void goOnboarding() => go(AppRoutes.onboarding);
 
-  // Auth
+  // ─── Auth ─────────────────────────────────
 
   void goAuthLogin() => go(AppRoutes.authLogin);
   void pushAuthLogin() => push(AppRoutes.authLogin);
@@ -19,42 +22,41 @@ extension NavigationExtensions on BuildContext {
   void goAuthResetPassword() => go(AppRoutes.authResetPassword);
   void pushAuthResetPassword() => push(AppRoutes.authResetPassword);
 
-  // UserShell
+  // ─── UserShell ─────────────────────────────
 
   void goHome() => go(AppRoutes.home);
   void goPlaces() => go(AppRoutes.places);
   void goHistory() => go(AppRoutes.history);
   void goProfile() => go(AppRoutes.profile);
 
-  // AgentShell
+  // ─── AgentShell ─────────────────────────────
 
   void goAgentHome()     => go(AppRoutes.agentHome);
   void goAgentDeposits() => go(AppRoutes.agentDeposits);
   void goAgentHistory()  => go(AppRoutes.agentHistory);
   void goAgentProfile()  => go(AppRoutes.agentProfile);
-  void pushAgentScan()   => push(AppRoutes.agentScan);
 
-  // Places Details
+  // ─── Places Details ──────────────────────────────
 
   void goPlaceDetail(String id) => go(AppRoutes.placeDetailPath(id));
   void pushPlaceDetail(String id) => push(AppRoutes.placeDetailPath(id));
 
-  // History Details
+  // ─── History Details ──────────────────────────────
 
   void goHistoryDetail(String id) => go(AppRoutes.historyDetailPath(id));
   void pushHistoryDetail(String id) => push(AppRoutes.historyDetailPath(id));
 
-  // Scan
+  // ─── Scan ────────────────────────────────
 
   void goScan() => go(AppRoutes.scan);
   void pushScan() => push(AppRoutes.scan);
 
-  // Settings
+  // ─── Settings ─────────────────────────────
 
   void goTrash() => go(AppRoutes.settings);
   void pushTrash() => push(AppRoutes.settings);
 
-  // Back
+  // ─── Back ───────────────────────────────
 
   void popScreen<T extends Object?>([T? result]) {
     if (canPop()) pop<T>(result);

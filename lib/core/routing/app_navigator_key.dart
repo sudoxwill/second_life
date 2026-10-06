@@ -1,6 +1,9 @@
 import "package:flutter/material.dart";
 
-/// Pour naviguer sans BuildContext, par exemple au tap sur une notification.
+/// GlobalKey permettant la navigation sans BuildContext depuis des callbacks
+/// hors du widget tree (tap sur notification, background handler).
+///
+/// Injecté dans GoRouter via le paramètre navigatorKey.
 class AppNavigatorKey {
   AppNavigatorKey._();
 

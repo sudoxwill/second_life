@@ -3,7 +3,9 @@ import "package:flutter/material.dart";
 import "../../../../core/theme/app_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
 
-/// Séparateur, avec un label ou un widget au milieu si besoin.
+/// Séparateur horizontal, optionnellement traversé par un label ou un widget.
+///
+/// Par défaut : hairline neutre — la couleur peut être surchargée via [color].
 class AppDivider extends StatelessWidget {
   const AppDivider({
     super.key,
