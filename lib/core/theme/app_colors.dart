@@ -96,6 +96,7 @@ class AppColors {
 
   static const Color surfacePageDark = Color(0xFF131A18);
   static const Color surfaceCardDark = jungleGreen;
+  static const Color surfaceSheetDark = Color(0xFF1C1C1E);
   static const Color surfaceRaisedDark = Color(0xFF1B4038);
   static const Color surfaceSunkenDark = Color(0xFF071511);
   static const Color surfaceInverseDark = springWhite;

@@ -2,44 +2,44 @@ import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
-import "../../../core/routing/app_routes.dart";
-import "../../../core/theme/app_colors.dart";
-import "../../../core/theme/app_spacing.dart";
-import "../../../l10n/app_localizations.dart";
-import "../../core/extensions/build_context_extension.dart";
-import "../../core/extensions/navigation_extension.dart";
+import "../../../../core/extensions/build_context_extension.dart";
+import "../../../../core/extensions/navigation_extension.dart";
+import "../../../../core/routing/app_routes.dart";
+import "../../../../core/theme/app_colors.dart";
+import "../../../../core/theme/app_spacing.dart";
+import "../../../../l10n/app_localizations.dart";
 
 List<_NavItemData> _getNavItems(AppLocalizations l10n) {
   return <_NavItemData>[
     (
       index: 0,
-      icon: LucideIcons.home,
+      icon: LucideIcons.layoutDashboard,
       label: l10n.navHome,
-      route: AppRoutes.home,
+      route: AppRoutes.agentHome,
     ),
     (
       index: 1,
-      icon: LucideIcons.map,
-      label: l10n.navPlaces,
-      route: AppRoutes.places,
+      icon: LucideIcons.inbox,
+      label: l10n.navAgentDeposits,
+      route: AppRoutes.agentDeposits,
     ),
     (
       index: 2,
       icon: LucideIcons.rotateCcwClock,
       label: l10n.navHistory,
-      route: AppRoutes.history,
+      route: AppRoutes.agentHistory,
     ),
     (
       index: 3,
       icon: LucideIcons.userRound,
       label: l10n.navProfile,
-      route: AppRoutes.profile,
+      route: AppRoutes.agentProfile,
     ),
   ];
 }
 
-class UserShell extends StatelessWidget {
-  const UserShell({required this.navigationShell, super.key});
+class AgentShell extends StatelessWidget {
+  const AgentShell({required this.navigationShell, super.key});
 
   final StatefulNavigationShell navigationShell;
 
@@ -61,7 +61,6 @@ class UserShell extends StatelessWidget {
         child: const Icon(LucideIcons.scanBox, size: AppSpacing.iconMxl),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 8,
@@ -130,7 +129,6 @@ class _NavItem extends StatelessWidget {
       child: InkWell(
         borderRadius: AppSpacing.roundedLg,
         onTap: onTap,
-        // Zone de tap ≥ 44×44 pt (accessibilité CDC)
         child: SizedBox(
           height: 56,
           child: Column(
@@ -152,28 +150,6 @@ class _NavItem extends StatelessWidget {
         ),
       ),
     );
-    // return Expanded(
-    //   child: IconButton(
-    //     onPressed: onTap,
-    //     splashRadius: AppSpacing.sm,
-    //     icon: Column(
-    //       mainAxisAlignment: MainAxisAlignment.center,
-    //       children: [
-    //         Icon(icon, color: color, size: AppSpacing.iconLg),
-    //         const SizedBox(height: 2),
-    //         Text(
-    //           label,
-    //           style: TextStyle(
-    //             fontSize: 11,
-    //             fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-    //             color: color,
-    //           ),
-    //           overflow: TextOverflow.ellipsis,
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }
 

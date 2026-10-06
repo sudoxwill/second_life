@@ -602,7 +602,7 @@ class AppTheme {
 
       // ─── Bottom sheet ───────────────────────────────
       bottomSheetTheme: const BottomSheetThemeData(
-        backgroundColor: AppColors.surfaceCardDark,
+        backgroundColor: AppColors.surfaceSheetDark,
         surfaceTintColor: Colors.transparent,
         elevation: AppSpacing.elevationNone,
         shape: RoundedRectangleBorder(borderRadius: AppSpacing.roundedTopXl),

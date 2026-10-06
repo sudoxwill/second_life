@@ -5,12 +5,11 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../../features/auth/presentation/pages/index.dart";
 import "../../features/auth/presentation/providers/auth_provider.dart";
-import "../../features/home/presentation/pages/agent_dashboard_page.dart";
-import "../../features/home/presentation/pages/home_page.dart";
+import "../../features/history/presentation/pages/index.dart";
+import "../../features/home/presentation/pages/index.dart";
 import "../../features/onboarding/presentation/pages/index.dart";
 import "../../features/profile/presentation/pages/index.dart";
-import "../../shared/presentation/agent_shell.dart";
-import "../../shared/presentation/app_shell.dart";
+import "../../shared/presentation/pages/index.dart";
 import "../configs/env.dart";
 import "../extensions/build_context_extension.dart";
 import "../theme/app_spacing.dart";
@@ -149,7 +148,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: _Placeholder(title: context.l10n.routerScreenHistory),
+                  child: const UserHistoryPage(),
                 ),
               ),
             ],
@@ -207,9 +206,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: _Placeholder(
-                    title: context.l10n.routerScreenAgentHistory,
-                  ),
+                  child: const AgentHistoryPage(),
                 ),
               ),
             ],
