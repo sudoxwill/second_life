@@ -2,7 +2,6 @@ import "dart:convert";
 import "dart:ui" show Color;
 
 extension StringExtensions on String {
-  // Validation
   bool get isEmail {
     final emailRegex = RegExp(
       r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
@@ -36,7 +35,6 @@ extension StringExtensions on String {
     return alphanumericRegex.hasMatch(this);
   }
 
-  // Transformations
   String get capitalize {
     if (isEmpty) {
       return this;
@@ -74,7 +72,6 @@ extension StringExtensions on String {
     ).replaceFirst(RegExp("^-"), "");
   }
 
-  // Truncation
   String truncate(int maxLength, {String suffix = "..."}) {
     if (length <= maxLength) {
       return this;
@@ -90,15 +87,12 @@ extension StringExtensions on String {
     return '${words.take(maxWords).join(' ')}$suffix';
   }
 
-  // Checks
   bool get isBlank => trim().isEmpty;
   bool get isNotBlank => trim().isNotEmpty;
 
-  // Removal
   String removeWhitespace() => replaceAll(RegExp(r"\s+"), "");
   String removeSpecialCharacters() => replaceAll(RegExp(r"[^\w\s]"), "");
 
-  // Masking
   String maskEmail() {
     if (!isEmail) {
       return this;
@@ -122,12 +116,10 @@ extension StringExtensions on String {
     return '${'*' * (length - 4)}${substring(length - 4)}';
   }
 
-  // Parsing
   int? toInt() => int.tryParse(this);
   double? toDouble() => double.tryParse(this);
   DateTime? toDateTime() => DateTime.tryParse(this);
 
-  // Encoding/Decoding
   String toBase64() {
     return base64.encode(utf8.encode(this));
   }

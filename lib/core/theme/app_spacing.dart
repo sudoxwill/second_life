@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 
 import "app_colors.dart";
 
-/// Espacements, rayons, tailles, durées et ombres SecondLife (grille de 4px).
+/// Grille de 4px.
 class AppSpacing {
   AppSpacing._();
 
@@ -231,9 +231,7 @@ class AppSpacing {
   static const Widget gapVHuge = SizedBox(height: huge);
   static const Widget gapVMega = SizedBox(height: mega);
 
-  // ─────────────────────────────────────────────
-  // ICÔNES
-  // ─────────────────────────────────────────────
+  // Icônes
 
   static const double iconXs = 12.0;
   static const double iconSm = 16.0;
@@ -245,9 +243,7 @@ class AppSpacing {
   static const double iconXxxl = 64.0;
   static const double iconNav = 22.0;
 
-  // ─────────────────────────────────────────────
-  // AVATARS
-  // ─────────────────────────────────────────────
+  // Avatars
 
   static const double avatarXs = 24.0;
   static const double avatarSm = 32.0;
@@ -255,9 +251,7 @@ class AppSpacing {
   static const double avatarLg = 56.0;
   static const double avatarXl = 80.0;
 
-  // ─────────────────────────────────────────────
-  // COMPOSANTS
-  // ─────────────────────────────────────────────
+  // Composants
 
   static const double tapTargetMin = 48.0;
 
@@ -294,9 +288,7 @@ class AppSpacing {
   static const double sectionSpacing = xxl;
   static const double sectionSpacingLg = xxxl;
 
-  // ─────────────────────────────────────────────
-  // CONTRAINTES DE CONTENU
-  // ─────────────────────────────────────────────
+  // Contraintes de contenu
 
   static const double maxContentWidth = 1200.0;
   static const double maxFormWidth = 480.0;
@@ -312,9 +304,7 @@ class AppSpacing {
     maxWidth: maxContentWidth,
   );
 
-  // ─────────────────────────────────────────────
-  // ANIMATIONS — DURÉES
-  // ─────────────────────────────────────────────
+  // Animations, durées
 
   static const Duration durationFast = Duration(milliseconds: 200);
   static const Duration durationBase = Duration(milliseconds: 300);
@@ -325,18 +315,14 @@ class AppSpacing {
   static const Duration durationGigaSlow = Duration(milliseconds: 1200);
   static const Duration durationTeraSlow = Duration(milliseconds: 1400);
 
-  // ─────────────────────────────────────────────
-  // ANIMATIONS — COURBES
-  // ─────────────────────────────────────────────
+  // Animations, courbes
 
   static const Curve curveDefault = Curves.easeInOutCubic;
   static const Curve curveEnter = Curves.easeOutCubic;
   static const Curve curveExit = Curves.easeIn;
   static const Curve curveBounce = Curves.easeOutBack;
 
-  // ─────────────────────────────────────────────
-  // ÉLÉVATIONS / OMBRES
-  // ─────────────────────────────────────────────
+  // Élévations / ombres
 
   static const double elevationNone = 0.0;
   static const double elevationXs = 1.0;
