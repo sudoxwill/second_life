@@ -34,7 +34,9 @@ void main() async {
   Log.i("Starting application in ${AppConfig.instance.appName} mode...");
 
   // Firebase doit être prêt avant le premier accès à Auth ou Firestore
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(
+    options: await DefaultFirebaseOptions.currentPlatform(),
+  );
   Log.i("Firebase initialisé");
 
   // SharedPreferences doit être initialisé avant runApp

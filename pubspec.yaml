@@ -50,6 +50,7 @@ flutter:
     - assets/fonts/
     - assets/images/
     - assets/images/logos/
+    - firebase.json
 
   fonts:
     - family: BricolageGrotesque
