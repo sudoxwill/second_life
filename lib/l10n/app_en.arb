@@ -899,5 +899,39 @@
   "@scanCameraUnavailable": { "description": "Placeholder text when camera permission is denied" },
 
   "scanCameraOpening": "Opening camera…",
-  "@scanCameraOpening": { "description": "Placeholder text during camera initialization" }
+  "@scanCameraOpening": { "description": "Placeholder text during camera initialization" },
+
+  "@__sectionDeposit": {
+    "description": "━━━━ DEPOSIT — Pending deposits page (agent space) ━━━━"
+  },
+
+  "depositRelayPoint": "Relay point: {name}",
+  "@depositRelayPoint": {
+    "description": "Subtitle on the deposits page showing the agent's relay point name",
+    "placeholders": {
+      "name": { "type": "String", "example": "EcoCentre de Bè" }
+    }
+  },
+
+  "depositPendingCount": "{count} pending",
+  "@depositPendingCount": {
+    "description": "Badge showing the number of pending deposits",
+    "placeholders": {
+      "count": { "type": "int", "example": "3" }
+    }
+  },
+
+  "depositRefreshHint": "Pull down to refresh.",
+  "@depositRefreshHint": { "description": "Empty state message for deposits, prompting to refresh" },
+
+  "depositAiWeight": "AI weight: ~{weight} kg",
+  "@depositAiWeight": {
+    "description": "AI-estimated weight shown on a pending deposit card",
+    "placeholders": {
+      "weight": { "type": "String", "example": "0.5" }
+    }
+  },
+
+  "depositWeighButton": "Proceed to weighing",
+  "@depositWeighButton": { "description": "Primary button on a pending deposit card to start the weighing process" }
 }

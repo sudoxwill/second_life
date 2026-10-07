@@ -3,6 +3,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 import "package:url_launcher/url_launcher.dart";
 
+import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/extensions/navigation_extension.dart";
 import "../../../../core/theme/index.dart";
 import "../../../../shared/presentation/widgets/buttons/index.dart";
@@ -75,7 +76,7 @@ class _PlaceDetail extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final scheme = Theme.of(context).colorScheme;
+    final scheme = context.colorScheme;
     final location = ref.watch(userLocationProvider).value;
     final now = DateTime.now();
 

@@ -911,5 +911,39 @@
   "@scanCameraUnavailable": { "description": "Texte du placeholder quand la caméra est refusée" },
 
   "scanCameraOpening": "Ouverture de la caméra…",
-  "@scanCameraOpening": { "description": "Texte du placeholder pendant l'initialisation de la caméra" }
+  "@scanCameraOpening": { "description": "Texte du placeholder pendant l'initialisation de la caméra" },
+
+  "@__sectionDeposit": {
+    "description": "━━━━ DEPOSIT — Page dépôts en attente (espace agent) ━━━━"
+  },
+
+  "depositRelayPoint": "Point relais : {name}",
+  "@depositRelayPoint": {
+    "description": "Sous-titre de la page dépôts indiquant le nom du point relais de l'agent",
+    "placeholders": {
+      "name": { "type": "String", "example": "EcoCentre de Bè" }
+    }
+  },
+
+  "depositPendingCount": "{count} en attente",
+  "@depositPendingCount": {
+    "description": "Badge indiquant le nombre de dépôts en attente",
+    "placeholders": {
+      "count": { "type": "int", "example": "3" }
+    }
+  },
+
+  "depositRefreshHint": "Tirez vers le bas pour actualiser.",
+  "@depositRefreshHint": { "description": "Message de l'état vide des dépôts, invitant à rafraîchir" },
+
+  "depositAiWeight": "Poids IA : ~{weight} kg",
+  "@depositAiWeight": {
+    "description": "Poids estimé par l'IA affiché sur la carte de dépôt en attente",
+    "placeholders": {
+      "weight": { "type": "String", "example": "0.5" }
+    }
+  },
+
+  "depositWeighButton": "Passer à la pesée",
+  "@depositWeighButton": { "description": "Bouton principal sur la carte de dépôt en attente pour lancer la pesée" }
 }
