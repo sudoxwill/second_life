@@ -363,6 +363,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Not convertible into cash. Redeemable for vouchers at our partner.';
 
   @override
+  String get homePendingDepositsEmpty => 'No deposits yet';
+
+  @override
   String get homePendingDepositsTitle => 'Pending deposits';
 
   @override
@@ -643,4 +646,109 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get materialOrganic => 'Organic';
+
+  @override
+  String get analysisResultTitle => 'AI Analysis Result';
+
+  @override
+  String get analysisAnalyzingTitle => 'AI analysis in progress…';
+
+  @override
+  String get analysisAnalyzingSubtitle =>
+      'Identifying the material and estimating the weight';
+
+  @override
+  String analysisDetected(String item) {
+    return 'Detected: $item';
+  }
+
+  @override
+  String analysisConfidenceScore(String percent) {
+    return 'Confidence $percent';
+  }
+
+  @override
+  String get analysisTipsTitle => 'Sorting tips';
+
+  @override
+  String get analysisTipsSeeMore => 'Read more';
+
+  @override
+  String get analysisNonRecyclable =>
+      'This waste is not accepted at relay points.';
+
+  @override
+  String get analysisImportantLabel => 'Important: ';
+
+  @override
+  String get analysisImportantBody =>
+      'points will be credited after the actual weighing by a relay agent. The final calculation is based on the actual weight.';
+
+  @override
+  String get analysisSaveDeposit => 'Save deposit';
+
+  @override
+  String analysisDepositSaved(String code) {
+    return 'Deposit $code saved to your history';
+  }
+
+  @override
+  String get analysisScanAgain => 'Scan another item';
+
+  @override
+  String get analysisEstimatedPoints => 'estimated pts';
+
+  @override
+  String analysisEstimatedWeight(String weight) {
+    return 'AI estimated weight: ~$weight kg';
+  }
+
+  @override
+  String get analysisConfidenceIndex => 'AI recognition index';
+
+  @override
+  String get analysisQrTitle => 'Deposit QR Code to present to the agent';
+
+  @override
+  String get analysisQrPlaceholder => 'ID: GENERATED AT DEPOSIT';
+
+  @override
+  String analysisQrId(String code) {
+    return 'ID: $code';
+  }
+
+  @override
+  String get analysisQrCaption =>
+      'Present this QR code to a relay point agent for certified weighing.';
+
+  @override
+  String get scanAiBranding => 'SecondLife Vision AI';
+
+  @override
+  String get scanTooltipImport => 'Import a photo';
+
+  @override
+  String get scanTooltipFlash => 'Flashlight';
+
+  @override
+  String get scanTooltipCapture => 'Take photo';
+
+  @override
+  String get scanHintImport => 'Import a photo of the waste';
+
+  @override
+  String get scanHintFrame => 'Position the waste in the frame';
+
+  @override
+  String get scanCaptureError => 'The photo could not be taken.';
+
+  @override
+  String get scanGalleryError => 'Unable to open the image.';
+
+  @override
+  String get scanCameraUnavailable =>
+      'Camera unavailable. Allow camera access or import a photo.';
+
+  @override
+  String get scanCameraOpening => 'Opening camera…';
 }

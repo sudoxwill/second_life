@@ -369,6 +369,9 @@ class AppLocalizationsFr extends AppLocalizations {
       'Non convertie en argent liquide. Échangeable contre des bons chez le partenaire.';
 
   @override
+  String get homePendingDepositsEmpty => 'Aucun dépôt en attente';
+
+  @override
   String get homePendingDepositsTitle => 'Dépôts en attente';
 
   @override
@@ -649,4 +652,109 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get materialOrganic => 'Organique';
+
+  @override
+  String get analysisResultTitle => 'Résultat de l\'analyse IA';
+
+  @override
+  String get analysisAnalyzingTitle => 'Analyse par l\'IA en cours…';
+
+  @override
+  String get analysisAnalyzingSubtitle =>
+      'Identification de la matière et estimation du poids';
+
+  @override
+  String analysisDetected(String item) {
+    return 'Détecté : $item';
+  }
+
+  @override
+  String analysisConfidenceScore(String percent) {
+    return 'Confiance $percent';
+  }
+
+  @override
+  String get analysisTipsTitle => 'Conseils de tri';
+
+  @override
+  String get analysisTipsSeeMore => 'Lire plus';
+
+  @override
+  String get analysisNonRecyclable =>
+      'Ce déchet n\'est pas accepté en point relais.';
+
+  @override
+  String get analysisImportantLabel => 'Important : ';
+
+  @override
+  String get analysisImportantBody =>
+      'les points seront crédités après la pesée réelle par un agent relais. Le calcul final s\'effectue sur le poids réel.';
+
+  @override
+  String get analysisSaveDeposit => 'Enregistrer le dépôt';
+
+  @override
+  String analysisDepositSaved(String code) {
+    return 'Dépôt $code enregistré dans votre historique';
+  }
+
+  @override
+  String get analysisScanAgain => 'Scanner un autre déchet';
+
+  @override
+  String get analysisEstimatedPoints => 'pts estimés';
+
+  @override
+  String analysisEstimatedWeight(String weight) {
+    return 'Poids estimé par l\'IA : ~$weight kg';
+  }
+
+  @override
+  String get analysisConfidenceIndex => 'Indice de reconnaissance IA';
+
+  @override
+  String get analysisQrTitle => 'QR Code du dépôt à présenter à l\'agent';
+
+  @override
+  String get analysisQrPlaceholder => 'ID : GÉNÉRATION AU DÉPÔT';
+
+  @override
+  String analysisQrId(String code) {
+    return 'ID : $code';
+  }
+
+  @override
+  String get analysisQrCaption =>
+      'Présentez ce QR code à l\'agent d\'un point relais pour procéder à la pesée certifiée.';
+
+  @override
+  String get scanAiBranding => 'IA SecondLife Vision';
+
+  @override
+  String get scanTooltipImport => 'Importer une photo';
+
+  @override
+  String get scanTooltipFlash => 'Lampe';
+
+  @override
+  String get scanTooltipCapture => 'Prendre la photo';
+
+  @override
+  String get scanHintImport => 'Importez une photo du déchet';
+
+  @override
+  String get scanHintFrame => 'Positionnez le déchet dans le cadre';
+
+  @override
+  String get scanCaptureError => 'La photo n\'a pas pu être prise.';
+
+  @override
+  String get scanGalleryError => 'Impossible d\'ouvrir l\'image.';
+
+  @override
+  String get scanCameraUnavailable =>
+      'Caméra indisponible. Autorisez l\'accès à la caméra ou importez une photo.';
+
+  @override
+  String get scanCameraOpening => 'Ouverture de la caméra…';
 }

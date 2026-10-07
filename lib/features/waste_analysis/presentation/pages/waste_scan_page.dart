@@ -4,6 +4,7 @@ import "package:camera/camera.dart";
 import "package:flutter/material.dart";
 import "package:image_picker/image_picker.dart";
 
+import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/index.dart";
 import "../../../../shared/presentation/widgets/others/feedback_views.dart";
 import "../../../../shared/presentation/widgets/others/scan_widgets.dart";
@@ -103,7 +104,7 @@ class _WasteScanPageState extends State<WasteScanPage>
       if (mounted) {
         showAppSnackBar(
           context,
-          "La photo n’a pas pu être prise.",
+          context.l10n.scanCaptureError,
           error: true,
         );
         setState(() => _capturing = false);
@@ -121,7 +122,7 @@ class _WasteScanPageState extends State<WasteScanPage>
       if (picked != null) _openAnalysis(File(picked.path));
     } catch (_) {
       if (mounted) {
-        showAppSnackBar(context, "Impossible d’ouvrir l’image.", error: true);
+        showAppSnackBar(context, context.l10n.scanGalleryError, error: true);
       }
     }
   }
@@ -142,12 +143,15 @@ class _WasteScanPageState extends State<WasteScanPage>
     if (!mounted) return;
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute<void>(builder: (_) => AnalysisResultPage(image: image)),
+      MaterialPageRoute<void>(
+        builder: (_) => AnalysisResultPage(image: image),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final camera = _camera;
     final ready = camera != null && camera.value.isInitialized;
 
@@ -170,11 +174,9 @@ class _WasteScanPageState extends State<WasteScanPage>
                     scanning: !_cameraFailed,
                     child: ready ? null : _placeholder(),
                   ),
-                  const SizedBox(height: 24),
+                  AppSpacing.gapVXxl,
                   ScanHint(
-                    _cameraFailed
-                        ? "Importez une photo du déchet"
-                        : "Positionnez le déchet dans le cadre",
+                    _cameraFailed ? l10n.scanHintImport : l10n.scanHintFrame,
                   ),
                 ],
               ),
@@ -184,23 +186,28 @@ class _WasteScanPageState extends State<WasteScanPage>
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.lg,
+                    AppSpacing.md,
+                    AppSpacing.lg,
+                    0,
+                  ),
                   child: Row(
                     children: [
                       ScanRoundButton(
                         icon: Icons.arrow_back_rounded,
-                        tooltip: "Retour",
+                        tooltip: l10n.commonBack,
                         onPressed: () => Navigator.pop(context),
                       ),
                       const Spacer(),
-                      const ScanChip(
+                      ScanChip(
                         icon: Icons.auto_awesome_rounded,
-                        label: "IA SecondLife Vision",
+                        label: l10n.scanAiBranding,
                       ),
                       const Spacer(),
                       ScanRoundButton(
                         icon: Icons.file_upload_outlined,
-                        tooltip: "Importer une photo",
+                        tooltip: l10n.scanTooltipImport,
                         onPressed: _importFromGallery,
                       ),
                     ],
@@ -208,7 +215,12 @@ class _WasteScanPageState extends State<WasteScanPage>
                 ),
                 const Spacer(),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(32, 0, 32, 32),
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.xxxl,
+                    0,
+                    AppSpacing.xxxl,
+                    AppSpacing.xxxl,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -216,15 +228,16 @@ class _WasteScanPageState extends State<WasteScanPage>
                         icon: _flashOn
                             ? Icons.flashlight_on_rounded
                             : Icons.flashlight_off_outlined,
-                        tooltip: "Lampe",
+                        tooltip: l10n.scanTooltipFlash,
                         onPressed: ready ? _toggleFlash : null,
                       ),
                       _ShutterButton(
                         loading: _capturing,
                         onPressed: ready ? _capture : _importFromGallery,
+                        tooltip: l10n.scanTooltipCapture,
                       ),
                       // Équilibre la lampe, à gauche du déclencheur.
-                      const SizedBox(width: 48),
+                      const SizedBox(width: AppSpacing.tapTargetMin),
                     ],
                   ),
                 ),
@@ -237,6 +250,8 @@ class _WasteScanPageState extends State<WasteScanPage>
   }
 
   Widget _placeholder() {
+    final l10n = context.l10n;
+    final textTheme = context.textTheme;
     return Padding(
       padding: const EdgeInsets.all(28),
       child: Column(
@@ -245,27 +260,23 @@ class _WasteScanPageState extends State<WasteScanPage>
           if (_cameraFailed)
             Icon(
               Icons.no_photography_outlined,
-              size: 44,
+              size: AppSpacing.iconXxxl,
               color: Colors.white.withValues(alpha: 0.35),
             )
           else
             const SizedBox.square(
-              dimension: 32,
+              dimension: AppSpacing.xxxl,
               child: CircularProgressIndicator(
                 color: AppColors.scanFrame,
                 strokeWidth: 2.5,
               ),
             ),
-          const SizedBox(height: 12),
+          AppSpacing.gapVMd,
           Text(
-            _cameraFailed
-                ? "Caméra indisponible. Autorisez l’accès à la caméra "
-                      "ou importez une photo."
-                : "Ouverture de la caméra…",
+            _cameraFailed ? l10n.scanCameraUnavailable : l10n.scanCameraOpening,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: textTheme.labelMedium!.copyWith(
               color: Colors.white.withValues(alpha: 0.6),
-              fontSize: 13,
             ),
           ),
         ],
@@ -298,14 +309,19 @@ class _CameraPreviewCover extends StatelessWidget {
 }
 
 class _ShutterButton extends StatelessWidget {
-  const _ShutterButton({required this.loading, required this.onPressed});
+  const _ShutterButton({
+    required this.loading,
+    required this.onPressed,
+    required this.tooltip,
+  });
   final bool loading;
   final VoidCallback onPressed;
+  final String tooltip;
 
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      message: "Prendre la photo",
+      message: tooltip,
       child: GestureDetector(
         onTap: loading ? null : onPressed,
         child: Container(
@@ -314,7 +330,10 @@ class _ShutterButton extends StatelessWidget {
           padding: const EdgeInsets.all(6),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(color: Colors.white, width: 4),
+            border: Border.all(
+              color: Colors.white,
+              width: AppSpacing.borderWidthThick,
+            ),
           ),
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 150),
