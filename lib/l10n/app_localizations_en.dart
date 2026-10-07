@@ -66,6 +66,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authOrContinueWith => 'Or continue with';
 
   @override
+  String get authOr => 'Or';
+
+  @override
   String get onboardingSkip => 'Skip';
 
   @override
@@ -187,6 +190,45 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authLogoutError => 'Failed to sign out. Try again.';
+
+  @override
+  String get authErrorInvalidCredential => 'Incorrect email or password.';
+
+  @override
+  String get authErrorEmailAlreadyInUse =>
+      'An account already exists with this email.';
+
+  @override
+  String get authErrorTooManyRequests =>
+      'Too many attempts. Try again in a few minutes.';
+
+  @override
+  String get authErrorUserDisabled => 'This account has been disabled.';
+
+  @override
+  String get authPasswordLabel => 'Password';
+
+  @override
+  String get authPasswordHint => '••••••••';
+
+  @override
+  String get authConfirmPasswordLabel => 'Confirm password';
+
+  @override
+  String get authForgotPassword => 'Forgot password?';
+
+  @override
+  String get authUsernameSetupTitle => 'Choose your username';
+
+  @override
+  String get authUsernameSetupSubtitle =>
+      'This will be your unique identifier on Second Life.';
+
+  @override
+  String get authUsernameSetupButton => 'Continue';
+
+  @override
+  String get authUsernameTaken => 'This username is already taken';
 
   @override
   String get validationRequired => 'This field is required.';

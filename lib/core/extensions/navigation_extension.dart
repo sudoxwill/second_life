@@ -18,6 +18,8 @@ extension NavigationExtensions on BuildContext {
   void pushAuthForgot() => push(AppRoutes.authForgot);
   void goAuthResetPassword() => go(AppRoutes.authResetPassword);
   void pushAuthResetPassword() => push(AppRoutes.authResetPassword);
+  void goAuthUsernameSetup() => go(AppRoutes.authUsernameSetup);
+  void pushAuthUsernameSetup() => push(AppRoutes.authUsernameSetup);
 
   // Espace usager
 

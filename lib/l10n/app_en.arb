@@ -66,6 +66,9 @@
   "authOrContinueWith": "Or continue with",
   "@authOrContinueWith": { "description": "Divider label between email/password form and multiple OAuth providers (Google/GitHub/Apple)" },
 
+  "authOr": "Or",
+  "@authOr": { "description": "Divider label between email/password form and multiple OAuth providers (Google/GitHub/Apple)" },
+
   "@__sectionOnboarding": {
     "description": "━━━━ ONBOARDING — 3 recycling slides + navigation ━━━━"
   },
@@ -203,6 +206,42 @@
 
   "authLogoutError": "Failed to sign out. Try again.",
   "@authLogoutError": { "description": "Error message after sign-out failure" },
+
+  "authErrorInvalidCredential": "Incorrect email or password.",
+  "@authErrorInvalidCredential": { "description": "Error when email or password is wrong (Firebase: invalid-credential, wrong-password, user-not-found)" },
+
+  "authErrorEmailAlreadyInUse": "An account already exists with this email.",
+  "@authErrorEmailAlreadyInUse": { "description": "Error at signup when email is already registered" },
+
+  "authErrorTooManyRequests": "Too many attempts. Try again in a few minutes.",
+  "@authErrorTooManyRequests": { "description": "Error when Firebase blocks login attempts" },
+
+  "authErrorUserDisabled": "This account has been disabled.",
+  "@authErrorUserDisabled": { "description": "Error when account is disabled in Firebase" },
+
+  "authPasswordLabel": "Password",
+  "@authPasswordLabel": { "description": "Password field label" },
+
+  "authPasswordHint": "••••••••",
+  "@authPasswordHint": { "description": "Password field placeholder" },
+
+  "authConfirmPasswordLabel": "Confirm password",
+  "@authConfirmPasswordLabel": { "description": "Confirm password field label" },
+
+  "authForgotPassword": "Forgot password?",
+  "@authForgotPassword": { "description": "Link to password reset page" },
+
+  "authUsernameSetupTitle": "Choose your username",
+  "@authUsernameSetupTitle": { "description": "Title of the username setup page (after OAuth)" },
+
+  "authUsernameSetupSubtitle": "This will be your unique identifier on Second Life.",
+  "@authUsernameSetupSubtitle": { "description": "Subtitle of the username setup page" },
+
+  "authUsernameSetupButton": "Continue",
+  "@authUsernameSetupButton": { "description": "Confirm username button" },
+
+  "authUsernameTaken": "This username is already taken",
+  "@authUsernameTaken": { "description": "Error shown when username is already taken" },
 
   "@__sectionValidation": {
     "description": "━━━━ VALIDATION — Form error messages ━━━━"

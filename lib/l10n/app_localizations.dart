@@ -206,6 +206,12 @@ abstract class AppLocalizations {
   /// **'Ou continuer avec'**
   String get authOrContinueWith;
 
+  /// Séparateur DIVIDER entre formulaire email/password et boutons OAuth multiples (Google/GitHub/Apple)
+  ///
+  /// In fr, this message translates to:
+  /// **'Ou'**
+  String get authOr;
+
   /// Bouton pour ignorer l'onboarding
   ///
   /// In fr, this message translates to:
@@ -427,6 +433,78 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Échec de la déconnexion. Réessaie.'**
   String get authLogoutError;
+
+  /// Erreur quand l'email ou le mot de passe est incorrect (code Firebase : invalid-credential, wrong-password, user-not-found)
+  ///
+  /// In fr, this message translates to:
+  /// **'Email ou mot de passe incorrect.'**
+  String get authErrorInvalidCredential;
+
+  /// Erreur à l'inscription quand l'email est déjà utilisé
+  ///
+  /// In fr, this message translates to:
+  /// **'Un compte existe déjà avec cet email.'**
+  String get authErrorEmailAlreadyInUse;
+
+  /// Erreur quand Firebase bloque les tentatives de connexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Trop de tentatives. Réessaie dans quelques minutes.'**
+  String get authErrorTooManyRequests;
+
+  /// Erreur quand le compte est désactivé dans Firebase
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce compte a été désactivé.'**
+  String get authErrorUserDisabled;
+
+  /// Label du champ mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot de passe'**
+  String get authPasswordLabel;
+
+  /// Placeholder du champ mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'••••••••'**
+  String get authPasswordHint;
+
+  /// Label du champ de confirmation du mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'Confirmer le mot de passe'**
+  String get authConfirmPasswordLabel;
+
+  /// Lien vers la page de réinitialisation du mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot de passe oublié ?'**
+  String get authForgotPassword;
+
+  /// Titre de la page de choix du nom d'utilisateur (après OAuth)
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisis ton nom'**
+  String get authUsernameSetupTitle;
+
+  /// Sous-titre explicatif de la page de choix du nom d'utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce nom sera ton identifiant unique sur Second Life.'**
+  String get authUsernameSetupSubtitle;
+
+  /// Bouton de validation du nom d'utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer'**
+  String get authUsernameSetupButton;
+
+  /// Erreur affichée quand le nom d'utilisateur est déjà pris
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce nom est déjà pris'**
+  String get authUsernameTaken;
 
   /// Message d'erreur pour un champ obligatoire vide
   ///

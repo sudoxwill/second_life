@@ -1,5 +1,5 @@
 sealed class CustomException implements Exception {
-  CustomException([this.message]);
+  const CustomException([this.message]);
   final String? message;
 
   @override
@@ -15,6 +15,14 @@ class ServerException extends CustomException {}
 class UnauthenticatedException extends CustomException {}
 
 class NotRelayAgentException extends CustomException {}
+
+class UsernameTakenException extends CustomException {
+  const UsernameTakenException() : super("Username already taken");
+}
+
+class SignInCancelledException extends CustomException {
+  const SignInCancelledException() : super("Sign-in cancelled");
+}
 
 class TicketNotFoundException extends CustomException {}
 

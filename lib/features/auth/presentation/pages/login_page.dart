@@ -1,9 +1,11 @@
+import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/gestures.dart" show TapGestureRecognizer;
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/constants/app_assets.dart";
+import "../../../../core/errors/exception.dart";
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/extensions/navigation_extension.dart";
 import "../../../../core/theme/app_spacing.dart";
@@ -23,19 +25,22 @@ class LoginPage extends ConsumerStatefulWidget {
 class _LoginPageState extends ConsumerState<LoginPage> {
   late GlobalKey<FormState> _formKey;
   late TextEditingController _emailController;
+  late TextEditingController _passwordController;
   bool _isLoading = false;
+  bool _obscurePassword = true;
 
   @override
   void initState() {
     super.initState();
-    _isLoading = false;
     _formKey = GlobalKey<FormState>();
     _emailController = TextEditingController();
+    _passwordController = TextEditingController();
   }
 
   @override
   void dispose() {
     _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -44,6 +49,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
+
     return AppScaffold(
       scrollable: true,
       resizeToAvoidBottomInset: true,
@@ -64,13 +70,31 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           Form(
             key: _formKey,
             child: Column(
+              spacing: AppSpacing.xl,
               children: [
                 AppTextFormField(
                   isRequired: true,
                   labelText: l10n.authEmailLabel,
-                  keyboardType: .emailAddress,
+                  hintText: l10n.authEmailHint,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
                   prefixIconData: LucideIcons.mail,
                   controller: _emailController,
+                ),
+                AppTextFormField(
+                  isRequired: true,
+                  labelText: l10n.authPasswordLabel,
+                  hintText: l10n.authPasswordHint,
+                  obscureText: _obscurePassword,
+                  textInputAction: TextInputAction.done,
+                  prefixIconData: LucideIcons.lockKeyhole,
+                  suffixIconData: _obscurePassword
+                      ? LucideIcons.eyeOff
+                      : LucideIcons.eye,
+                  suffixIconOnClick: () =>
+                      setState(() => _obscurePassword = !_obscurePassword),
+                  controller: _passwordController,
+                  onFieldSubmitted: (_) => _login(),
                 ),
               ],
             ),
@@ -83,6 +107,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 isLoading: _isLoading,
                 onPressed: _login,
               ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: _isLoading ? null : context.goAuthForgot,
+                  child: Text(
+                    l10n.authForgotPassword,
+                    style: textTheme.bodyMedium!.copyWith(
+                      color: colorScheme.primary,
+                    ),
+                  ),
+                ),
+              ),
               RichText(
                 text: TextSpan(
                   text: "${l10n.authNoAccount} ",
@@ -92,7 +128,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       text: l10n.authSignupLink,
                       style: textTheme.bodyMedium!.copyWith(
                         color: colorScheme.primary,
-                        fontWeight: .bold,
+                        fontWeight: FontWeight.bold,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () => context.pushAuthSignup(),
@@ -101,7 +137,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ),
               ),
               OAuthSection(
-                isLoading: _isLoading,
+                // isLoading: _isLoading,
                 onGoogleSignIn: _googleSignIn,
               ),
             ],
@@ -113,30 +149,64 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
-    await _signIn();
-  }
-
-  Future<void> _googleSignIn() => _signIn();
-
-  Future<void> _signIn() async {
     setState(() => _isLoading = true);
-    final AppRole role;
     try {
-      role = await ref.read(authProvider.notifier).signIn();
-      // Failure n'est pas une Exception : on attrape tout.
+      final role = await ref
+          .read(authProvider.notifier)
+          .signInWithEmailPassword(
+            _emailController.text.trim(),
+            _passwordController.text,
+          );
+      if (!mounted) return;
+      _navigateByRole(role);
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+      context.showSnackBar(_mapLoginError(e.code));
     } catch (_) {
       if (!mounted) return;
-      setState(() => _isLoading = false);
-      context.showSnackBar(context.l10n.commonError);
-      return;
+      context.showSnackBar(context.l10n.authLoginError);
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
-    if (!mounted) return;
-    setState(() => _isLoading = false);
+  }
 
-    if (role == AppRole.agent) {
-      context.goAgentHome();
-    } else {
-      context.goHome();
+  String _mapLoginError(String code) {
+    final l10n = context.l10n;
+    return switch (code) {
+      "user-not-found" ||
+      "wrong-password" ||
+      "invalid-credential" =>
+        l10n.authErrorInvalidCredential,
+      "too-many-requests" => l10n.authErrorTooManyRequests,
+      "user-disabled" => l10n.authErrorUserDisabled,
+      _ => l10n.authLoginError,
+    };
+  }
+
+  Future<void> _googleSignIn() async {
+    setState(() => _isLoading = true);
+    try {
+      final role = await ref.read(authProvider.notifier).signInWithGoogle();
+      if (!mounted) return;
+      _navigateByRole(role);
+    } on SignInCancelledException {
+      // Annulation silencieuse
+    } catch (_) {
+      if (!mounted) return;
+      context.showSnackBar(context.l10n.authLoginError);
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  void _navigateByRole(AppRole role) {
+    switch (role) {
+      case AppRole.agent:
+        context.goAgentHome();
+      case AppRole.pendingUsername:
+        context.goAuthUsernameSetup();
+      case AppRole.user:
+        context.goHome();
     }
   }
 }

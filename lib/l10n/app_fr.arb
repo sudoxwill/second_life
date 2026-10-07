@@ -78,6 +78,9 @@
   "authOrContinueWith": "Ou continuer avec",
   "@authOrContinueWith": { "description": "Séparateur DIVIDER entre formulaire email/password et boutons OAuth multiples (Google/GitHub/Apple)" },
 
+  "authOr": "Ou",
+  "@authOr": { "description": "Séparateur DIVIDER entre formulaire email/password et boutons OAuth multiples (Google/GitHub/Apple)" },
+
   "@__sectionOnboarding": {
     "description": "━━━━ ONBOARDING — 3 slides recyclage + navigation ━━━━"
   },
@@ -215,6 +218,42 @@
 
   "authLogoutError": "Échec de la déconnexion. Réessaie.",
   "@authLogoutError": { "description": "Message d'erreur après échec de déconnexion" },
+
+  "authErrorInvalidCredential": "Email ou mot de passe incorrect.",
+  "@authErrorInvalidCredential": { "description": "Erreur quand l'email ou le mot de passe est incorrect (code Firebase : invalid-credential, wrong-password, user-not-found)" },
+
+  "authErrorEmailAlreadyInUse": "Un compte existe déjà avec cet email.",
+  "@authErrorEmailAlreadyInUse": { "description": "Erreur à l'inscription quand l'email est déjà utilisé" },
+
+  "authErrorTooManyRequests": "Trop de tentatives. Réessaie dans quelques minutes.",
+  "@authErrorTooManyRequests": { "description": "Erreur quand Firebase bloque les tentatives de connexion" },
+
+  "authErrorUserDisabled": "Ce compte a été désactivé.",
+  "@authErrorUserDisabled": { "description": "Erreur quand le compte est désactivé dans Firebase" },
+
+  "authPasswordLabel": "Mot de passe",
+  "@authPasswordLabel": { "description": "Label du champ mot de passe" },
+
+  "authPasswordHint": "••••••••",
+  "@authPasswordHint": { "description": "Placeholder du champ mot de passe" },
+
+  "authConfirmPasswordLabel": "Confirmer le mot de passe",
+  "@authConfirmPasswordLabel": { "description": "Label du champ de confirmation du mot de passe" },
+
+  "authForgotPassword": "Mot de passe oublié ?",
+  "@authForgotPassword": { "description": "Lien vers la page de réinitialisation du mot de passe" },
+
+  "authUsernameSetupTitle": "Choisis ton nom",
+  "@authUsernameSetupTitle": { "description": "Titre de la page de choix du nom d'utilisateur (après OAuth)" },
+
+  "authUsernameSetupSubtitle": "Ce nom sera ton identifiant unique sur Second Life.",
+  "@authUsernameSetupSubtitle": { "description": "Sous-titre explicatif de la page de choix du nom d'utilisateur" },
+
+  "authUsernameSetupButton": "Continuer",
+  "@authUsernameSetupButton": { "description": "Bouton de validation du nom d'utilisateur" },
+
+  "authUsernameTaken": "Ce nom est déjà pris",
+  "@authUsernameTaken": { "description": "Erreur affichée quand le nom d'utilisateur est déjà pris" },
 
   "@__sectionValidation": {
     "description": "━━━━ VALIDATION — Messages d'erreur de formulaire ━━━━"

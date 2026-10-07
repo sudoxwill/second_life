@@ -3,11 +3,13 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/extensions/build_context_extension.dart";
+import "../../../../core/extensions/navigation_extension.dart";
 import "../../../../core/theme/app_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
 import "../../../../shared/presentation/widgets/buttons/app_elevated_button.dart";
 import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
 import "../../../../shared/presentation/widgets/others/app_divider.dart";
+import "../../../auth/presentation/providers/auth_provider.dart";
 import "../widgets/profile_settings_section.dart";
 
 class UserProfilePage extends ConsumerStatefulWidget {
@@ -25,6 +27,34 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   static const int _demoAvailablePoints = 1250;
   static const int _demoPendingPoints = 80;
   static const double _demoRecycledKg = 18.4;
+
+  Future<void> _confirmLogout() async {
+    final l10n = context.l10n;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.authLogoutConfirmTitle),
+        content: Text(l10n.authLogoutConfirmMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l10n.commonCancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(
+              l10n.authLogoutButton,
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    await ref.read(authProvider.notifier).signOut();
+    if (!mounted) return;
+    context.goAuthLogin();
+  }
 
   String get _initials {
     final parts = _demoUsername.trim().split(" ");
@@ -188,12 +218,10 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
               ),
             ),
           ),
-
           const ProfileSettingsSection(),
-
           AppSpacing.gapVLg,
           AppElevatedButton(
-            onPressed: () {},
+            onPressed: _confirmLogout,
             text: l10n.authLogout,
             icon: const Icon(LucideIcons.logOut500, size: AppSpacing.iconMd),
             backgroundColor: colorScheme.error,
