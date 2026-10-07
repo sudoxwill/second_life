@@ -40,8 +40,8 @@ class DepositHistoryCard extends StatelessWidget {
 
     final dateLabel = context.formatDateTime(deposit.dateTime);
     final realWeight = deposit.realWeight;
-    final weightLabel = deposit.status == DepositStatus.validated &&
-            realWeight != null
+    final weightLabel =
+        deposit.status == DepositStatus.validated && realWeight != null
         ? l10n.historyWeightReal(realWeight)
         : l10n.historyWeightEstimated(deposit.estimatedWeight);
     final points = deposit.points;
@@ -92,16 +92,15 @@ class DepositHistoryCard extends StatelessWidget {
                       pointsLabel,
                       style: TextStyle(color: colorScheme.primary),
                     ),
-                    backgroundColor:
-                        colorScheme.primary.withValues(alpha: .15),
+                    backgroundColor: colorScheme.primary.withValues(alpha: .15),
                   ),
-                if (deposit.status == DepositStatus.rejected)
-                  Text(
-                    l10n.historyStatusRejected,
-                    style: textTheme.labelMedium!.copyWith(
-                      color: colorScheme.error,
-                    ),
-                  ),
+                // if (deposit.status == DepositStatus.rejected)
+                //   Text(
+                //     l10n.historyStatusRejected,
+                //     style: textTheme.labelMedium!.copyWith(
+                //       color: colorScheme.error,
+                //     ),
+                //   ),
               ],
             ),
           ],

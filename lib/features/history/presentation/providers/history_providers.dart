@@ -162,3 +162,12 @@ class Vouchers extends _$Vouchers {
 @riverpod
 int pendingDepositsCount(Ref ref) =>
     ref.watch(pendingDepositsProvider).value?.length ?? 0;
+
+@riverpod
+class AgentProcessedDeposits extends _$AgentProcessedDeposits {
+  @override
+  Future<List<DepositEntity>> build() async {
+    await Future<void>.delayed(const Duration(milliseconds: 800));
+    return _mockProcessed;
+  }
+}
