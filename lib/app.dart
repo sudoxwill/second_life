@@ -49,15 +49,15 @@ class _MainAppState extends ConsumerState<MainApp> {
   // L'app a été ouverte depuis une notification alors qu'elle était fermée.
   // Les autres cas passent par _onNotificationTap dans main.dart.
   Future<void> _handleLaunchFromNotification() async {
-    final plugin = ref.read(flutterLocalNotificationsPluginProvider);
-    final details = await plugin.getNotificationAppLaunchDetails();
-
-    if (details == null || !details.didNotificationLaunchApp) return;
-
-    final rawPayload = details.notificationResponse?.payload;
-    if (rawPayload == null || rawPayload.isEmpty) return;
-
     try {
+      final plugin = ref.read(flutterLocalNotificationsPluginProvider);
+      final details = await plugin.getNotificationAppLaunchDetails();
+
+      if (details == null || !details.didNotificationLaunchApp) return;
+
+      final rawPayload = details.notificationResponse?.payload;
+      if (rawPayload == null || rawPayload.isEmpty) return;
+
       final payload = NotificationPayload.fromJsonString(rawPayload);
       Log.i(
         "App lancée depuis notification, route: ${payload.route}",
@@ -70,7 +70,11 @@ class _MainAppState extends ConsumerState<MainApp> {
         }
       });
     } catch (e, st) {
-      Log.e("Échec parsing payload (cold launch)", error: e, stackTrace: st);
+      Log.e(
+        "Échec lecture notification de lancement",
+        error: e,
+        stackTrace: st,
+      );
     }
   }
 }

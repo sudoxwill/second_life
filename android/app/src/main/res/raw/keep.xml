@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Le shrinker de ressources release ne voit pas les références faites
+     depuis Dart : on garde l'icône utilisée par flutter_local_notifications. -->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/notification_icon" />
