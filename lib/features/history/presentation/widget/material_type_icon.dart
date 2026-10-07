@@ -5,7 +5,8 @@ import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/app_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
 import "../../../../l10n/app_localizations.dart";
-import "../../domain/entities/deposit_entity.dart";
+
+enum MaterialType { plastic, paper, metal, glass, ewaste, organic }
 
 /// Libellé localisé d'un type de matériau : `Plastique` / `Plastic`.
 extension MaterialTypeLabel on MaterialType {
@@ -17,6 +18,24 @@ extension MaterialTypeLabel on MaterialType {
     MaterialType.ewaste => l10n.materialEwaste,
     MaterialType.organic => l10n.materialOrganic,
   };
+}
+
+/// Mappe la chaîne `itemMainCategory` de l'API vers `MaterialType`.
+extension MaterialTypeFromCategory on MaterialType {
+  static MaterialType fromCategory(String category) {
+    return switch (category.toLowerCase()) {
+      "plastic" || "plastique" => MaterialType.plastic,
+      "paper" || "papier" || "cardboard" || "carton" => MaterialType.paper,
+      "metal" || "métal" || "aluminium" || "iron" || "fer" =>
+        MaterialType.metal,
+      "glass" || "verre" => MaterialType.glass,
+      "ewaste" || "e-waste" || "electronic" || "électronique" =>
+        MaterialType.ewaste,
+      "organic" || "organique" || "food" || "alimentaire" =>
+        MaterialType.organic,
+      _ => MaterialType.plastic,
+    };
+  }
 }
 
 class MaterialTypeIcon extends StatelessWidget {

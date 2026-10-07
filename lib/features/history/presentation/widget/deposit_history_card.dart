@@ -4,15 +4,16 @@ import "package:lucide_icons_flutter/lucide_icons.dart";
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/app_spacing.dart";
 import "../../../../shared/presentation/widgets/others/app_divider.dart";
-import "../../domain/entities/deposit_entity.dart";
+import "../../../waste_analysis/domain/entities/recycling_ticket.dart";
+import "../../../waste_analysis/domain/entities/ticket_status.dart";
 import "deposit_detail_sheet.dart";
 import "deposit_status_badge.dart";
 import "material_type_icon.dart";
 
 class DepositHistoryCard extends StatelessWidget {
-  const DepositHistoryCard({required this.deposit, super.key});
+  const DepositHistoryCard({required this.ticket, super.key});
 
-  final DepositEntity deposit;
+  final RecyclingTicket ticket;
 
   void _openDetail(BuildContext context) {
     showModalBottomSheet<void>(
@@ -26,7 +27,7 @@ class DepositHistoryCard extends StatelessWidget {
         minChildSize: 0.4,
         maxChildSize: 0.92,
         builder: (ctx, sc) =>
-            DepositDetailSheet(deposit: deposit, scrollController: sc),
+            DepositDetailSheet(ticket: ticket, scrollController: sc),
       ),
     );
   }
@@ -38,16 +39,26 @@ class DepositHistoryCard extends StatelessWidget {
     final textTheme = context.textTheme;
     final isDark = context.isDarkMode;
 
-    final dateLabel = context.formatDateTime(deposit.dateTime);
-    final realWeight = deposit.realWeight;
+    final material = MaterialTypeFromCategory.fromCategory(
+      ticket.wasteAnalysisResult.detectedItem.itemMainCategory,
+    );
+    final estimatedWeight =
+        ticket.wasteAnalysisResult.itemWeight.estimatedWeight;
+    final realWeightKg = ticket.validation?.measuredWeightGrams != null
+        ? ticket.validation!.measuredWeightGrams! / 1000
+        : null;
+
+    final dateLabel = context.formatDateTime(ticket.createdAt);
     final weightLabel =
-        deposit.status == DepositStatus.validated && realWeight != null
-        ? l10n.historyWeightReal(realWeight)
-        : l10n.historyWeightEstimated(deposit.estimatedWeight);
-    final points = deposit.points;
-    final showPoints =
-        deposit.status != DepositStatus.rejected && points != null;
-    final pointsLabel = deposit.status == DepositStatus.waiting
+        ticket.status == TicketStatus.validated && realWeightKg != null
+        ? l10n.historyWeightReal(realWeightKg)
+        : l10n.historyWeightEstimated(estimatedWeight);
+
+    final points = ticket.status == TicketStatus.validated
+        ? ticket.validation?.finalPoints?.round()
+        : ticket.wasteAnalysisResult.itemRecyclability.pointsEarned.round();
+    final showPoints = ticket.status != TicketStatus.rejected;
+    final pointsLabel = ticket.status == TicketStatus.pending
         ? l10n.historyPointsPending(points ?? 0)
         : l10n.historyPointsCertified(points ?? 0);
 
@@ -66,14 +77,14 @@ class DepositHistoryCard extends StatelessWidget {
           children: [
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: MaterialTypeIcon(material: deposit.material),
+              leading: MaterialTypeIcon(material: material),
               title: Text(
-                deposit.material.label(l10n),
+                material.label(l10n),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
               subtitle: Text(dateLabel),
-              trailing: DepositStatusBadge(status: deposit.status),
+              trailing: DepositStatusBadge(status: ticket.status),
             ),
             AppDivider(color: colorScheme.outline, indent: 0),
             Row(
@@ -86,7 +97,7 @@ class DepositHistoryCard extends StatelessWidget {
                 ),
                 Text(weightLabel, style: textTheme.bodyMedium),
                 const Spacer(),
-                if (showPoints)
+                if (showPoints && points != null)
                   Chip(
                     label: Text(
                       pointsLabel,
@@ -94,13 +105,6 @@ class DepositHistoryCard extends StatelessWidget {
                     ),
                     backgroundColor: colorScheme.primary.withValues(alpha: .15),
                   ),
-                // if (deposit.status == DepositStatus.rejected)
-                //   Text(
-                //     l10n.historyStatusRejected,
-                //     style: textTheme.labelMedium!.copyWith(
-                //       color: colorScheme.error,
-                //     ),
-                //   ),
               ],
             ),
           ],

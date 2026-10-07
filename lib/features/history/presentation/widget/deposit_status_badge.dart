@@ -3,28 +3,28 @@ import "package:flutter/material.dart";
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/app_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
-import "../../domain/entities/deposit_entity.dart";
+import "../../../waste_analysis/domain/entities/ticket_status.dart";
 
 class DepositStatusBadge extends StatelessWidget {
   const DepositStatusBadge({required this.status, super.key});
 
-  final DepositStatus status;
+  final TicketStatus status;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final (bg, fg, label) = switch (status) {
-      DepositStatus.waiting => (
+      TicketStatus.pending => (
         AppColors.semanticWarningBg,
         AppColors.semanticWarning,
         l10n.historyStatusWaiting,
       ),
-      DepositStatus.validated => (
+      TicketStatus.validated => (
         AppColors.semanticSuccessBg,
         AppColors.semanticSuccess,
         l10n.historyStatusValidated,
       ),
-      DepositStatus.rejected => (
+      TicketStatus.rejected => (
         AppColors.semanticErrorBg,
         AppColors.semanticError,
         l10n.historyStatusRejected,

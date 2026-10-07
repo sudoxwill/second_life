@@ -10,7 +10,9 @@ import "../../../../shared/presentation/widgets/buttons/app_elevated_button.dart
 import "../../../../shared/presentation/widgets/buttons/app_segmented_button.dart";
 import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
 import "../../../../shared/presentation/widgets/others/skeleton.dart";
-import "../../domain/entities/deposit_entity.dart";
+import "../../../waste_analysis/domain/entities/recycling_ticket.dart";
+import "../../../waste_analysis/domain/entities/ticket_status.dart";
+import "../../../waste_analysis/presentation/providers/user_tickets_provider.dart";
 import "../providers/history_providers.dart";
 import "../widget/index.dart";
 
@@ -47,14 +49,14 @@ class _UserHistoryPageState extends ConsumerState<UserHistoryPage> {
       return;
     }
 
-    final deposit = [...pending, ...processed]
-        .cast<DepositEntity?>()
-        .firstWhere((d) => d?.id == depositId, orElse: () => null);
-    if (deposit == null) return;
+    final ticket = [...pending, ...processed]
+        .cast<RecyclingTicket?>()
+        .firstWhere((t) => t?.code == depositId, orElse: () => null);
+    if (ticket == null) return;
 
     setState(() {
       currentHistory = {
-        if (deposit.status == DepositStatus.waiting)
+        if (ticket.status == TicketStatus.pending)
           HistoryType.waiting
         else
           HistoryType.processed,
@@ -74,7 +76,7 @@ class _UserHistoryPageState extends ConsumerState<UserHistoryPage> {
           minChildSize: 0.4,
           maxChildSize: 0.92,
           builder: (ctx, sc) =>
-              DepositDetailSheet(deposit: deposit, scrollController: sc),
+              DepositDetailSheet(ticket: ticket, scrollController: sc),
         ),
       );
     });
@@ -129,14 +131,14 @@ class _WaitingDepositList extends ConsumerWidget {
         .when(
           loading: () => const _DepositSkeleton(),
           error: (_, _) => _ErrorState(
-            onRetry: () => ref.invalidate(pendingDepositsProvider),
+            onRetry: () => ref.invalidate(userTicketsProvider),
           ),
-          data: (deposits) => deposits.isEmpty
+          data: (tickets) => tickets.isEmpty
               ? const _EmptyState(type: HistoryType.waiting)
               : ListView.builder(
-                  itemCount: deposits.length,
+                  itemCount: tickets.length,
                   itemBuilder: (_, i) =>
-                      DepositHistoryCard(deposit: deposits[i]),
+                      DepositHistoryCard(ticket: tickets[i]),
                 ),
         );
   }
@@ -152,14 +154,14 @@ class _ProcessedDepositList extends ConsumerWidget {
         .when(
           loading: () => const _DepositSkeleton(),
           error: (_, _) => _ErrorState(
-            onRetry: () => ref.invalidate(processedDepositsProvider),
+            onRetry: () => ref.invalidate(userTicketsProvider),
           ),
-          data: (deposits) => deposits.isEmpty
+          data: (tickets) => tickets.isEmpty
               ? const _EmptyState(type: HistoryType.processed)
               : ListView.builder(
-                  itemCount: deposits.length,
+                  itemCount: tickets.length,
                   itemBuilder: (_, i) =>
-                      DepositHistoryCard(deposit: deposits[i]),
+                      DepositHistoryCard(ticket: tickets[i]),
                 ),
         );
   }

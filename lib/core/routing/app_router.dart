@@ -5,6 +5,7 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../../features/auth/presentation/pages/index.dart";
 import "../../features/auth/presentation/providers/auth_provider.dart";
+import "../../features/deposit/presentation/pages/index.dart";
 import "../../features/history/presentation/pages/index.dart";
 import "../../features/home/presentation/pages/index.dart";
 import "../../features/onboarding/presentation/pages/index.dart";
@@ -248,9 +249,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: _Placeholder(
-                    title: context.l10n.routerScreenAgentDeposits,
-                  ),
+                  child: const AgentDepositPage(),
                 ),
               ),
             ],
