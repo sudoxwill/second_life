@@ -4,6 +4,7 @@ import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/app_spacing.dart";
+import "../../../../l10n/app_localizations.dart";
 import "../../../../shared/presentation/widgets/buttons/app_elevated_button.dart";
 import "../../../../shared/presentation/widgets/buttons/app_segmented_button.dart";
 import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
@@ -24,11 +25,12 @@ class _AgentHistoryPageState extends ConsumerState<AgentHistoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
 
     return AppScaffold(
-      appBar: AppBar(elevation: 0, title: const Text("Mes validations")),
+      appBar: AppBar(elevation: 0, title: Text(l10n.historyAgentTitle)),
       body: Column(
         spacing: AppSpacing.md,
         children: [
@@ -55,7 +57,7 @@ class _AgentHistoryPageState extends ConsumerState<AgentHistoryPage> {
                               child: _StatCell(
                                 icon: LucideIcons.badgeCheck,
                                 count: validated,
-                                label: "Validés",
+                                label: l10n.historyFilterValidated,
                                 color: colorScheme.primary,
                                 bgColor: colorScheme.primaryContainer,
                               ),
@@ -68,7 +70,7 @@ class _AgentHistoryPageState extends ConsumerState<AgentHistoryPage> {
                               child: _StatCell(
                                 icon: LucideIcons.badgeX,
                                 count: rejected,
-                                label: "Refusés",
+                                label: l10n.historyFilterRejected,
                                 color: colorScheme.error,
                                 bgColor: colorScheme.errorContainer,
                               ),
@@ -81,7 +83,7 @@ class _AgentHistoryPageState extends ConsumerState<AgentHistoryPage> {
                               child: _StatCell(
                                 icon: LucideIcons.clipboardList,
                                 count: deposits.length,
-                                label: "Total",
+                                label: l10n.historyStatTotal,
                                 color: colorScheme.onSurfaceVariant,
                                 bgColor: colorScheme.surfaceContainerHighest,
                               ),
@@ -96,7 +98,10 @@ class _AgentHistoryPageState extends ConsumerState<AgentHistoryPage> {
           */
           AppSegmentedButton<_AgentFilter>(
             segments: _AgentFilter.values
-                .map((f) => ButtonSegment(value: f, label: Text(f.label)))
+                .map(
+                  (f) =>
+                      ButtonSegment(value: f, label: Text(f.label(l10n))),
+                )
                 .toList(),
             selected: _filter,
             onSelectionChanged: (v) => setState(() => _filter = v),
@@ -125,7 +130,7 @@ class _AgentHistoryPageState extends ConsumerState<AgentHistoryPage> {
                           color: colorScheme.onSurfaceVariant,
                         ),
                         Text(
-                          "Une erreur est survenue",
+                          l10n.commonError,
                           style: textTheme.bodyMedium!.copyWith(
                             color: colorScheme.onSurfaceVariant,
                           ),
@@ -133,7 +138,7 @@ class _AgentHistoryPageState extends ConsumerState<AgentHistoryPage> {
                         AppElevatedButton(
                           onPressed: () =>
                               ref.invalidate(agentProcessedDepositsProvider),
-                          text: "Réessayer",
+                          text: l10n.commonRetry,
                         ),
                       ],
                     ),
@@ -161,7 +166,7 @@ class _AgentHistoryPageState extends ConsumerState<AgentHistoryPage> {
                               color: colorScheme.onSurfaceVariant,
                             ),
                             Text(
-                              "Aucune validation ici",
+                              l10n.historyAgentEmpty,
                               style: textTheme.titleSmall,
                             ),
                           ],
@@ -235,10 +240,13 @@ class _StatCell extends StatelessWidget {
 */
 
 enum _AgentFilter {
-  all(label: "Tous"),
-  validated(label: "Validés"),
-  rejected(label: "Refusés");
+  all,
+  validated,
+  rejected;
 
-  const _AgentFilter({required this.label});
-  final String label;
+  String label(AppLocalizations l10n) => switch (this) {
+    _AgentFilter.all => l10n.historyFilterAll,
+    _AgentFilter.validated => l10n.historyFilterValidated,
+    _AgentFilter.rejected => l10n.historyFilterRejected,
+  };
 }

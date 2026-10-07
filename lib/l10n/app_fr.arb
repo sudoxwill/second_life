@@ -529,6 +529,24 @@
   "historyTitle": "Historique de vos activités",
   "@historyTitle": { "description": "Titre de la barre d'application de l'écran d'historique" },
 
+  "historyAgentTitle": "Mes validations",
+  "@historyAgentTitle": { "description": "Titre de la barre d'application de l'historique de l'agent" },
+
+  "historyAgentEmpty": "Aucune validation ici",
+  "@historyAgentEmpty": { "description": "État vide de la liste des validations de l'agent" },
+
+  "historyFilterAll": "Tous",
+  "@historyFilterAll": { "description": "Premier filtre de l'historique agent : afficher tous les dépôts" },
+
+  "historyFilterValidated": "Validés",
+  "@historyFilterValidated": { "description": "Filtre de l'historique agent : afficher les dépôts validés" },
+
+  "historyFilterRejected": "Refusés",
+  "@historyFilterRejected": { "description": "Filtre de l'historique agent : afficher les dépôts refusés" },
+
+  "historyStatTotal": "Total",
+  "@historyStatTotal": { "description": "Libellé du compteur total du résumé statistique de l'agent" },
+
   "historyTabWaiting": "En attente",
   "@historyTabWaiting": { "description": "Premier onglet de l'historique : dépôts en attente de validation" },
 

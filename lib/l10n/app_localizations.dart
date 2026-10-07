@@ -854,6 +854,42 @@ abstract class AppLocalizations {
   /// **'Historique de vos activités'**
   String get historyTitle;
 
+  /// Titre de la barre d'application de l'historique de l'agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Mes validations'**
+  String get historyAgentTitle;
+
+  /// État vide de la liste des validations de l'agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune validation ici'**
+  String get historyAgentEmpty;
+
+  /// Premier filtre de l'historique agent : afficher tous les dépôts
+  ///
+  /// In fr, this message translates to:
+  /// **'Tous'**
+  String get historyFilterAll;
+
+  /// Filtre de l'historique agent : afficher les dépôts validés
+  ///
+  /// In fr, this message translates to:
+  /// **'Validés'**
+  String get historyFilterValidated;
+
+  /// Filtre de l'historique agent : afficher les dépôts refusés
+  ///
+  /// In fr, this message translates to:
+  /// **'Refusés'**
+  String get historyFilterRejected;
+
+  /// Libellé du compteur total du résumé statistique de l'agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Total'**
+  String get historyStatTotal;
+
   /// Premier onglet de l'historique : dépôts en attente de validation
   ///
   /// In fr, this message translates to:

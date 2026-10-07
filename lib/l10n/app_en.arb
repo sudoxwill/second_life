@@ -517,6 +517,24 @@
   "historyTitle": "Your activity history",
   "@historyTitle": { "description": "Title of the history screen app bar" },
 
+  "historyAgentTitle": "My validations",
+  "@historyAgentTitle": { "description": "Title of the agent history screen app bar" },
+
+  "historyAgentEmpty": "No validations here",
+  "@historyAgentEmpty": { "description": "Empty state of the agent validations list" },
+
+  "historyFilterAll": "All",
+  "@historyFilterAll": { "description": "First agent history filter: show every deposit" },
+
+  "historyFilterValidated": "Approved",
+  "@historyFilterValidated": { "description": "Agent history filter: show approved deposits" },
+
+  "historyFilterRejected": "Rejected",
+  "@historyFilterRejected": { "description": "Agent history filter: show rejected deposits" },
+
+  "historyStatTotal": "Total",
+  "@historyStatTotal": { "description": "Label of the total counter in the agent stats summary" },
+
   "historyTabWaiting": "Pending",
   "@historyTabWaiting": { "description": "First history tab: deposits awaiting validation" },
 

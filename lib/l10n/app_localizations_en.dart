@@ -434,6 +434,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get historyTitle => 'Your activity history';
 
   @override
+  String get historyAgentTitle => 'My validations';
+
+  @override
+  String get historyAgentEmpty => 'No validations here';
+
+  @override
+  String get historyFilterAll => 'All';
+
+  @override
+  String get historyFilterValidated => 'Approved';
+
+  @override
+  String get historyFilterRejected => 'Rejected';
+
+  @override
+  String get historyStatTotal => 'Total';
+
+  @override
   String get historyTabWaiting => 'Pending';
 
   @override
