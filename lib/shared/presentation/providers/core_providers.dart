@@ -15,6 +15,11 @@ FirebaseFirestore firebaseFirestore(Ref ref) => FirebaseFirestore.instance;
 @Riverpod(keepAlive: true)
 FirebaseAuth firebaseAuth(Ref ref) => FirebaseAuth.instance;
 
+// Utilisateur Firebase courant, null une fois déconnecté.
+@Riverpod(keepAlive: true)
+Stream<User?> firebaseUser(Ref ref) =>
+    ref.watch(firebaseAuthProvider).authStateChanges();
+
 @Riverpod(keepAlive: true)
 GoogleSignIn googleSignIn(Ref ref) => GoogleSignIn();
 

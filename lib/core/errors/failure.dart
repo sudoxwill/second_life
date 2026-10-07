@@ -23,3 +23,9 @@ class InvalidWeightFailure extends Failure {}
 class CommentRequiredFailure extends Failure {}
 
 class CommentTooLongFailure extends Failure {}
+
+class InsufficientPointsFailure extends Failure {}
+
+class RewardOutOfStockFailure extends Failure {}
+
+class RewardUnavailableFailure extends Failure {}

@@ -3,11 +3,14 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/extensions/build_context_extension.dart";
-import "../../../../core/theme/app_colors.dart";
+import "../../../../core/theme/app_semantic_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
 import "../../../../shared/presentation/providers/dyslexic_font_provider.dart";
 import "../../../../shared/presentation/providers/locale_provider.dart";
+import "../../../../shared/presentation/providers/notifications_enabled_provider.dart";
 import "../../../../shared/presentation/providers/theme_provider.dart";
+import "../../../../shared/presentation/widgets/others/app_card.dart";
+import "../../../../shared/presentation/widgets/others/feedback_views.dart";
 
 class ProfileSettingsSection extends ConsumerStatefulWidget {
   const ProfileSettingsSection({super.key});
@@ -25,7 +28,19 @@ class _ProfileSettingsSectionState
     "en": "English",
   };
 
-  bool _notificationsEnabled = true;
+  // Pendant l'enregistrement : évite les doubles appuis.
+  bool _savingNotifications = false;
+
+  Future<void> _setNotifications(bool enabled) async {
+    if (_savingNotifications) return;
+    setState(() => _savingNotifications = true);
+    final ok = await ref
+        .read(appNotificationsEnabledProvider.notifier)
+        .setEnabled(enabled);
+    if (!mounted) return;
+    setState(() => _savingNotifications = false);
+    if (!ok) showAppSnackBar(context, context.l10n.profileNotificationsError);
+  }
 
   String _languageLabel(Locale locale) =>
       _languageNames[locale.languageCode] ?? _languageNames.entries.last.value;
@@ -61,10 +76,10 @@ class _ProfileSettingsSectionState
               leading: Icon(opt.icon, size: AppSpacing.iconMd),
               title: Text(opt.label),
               trailing: current == opt.mode
-                  ? const Icon(
+                  ? Icon(
                       LucideIcons.check,
                       size: AppSpacing.iconMd,
-                      color: AppColors.primary,
+                      color: context.primaryText,
                     )
                   : null,
               onTap: () {
@@ -90,10 +105,10 @@ class _ProfileSettingsSectionState
             ListTile(
               title: Text(entry.value),
               trailing: current.languageCode == entry.key
-                  ? const Icon(
+                  ? Icon(
                       LucideIcons.check,
                       size: AppSpacing.iconMd,
-                      color: AppColors.primary,
+                      color: context.primaryText,
                     )
                   : null,
               onTap: () {
@@ -117,6 +132,7 @@ class _ProfileSettingsSectionState
     final themeMode = ref.watch(appThemeModeProvider);
     final locale = ref.watch(appLocaleProvider);
     final dyslexic = ref.watch(appDyslexicFontProvider);
+    final notificationsEnabled = ref.watch(appNotificationsEnabledProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,19 +147,20 @@ class _ProfileSettingsSectionState
             ),
           ),
         ),
-        Card(
-          margin: EdgeInsets.zero,
+        AppCard(
+          padding: EdgeInsets.zero,
           child: Column(
             children: [
               _SettingsTile(
                 icon: LucideIcons.bell,
                 title: l10n.profileSettingsNotifications,
+                onTap: () => _setNotifications(!notificationsEnabled),
                 trailing: Switch(
-                  value: _notificationsEnabled,
-                  onChanged: (v) => setState(() => _notificationsEnabled = v),
+                  value: notificationsEnabled,
+                  onChanged: _savingNotifications ? null : _setNotifications,
                 ),
               ),
-              const Divider(height: 1, indent: 56),
+              const Divider(height: 1, indent: 64),
               _SettingsTile(
                 icon: LucideIcons.sunMoon,
                 title: l10n.profileSettingsTheme,
@@ -170,7 +187,7 @@ class _ProfileSettingsSectionState
                 ),
                 onTap: () => _showThemePicker(themeMode),
               ),
-              const Divider(height: 1, indent: 56),
+              const Divider(height: 1, indent: 64),
               _SettingsTile(
                 icon: LucideIcons.globe,
                 title: l10n.profileSettingsLanguage,
@@ -193,10 +210,11 @@ class _ProfileSettingsSectionState
                 ),
                 onTap: () => _showLanguagePicker(locale),
               ),
-              const Divider(height: 1, indent: 56),
+              const Divider(height: 1, indent: 64),
               _SettingsTile(
                 icon: LucideIcons.type,
                 title: l10n.profileSettingsDyslexicFont,
+                onTap: ref.read(appDyslexicFontProvider.notifier).toggle,
                 trailing: Switch(
                   value: dyslexic,
                   onChanged: (_) =>
@@ -232,7 +250,12 @@ class _SettingsTile extends StatelessWidget {
         horizontal: AppSpacing.md,
         vertical: AppSpacing.xs,
       ),
-      leading: Icon(icon, size: AppSpacing.iconXl),
+      leading: IconTile(
+        icon: icon,
+        color: context.primaryText,
+        background: context.primarySoft,
+        size: 36,
+      ),
       title: Text(title, style: context.textTheme.bodyMedium),
       trailing: trailing,
     );

@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
+import "package:lucide_icons_flutter/lucide_icons.dart";
 
+import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/index.dart";
 import "../../../../core/utils/formatters.dart";
 import "../../../../shared/presentation/widgets/others/app_card.dart";
@@ -14,15 +16,16 @@ class ValidationResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
     final validated = ticket.status == TicketStatus.validated;
     final validation = ticket.validation;
     final color = validated ? context.primaryText : context.danger;
     final soft = validated ? context.primarySoft : context.dangerSoft;
-    final user = Formatters.userLabel(ticket.userId);
+    final user = Formatters.userLabel(l10n, ticket.userId);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Validation de la pesée")),
+      appBar: AppBar(title: Text(l10n.weighingTitle)),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
         children: [
@@ -31,38 +34,50 @@ class ValidationResultPage extends StatelessWidget {
             padding: const EdgeInsets.all(24),
             child: Column(
               children: [
-                Container(
-                  width: 76,
-                  height: 76,
-                  decoration: BoxDecoration(
-                    color: soft,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    validated
-                        ? Icons.check_circle_outline_rounded
-                        : Icons.cancel_outlined,
-                    color: color,
-                    size: 44,
+                // Petit rebond de l'icône à l'arrivée sur l'écran.
+                TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0.4, end: 1),
+                  duration: AppSpacing.durationSlow,
+                  curve: Curves.elasticOut,
+                  builder: (context, scale, child) =>
+                      Transform.scale(scale: scale, child: child),
+                  child: Container(
+                    width: 76,
+                    height: 76,
+                    decoration: BoxDecoration(
+                      color: soft,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      validated ? LucideIcons.circleCheck : LucideIcons.circleX,
+                      color: color,
+                      size: 44,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
                 Pill(
-                  label: validated ? "PESÉE CERTIFIÉE ✅" : "DÉPÔT REFUSÉ",
+                  label: validated
+                      ? l10n.resultCertifiedPill
+                      : l10n.resultRejectedPill,
                   color: color,
                   background: soft,
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  validated ? "Dépôt validé !" : "Dépôt refusé",
+                  validated
+                      ? l10n.resultValidatedTitle
+                      : l10n.resultRejectedTitle,
                   style: AppTextStyles.heading(24),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   validated
-                      ? "${Formatters.points(validation?.finalPoints ?? 0)} "
-                            "pts crédités à $user"
-                      : "$user a été notifié du motif.",
+                      ? l10n.resultPointsCredited(
+                          Formatters.points(validation?.finalPoints ?? 0),
+                          user,
+                        )
+                      : l10n.resultUserNotified(user),
                   textAlign: TextAlign.center,
                   style: TextStyle(color: color, fontWeight: FontWeight.w600),
                 ),
@@ -77,28 +92,32 @@ class ValidationResultPage extends StatelessWidget {
                   child: Column(
                     children: [
                       if (validation?.measuredWeightGrams case final grams?)
-                        DetailRow("Poids réel :", "${Formatters.kg(grams)} kg"),
+                        DetailRow(
+                          l10n.detailRealWeight,
+                          "${Formatters.kg(grams)} kg",
+                        ),
                       DetailRow(
-                        "Matériau :",
+                        l10n.depositMaterial,
                         ticket.wasteAnalysisResult.detectedItem.itemLabel,
                       ),
-                      DetailRow("Déposant :", user),
+                      DetailRow(l10n.depositDepositor, user),
                       if (validation?.rejectionReason case final reason?)
                         DetailRow(
-                          "Motif :",
-                          reason.label,
+                          l10n.detailReason,
+                          reason.label(l10n),
                           valueColor: context.danger,
                         ),
                       if (validation?.comment case final comment?)
-                        DetailRow("Commentaire :", comment),
+                        DetailRow(l10n.detailComment, comment),
                     ],
                   ),
                 ),
                 const SizedBox(height: 22),
-                FilledButton(
+                FilledButton.icon(
                   onPressed: () =>
                       Navigator.popUntil(context, (route) => route.isFirst),
-                  child: const Text("Retour au tableau de bord"),
+                  icon: const Icon(LucideIcons.layoutDashboard),
+                  label: Text(l10n.resultBackToDashboard),
                 ),
               ],
             ),

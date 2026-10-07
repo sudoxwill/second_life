@@ -5,7 +5,7 @@ import "package:lucide_icons_flutter/lucide_icons.dart";
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/index.dart";
 import "../../../../shared/presentation/widgets/others/app_card.dart";
-import "../../../history/presentation/widget/material_type_icon.dart";
+import "../../../history/presentation/widgets/material_type_icon.dart";
 import "../../domain/entities/map_point.dart";
 import "map_point_style.dart";
 
@@ -37,7 +37,7 @@ class MapPointCard extends StatelessWidget {
     final now = DateTime.now();
     final color = point.color(context);
     final subtitle = [
-      point.typeLabel,
+      point.typeLabel(context.l10n),
       ?point.district,
     ].join(" · ");
     // L'agent tient la permanence pendant les heures d'ouverture du relais.
@@ -91,7 +91,7 @@ class MapPointCard extends StatelessWidget {
               if (distance != null) ...[
                 AppSpacing.gapHSm,
                 Text(
-                  formatDistance(distance!),
+                  formatDistance(distance!, context.l10n.localeName),
                   style: textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: color,
@@ -184,15 +184,14 @@ class _OpeningStatus extends StatelessWidget {
     final next = point.nextChange(now);
     String? detail;
     if (next != null) {
-      final time = formatClock(next);
+      final time = formatClock(next, l10n.localeName);
       if (open) {
         detail = l10n.placesClosesAt(time);
       } else if (next.day == now.day && next.month == now.month) {
         detail = l10n.placesOpensAt(time);
       } else {
-        final day = DateFormat.E(
-          Localizations.localeOf(context).toString(),
-        ).format(next);
+        final day = DateFormat.E(Localizations.localeOf(context).toString())
+            .format(next);
         detail = l10n.placesOpensDayAt(day, time);
       }
     }

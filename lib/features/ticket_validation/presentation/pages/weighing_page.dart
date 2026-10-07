@@ -1,9 +1,11 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/errors/failure.dart";
 import "../../../../core/errors/failure_message.dart";
+import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/index.dart";
 import "../../../../core/utils/formatters.dart";
 import "../../../../shared/presentation/widgets/others/app_card.dart";
@@ -71,7 +73,7 @@ class _WeighingPageState extends ConsumerState<WeighingPage> {
     if (grams == null) {
       showAppSnackBar(
         context,
-        failureMessage(InvalidWeightFailure()),
+        failureMessage(context.l10n, InvalidWeightFailure()),
         error: true,
       );
       return;
@@ -103,9 +105,15 @@ class _WeighingPageState extends ConsumerState<WeighingPage> {
     setState(() => _processing = false);
 
     if (failure != null) {
-      showAppSnackBar(context, failureMessage(failure), error: true);
+      showAppSnackBar(
+        context,
+        failureMessage(context.l10n, failure),
+        error: true,
+      );
       return;
     }
+    await HapticFeedback.mediumImpact();
+    if (!mounted) return;
     final ticket = ref.read(ticketValidationProvider).value;
     if (ticket == null) return;
     Navigator.pushReplacement(
@@ -121,7 +129,7 @@ class _WeighingPageState extends ConsumerState<WeighingPage> {
     final state = ref.watch(ticketValidationProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Validation de la pesée")),
+      appBar: AppBar(title: Text(context.l10n.weighingTitle)),
       body: switch (state) {
         AsyncData(value: final ticket?) => _form(ticket),
         AsyncError(:final error) => ListView(
@@ -134,6 +142,7 @@ class _WeighingPageState extends ConsumerState<WeighingPage> {
   }
 
   Widget _form(RecyclingTicket ticket) {
+    final l10n = context.l10n;
     final analysis = ticket.wasteAnalysisResult;
     final estimated = analysis.itemWeight.estimatedWeight;
     final estimatedPoints = analysis.itemRecyclability.pointsEarned;
@@ -165,13 +174,15 @@ class _WeighingPageState extends ConsumerState<WeighingPage> {
             Expanded(
               child: AppCard(
                 child: _WeightColumn(
-                  title: "Poids estimé (IA)",
+                  title: l10n.weighingEstimatedTitle,
                   value: Text(
                     Formatters.kg(estimated),
                     style: AppTextStyles.heading(30),
                   ),
                   caption: Text(
-                    "≈ ${Formatters.points(estimatedPoints)} pts estimés",
+                    l10n.weighingEstimatedCaption(
+                      Formatters.points(estimatedPoints),
+                    ),
                     style: TextStyle(color: context.warning),
                   ),
                 ),
@@ -180,9 +191,9 @@ class _WeighingPageState extends ConsumerState<WeighingPage> {
             const SizedBox(width: 12),
             Expanded(
               child: AppCard(
-                borderColor: AppColors.primary,
+                borderColor: context.primaryText,
                 child: _WeightColumn(
-                  title: "Poids réel (Balance)",
+                  title: l10n.weighingRealTitle,
                   // Largeur du texte saisi : "kg" reste collé au nombre.
                   value: IntrinsicWidth(
                     child: TextField(
@@ -213,9 +224,10 @@ class _WeighingPageState extends ConsumerState<WeighingPage> {
                   ),
                   caption: Text(
                     certifiedPoints == null
-                        ? "Saisir le poids pesé"
-                        : "= ${Formatters.points(certifiedPoints)} "
-                              "pts certifiés",
+                        ? l10n.weighingEnterWeight
+                        : l10n.weighingCertifiedCaption(
+                            Formatters.points(certifiedPoints),
+                          ),
                     style: TextStyle(color: context.primaryText),
                   ),
                 ),
@@ -223,14 +235,19 @@ class _WeighingPageState extends ConsumerState<WeighingPage> {
             ),
           ],
         ),
-        if (measured != null) ...[
-          const SizedBox(height: 14),
-          _DeviationBanner(
-            measured: measured,
-            estimated: estimated,
-            deviated: deviated,
-          ),
-        ],
+        AnimatedSize(
+          duration: AppSpacing.durationFast,
+          child: measured == null
+              ? const SizedBox(width: double.infinity)
+              : Padding(
+                  padding: const EdgeInsets.only(top: 14),
+                  child: _DeviationBanner(
+                    measured: measured,
+                    estimated: estimated,
+                    deviated: deviated,
+                  ),
+                ),
+        ),
         const SizedBox(height: 14),
         TextField(
           controller: _commentController,
@@ -239,8 +256,8 @@ class _WeighingPageState extends ConsumerState<WeighingPage> {
           maxLines: 2,
           decoration: InputDecoration(
             labelText: deviated
-                ? "Commentaire (obligatoire : écart important)"
-                : "Commentaire (facultatif)",
+                ? l10n.weighingCommentRequired
+                : l10n.commentOptional,
             counterText: "",
           ),
         ),
@@ -255,20 +272,21 @@ class _WeighingPageState extends ConsumerState<WeighingPage> {
                     color: Colors.white,
                   ),
                 )
-              : const Icon(Icons.check_circle_outline_rounded),
+              : const Icon(LucideIcons.circleCheck),
           label: Text(
             certifiedPoints == null
-                ? "Valider le dépôt"
-                : "Valider le dépôt "
-                      "(${Formatters.points(certifiedPoints)} pts)",
+                ? l10n.weighingValidate
+                : l10n.weighingValidateWithPoints(
+                    Formatters.points(certifiedPoints),
+                  ),
           ),
         ),
         const SizedBox(height: 8),
         TextButton.icon(
           onPressed: canProcess ? _reject : null,
           style: TextButton.styleFrom(foregroundColor: context.danger),
-          icon: const Icon(Icons.cancel_outlined),
-          label: const Text("Refuser le dépôt"),
+          icon: const Icon(LucideIcons.circleX),
+          label: Text(l10n.weighingReject),
         ),
       ],
     );
@@ -281,20 +299,21 @@ class _DepositorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
     final item = ticket.wasteAnalysisResult.detectedItem;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SectionLabel("Déposant"),
+          SectionLabel(l10n.depositDepositor),
           const SizedBox(height: 6),
           Text(
-            Formatters.userLabel(ticket.userId),
+            Formatters.userLabel(l10n, ticket.userId),
             style: AppTextStyles.heading(20),
           ),
           Text(
-            "Dépôt ID : ${Formatters.shortCode(ticket.code)}",
+            l10n.weighingDepositId(Formatters.shortCode(ticket.code)),
             style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant),
           ),
           // Sous l'en-tête : les catégories de l'IA peuvent être très longues
@@ -310,7 +329,7 @@ class _DepositorCard extends StatelessWidget {
           const SizedBox(height: 12),
           Row(
             children: [
-              Icon(Icons.eco_outlined, size: 18, color: context.primaryText),
+              Icon(LucideIcons.leaf, size: 18, color: context.primaryText),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
@@ -319,7 +338,9 @@ class _DepositorCard extends StatelessWidget {
                 ),
               ),
               Text(
-                "IA ${Formatters.percent(item.itemconfidenceScore)}",
+                l10n.weighingAiConfidence(
+                  Formatters.percent(item.itemconfidenceScore),
+                ),
                 style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),
               ),
             ],
@@ -384,9 +405,11 @@ class _DeviationBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final diff = measured - estimated;
     final color = deviated ? context.warning : context.primaryText;
     final limit = Formatters.percent(TicketValidationPolicy.maxWeightDeviation);
+    final signedDiff = "${diff >= 0 ? "+" : "−"}${Formatters.kg(diff.abs())}";
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
@@ -397,18 +420,16 @@ class _DeviationBanner extends StatelessWidget {
       child: Row(
         children: [
           Icon(
-            deviated
-                ? Icons.warning_amber_rounded
-                : Icons.check_circle_outline_rounded,
+            deviated ? LucideIcons.triangleAlert : LucideIcons.circleCheck,
             color: color,
             size: 20,
           ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Écart : ${diff >= 0 ? '+' : '−'}'
-              "${Formatters.kg(diff.abs())} kg "
-              '${deviated ? '(> $limit, à justifier)' : '(OK, ≤ $limit)'}',
+              deviated
+                  ? l10n.weighingDeviationHigh(signedDiff, limit)
+                  : l10n.weighingDeviationOk(signedDiff, limit),
               style: TextStyle(
                 color: color,
                 fontWeight: FontWeight.w700,

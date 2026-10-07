@@ -31,9 +31,12 @@ class NotificationPayload {
 }
 
 class NotificationService {
-  NotificationService(this._plugin);
+  NotificationService(this._plugin, {bool Function()? isEnabled})
+    : _isEnabled = isEnabled ?? (() => true);
 
   final FlutterLocalNotificationsPlugin _plugin;
+  // Préférence "Notifications" du profil : coupée, rien n'est affiché.
+  final bool Function() _isEnabled;
 
   /// À appeler dans main() avant runApp().
   static Future<FlutterLocalNotificationsPlugin> createAndInit({
@@ -41,8 +44,7 @@ class NotificationService {
   }) async {
     final plugin = FlutterLocalNotificationsPlugin();
 
-    const androidSettings =
-        AndroidInitializationSettings("notification_icon");
+    const androidSettings = AndroidInitializationSettings("notification_icon");
 
     // Sur iOS on demande la permission plus tard avec requestPermission(),
     // pas au démarrage.
@@ -52,8 +54,11 @@ class NotificationService {
       requestSoundPermission: false,
     );
 
-    await plugin.initialize(settings:
-    const InitializationSettings(android: androidSettings, iOS: iosSettings),
+    await plugin.initialize(
+      settings: const InitializationSettings(
+        android: androidSettings,
+        iOS: iosSettings,
+      ),
       onDidReceiveNotificationResponse: onTap,
       onDidReceiveBackgroundNotificationResponse: _backgroundTapHandler,
     );
@@ -65,14 +70,16 @@ class NotificationService {
   }
 
   static Future<void> _createAndroidChannels(
-      FlutterLocalNotificationsPlugin plugin,
-      ) async {
-    final androidPlugin = plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
+    FlutterLocalNotificationsPlugin plugin,
+  ) async {
+    final androidPlugin = plugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
     if (androidPlugin == null) return;
 
     await androidPlugin.createNotificationChannel(
-      const AndroidNotificationChannel(
+      AndroidNotificationChannel(
         NotificationChannel.processingId,
         NotificationChannel.processingName,
         description: NotificationChannel.processingDescription,
@@ -80,14 +87,14 @@ class NotificationService {
       ),
     );
     await androidPlugin.createNotificationChannel(
-      const AndroidNotificationChannel(
+      AndroidNotificationChannel(
         NotificationChannel.generalId,
         NotificationChannel.generalName,
         description: NotificationChannel.generalDescription,
       ),
     );
     await androidPlugin.createNotificationChannel(
-      const AndroidNotificationChannel(
+      AndroidNotificationChannel(
         NotificationChannel.remindersId,
         NotificationChannel.remindersName,
         description: NotificationChannel.remindersDescription,
@@ -95,7 +102,7 @@ class NotificationService {
       ),
     );
     await androidPlugin.createNotificationChannel(
-      const AndroidNotificationChannel(
+      AndroidNotificationChannel(
         NotificationChannel.alertsId,
         NotificationChannel.alertsName,
         description: NotificationChannel.alertsDescription,
@@ -109,8 +116,10 @@ class NotificationService {
   /// Toujours true sur Android < 13, la permission y est implicite.
   Future<bool> requestPermission() async {
     if (defaultTargetPlatform == TargetPlatform.android) {
-      final androidPlugin = _plugin.resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>();
+      final androidPlugin = _plugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >();
       if (androidPlugin == null) return false;
       final granted = await androidPlugin.requestNotificationsPermission();
       Log.i("Permission Android: $granted", tag: "NotificationService");
@@ -118,8 +127,10 @@ class NotificationService {
     }
 
     if (defaultTargetPlatform == TargetPlatform.iOS) {
-      final iosPlugin = _plugin.resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin>();
+      final iosPlugin = _plugin
+          .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin
+          >();
       if (iosPlugin == null) return false;
       final granted = await iosPlugin.requestPermissions(
         alert: true,
@@ -136,8 +147,10 @@ class NotificationService {
   /// Ne concerne qu'Android 12+, renvoie true ailleurs.
   Future<bool> canScheduleExact() async {
     if (defaultTargetPlatform != TargetPlatform.android) return true;
-    final androidPlugin = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
+    final androidPlugin = _plugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
     if (androidPlugin == null) return false;
     return await androidPlugin.canScheduleExactNotifications() ?? false;
   }
@@ -151,13 +164,12 @@ class NotificationService {
     String channelId = NotificationChannel.generalId,
     NotificationPayload? payload,
   }) async {
+    if (!_isEnabled()) return;
     final details = NotificationDetails(
       android: AndroidNotificationDetails(
         channelId,
         _channelNameFor(channelId),
         importance: _importanceFor(channelId),
-        // icon: "notification_icon",
-        // color: AppColors.primary,
       ),
       iOS: const DarwinNotificationDetails(),
     );
@@ -188,6 +200,7 @@ class NotificationService {
     String channelId = NotificationChannel.remindersId,
     NotificationPayload? payload,
   }) async {
+    if (!_isEnabled()) return;
     final tzDate = tz.TZDateTime.from(scheduledDate, tz.local);
     final canExact = await canScheduleExact();
 
@@ -204,8 +217,6 @@ class NotificationService {
         _channelNameFor(channelId),
         importance: _importanceFor(channelId),
         priority: Priority.high,
-        // icon: "notification_icon",
-        // color: AppColors.primary,
       ),
       iOS: const DarwinNotificationDetails(),
     );

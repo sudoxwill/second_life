@@ -3,6 +3,7 @@ import "dart:io";
 import "package:camera/camera.dart";
 import "package:flutter/material.dart";
 import "package:image_picker/image_picker.dart";
+import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/index.dart";
@@ -102,11 +103,7 @@ class _WasteScanPageState extends State<WasteScanPage>
       _openAnalysis(File(photo.path));
     } catch (_) {
       if (mounted) {
-        showAppSnackBar(
-          context,
-          context.l10n.scanCaptureError,
-          error: true,
-        );
+        showAppSnackBar(context, context.l10n.scanCaptureError, error: true);
         setState(() => _capturing = false);
       }
     }
@@ -143,9 +140,7 @@ class _WasteScanPageState extends State<WasteScanPage>
     if (!mounted) return;
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute<void>(
-        builder: (_) => AnalysisResultPage(image: image),
-      ),
+      MaterialPageRoute<void>(builder: (_) => AnalysisResultPage(image: image)),
     );
   }
 
@@ -195,18 +190,18 @@ class _WasteScanPageState extends State<WasteScanPage>
                   child: Row(
                     children: [
                       ScanRoundButton(
-                        icon: Icons.arrow_back_rounded,
+                        icon: LucideIcons.arrowLeft,
                         tooltip: l10n.commonBack,
                         onPressed: () => Navigator.pop(context),
                       ),
                       const Spacer(),
                       ScanChip(
-                        icon: Icons.auto_awesome_rounded,
+                        icon: LucideIcons.sparkles,
                         label: l10n.scanAiBranding,
                       ),
                       const Spacer(),
                       ScanRoundButton(
-                        icon: Icons.file_upload_outlined,
+                        icon: LucideIcons.upload,
                         tooltip: l10n.scanTooltipImport,
                         onPressed: _importFromGallery,
                       ),
@@ -226,8 +221,8 @@ class _WasteScanPageState extends State<WasteScanPage>
                     children: [
                       ScanRoundButton(
                         icon: _flashOn
-                            ? Icons.flashlight_on_rounded
-                            : Icons.flashlight_off_outlined,
+                            ? LucideIcons.flashlight
+                            : LucideIcons.flashlightOff,
                         tooltip: l10n.scanTooltipFlash,
                         onPressed: ready ? _toggleFlash : null,
                       ),
@@ -259,7 +254,7 @@ class _WasteScanPageState extends State<WasteScanPage>
         children: [
           if (_cameraFailed)
             Icon(
-              Icons.no_photography_outlined,
+              LucideIcons.cameraOff,
               size: AppSpacing.iconXxxl,
               color: Colors.white.withValues(alpha: 0.35),
             )
@@ -350,11 +345,7 @@ class _ShutterButton extends StatelessWidget {
                       strokeWidth: 2.5,
                     ),
                   )
-                : const Icon(
-                    Icons.photo_camera_rounded,
-                    color: Colors.white,
-                    size: 30,
-                  ),
+                : const Icon(LucideIcons.camera, color: Colors.white, size: 30),
           ),
         ),
       ),

@@ -12,5 +12,8 @@ Failure failureMapper(CustomException e) {
     TicketExpiredException() => TicketExpiredFailure(),
     UsernameTakenException() => UnExpectedFailure(),
     SignInCancelledException() => UnExpectedFailure(),
+    InsufficientPointsException() => InsufficientPointsFailure(),
+    RewardOutOfStockException() => RewardOutOfStockFailure(),
+    RewardUnavailableException() => RewardUnavailableFailure(),
   };
 }

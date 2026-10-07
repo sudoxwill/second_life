@@ -1,5 +1,8 @@
 import "package:flutter/material.dart";
 
+import "package:lucide_icons_flutter/lucide_icons.dart";
+
+import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/index.dart";
 import "../../../waste_analysis/domain/entities/ticket_status.dart";
 import "../../../waste_analysis/presentation/widgets/ticket_widgets.dart";
@@ -42,6 +45,7 @@ class _RejectReasonDialogState extends State<_RejectReasonDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
     final comment = TicketValidationPolicy.normalizeComment(
       _commentController.text,
@@ -59,11 +63,11 @@ class _RejectReasonDialogState extends State<_RejectReasonDialog> {
           children: [
             Row(
               children: [
-                Icon(Icons.cancel_outlined, color: context.danger),
+                Icon(LucideIcons.circleX, color: context.danger),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    "Motif de refus du dépôt",
+                    l10n.rejectTitle,
                     style: AppTextStyles.heading(19, color: context.danger),
                   ),
                 ),
@@ -71,13 +75,13 @@ class _RejectReasonDialogState extends State<_RejectReasonDialog> {
             ),
             const SizedBox(height: 8),
             Text(
-              "Sélectionnez le motif : il sera affiché à l’usager.",
+              l10n.rejectSubtitle,
               style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant),
             ),
             const SizedBox(height: 16),
             for (final reason in RejectionReason.values) ...[
               _ReasonOption(
-                label: reason.label,
+                label: reason.label(l10n),
                 selected: reason == _reason,
                 onTap: () => setState(() => _reason = reason),
               ),
@@ -90,8 +94,8 @@ class _RejectReasonDialogState extends State<_RejectReasonDialog> {
               maxLines: 2,
               decoration: InputDecoration(
                 labelText: _commentRequired
-                    ? "Précisez le motif (obligatoire)"
-                    : "Commentaire (facultatif)",
+                    ? l10n.rejectCommentRequired
+                    : l10n.commentOptional,
                 counterText: "",
               ),
             ),
@@ -106,7 +110,7 @@ class _RejectReasonDialogState extends State<_RejectReasonDialog> {
                       minimumSize: const Size.fromHeight(50),
                     ),
                     onPressed: () => Navigator.pop(context),
-                    child: const Text("Annuler"),
+                    child: Text(l10n.commonCancel),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -122,7 +126,7 @@ class _RejectReasonDialogState extends State<_RejectReasonDialog> {
                             comment: comment,
                           ))
                         : null,
-                    child: const Text("Confirmer le refus"),
+                    child: Text(l10n.rejectConfirm),
                   ),
                 ),
               ],
@@ -174,9 +178,7 @@ class _ReasonOption extends StatelessWidget {
                 ),
               ),
               Icon(
-                selected
-                    ? Icons.radio_button_checked_rounded
-                    : Icons.radio_button_unchecked_rounded,
+                selected ? LucideIcons.circleDot : LucideIcons.circle,
                 color: selected ? context.danger : scheme.outline,
                 size: 22,
               ),

@@ -1,69 +1,32 @@
 import "package:flutter/material.dart";
-import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/extensions/build_context_extension.dart";
-import "../../../../core/extensions/navigation_extension.dart";
-import "../../../../core/theme/app_colors.dart";
+import "../../../../core/theme/app_semantic_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
-import "../../../../core/utils/formatters.dart";
-import "../../../../shared/presentation/widgets/buttons/app_elevated_button.dart";
 import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
-import "../../../auth/presentation/providers/auth_provider.dart";
+import "../../../../shared/presentation/widgets/others/app_card.dart";
+import "../../../../shared/presentation/widgets/others/motion.dart";
 import "../../../ticket_validation/presentation/widgets/relay_agent_builder.dart";
 import "../../../waste_analysis/domain/entities/relay_agent.dart";
 import "../widgets/profile_settings_section.dart";
+import "../widgets/profile_widgets.dart";
 
-class AgentProfilePage extends ConsumerWidget {
+class AgentProfilePage extends StatelessWidget {
   const AgentProfilePage({super.key});
 
-  Future<void> _confirmLogout(BuildContext context, WidgetRef ref) async {
-    final l10n = context.l10n;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(l10n.authLogoutConfirmTitle),
-        content: Text(l10n.authLogoutConfirmMessage),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(l10n.commonCancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text(
-              l10n.authLogoutButton,
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
-          ),
-        ],
-      ),
-    );
-    if (confirmed != true) return;
-    await ref.read(authProvider.notifier).signOut();
-    if (!context.mounted) return;
-    context.goAuthLogin();
-  }
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return RelayAgentBuilder(
-      builder: (ctx, agent) => _AgentProfileContent(
-        agent: agent,
-        onLogout: () => _confirmLogout(ctx, ref),
-      ),
+      builder: (ctx, agent) => _AgentProfileContent(agent: agent),
     );
   }
 }
 
 class _AgentProfileContent extends StatelessWidget {
-  const _AgentProfileContent({
-    required this.agent,
-    required this.onLogout,
-  });
+  const _AgentProfileContent({required this.agent});
 
   final RelayAgent agent;
-  final VoidCallback onLogout;
 
   @override
   Widget build(BuildContext context) {
@@ -74,89 +37,38 @@ class _AgentProfileContent extends StatelessWidget {
       scrollable: true,
       appBar: AppBar(elevation: 0, title: Text(l10n.profileTitle)),
       body: Column(
-        spacing: AppSpacing.lg,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: AppSpacing.xl,
         children: [
-          Card(
-            margin: EdgeInsets.zero,
-            shape: const RoundedRectangleBorder(
-              borderRadius: AppSpacing.roundedLg,
-            ),
-            child: Container(
-              padding: AppSpacing.insetMd,
-              decoration: const BoxDecoration(
-                borderRadius: AppSpacing.roundedLg,
-                gradient: LinearGradient(
-                  colors: [AppColors.grassCourt, AppColors.jungleGreen],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-              child: Row(
-                spacing: AppSpacing.md,
-                children: [
-                  CircleAvatar(
-                    radius: AppSpacing.mega,
-                    backgroundColor: colorScheme.secondary,
-                    child: Text(
-                      Formatters.initials(agent.displayName),
-                      style: textTheme.titleLarge!.copyWith(
-                        color: colorScheme.onSecondary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          agent.displayName,
-                          style: textTheme.titleLarge!.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.neutral50,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          l10n.profileAgentRole,
-                          style: textTheme.bodyMedium!.copyWith(
-                            color: AppColors.neutral50.withValues(alpha: 0.75),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+          FadeSlideIn(
+            child: ProfileHeaderCard(
+              name: agent.displayName,
+              subtitle: l10n.profileAgentRole,
+              subtitleIcon: LucideIcons.badgeCheck,
             ),
           ),
-          Card(
-            margin: EdgeInsets.zero,
-            child: Padding(
-              padding: AppSpacing.insetMd,
+          FadeSlideIn(
+            index: 1,
+            child: AppCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: AppSpacing.sm,
                 children: [
                   Row(
                     children: [
-                      Container(
-                        padding: AppSpacing.insetSm,
-                        decoration: const BoxDecoration(
-                          color: AppColors.primarySubtle,
-                          borderRadius: AppSpacing.roundedSm,
-                        ),
-                        child: const Icon(
-                          LucideIcons.building2,
-                          size: AppSpacing.iconMd,
-                          color: AppColors.primary,
-                        ),
+                      IconTile(
+                        icon: LucideIcons.building2,
+                        color: context.primaryText,
+                        background: context.primarySoft,
+                        size: 40,
                       ),
                       AppSpacing.gapHMd,
                       Expanded(
                         child: Text(
                           agent.relayPointName,
-                          style: textTheme.titleMedium,
+                          style: textTheme.titleMedium!.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ],
@@ -166,28 +78,20 @@ class _AgentProfileContent extends StatelessWidget {
                       icon: LucideIcons.mapPin,
                       label: agent.relayPointDescription!,
                       color: colorScheme.onSurfaceVariant,
-                      textTheme: textTheme,
                     ),
                   if (agent.serviceHours != null)
                     _InfoRow(
                       icon: LucideIcons.clock,
                       label: agent.serviceHours!,
                       color: colorScheme.onSurfaceVariant,
-                      textTheme: textTheme,
                     ),
                 ],
               ),
             ),
           ),
-          const ProfileSettingsSection(),
-          AppSpacing.gapVLg,
-          AppElevatedButton(
-            onPressed: onLogout,
-            text: l10n.authLogout,
-            icon: const Icon(LucideIcons.logOut, size: AppSpacing.iconMd),
-            backgroundColor: colorScheme.error,
-          ),
-          AppSpacing.gapVMd,
+          const FadeSlideIn(index: 2, child: ProfileSettingsSection()),
+          const FadeSlideIn(index: 3, child: LogoutButton()),
+          AppSpacing.gapVXl,
         ],
       ),
     );
@@ -199,13 +103,11 @@ class _InfoRow extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.color,
-    required this.textTheme,
   });
 
   final IconData icon;
   final String label;
   final Color color;
-  final TextTheme textTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -216,7 +118,7 @@ class _InfoRow extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: textTheme.bodyMedium!.copyWith(color: color),
+            style: context.textTheme.bodyMedium!.copyWith(color: color),
           ),
         ),
       ],

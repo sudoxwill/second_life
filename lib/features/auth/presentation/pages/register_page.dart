@@ -1,5 +1,4 @@
 import "package:firebase_auth/firebase_auth.dart";
-import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
@@ -11,9 +10,10 @@ import "../../../../core/extensions/navigation_extension.dart";
 import "../../../../core/theme/app_spacing.dart";
 import "../../../../shared/presentation/widgets/buttons/app_elevated_button.dart";
 import "../../../../shared/presentation/widgets/inputs/app_text_form_field.dart";
-import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
 import "../providers/auth_provider.dart";
+import "../widgets/auth_layout.dart";
 import "../widgets/oauth_section.dart";
+import "../widgets/password_strength.dart";
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -54,49 +54,39 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final textTheme = context.textTheme;
-    final colorScheme = context.colorScheme;
 
-    return AppScaffold(
-      scrollable: true,
-      resizeToAvoidBottomInset: true,
-      body: Column(
-        spacing: AppSpacing.xxl,
-        children: [
-          Center(
-            child: Image.asset(
-              AppAssets.register,
-              width: AppSpacing.yotta * 2,
-              height: AppSpacing.yotta * 2,
+    return AuthLayout(
+      showBack: true,
+      illustration: AppAssets.register,
+      title: l10n.authSignupTitle,
+      subtitle: l10n.authSignupSubtitle,
+      form: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: AppSpacing.lg,
+          children: [
+            AppTextFormField(
+              isRequired: true,
+              labelText: l10n.authUsernameLabel,
+              hintText: l10n.authUsernameHint,
+              textInputAction: TextInputAction.next,
+              prefixIconData: LucideIcons.userRound,
+              controller: _usernameController,
+              validatorFunction: _validateUsername,
             ),
-          ),
-          AppSpacing.gapVSm,
-          Center(
-            child: Text(l10n.authSignupTitle, style: textTheme.headlineMedium),
-          ),
-          Form(
-            key: _formKey,
-            child: Column(
-              spacing: AppSpacing.xl,
+            AppTextFormField(
+              isRequired: true,
+              labelText: l10n.authEmailLabel,
+              hintText: l10n.authEmailHint,
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
+              prefixIconData: LucideIcons.mail,
+              controller: _emailController,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                AppTextFormField(
-                  isRequired: true,
-                  labelText: l10n.authUsernameLabel,
-                  hintText: l10n.authUsernameHint,
-                  textInputAction: TextInputAction.next,
-                  prefixIconData: LucideIcons.userRound,
-                  controller: _usernameController,
-                  validatorFunction: _validateUsername,
-                ),
-                AppTextFormField(
-                  isRequired: true,
-                  labelText: l10n.authEmailLabel,
-                  hintText: l10n.authEmailHint,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  prefixIconData: LucideIcons.mail,
-                  controller: _emailController,
-                ),
                 AppTextFormField(
                   isRequired: true,
                   labelText: l10n.authPasswordLabel,
@@ -111,56 +101,45 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       setState(() => _obscurePassword = !_obscurePassword),
                   controller: _passwordController,
                   validatorFunction: _validatePassword,
+                  onChanged: (_) => setState(() {}),
                 ),
-                AppTextFormField(
-                  isRequired: true,
-                  labelText: l10n.authConfirmPasswordLabel,
-                  hintText: l10n.authPasswordHint,
-                  obscureText: _obscureConfirm,
-                  textInputAction: TextInputAction.done,
-                  prefixIconData: LucideIcons.lockKeyhole,
-                  suffixIconData: _obscureConfirm
-                      ? LucideIcons.eyeOff
-                      : LucideIcons.eye,
-                  suffixIconOnClick: () =>
-                      setState(() => _obscureConfirm = !_obscureConfirm),
-                  controller: _confirmPasswordController,
-                  validatorFunction: _validateConfirmPassword,
-                  onFieldSubmitted: (_) => _signUp(),
-                ),
+                PasswordStrength(password: _passwordController.text),
               ],
             ),
-          ),
-          Column(
-            spacing: AppSpacing.sm,
-            children: [
-              AppElevatedButton(
-                text: l10n.authSignupButton,
-                isLoading: _isLoading,
-                onPressed: _signUp,
-              ),
-              RichText(
-                text: TextSpan(
-                  text: "${l10n.authAlreadyHaveAccount} ",
-                  style: textTheme.bodyMedium,
-                  children: [
-                    TextSpan(
-                      text: l10n.authLoginLink,
-                      style: textTheme.bodyMedium!.copyWith(
-                        color: colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () => context.goAuthLogin(),
-                    ),
-                  ],
-                ),
-              ),
-              OAuthSection(
-                // isLoading: _isLoading,
-                onGoogleSignIn: _googleSignIn,
-              ),
-            ],
+            AppTextFormField(
+              isRequired: true,
+              labelText: l10n.authConfirmPasswordLabel,
+              hintText: l10n.authPasswordHint,
+              obscureText: _obscureConfirm,
+              textInputAction: TextInputAction.done,
+              prefixIconData: LucideIcons.lockKeyhole,
+              suffixIconData: _obscureConfirm
+                  ? LucideIcons.eyeOff
+                  : LucideIcons.eye,
+              suffixIconOnClick: () =>
+                  setState(() => _obscureConfirm = !_obscureConfirm),
+              controller: _confirmPasswordController,
+              validatorFunction: _validateConfirmPassword,
+              onFieldSubmitted: (_) => _signUp(),
+            ),
+            AppSpacing.gapVXs,
+            AppElevatedButton(
+              text: l10n.authSignupButton,
+              isLoading: _isLoading,
+              onPressed: _signUp,
+              margin: EdgeInsets.zero,
+            ),
+          ],
+        ),
+      ),
+      footer: Column(
+        children: [
+          OAuthSection(onGoogleSignIn: _isLoading ? null : _googleSignIn),
+          AppSpacing.gapVSm,
+          AuthSwitchLink(
+            question: l10n.authAlreadyHaveAccount,
+            action: l10n.authLoginLink,
+            onTap: _isLoading ? null : context.goAuthLogin,
           ),
         ],
       ),
@@ -192,11 +171,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
     try {
-      await ref.read(authProvider.notifier).signUpWithEmailPassword(
-        _emailController.text.trim(),
-        _passwordController.text,
-        _usernameController.text.trim(),
-      );
+      await ref
+          .read(authProvider.notifier)
+          .signUpWithEmailPassword(
+            _emailController.text.trim(),
+            _passwordController.text,
+            _usernameController.text.trim(),
+          );
       if (!mounted) return;
       context.goHome();
     } on UsernameTakenException {

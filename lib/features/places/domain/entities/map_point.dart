@@ -6,15 +6,12 @@ enum MapPointCategory { relay, recycling }
 
 // Valeurs stockées dans Firestore : acceptedMaterials.
 enum WasteMaterial {
-  plastic("Plastique"),
-  metal("Métal"),
-  paper("Papier/Carton"),
-  glass("Verre"),
-  ewaste("Électronique"),
-  organic("Organique");
-
-  const WasteMaterial(this.label);
-  final String label;
+  plastic,
+  metal,
+  paper,
+  glass,
+  ewaste,
+  organic;
 
   static WasteMaterial? fromName(String? name) {
     for (final m in values) {
@@ -26,13 +23,10 @@ enum WasteMaterial {
 
 // Valeurs stockées dans Firestore : kind (lieux de recyclage seulement).
 enum RecyclingKind {
-  recyclingCenter("Centre de recyclage"),
-  sortingCenter("Centre de tri"),
-  dump("Dépotoir"),
-  scrapDealer("Ferrailleur");
-
-  const RecyclingKind(this.label);
-  final String label;
+  recyclingCenter,
+  sortingCenter,
+  dump,
+  scrapDealer;
 
   static RecyclingKind? fromName(String? name) {
     for (final k in values) {
@@ -120,8 +114,20 @@ class MapPoint extends Equatable {
   }
 
   static const _accents = {
-    "à": "a", "â": "a", "ä": "a", "ç": "c", "é": "e", "è": "e", "ê": "e",
-    "ë": "e", "î": "i", "ï": "i", "ô": "o", "ö": "o", "ù": "u", "û": "u",
+    "à": "a",
+    "â": "a",
+    "ä": "a",
+    "ç": "c",
+    "é": "e",
+    "è": "e",
+    "ê": "e",
+    "ë": "e",
+    "î": "i",
+    "ï": "i",
+    "ô": "o",
+    "ö": "o",
+    "ù": "u",
+    "û": "u",
     "ü": "u",
   };
 

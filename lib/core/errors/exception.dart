@@ -29,3 +29,9 @@ class TicketNotFoundException extends CustomException {}
 class TicketAlreadyProcessedException extends CustomException {}
 
 class TicketExpiredException extends CustomException {}
+
+class InsufficientPointsException extends CustomException {}
+
+class RewardOutOfStockException extends CustomException {}
+
+class RewardUnavailableException extends CustomException {}

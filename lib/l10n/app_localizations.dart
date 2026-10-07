@@ -476,6 +476,36 @@ abstract class AppLocalizations {
   /// **'Confirmer le mot de passe'**
   String get authConfirmPasswordLabel;
 
+  /// Sous-titre de l'écran de connexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Content de te revoir ! Connecte-toi pour suivre tes points.'**
+  String get authLoginSubtitle;
+
+  /// Sous-titre de l'écran d'inscription
+  ///
+  /// In fr, this message translates to:
+  /// **'Crée ton compte et transforme tes déchets en récompenses.'**
+  String get authSignupSubtitle;
+
+  /// Robustesse du mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'Faible'**
+  String get authPasswordStrengthWeak;
+
+  /// Robustesse du mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'Moyen'**
+  String get authPasswordStrengthMedium;
+
+  /// Robustesse du mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'Robuste'**
+  String get authPasswordStrengthStrong;
+
   /// Lien vers la page de réinitialisation du mot de passe
   ///
   /// In fr, this message translates to:
@@ -698,6 +728,12 @@ abstract class AppLocalizations {
   /// **'Bonjour, {name}'**
   String homeGreeting(String name);
 
+  /// Salutation au-dessus du nom, en tête des accueils
+  ///
+  /// In fr, this message translates to:
+  /// **'Bonjour 👋'**
+  String get homeGreetingHello;
+
   /// Rôle de l'utilisateur connecté, utilisé à la place du prénom dans le titre de l'accueil agent
   ///
   /// In fr, this message translates to:
@@ -805,12 +841,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Objectif : {amount} kg'**
   String agentStockKgGoal(int amount);
-
-  /// Nom du point de dépôt affiché sous le titre de la card stock
-  ///
-  /// In fr, this message translates to:
-  /// **'EcoCentre de Bè'**
-  String get agentStockSiteName;
 
   /// Message d'information du dashboard agent sur l'enlèvement du lot en cours
   ///
@@ -1037,13 +1067,13 @@ abstract class AppLocalizations {
   /// Titre de l'état vide de l'onglet récompenses
   ///
   /// In fr, this message translates to:
-  /// **'Bientôt disponible'**
+  /// **'Aucun bon pour l\'instant'**
   String get historyEmptyGiftTitle;
 
   /// Message d'accompagnement de l'état vide de l'onglet récompenses
   ///
   /// In fr, this message translates to:
-  /// **'L\'échange de points contre des récompenses arrive très bientôt.'**
+  /// **'Échangez vos points contre des bons chez nos partenaires.'**
   String get historyEmptyGiftMessage;
 
   /// Titre du bloc d'informations d'une fiche de dépôt détaillée
@@ -1698,6 +1728,918 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Passer à la pesée'**
   String get depositWeighButton;
+
+  /// Légende sous le poids recyclé, accueil usager
+  ///
+  /// In fr, this message translates to:
+  /// **'recyclés'**
+  String get homeStatRecycledLabel;
+
+  /// Légende sous le nombre de dépôts validés, accueil usager
+  ///
+  /// In fr, this message translates to:
+  /// **'validés'**
+  String get homeStatValidatedLabel;
+
+  /// Légende sous le nombre de dépôts en attente, accueil usager
+  ///
+  /// In fr, this message translates to:
+  /// **'en attente'**
+  String get homeStatPendingLabel;
+
+  /// Raccourci d'accueil vers le scan
+  ///
+  /// In fr, this message translates to:
+  /// **'Analyser un déchet'**
+  String get homeQuickScanTitle;
+
+  /// Sous-titre du raccourci de scan
+  ///
+  /// In fr, this message translates to:
+  /// **'Prenez-le en photo : l\'IA estime sa valeur en points.'**
+  String get homeQuickScanSubtitle;
+
+  /// Raccourci d'accueil vers la carte
+  ///
+  /// In fr, this message translates to:
+  /// **'Trouver un point relais'**
+  String get homeQuickPlacesTitle;
+
+  /// Sous-titre du raccourci vers la carte
+  ///
+  /// In fr, this message translates to:
+  /// **'Déposez vos déchets près de chez vous.'**
+  String get homeQuickPlacesSubtitle;
+
+  /// Message sous l'état vide des dépôts en attente
+  ///
+  /// In fr, this message translates to:
+  /// **'Analysez un déchet puis déposez-le dans un point relais pour gagner des points.'**
+  String get homePendingDepositsEmptyHint;
+
+  /// Titre de la feuille des notifications
+  ///
+  /// In fr, this message translates to:
+  /// **'Notifications'**
+  String get notificationsTitle;
+
+  /// État vide de la feuille des notifications
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune notification'**
+  String get notificationsEmptyTitle;
+
+  /// Message de l'état vide des notifications
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous serez prévenu ici dès qu\'un dépôt est traité.'**
+  String get notificationsEmptyMessage;
+
+  /// Raccourci de l'accueil agent vers le scanner
+  ///
+  /// In fr, this message translates to:
+  /// **'Scanner un QR de dépôt'**
+  String get agentQuickScanTitle;
+
+  /// Sous-titre du raccourci de scan agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Retrouvez le dépôt d\'un usager et passez à la pesée.'**
+  String get agentQuickScanSubtitle;
+
+  /// État vide des dépôts en attente, accueil agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Les dépôts des usagers apparaîtront ici.'**
+  String get agentPendingEmptyMessage;
+
+  /// Titre de l'onglet historique de l'agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Historique des validations'**
+  String get agentHistoryTitle;
+
+  /// Sous-titre de l'historique agent avec le nom du point relais
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôts certifiés à : {name}'**
+  String agentHistorySubtitle(String name);
+
+  /// Onglet des dépôts traités aujourd'hui
+  ///
+  /// In fr, this message translates to:
+  /// **'Aujourd\'hui ({count})'**
+  String agentHistoryTabToday(int count);
+
+  /// Onglet de tous les dépôts traités
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôts traités ({count})'**
+  String agentHistoryTabAll(int count);
+
+  /// État vide de l'onglet Aujourd'hui
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun dépôt traité aujourd\'hui'**
+  String get agentHistoryEmptyToday;
+
+  /// État vide de l'onglet Dépôts traités
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun dépôt traité'**
+  String get agentHistoryEmptyAll;
+
+  /// Message de l'état vide de l'historique agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Scannez le QR code d\'un usager pour commencer.'**
+  String get agentHistoryEmptyMessage;
+
+  /// Préfixe devant l'identifiant du déposant
+  ///
+  /// In fr, this message translates to:
+  /// **'Déposant : '**
+  String get agentHistoryDepositor;
+
+  /// Préfixe devant le poids pesé
+  ///
+  /// In fr, this message translates to:
+  /// **'Poids réel : '**
+  String get agentHistoryRealWeight;
+
+  /// Identifiant court d'un usager anonyme
+  ///
+  /// In fr, this message translates to:
+  /// **'Usager {id}'**
+  String commonUserLabel(String id);
+
+  /// Libellé d'un champ commentaire facultatif
+  ///
+  /// In fr, this message translates to:
+  /// **'Commentaire (facultatif)'**
+  String get commentOptional;
+
+  /// Session expirée
+  ///
+  /// In fr, this message translates to:
+  /// **'Session expirée. Relancez l\'application.'**
+  String get errorUnauthenticated;
+
+  /// Le compte n'est pas agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce compte n\'est pas un agent relais actif.'**
+  String get errorNotRelayAgent;
+
+  /// Ticket introuvable
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôt introuvable.'**
+  String get errorTicketNotFound;
+
+  /// Ticket déjà traité
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce dépôt a déjà été traité.'**
+  String get errorTicketAlreadyProcessed;
+
+  /// Ticket expiré
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce dépôt a expiré (plus de 48 h).'**
+  String get errorTicketExpired;
+
+  /// QR code qui n'est pas un ticket
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce QR code n\'est pas un dépôt.'**
+  String get errorInvalidTicketCode;
+
+  /// Poids saisi invalide
+  ///
+  /// In fr, this message translates to:
+  /// **'Poids invalide (entre 0 et 50 kg).'**
+  String get errorInvalidWeight;
+
+  /// Commentaire manquant
+  ///
+  /// In fr, this message translates to:
+  /// **'Un commentaire est obligatoire.'**
+  String get errorCommentRequired;
+
+  /// Commentaire trop long
+  ///
+  /// In fr, this message translates to:
+  /// **'Commentaire trop long (500 caractères max).'**
+  String get errorCommentTooLong;
+
+  /// Erreur inconnue
+  ///
+  /// In fr, this message translates to:
+  /// **'Une erreur inattendue est survenue.'**
+  String get errorUnexpected;
+
+  /// Motif de refus
+  ///
+  /// In fr, this message translates to:
+  /// **'Objet différent de celui analysé'**
+  String get rejectionItemMismatch;
+
+  /// Motif de refus
+  ///
+  /// In fr, this message translates to:
+  /// **'Matière non acceptée ou non recyclable'**
+  String get rejectionNotRecyclable;
+
+  /// Motif de refus
+  ///
+  /// In fr, this message translates to:
+  /// **'Objet absent lors du dépôt'**
+  String get rejectionItemMissing;
+
+  /// Motif de refus
+  ///
+  /// In fr, this message translates to:
+  /// **'Autre motif'**
+  String get rejectionOther;
+
+  /// Erreur caméra du scanner agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Caméra indisponible ({code}).\nAutorisez l\'accès à la caméra dans les réglages.'**
+  String agentScanCameraUnavailable(String code);
+
+  /// Consigne du scanner agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Pointez l\'objectif sur le QR code généré sur l\'écran du déposant'**
+  String get scanAgentHint;
+
+  /// Titre du scanner agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Scanner QR Déposant'**
+  String get scanAgentChip;
+
+  /// Bouton lampe torche
+  ///
+  /// In fr, this message translates to:
+  /// **'Lampe'**
+  String get scanTorch;
+
+  /// Chargement après scan
+  ///
+  /// In fr, this message translates to:
+  /// **'Chargement du dépôt…'**
+  String get scanLoadingDeposit;
+
+  /// Relancer le scan
+  ///
+  /// In fr, this message translates to:
+  /// **'Scanner un autre QR'**
+  String get scanAnother;
+
+  /// Badge après un scan réussi
+  ///
+  /// In fr, this message translates to:
+  /// **'QR DÉTECTÉ AVEC SUCCÈS'**
+  String get scanDetected;
+
+  /// Bouton vers la pesée
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir la fiche du dépôt & peser'**
+  String get scanOpenWeighing;
+
+  /// Titre d'un dépôt
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôt {code}'**
+  String depositTitle(String code);
+
+  /// Libellé matériau
+  ///
+  /// In fr, this message translates to:
+  /// **'Matériau'**
+  String get depositMaterial;
+
+  /// Libellé déposant
+  ///
+  /// In fr, this message translates to:
+  /// **'Déposant'**
+  String get depositDepositor;
+
+  /// Préfixe du poids estimé
+  ///
+  /// In fr, this message translates to:
+  /// **'Poids estimé : '**
+  String get depositEstimatedWeight;
+
+  /// Points estimés
+  ///
+  /// In fr, this message translates to:
+  /// **'~{points} pts estimés'**
+  String depositEstimatedPoints(String points);
+
+  /// Titre de l'écran de pesée
+  ///
+  /// In fr, this message translates to:
+  /// **'Validation de la pesée'**
+  String get weighingTitle;
+
+  /// Colonne poids IA
+  ///
+  /// In fr, this message translates to:
+  /// **'Poids estimé (IA)'**
+  String get weighingEstimatedTitle;
+
+  /// Colonne poids pesé
+  ///
+  /// In fr, this message translates to:
+  /// **'Poids réel (Balance)'**
+  String get weighingRealTitle;
+
+  /// Points estimés
+  ///
+  /// In fr, this message translates to:
+  /// **'≈ {points} pts estimés'**
+  String weighingEstimatedCaption(String points);
+
+  /// Invite de saisie du poids
+  ///
+  /// In fr, this message translates to:
+  /// **'Saisir le poids pesé'**
+  String get weighingEnterWeight;
+
+  /// Points certifiés
+  ///
+  /// In fr, this message translates to:
+  /// **'= {points} pts certifiés'**
+  String weighingCertifiedCaption(String points);
+
+  /// Commentaire obligatoire si écart
+  ///
+  /// In fr, this message translates to:
+  /// **'Commentaire (obligatoire : écart important)'**
+  String get weighingCommentRequired;
+
+  /// Bouton de validation
+  ///
+  /// In fr, this message translates to:
+  /// **'Valider le dépôt'**
+  String get weighingValidate;
+
+  /// Bouton de validation avec points
+  ///
+  /// In fr, this message translates to:
+  /// **'Valider le dépôt ({points} pts)'**
+  String weighingValidateWithPoints(String points);
+
+  /// Bouton de refus
+  ///
+  /// In fr, this message translates to:
+  /// **'Refuser le dépôt'**
+  String get weighingReject;
+
+  /// Identifiant du dépôt
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôt ID : {code}'**
+  String weighingDepositId(String code);
+
+  /// Confiance de l'IA
+  ///
+  /// In fr, this message translates to:
+  /// **'IA {percent}'**
+  String weighingAiConfidence(String percent);
+
+  /// Écart acceptable
+  ///
+  /// In fr, this message translates to:
+  /// **'Écart : {diff} kg (OK, ≤ {limit})'**
+  String weighingDeviationOk(String diff, String limit);
+
+  /// Écart important
+  ///
+  /// In fr, this message translates to:
+  /// **'Écart : {diff} kg (> {limit}, à justifier)'**
+  String weighingDeviationHigh(String diff, String limit);
+
+  /// Badge de validation
+  ///
+  /// In fr, this message translates to:
+  /// **'PESÉE CERTIFIÉE'**
+  String get resultCertifiedPill;
+
+  /// Badge de refus
+  ///
+  /// In fr, this message translates to:
+  /// **'DÉPÔT REFUSÉ'**
+  String get resultRejectedPill;
+
+  /// Titre après validation
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôt validé !'**
+  String get resultValidatedTitle;
+
+  /// Titre après refus
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôt refusé'**
+  String get resultRejectedTitle;
+
+  /// Points crédités
+  ///
+  /// In fr, this message translates to:
+  /// **'{points} pts crédités à {user}'**
+  String resultPointsCredited(String points, String user);
+
+  /// Usager notifié du refus
+  ///
+  /// In fr, this message translates to:
+  /// **'{user} a été notifié du motif.'**
+  String resultUserNotified(String user);
+
+  /// Retour à l'accueil agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Retour au tableau de bord'**
+  String get resultBackToDashboard;
+
+  /// Titre du dialogue de refus
+  ///
+  /// In fr, this message translates to:
+  /// **'Motif de refus du dépôt'**
+  String get rejectTitle;
+
+  /// Consigne du dialogue de refus
+  ///
+  /// In fr, this message translates to:
+  /// **'Sélectionnez le motif : il sera affiché à l\'usager.'**
+  String get rejectSubtitle;
+
+  /// Commentaire obligatoire pour Autre motif
+  ///
+  /// In fr, this message translates to:
+  /// **'Précisez le motif (obligatoire)'**
+  String get rejectCommentRequired;
+
+  /// Confirmer le refus
+  ///
+  /// In fr, this message translates to:
+  /// **'Confirmer le refus'**
+  String get rejectConfirm;
+
+  /// Titre de la fiche d'un dépôt
+  ///
+  /// In fr, this message translates to:
+  /// **'Fiche du dépôt'**
+  String get detailSheetTitle;
+
+  /// Identifiant du dépôt
+  ///
+  /// In fr, this message translates to:
+  /// **'ID : {code}'**
+  String detailId(String code);
+
+  /// Ligne statut
+  ///
+  /// In fr, this message translates to:
+  /// **'Statut'**
+  String get detailStatus;
+
+  /// Ligne poids réel
+  ///
+  /// In fr, this message translates to:
+  /// **'Poids réel'**
+  String get detailRealWeight;
+
+  /// Ligne poids certifié
+  ///
+  /// In fr, this message translates to:
+  /// **'Poids réel certifié'**
+  String get detailCertifiedWeight;
+
+  /// Ligne points attribués
+  ///
+  /// In fr, this message translates to:
+  /// **'Points attribués'**
+  String get detailPointsAwarded;
+
+  /// Ligne points estimés
+  ///
+  /// In fr, this message translates to:
+  /// **'Points estimés'**
+  String get detailPointsEstimated;
+
+  /// Ligne motif
+  ///
+  /// In fr, this message translates to:
+  /// **'Motif du refus'**
+  String get detailReason;
+
+  /// Ligne commentaire
+  ///
+  /// In fr, this message translates to:
+  /// **'Commentaire de l\'agent'**
+  String get detailComment;
+
+  /// Ligne agent ayant refusé
+  ///
+  /// In fr, this message translates to:
+  /// **'Refusé par'**
+  String get detailRejectedBy;
+
+  /// Ligne agent ayant validé
+  ///
+  /// In fr, this message translates to:
+  /// **'Validé par'**
+  String get detailValidatedBy;
+
+  /// Date de traitement
+  ///
+  /// In fr, this message translates to:
+  /// **'Traité le'**
+  String get detailProcessedAt;
+
+  /// Date de dépôt
+  ///
+  /// In fr, this message translates to:
+  /// **'Déposé le'**
+  String get detailDepositedAt;
+
+  /// Titre du bloc QR
+  ///
+  /// In fr, this message translates to:
+  /// **'QR Code à présenter à l\'agent'**
+  String get detailQrTitle;
+
+  /// Consigne du QR
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'agent scannera ce code pour charger votre pesée. Valable jusqu\'au {date}.'**
+  String detailQrHint(String date);
+
+  /// Type de lieu
+  ///
+  /// In fr, this message translates to:
+  /// **'Centre de recyclage'**
+  String get placesKindRecyclingCenter;
+
+  /// Type de lieu
+  ///
+  /// In fr, this message translates to:
+  /// **'Centre de tri'**
+  String get placesKindSortingCenter;
+
+  /// Type de lieu
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépotoir'**
+  String get placesKindDump;
+
+  /// Type de lieu
+  ///
+  /// In fr, this message translates to:
+  /// **'Ferrailleur'**
+  String get placesKindScrapDealer;
+
+  /// Type d'un point relais
+  ///
+  /// In fr, this message translates to:
+  /// **'Point relais SecondLife'**
+  String get placesTypeRelay;
+
+  /// Type d'un lieu de recyclage sans genre précis
+  ///
+  /// In fr, this message translates to:
+  /// **'Lieu de recyclage'**
+  String get placesTypeRecycling;
+
+  /// Poids restant avant enlèvement
+  ///
+  /// In fr, this message translates to:
+  /// **'Encore {amount} kg avant l\'enlèvement du lot.'**
+  String agentInfoRemaining(int amount);
+
+  /// Consigne de l'écran mot de passe oublié
+  ///
+  /// In fr, this message translates to:
+  /// **'Saisis ton email : nous t\'enverrons un lien pour choisir un nouveau mot de passe.'**
+  String get authForgotSubtitle;
+
+  /// Bouton d'envoi du lien de réinitialisation
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer le lien'**
+  String get authForgotButton;
+
+  /// Confirmation d'envoi
+  ///
+  /// In fr, this message translates to:
+  /// **'Email envoyé ! Vérifie ta boîte de réception (et les spams).'**
+  String get authForgotSent;
+
+  /// Échec d'envoi
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible d\'envoyer l\'email. Réessaie.'**
+  String get authForgotError;
+
+  /// Email mal formé
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse email invalide.'**
+  String get authErrorInvalidEmail;
+
+  /// Échec d'enregistrement de la préférence de notifications
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible d\'enregistrer la préférence. Réessaie.'**
+  String get profileNotificationsError;
+
+  /// Canal Android
+  ///
+  /// In fr, this message translates to:
+  /// **'Notifications générales'**
+  String get notifChannelGeneralName;
+
+  /// Canal Android
+  ///
+  /// In fr, this message translates to:
+  /// **'Informations générales et mises à jour'**
+  String get notifChannelGeneralDescription;
+
+  /// Canal Android
+  ///
+  /// In fr, this message translates to:
+  /// **'Rappels'**
+  String get notifChannelRemindersName;
+
+  /// Canal Android
+  ///
+  /// In fr, this message translates to:
+  /// **'Rappels personnalisés et planifiés'**
+  String get notifChannelRemindersDescription;
+
+  /// Canal Android
+  ///
+  /// In fr, this message translates to:
+  /// **'Alertes importantes'**
+  String get notifChannelAlertsName;
+
+  /// Canal Android
+  ///
+  /// In fr, this message translates to:
+  /// **'Alertes critiques nécessitant une attention immédiate'**
+  String get notifChannelAlertsDescription;
+
+  /// Canal Android
+  ///
+  /// In fr, this message translates to:
+  /// **'Traitements'**
+  String get notifChannelProcessingName;
+
+  /// Canal Android
+  ///
+  /// In fr, this message translates to:
+  /// **'Fin des analyses de déchets'**
+  String get notifChannelProcessingDescription;
+
+  /// Titre du catalogue de récompenses
+  ///
+  /// In fr, this message translates to:
+  /// **'Récompenses'**
+  String get rewardsTitle;
+
+  /// Libellé du solde en haut du catalogue
+  ///
+  /// In fr, this message translates to:
+  /// **'Solde disponible'**
+  String get rewardsBalanceLabel;
+
+  /// Coût d'une récompense
+  ///
+  /// In fr, this message translates to:
+  /// **'{points} pts'**
+  String rewardsCost(int points);
+
+  /// Bouton d'échange d'une récompense
+  ///
+  /// In fr, this message translates to:
+  /// **'Échanger'**
+  String get rewardsRedeem;
+
+  /// Points manquants pour une récompense
+  ///
+  /// In fr, this message translates to:
+  /// **'Encore {points} pts'**
+  String rewardsMissing(int points);
+
+  /// Récompense épuisée
+  ///
+  /// In fr, this message translates to:
+  /// **'Épuisé'**
+  String get rewardsOutOfStock;
+
+  /// Stock restant
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus que {count}'**
+  String rewardsStockLeft(int count);
+
+  /// Durée de validité du bon
+  ///
+  /// In fr, this message translates to:
+  /// **'Valable {days} jours après l\'échange'**
+  String rewardsValidity(int days);
+
+  /// Titre de confirmation d'échange
+  ///
+  /// In fr, this message translates to:
+  /// **'Échanger {points} pts ?'**
+  String rewardsConfirmTitle(int points);
+
+  /// Message de confirmation d'échange
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous recevrez « {name} ». Il vous restera {balance} pts.'**
+  String rewardsConfirmMessage(String name, int balance);
+
+  /// Titre après un échange réussi
+  ///
+  /// In fr, this message translates to:
+  /// **'Bon obtenu !'**
+  String get rewardsSuccessTitle;
+
+  /// Consigne après un échange réussi
+  ///
+  /// In fr, this message translates to:
+  /// **'Présentez ce code chez {partner}.'**
+  String rewardsSuccessMessage(String partner);
+
+  /// Lien vers les bons obtenus
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir mes bons'**
+  String get rewardsSeeVouchers;
+
+  /// Échec : pas assez de points
+  ///
+  /// In fr, this message translates to:
+  /// **'Solde insuffisant pour cette récompense.'**
+  String get rewardsErrorInsufficient;
+
+  /// Échec : stock épuisé
+  ///
+  /// In fr, this message translates to:
+  /// **'Cette récompense est épuisée.'**
+  String get rewardsErrorOutOfStock;
+
+  /// Échec générique d'échange
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'échange n\'a pas abouti. Réessayez.'**
+  String get rewardsErrorGeneric;
+
+  /// Catalogue vide
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune récompense disponible pour le moment.'**
+  String get rewardsEmpty;
+
+  /// Objectif de la prochaine récompense
+  ///
+  /// In fr, this message translates to:
+  /// **'Encore {points} pts pour « {name} »'**
+  String homeNextReward(int points, String name);
+
+  /// Le solde couvre toutes les récompenses
+  ///
+  /// In fr, this message translates to:
+  /// **'Toutes les récompenses sont à votre portée !'**
+  String get homeAllRewardsUnlocked;
+
+  /// Bouton vers le catalogue depuis l'onglet Récompenses vide
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir les récompenses'**
+  String get historyEmptyGiftCta;
+
+  /// Notification de bienvenue
+  ///
+  /// In fr, this message translates to:
+  /// **'Bienvenue sur SecondLife !'**
+  String get notifWelcomeTitle;
+
+  /// Notification de bienvenue
+  ///
+  /// In fr, this message translates to:
+  /// **'{points} pts de bienvenue ont été crédités sur votre compte.'**
+  String notifWelcomeBody(int points);
+
+  /// Notification de dépôt validé
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôt validé'**
+  String get notifValidatedTitle;
+
+  /// Notification de dépôt validé
+  ///
+  /// In fr, this message translates to:
+  /// **'+{points} pts pour « {item} ».'**
+  String notifValidatedBody(int points, String item);
+
+  /// Notification de dépôt refusé
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôt refusé'**
+  String get notifRejectedTitle;
+
+  /// Notification de dépôt refusé
+  ///
+  /// In fr, this message translates to:
+  /// **'« {item} » : {reason}'**
+  String notifRejectedBody(String item, String reason);
+
+  /// Notification de bon obtenu
+  ///
+  /// In fr, this message translates to:
+  /// **'Bon obtenu'**
+  String get notifVoucherTitle;
+
+  /// Notification de bon obtenu
+  ///
+  /// In fr, this message translates to:
+  /// **'« {name} » vous attend dans vos récompenses.'**
+  String notifVoucherBody(String name);
+
+  /// Notification d'un type inconnu
+  ///
+  /// In fr, this message translates to:
+  /// **'Nouvelle notification'**
+  String get notifUnknown;
+
+  /// Action de la feuille des notifications
+  ///
+  /// In fr, this message translates to:
+  /// **'Tout marquer comme lu'**
+  String get notificationsMarkAllRead;
+
+  /// Date relative
+  ///
+  /// In fr, this message translates to:
+  /// **'À l\'instant'**
+  String get timeJustNow;
+
+  /// Date relative
+  ///
+  /// In fr, this message translates to:
+  /// **'Il y a {count} min'**
+  String timeMinutesAgo(int count);
+
+  /// Date relative
+  ///
+  /// In fr, this message translates to:
+  /// **'Il y a {count} h'**
+  String timeHoursAgo(int count);
+
+  /// Bouton : le camion a enlevé le lot
+  ///
+  /// In fr, this message translates to:
+  /// **'Lot enlevé'**
+  String get agentBatchCollect;
+
+  /// Titre de confirmation d'enlèvement
+  ///
+  /// In fr, this message translates to:
+  /// **'Confirmer l\'enlèvement ?'**
+  String get agentBatchCollectConfirmTitle;
+
+  /// Message de confirmation d'enlèvement
+  ///
+  /// In fr, this message translates to:
+  /// **'Le compteur du lot ({amount} kg) repartira de zéro.'**
+  String agentBatchCollectConfirmMessage(int amount);
+
+  /// Confirmation d'enlèvement
+  ///
+  /// In fr, this message translates to:
+  /// **'Lot enregistré comme enlevé.'**
+  String get agentBatchCollected;
+
+  /// Échec d'enlèvement
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible d\'enregistrer l\'enlèvement.'**
+  String get agentBatchError;
+
+  /// Date du dernier enlèvement
+  ///
+  /// In fr, this message translates to:
+  /// **'Dernier enlèvement : {date}'**
+  String agentBatchLastPickup(String date);
 }
 
 class _AppLocalizationsDelegate

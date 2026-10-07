@@ -20,10 +20,10 @@ class AppRoutes {
   static const String profile = "/profile";
 
   // Espace agent, 4 onglets
-  static const String agentHome     = "/agent/home";
+  static const String agentHome = "/agent/home";
   static const String agentDeposits = "/agent/deposits";
-  static const String agentHistory  = "/agent/history";
-  static const String agentProfile  = "/agent/profile";
+  static const String agentHistory = "/agent/history";
+  static const String agentProfile = "/agent/profile";
 
   // Scan du QR de dépôt par l'agent
   static const String agentScan = "/agent/scan";

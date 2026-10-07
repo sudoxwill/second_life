@@ -7,13 +7,8 @@ import "../../../../shared/presentation/widgets/buttons/app_outlined_button.dart
 import "../../../../shared/presentation/widgets/others/app_divider.dart";
 
 class OAuthSection extends StatelessWidget {
-  const OAuthSection({
-    // required this._isLoading,
-    super.key,
-    this._onGoogleSignIn,
-  });
+  const OAuthSection({super.key, this._onGoogleSignIn});
 
-  // final bool _isLoading;
   final void Function()? _onGoogleSignIn;
 
   @override
@@ -31,7 +26,6 @@ class OAuthSection extends StatelessWidget {
         ),
         AppOutlinedButton(
           backgroundColor: cs.surfaceContainer,
-          // isLoading: _isLoading,
           onPressed: _onGoogleSignIn,
           child: Row(
             spacing: AppSpacing.md,
@@ -42,10 +36,14 @@ class OAuthSection extends StatelessWidget {
                 width: AppSpacing.xl,
                 height: AppSpacing.xl,
               ),
-              Text(
-                l10n.authOAuthGoogle,
-                style: tt.titleSmall!.copyWith(
-                  color: cs.onSurface.withValues(alpha: .8),
+              Flexible(
+                child: Text(
+                  l10n.authOAuthGoogle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: tt.titleSmall!.copyWith(
+                    color: cs.onSurface.withValues(alpha: .8),
+                  ),
                 ),
               ),
             ],

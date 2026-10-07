@@ -52,8 +52,11 @@ class _AnalysisResultPageState extends ConsumerState<AnalysisResultPage> {
     setState(() => _submitting = false);
 
     either.fold(
-      (failure) =>
-          showAppSnackBar(context, failureMessage(failure), error: true),
+      (failure) => showAppSnackBar(
+        context,
+        failureMessage(context.l10n, failure),
+        error: true,
+      ),
       (ticket) {
         setState(() => _ticket = ticket);
         ref.invalidate(userTicketsProvider);
@@ -143,7 +146,7 @@ class _PhotoPreview extends StatelessWidget {
                           bottom: AppSpacing.radiusLg,
                         ),
                         child: ScanChip(
-                          icon: Icons.auto_awesome_rounded,
+                          icon: LucideIcons.sparkles,
                           label: l10n.analysisAnalyzingTitle,
                         ),
                       ),
@@ -184,7 +187,7 @@ class _PhotoPreview extends StatelessWidget {
                                 child: Padding(
                                   padding: EdgeInsets.only(right: 6),
                                   child: Icon(
-                                    Icons.auto_awesome_rounded,
+                                    LucideIcons.sparkles,
                                     size: AppSpacing.iconSm,
                                     color: Colors.white,
                                   ),
@@ -309,7 +312,7 @@ class _ResultContent extends StatelessWidget {
           _NoticeCard(
             color: context.danger,
             background: context.dangerSoft,
-            icon: Icons.block_rounded,
+            icon: LucideIcons.ban,
             children: [
               Text(
                 l10n.analysisNonRecyclable,
@@ -354,9 +357,7 @@ class _ResultContent extends StatelessWidget {
               icon: LucideIcons.badgeCheck,
               children: [
                 Text(
-                  l10n.analysisDepositSaved(
-                    Formatters.shortCode(ticket!.code),
-                  ),
+                  l10n.analysisDepositSaved(Formatters.shortCode(ticket!.code)),
                   style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
               ],
@@ -467,7 +468,7 @@ class _AnalysisCard extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Icon(Icons.scale_outlined, color: context.primaryText),
+                Icon(LucideIcons.scale, color: context.primaryText),
                 AppSpacing.gapHSm,
                 Expanded(
                   child: Text(
@@ -608,9 +609,7 @@ class _TipsCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: context.primarySoft,
           borderRadius: AppSpacing.roundedLg,
-          border: Border.all(
-            color: context.primaryText.withValues(alpha: 0.3),
-          ),
+          border: Border.all(color: context.primaryText.withValues(alpha: 0.3)),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,

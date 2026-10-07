@@ -12,6 +12,8 @@ import "../../features/onboarding/presentation/pages/index.dart";
 import "../../features/places/presentation/pages/place_detail_page.dart";
 import "../../features/places/presentation/pages/places_map_page.dart";
 import "../../features/profile/presentation/pages/index.dart";
+import "../../features/rewards/presentation/pages/rewards_page.dart";
+import "../../features/ticket_validation/presentation/pages/agent_history_page.dart";
 import "../../features/rewards/presentation/pages/reward_detail_page.dart";
 import "../../features/rewards/presentation/pages/rewards_catalog_page.dart";
 import "../../features/ticket_validation/presentation/pages/agent_scanner_page.dart";
@@ -50,7 +52,7 @@ GoRouter appRouter(Ref ref) {
         return AppRoutes.authLogin;
       }
 
-      // Username pas encore choisi (après OAuth)
+      // Nom d'utilisateur pas encore choisi (connexion Google)
       if (role == AppRole.pendingUsername) {
         if (loc == AppRoutes.authUsernameSetup) return null;
         return AppRoutes.authUsernameSetup;
@@ -62,7 +64,7 @@ GoRouter appRouter(Ref ref) {
         return null;
       }
 
-      // User : interdit sur /agent/*, pages d'auth et onboarding
+      // Usager : ni /agent/*, ni pages d'auth, ni onboarding
       if (role == AppRole.user) {
         if (loc.startsWith("/agent") ||
             loc.startsWith("/auth/") ||
@@ -118,7 +120,7 @@ GoRouter appRouter(Ref ref) {
         pageBuilder: (context, state) => AppTransitions.pushedScreen(
           context: context,
           state: state,
-          child: _Placeholder(title: context.l10n.routerScreenForgotPassword),
+          child: ForgotPasswordPage(initialEmail: state.extra as String?),
         ),
       ),
       GoRoute(
@@ -134,7 +136,9 @@ GoRouter appRouter(Ref ref) {
         pageBuilder: (context, state) => AppTransitions.fadeSlide(
           context: context,
           state: state,
-          child: _Placeholder(title: context.l10n.routerScreenResetPassword),
+          // Firebase choisit le nouveau mot de passe sur sa page web :
+          // le lien de l'app mène au même écran que "mot de passe oublié".
+          child: const ForgotPasswordPage(),
         ),
       ),
 
@@ -158,7 +162,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // Shell User — 4 onglets
+      // Coque usager, 4 onglets
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             UserShell(navigationShell: navigationShell),
@@ -214,7 +218,7 @@ GoRouter appRouter(Ref ref) {
         ],
       ),
 
-      // Shell Agent — 4 onglets
+      // Coque agent, 4 onglets
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             AgentShell(navigationShell: navigationShell),
@@ -270,7 +274,17 @@ GoRouter appRouter(Ref ref) {
         ],
       ),
 
-      // Detailed screens
+      // Catalogue des récompenses (usager)
+      GoRoute(
+        path: AppRoutes.rewards,
+        pageBuilder: (context, state) => AppTransitions.pushedScreen(
+          context: context,
+          state: state,
+          child: const RewardsPage(),
+        ),
+      ),
+
+      // Écrans de détail
       GoRoute(
         path: AppRoutes.placeDetail,
         pageBuilder: (context, state) => AppTransitions.pushedScreen(
@@ -280,61 +294,13 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // Catalogue de récompenses
-      GoRoute(
-        path: AppRoutes.rewards,
-        pageBuilder: (context, state) => AppTransitions.pushedScreen(
-          context: context,
-          state: state,
-          child: const RewardsCatalogPage(),
-        ),
-      ),
-      GoRoute(
-        path: AppRoutes.rewardDetail,
-        pageBuilder: (context, state) => AppTransitions.pushedScreen(
-          context: context,
-          state: state,
-          child: RewardDetailPage(id: state.pathParameters["id"]!),
-        ),
-      ),
-
-      // Settings
-      GoRoute(
-        path: AppRoutes.settings,
-        pageBuilder: (context, state) => AppTransitions.fade(
-          context: context,
-          state: state,
-          child: _Placeholder(title: context.l10n.routerScreenSettings),
-        ),
-      ),
+      // Les réglages sont dans l'onglet Profil (agent : renvoyé vers son
+      // espace par la redirection globale).
+      GoRoute(path: AppRoutes.settings, redirect: (_, _) => AppRoutes.profile),
     ],
   );
   ref.listen(authProvider, (_, _) => router.refresh());
   return router;
-}
-
-class _Placeholder extends StatelessWidget {
-  const _Placeholder({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Scaffold(
-      appBar: AppBar(title: Text(title), elevation: 0),
-      body: Center(
-        child: Padding(
-          padding: AppSpacing.screenPaddingH,
-          child: Text(
-            l10n.routerSoon(title),
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 class _RouterErrorPage extends StatelessWidget {

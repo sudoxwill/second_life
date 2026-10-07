@@ -11,7 +11,7 @@ import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
 import "../../../../shared/presentation/widgets/others/app_card.dart";
 import "../../../../shared/presentation/widgets/others/app_divider.dart";
 import "../../../../shared/presentation/widgets/others/feedback_views.dart";
-import "../../../history/presentation/widget/material_type_icon.dart";
+import "../../../history/presentation/widgets/material_type_icon.dart";
 import "../../../ticket_validation/presentation/pages/weighing_page.dart";
 import "../../../ticket_validation/presentation/providers/current_relay_agent_provider.dart";
 import "../../../ticket_validation/presentation/providers/pending_tickets_provider.dart";
@@ -128,7 +128,7 @@ class _PendingDepositCard extends StatelessWidget {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Text(
-                          Formatters.userLabel(ticket.userId),
+                          Formatters.userLabel(context.l10n, ticket.userId),
                           style: textTheme.titleSmall,
                         ),
                         Pill(

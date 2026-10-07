@@ -1,16 +1,18 @@
 import "package:flutter/material.dart";
+import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/theme/index.dart";
+import "../../../../l10n/app_localizations.dart";
 import "../../../../shared/presentation/widgets/others/app_card.dart";
 import "../../domain/entities/recycling_ticket.dart";
 import "../../domain/entities/ticket_status.dart";
 
 extension RejectionReasonLabel on RejectionReason {
-  String get label => switch (this) {
-    RejectionReason.itemMismatch => "Objet différent de celui analysé",
-    RejectionReason.notRecyclable => "Matière non acceptée ou non recyclable",
-    RejectionReason.itemMissing => "Objet absent lors du dépôt",
-    RejectionReason.other => "Autre motif",
+  String label(AppLocalizations l10n) => switch (this) {
+    RejectionReason.itemMismatch => l10n.rejectionItemMismatch,
+    RejectionReason.notRecyclable => l10n.rejectionNotRecyclable,
+    RejectionReason.itemMissing => l10n.rejectionItemMissing,
+    RejectionReason.other => l10n.rejectionOther,
   };
 }
 
@@ -21,34 +23,35 @@ class TicketStatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final scheme = Theme.of(context).colorScheme;
     return switch (ticket.status) {
       TicketStatus.pending when ticket.isExpired => Pill(
-        label: "Expiré",
-        icon: Icons.timer_off_outlined,
+        label: l10n.historyVoucherStatusExpired,
+        icon: LucideIcons.timerOff,
         color: scheme.onSurfaceVariant,
         background: scheme.surfaceContainerLow,
         outlined: true,
       ),
       TicketStatus.pending => Pill(
-        label: "En attente",
-        icon: Icons.schedule_rounded,
+        label: l10n.historyStatusWaiting,
+        icon: LucideIcons.hourglass,
         color: context.warning,
         background: context.warningSoft,
         outlined: true,
       ),
       TicketStatus.validated => Pill(
-        label: "Validé",
-        icon: Icons.check_circle_outline_rounded,
+        label: l10n.historyStatusValidated,
+        icon: LucideIcons.circleCheck,
         color: context.primaryText,
         background: context.primarySoft,
         outlined: true,
       ),
       TicketStatus.rejected => Pill(
-        label: "Refusé",
-        icon: Icons.cancel_outlined,
+        label: l10n.historyStatusRejected,
+        icon: LucideIcons.circleX,
         color: context.danger,
-        background: const Color(0x1AD9534F),
+        background: context.dangerSoft,
         outlined: true,
       ),
     };
@@ -64,7 +67,7 @@ class TicketIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final rejected = ticket.status == TicketStatus.rejected;
     return IconTile(
-      icon: Icons.eco_outlined,
+      icon: LucideIcons.leaf,
       color: rejected ? context.danger : context.primaryText,
       background: rejected ? context.dangerSoft : context.primarySoft,
     );
