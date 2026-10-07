@@ -710,10 +710,10 @@ abstract class AppLocalizations {
   /// **'Mes points'**
   String get homePointsTitle;
 
-  /// Bouton d'échange des points contre des bons chez le partenaire
+  /// Bouton d'accès à la boutique de récompenses depuis la carte de solde
   ///
   /// In fr, this message translates to:
-  /// **'Échanger'**
+  /// **'Boutique'**
   String get homePointsRedeemCta;
 
   /// Solde de points affiché sur la carte principale de l'accueil
@@ -1388,6 +1388,89 @@ abstract class AppLocalizations {
   /// **'Ouverture de la caméra…'**
   String get scanCameraOpening;
 
+  /// Titre de la page catalogue de récompenses
+  ///
+  /// In fr, this message translates to:
+  /// **'Boutique'**
+  String get rewardsCatalogTitle;
+
+  /// Libellé au-dessus du solde de points dans l'en-tête du catalogue
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre solde'**
+  String get rewardsBalanceLabel;
+
+  /// Pastille des points en attente de validation dans l'en-tête du catalogue
+  ///
+  /// In fr, this message translates to:
+  /// **'+{pts} pts en attente'**
+  String rewardsPendingPts(int pts);
+
+  /// Filtre 'toutes les catégories' dans le catalogue
+  ///
+  /// In fr, this message translates to:
+  /// **'Toutes'**
+  String get rewardsCategoryAll;
+
+  /// Catégorie de récompenses : alimentation
+  ///
+  /// In fr, this message translates to:
+  /// **'Alimentation'**
+  String get rewardsCategoryFood;
+
+  /// Catégorie de récompenses : scolarité
+  ///
+  /// In fr, this message translates to:
+  /// **'Scolarité'**
+  String get rewardsCategoryEducation;
+
+  /// Catégorie de récompenses : santé
+  ///
+  /// In fr, this message translates to:
+  /// **'Santé'**
+  String get rewardsCategoryHealth;
+
+  /// Badge indiquant qu'une récompense n'est pas encore échangeable
+  ///
+  /// In fr, this message translates to:
+  /// **'Bientôt'**
+  String get rewardsSoon;
+
+  /// Coût d'une récompense en points
+  ///
+  /// In fr, this message translates to:
+  /// **'{cost} pts'**
+  String rewardsCostPts(int cost);
+
+  /// Message affiché sur une tuile quand le solde est insuffisant
+  ///
+  /// In fr, this message translates to:
+  /// **'Il vous manque {missing} pts'**
+  String rewardsMissingPts(int missing);
+
+  /// Titre de l'état vide du catalogue pour une catégorie sans résultat
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun article'**
+  String get rewardsEmptyTitle;
+
+  /// Message de l'état vide du catalogue
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun article dans cette catégorie pour le moment.'**
+  String get rewardsEmptyMessage;
+
+  /// Titre du bloc des conditions d'utilisation sur la page détail d'une récompense
+  ///
+  /// In fr, this message translates to:
+  /// **'Conditions d\'utilisation'**
+  String get rewardsDetailConditionsTitle;
+
+  /// Avertissement en bas de la page détail : les récompenses ne sont pas convertibles en cash
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun retrait en espèces possible'**
+  String get rewardsDetailNoCash;
   /// Libellé du premier onglet de la carte (points relais SecondLife)
   ///
   /// In fr, this message translates to:

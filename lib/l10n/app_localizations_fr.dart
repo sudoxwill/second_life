@@ -352,7 +352,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get homePointsTitle => 'Mes points';
 
   @override
-  String get homePointsRedeemCta => 'Échanger';
+  String get homePointsRedeemCta => 'Boutique';
 
   @override
   String homePointsBalance(int amount) {
@@ -759,6 +759,53 @@ class AppLocalizationsFr extends AppLocalizations {
   String get scanCameraOpening => 'Ouverture de la caméra…';
 
   @override
+  String get rewardsCatalogTitle => 'Boutique';
+
+  @override
+  String get rewardsBalanceLabel => 'Votre solde';
+
+  @override
+  String rewardsPendingPts(int pts) {
+    return '+$pts pts en attente';
+  }
+
+  @override
+  String get rewardsCategoryAll => 'Toutes';
+
+  @override
+  String get rewardsCategoryFood => 'Alimentation';
+
+  @override
+  String get rewardsCategoryEducation => 'Scolarité';
+
+  @override
+  String get rewardsCategoryHealth => 'Santé';
+
+  @override
+  String get rewardsSoon => 'Bientôt';
+
+  @override
+  String rewardsCostPts(int cost) {
+    return '$cost pts';
+  }
+
+  @override
+  String rewardsMissingPts(int missing) {
+    return 'Il vous manque $missing pts';
+  }
+
+  @override
+  String get rewardsEmptyTitle => 'Aucun article';
+
+  @override
+  String get rewardsEmptyMessage =>
+      'Aucun article dans cette catégorie pour le moment.';
+
+  @override
+  String get rewardsDetailConditionsTitle => 'Conditions d\'utilisation';
+
+  @override
+  String get rewardsDetailNoCash => 'Aucun retrait en espèces possible';
   String get placesCategoryRelay => 'Points de dépôt';
 
   @override

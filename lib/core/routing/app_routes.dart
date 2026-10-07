@@ -39,6 +39,11 @@ class AppRoutes {
   static const String historyDetail = "/history/:id";
   static String historyDetailPath(String id) => "/history/$id";
 
+  // Catalogue de récompenses
+  static const rewards = "/rewards";
+  static const rewardDetail = "/rewards/:id";
+  static String rewardDetailPath(String id) => "/rewards/$id";
+
   // Paramètres
   static const settings = "/settings";
 }
