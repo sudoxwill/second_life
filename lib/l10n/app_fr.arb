@@ -1003,6 +1003,27 @@
   "placesAgentPresent": "Agent présent aujourd'hui",
   "@placesAgentPresent": { "description": "Info courte sur la carte d'un point : agent présent" },
 
+  "placesRoute": "Itinéraire",
+  "@placesRoute": { "description": "Bouton court de la carte d'un point pour lancer l'itinéraire" },
+
+  "placesClosesAt": "Ferme à {time}",
+  "@placesClosesAt": {
+    "description": "Point ouvert : heure de fermeture",
+    "placeholders": { "time": { "type": "String" } }
+  },
+
+  "placesOpensAt": "Ouvre à {time}",
+  "@placesOpensAt": {
+    "description": "Point fermé : réouverture plus tard aujourd'hui",
+    "placeholders": { "time": { "type": "String" } }
+  },
+
+  "placesOpensDayAt": "Ouvre {day} à {time}",
+  "@placesOpensDayAt": {
+    "description": "Point fermé : prochaine ouverture un autre jour",
+    "placeholders": { "day": { "type": "String" }, "time": { "type": "String" } }
+  },
+
   "placeDetailNotFound": "Point introuvable",
   "@placeDetailNotFound": { "description": "Titre de l'état vide de la page détail d'un point qui n'existe plus" },
 

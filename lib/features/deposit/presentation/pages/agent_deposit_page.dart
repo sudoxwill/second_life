@@ -33,13 +33,12 @@ class AgentDepositPage extends ConsumerWidget {
     final list = pending.value ?? const <RecyclingTicket>[];
 
     return AppScaffold(
-      scrollable: false,
       padding: EdgeInsets.zero,
       appBar: AppBar(title: Text(l10n.homePendingDepositsTitle)),
       body: RefreshIndicator(
         onRefresh: refresh,
         child: ListView(
-          padding: EdgeInsets.fromLTRB(
+          padding: const EdgeInsets.fromLTRB(
             AppSpacing.lg,
             AppSpacing.md,
             AppSpacing.lg,
@@ -67,9 +66,9 @@ class AgentDepositPage extends ConsumerWidget {
             AppSpacing.gapVMd,
             ...switch (pending) {
               AsyncLoading() when !pending.hasValue => [
-                Padding(
+                const Padding(
                   padding: AppSpacing.insetXxxl,
-                  child: const Center(child: CircularProgressIndicator()),
+                  child: Center(child: CircularProgressIndicator()),
                 ),
               ],
               AsyncError(:final error) => [

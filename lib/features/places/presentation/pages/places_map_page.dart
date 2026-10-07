@@ -3,6 +3,7 @@ import "package:flutter_map/flutter_map.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:latlong2/latlong.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
+import "package:url_launcher/url_launcher.dart";
 
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/extensions/navigation_extension.dart";
@@ -10,7 +11,7 @@ import "../../../../core/theme/index.dart";
 import "../../../../l10n/app_localizations.dart";
 import "../../../../shared/presentation/widgets/others/app_card.dart";
 import "../../../../shared/presentation/widgets/others/feedback_views.dart";
-import "../../../../shared/presentation/widgets/others/pill_tabs.dart";
+import "../../../../shared/presentation/widgets/others/skeleton.dart";
 import "../../domain/entities/map_point.dart";
 import "../providers/map_points_provider.dart";
 import "../providers/user_location_provider.dart";
@@ -33,8 +34,10 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
   static const _pointZoom = 15.5;
   // Au-delà, aucun point autour de l'usager : la carte ne bouge pas.
   static const _maxAutoCenterMeters = 50000.0;
-  // Hauteur de la recherche, des onglets et des filtres en haut de carte.
-  static const _topOverlayHeight = 184.0;
+  // Hauteur de la recherche et des chips en haut de carte.
+  static const _topOverlayHeight = 116.0;
+  // En dessous de ce zoom, les pins s'affichent sans leur nom.
+  static const _labelZoom = 14.5;
   // Hauteur visible de la liste repliée (poignée + titre).
   static const _sheetPeek = 78.0;
 
@@ -43,6 +46,7 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
   final _search = TextEditingController();
 
   var _mapReady = false;
+  var _showLabels = false;
   var _autoCentered = false;
   var _category = MapPointCategory.relay;
   // WasteMaterial (points relais) ou RecyclingKind (recyclage), null = tous.
@@ -96,8 +100,10 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
         final topOverlay = statusBarHeight + _topOverlayHeight;
         final sheetArea = constraints.maxHeight - navHeight;
         final minSize = _minSize = (_sheetPeek / sheetArea).clamp(0.05, 0.4);
-        final maxSize = _maxSize = ((sheetArea - topOverlay) / sheetArea)
-            .clamp(minSize + 0.1, 1.0);
+        final maxSize = _maxSize = ((sheetArea - topOverlay) / sheetArea).clamp(
+          minSize + 0.1,
+          1.0,
+        );
 
         return Stack(
           children: [
@@ -129,12 +135,13 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
                   onRetry: ref.read(mapPointsProvider.notifier).refresh,
                   onFocus: _focusPoint,
                   onDetails: (p) => context.pushPlaceDetail(p.id),
+                  onRoute: _openRoute,
                 ),
               ),
             ),
             Positioned(
-              left: AppSpacing.lg,
-              right: AppSpacing.lg,
+              left: 0,
+              right: 0,
               top: statusBarHeight + AppSpacing.md,
               child: _TopBar(
                 search: _search,
@@ -149,10 +156,31 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
                 onFilterChanged: (f) => setState(() => _filter = f),
               ),
             ),
-            Positioned(
-              right: AppSpacing.lg,
-              top: topOverlay + AppSpacing.xs,
-              child: _LocateButton(onPressed: _locateUser),
+            // Le bouton suit le haut de la liste, puis disparaît quand elle
+            // monte trop haut, comme sur Google Maps.
+            Positioned.fill(
+              bottom: navHeight,
+              child: ListenableBuilder(
+                listenable: _sheet,
+                builder: (context, _) {
+                  final size = _sheet.isAttached ? _sheet.size : minSize;
+                  final hidden = size > (minSize + maxSize) / 2;
+                  return Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        right: AppSpacing.lg,
+                        bottom: size * sheetArea + AppSpacing.md,
+                      ),
+                      child: AnimatedScale(
+                        scale: hidden ? 0 : 1,
+                        duration: AppSpacing.durationFast,
+                        child: _LocateButton(onPressed: _locateUser),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         );
@@ -175,11 +203,17 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
           _mapReady = true;
           _autoCenter();
         },
+        onPositionChanged: (camera, _) {
+          final show = camera.zoom >= _labelZoom;
+          if (show != _showLabels) setState(() => _showLabels = show);
+        },
       ),
       children: [
+        // Tuiles OSM sans clé d'API ; le mode sombre inverse les couleurs.
         TileLayer(
           urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
           userAgentPackageName: "com.secondlife.second_life",
+          tileBuilder: context.isDarkMode ? darkModeTileBuilder : null,
         ),
         MarkerLayer(
           markers: [
@@ -195,10 +229,10 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
                 point: point.latLng,
                 width: MapPointMarker.width,
                 height: MapPointMarker.height,
-                // La pastille (et non l'étiquette) est posée sur le point.
-                alignment: const Alignment(0, 0.45),
+                alignment: MapPointMarker.alignment,
                 child: MapPointMarker(
                   point: point,
+                  showLabel: _showLabels,
                   onTap: () => context.pushPlaceDetail(point.id),
                 ),
               ),
@@ -301,6 +335,23 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
     if (_mapReady) _map.move(position, 14.5);
   }
 
+  Future<void> _openRoute(MapPoint point) async {
+    final opened = await launchUrl(
+      Uri.https("www.google.com", "/maps/dir/", {
+        "api": "1",
+        "destination": "${point.latitude},${point.longitude}",
+      }),
+      mode: LaunchMode.externalApplication,
+    );
+    if (!opened && mounted) {
+      showAppSnackBar(
+        context,
+        context.l10n.placeDetailLaunchError,
+        error: true,
+      );
+    }
+  }
+
   void _focusPoint(MapPoint point) {
     _collapseSheet();
     if (_mapReady) _map.move(point.latLng, _pointZoom);
@@ -341,7 +392,9 @@ class _TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final filters = category == MapPointCategory.relay
+    final scheme = context.colorScheme;
+    final relay = category == MapPointCategory.relay;
+    final filters = relay
         ? const [
             WasteMaterial.plastic,
             WasteMaterial.metal,
@@ -353,46 +406,74 @@ class _TopBar extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _SearchField(
-          controller: search,
-          hint: searchHint,
-          onChanged: onQueryChanged,
-        ),
-        AppSpacing.gapVSm,
-        _Floating(
-          child: PillTabs(
-            selected: category.index,
-            onChanged: (i) => onCategoryChanged(MapPointCategory.values[i]),
-            tabs: [
-              PillTab(l10n.placesCategoryRelay, icon: LucideIcons.leaf),
-              PillTab(l10n.placesCategoryRecycling, icon: LucideIcons.layers),
-            ],
+        Padding(
+          padding: AppSpacing.insetHLg,
+          child: _SearchField(
+            controller: search,
+            hint: searchHint,
+            onChanged: onQueryChanged,
           ),
         ),
         AppSpacing.gapVSm,
         SizedBox(
           height: AppSpacing.chipHeight,
-          child: ListView.separated(
+          child: ListView(
             scrollDirection: Axis.horizontal,
             clipBehavior: Clip.none,
-            itemCount: filters.length,
-            separatorBuilder: (_, _) => AppSpacing.gapHSm,
-            itemBuilder: (context, i) {
-              final value = filters[i];
-              final selected = value == filter;
-              return _FilterChip(
-                label: switch (value) {
-                  final WasteMaterial m => m.label,
-                  final RecyclingKind k => k.label,
-                  _ => "",
-                },
-                selected: selected,
-                color: category == MapPointCategory.relay
-                    ? context.colorScheme.primary
-                    : context.info,
-                onTap: () => onFilterChanged(selected ? null : value),
-              );
-            },
+            padding: AppSpacing.insetHLg,
+            children: [
+              _FilterChip(
+                label: l10n.placesCategoryRelay,
+                icon: LucideIcons.leaf,
+                selected: relay,
+                filled: true,
+                color: scheme.primary,
+                soft: context.primarySoft,
+                onTap: () => onCategoryChanged(MapPointCategory.relay),
+              ),
+              AppSpacing.gapHSm,
+              _FilterChip(
+                label: l10n.placesCategoryRecycling,
+                icon: LucideIcons.layers,
+                selected: !relay,
+                filled: true,
+                color: context.info,
+                soft: context.infoSoft,
+                onTap: () => onCategoryChanged(MapPointCategory.recycling),
+              ),
+              AppSpacing.gapHSm,
+              Container(
+                width: AppSpacing.borderWidthBase,
+                margin: AppSpacing.insetVSm,
+                color: scheme.outline,
+              ),
+              AppSpacing.gapHSm,
+              for (final value in filters) ...[
+                _FilterChip(
+                  label: switch (value) {
+                    final WasteMaterial m => m.label,
+                    final RecyclingKind k => k.label,
+                    _ => "",
+                  },
+                  icon: switch (value) {
+                    final WasteMaterial m => m.icon,
+                    final RecyclingKind k => k.icon,
+                    _ => null,
+                  },
+                  selected: value == filter,
+                  color: switch (value) {
+                    final RecyclingKind k => k.colors(context).$1,
+                    _ => context.primaryText,
+                  },
+                  soft: switch (value) {
+                    final RecyclingKind k => k.colors(context).$2,
+                    _ => context.primarySoft,
+                  },
+                  onTap: () => onFilterChanged(value == filter ? null : value),
+                ),
+                AppSpacing.gapHSm,
+              ],
+            ],
           ),
         ),
       ],
@@ -402,21 +483,18 @@ class _TopBar extends StatelessWidget {
 
 // Ombre légère pour détacher les contrôles de la carte.
 class _Floating extends StatelessWidget {
-  const _Floating({required this.child});
+  const _Floating({required this.child, this.radius = AppSpacing.roundedXl});
   final Widget child;
+  final BorderRadius radius;
 
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: AppSpacing.roundedXl,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        borderRadius: radius,
+        boxShadow: context.isDarkMode
+            ? AppSpacing.shadowFloatingDark
+            : AppSpacing.shadowFloating,
       ),
       child: child,
     );
@@ -437,33 +515,34 @@ class _SearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = context.colorScheme;
     final textTheme = context.textTheme;
-    final border = OutlineInputBorder(
-      borderRadius: AppSpacing.roundedXl,
-      borderSide: BorderSide(color: scheme.outlineVariant),
+    const border = OutlineInputBorder(
+      borderRadius: AppSpacing.roundedFull,
+      borderSide: BorderSide.none,
     );
     return _Floating(
+      radius: AppSpacing.roundedFull,
       child: ValueListenableBuilder(
         valueListenable: controller,
         builder: (context, value, _) => TextField(
           controller: controller,
           onChanged: onChanged,
           textInputAction: TextInputAction.search,
-          style: textTheme.bodySmall,
+          style: textTheme.bodyMedium,
           decoration: InputDecoration(
             hintText: hint,
             hintMaxLines: 1,
-            hintStyle: textTheme.bodySmall!.copyWith(
+            hintStyle: textTheme.bodyMedium!.copyWith(
               color: scheme.onSurfaceVariant,
             ),
             prefixIcon: Icon(
               LucideIcons.search,
-              size: AppSpacing.iconSm,
+              size: AppSpacing.iconMd,
               color: scheme.onSurfaceVariant,
             ),
             suffixIcon: value.text.isEmpty
                 ? null
                 : IconButton(
-                    icon: Icon(LucideIcons.x, size: AppSpacing.iconSm),
+                    icon: const Icon(LucideIcons.x, size: AppSpacing.iconMd),
                     onPressed: () {
                       controller.clear();
                       onChanged("");
@@ -472,15 +551,10 @@ class _SearchField extends StatelessWidget {
             filled: true,
             fillColor: scheme.surface,
             isDense: true,
-            contentPadding: const EdgeInsets.symmetric(vertical: 14),
+            contentPadding: AppSpacing.insetVLg,
             border: border,
             enabledBorder: border,
-            focusedBorder: border.copyWith(
-              borderSide: BorderSide(
-                color: scheme.primary,
-                width: AppSpacing.borderWidthMedium,
-              ),
-            ),
+            focusedBorder: border,
           ),
         ),
       ),
@@ -488,38 +562,66 @@ class _SearchField extends StatelessWidget {
   }
 }
 
+// Chip de catégorie (pleine) ou de filtre (teintée), avec ombre comme sur
+// Google Maps.
 class _FilterChip extends StatelessWidget {
   const _FilterChip({
     required this.label,
     required this.selected,
     required this.color,
+    required this.soft,
     required this.onTap,
+    this.icon,
+    this.filled = false,
   });
   final String label;
+  final IconData? icon;
   final bool selected;
+  final bool filled;
   final Color color;
+  final Color soft;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final scheme = context.colorScheme;
+    final foreground = !selected
+        ? scheme.onSurface
+        : filled
+        ? scheme.onPrimary
+        : color;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
         duration: AppSpacing.durationFast,
-        padding: AppSpacing.insetHLg,
-        alignment: Alignment.center,
+        padding: AppSpacing.insetHMd,
         decoration: BoxDecoration(
-          color: selected ? color : scheme.surface,
+          color: !selected
+              ? scheme.surface
+              : filled
+              ? color
+              : soft,
           borderRadius: AppSpacing.roundedFull,
-          border: Border.all(color: selected ? color : scheme.outlineVariant),
+          border: selected && !filled ? Border.all(color: color) : null,
+          boxShadow: context.isDarkMode
+              ? AppSpacing.shadowFloatingDark
+              : AppSpacing.shadowFloating,
         ),
-        child: Text(
-          label,
-          style: context.textTheme.labelLarge!.copyWith(
-            fontWeight: FontWeight.w600,
-            color: selected ? scheme.onPrimary : scheme.onSurface,
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (icon != null) ...[
+              Icon(icon, size: AppSpacing.iconSm, color: foreground),
+              AppSpacing.gapHXs,
+            ],
+            Text(
+              label,
+              style: context.textTheme.labelLarge!.copyWith(
+                fontWeight: FontWeight.w600,
+                color: foreground,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -536,12 +638,12 @@ class _LocateButton extends StatelessWidget {
     return Material(
       color: scheme.surface,
       shape: const CircleBorder(),
-      elevation: AppSpacing.elevationSm,
+      elevation: AppSpacing.elevationMd,
       child: IconButton(
         tooltip: context.l10n.placesLocateTooltip,
         onPressed: onPressed,
         icon: Icon(
-          LucideIcons.navigation,
+          LucideIcons.locateFixed,
           color: context.info,
           size: AppSpacing.iconMd,
         ),
@@ -557,8 +659,14 @@ class _OsmAttribution extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-      color: Colors.white.withValues(alpha: 0.7),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.xs,
+        vertical: 2,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.72),
+        borderRadius: AppSpacing.roundedXs,
+      ),
       child: Text(
         "© OpenStreetMap",
         style: context.textTheme.labelSmall!.copyWith(color: Colors.black87),
@@ -579,6 +687,7 @@ class _NearbySheet extends StatelessWidget {
     required this.onRetry,
     required this.onFocus,
     required this.onDetails,
+    required this.onRoute,
   });
   final ScrollController scrollController;
   final MapPointCategory category;
@@ -590,6 +699,7 @@ class _NearbySheet extends StatelessWidget {
   final VoidCallback onRetry;
   final ValueChanged<MapPoint> onFocus;
   final ValueChanged<MapPoint> onDetails;
+  final ValueChanged<MapPoint> onRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -600,10 +710,14 @@ class _NearbySheet extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: scheme.surface,
-        borderRadius: AppSpacing.roundedTopXxl,
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(AppSpacing.radiusXxl),
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.12),
+            color: Colors.black.withValues(
+              alpha: context.isDarkMode ? 0.28 : 0.12,
+            ),
             blurRadius: AppSpacing.lg,
             offset: const Offset(0, -4),
           ),
@@ -611,7 +725,7 @@ class _NearbySheet extends StatelessWidget {
       ),
       child: ListView(
         controller: scrollController,
-        padding: EdgeInsets.fromLTRB(
+        padding: const EdgeInsets.fromLTRB(
           AppSpacing.lg,
           0,
           AppSpacing.lg,
@@ -625,7 +739,7 @@ class _NearbySheet extends StatelessWidget {
               height: AppSpacing.xs,
               decoration: BoxDecoration(
                 color: scheme.outlineVariant,
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: AppSpacing.roundedXs,
               ),
             ),
           ),
@@ -640,7 +754,9 @@ class _NearbySheet extends StatelessWidget {
               AppSpacing.gapHSm,
               Flexible(
                 child: Pill(
-                  label: relay ? l10n.placesPillRelay : l10n.placesPillRecycling,
+                  label: relay
+                      ? l10n.placesPillRelay
+                      : l10n.placesPillRecycling,
                   color: relay ? context.primaryText : context.info,
                   background: relay ? context.primarySoft : context.infoSoft,
                 ),
@@ -663,16 +779,16 @@ class _NearbySheet extends StatelessWidget {
             ],
           ),
           AppSpacing.gapVMd,
-          const _Legend(),
-          AppSpacing.gapVMd,
           ...switch (points) {
             AsyncError(:final error) => [
               ErrorCard(error: error, onRetry: onRetry),
             ],
             AsyncLoading() => [
-              Padding(
-                padding: AppSpacing.insetXxxl,
-                child: const Center(child: CircularProgressIndicator()),
+              SkeletonLoader(
+                child: SkeletonList(
+                  itemCount: 4,
+                  itemBuilder: (_, _) => const SkeletonCard(showAvatar: true),
+                ),
               ),
             ],
             AsyncData() when visible.isEmpty => [
@@ -687,7 +803,7 @@ class _NearbySheet extends StatelessWidget {
             AsyncData() => [
               for (final point in visible)
                 Padding(
-                  padding: EdgeInsets.only(bottom: AppSpacing.md),
+                  padding: const EdgeInsets.only(bottom: AppSpacing.md),
                   child: MapPointCard(
                     point: point,
                     distance: location == null
@@ -695,56 +811,11 @@ class _NearbySheet extends StatelessWidget {
                         : point.distanceFrom(location!),
                     onTap: () => onFocus(point),
                     onDetails: () => onDetails(point),
+                    onRoute: () => onRoute(point),
                   ),
                 ),
             ],
           },
-        ],
-      ),
-    );
-  }
-}
-
-class _Legend extends StatelessWidget {
-  const _Legend();
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final scheme = context.colorScheme;
-    Widget item(Color color, String label) => Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: 10,
-          height: 10,
-          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-        ),
-        AppSpacing.gapHSm,
-        Flexible(
-          child: Text(
-            label,
-            style: context.textTheme.labelMedium!.copyWith(
-              color: scheme.onSurfaceVariant,
-            ),
-          ),
-        ),
-      ],
-    );
-
-    return Container(
-      padding: AppSpacing.insetMd,
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainerLow,
-        borderRadius: AppSpacing.roundedMd,
-        border: Border.all(color: scheme.outlineVariant),
-      ),
-      child: Wrap(
-        spacing: AppSpacing.lg,
-        runSpacing: AppSpacing.sm,
-        children: [
-          item(scheme.primary, l10n.placesLegendRelay),
-          item(context.info, l10n.placesLegendRecycling),
         ],
       ),
     );

@@ -38,6 +38,10 @@ extension MaterialTypeFromCategory on MaterialType {
   }
 }
 
+extension MaterialTypeIconData on MaterialType {
+  IconData get icon => MaterialTypeIcon._resolve(this, false).$1;
+}
+
 class MaterialTypeIcon extends StatelessWidget {
   const MaterialTypeIcon({
     required this.material,

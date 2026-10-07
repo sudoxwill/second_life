@@ -89,7 +89,7 @@ class _PlaceDetail extends ConsumerWidget {
           ),
         ),
         SliverPadding(
-          padding: EdgeInsets.fromLTRB(
+          padding: const EdgeInsets.fromLTRB(
             AppSpacing.lg,
             AppSpacing.lg,
             AppSpacing.lg,

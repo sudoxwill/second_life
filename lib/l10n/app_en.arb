@@ -991,6 +991,27 @@
   "placesAgentPresent": "Agent present today",
   "@placesAgentPresent": { "description": "Short info on a point card: agent is present" },
 
+  "placesRoute": "Directions",
+  "@placesRoute": { "description": "Short button on a point card to start directions" },
+
+  "placesClosesAt": "Closes at {time}",
+  "@placesClosesAt": {
+    "description": "Open point: closing time",
+    "placeholders": { "time": { "type": "String" } }
+  },
+
+  "placesOpensAt": "Opens at {time}",
+  "@placesOpensAt": {
+    "description": "Closed point: reopens later today",
+    "placeholders": { "time": { "type": "String" } }
+  },
+
+  "placesOpensDayAt": "Opens {day} at {time}",
+  "@placesOpensDayAt": {
+    "description": "Closed point: next opening on another day",
+    "placeholders": { "day": { "type": "String" }, "time": { "type": "String" } }
+  },
+
   "placeDetailNotFound": "Point not found",
   "@placeDetailNotFound": { "description": "Title of the empty state when a place detail page has no match" },
 
