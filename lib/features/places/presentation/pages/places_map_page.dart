@@ -4,8 +4,10 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:latlong2/latlong.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
+import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/extensions/navigation_extension.dart";
 import "../../../../core/theme/index.dart";
+import "../../../../l10n/app_localizations.dart";
 import "../../../../shared/presentation/widgets/others/app_card.dart";
 import "../../../../shared/presentation/widgets/others/feedback_views.dart";
 import "../../../../shared/presentation/widgets/others/pill_tabs.dart";
@@ -74,6 +76,7 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final points = ref.watch(mapPointsProvider);
     final location = ref.watch(userLocationProvider).value;
 
@@ -82,7 +85,7 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
       ..listen(mapPointsProvider, (_, _) => _autoCenter());
 
     final visible = _visiblePoints(points.value ?? const [], location);
-    final searchHint = _searchHint(points.value ?? const [], location);
+    final searchHint = _searchHint(points.value ?? const [], location, l10n);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -100,8 +103,8 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
           children: [
             Positioned.fill(child: _buildMap(visible, location)),
             Positioned(
-              left: 8,
-              bottom: navHeight + _sheetPeek + 4,
+              left: AppSpacing.sm,
+              bottom: navHeight + _sheetPeek + AppSpacing.xs,
               child: const _OsmAttribution(),
             ),
             Positioned(
@@ -130,9 +133,9 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
               ),
             ),
             Positioned(
-              left: 16,
-              right: 16,
-              top: statusBarHeight + 12,
+              left: AppSpacing.lg,
+              right: AppSpacing.lg,
+              top: statusBarHeight + AppSpacing.md,
               child: _TopBar(
                 search: _search,
                 searchHint: searchHint,
@@ -147,8 +150,8 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
               ),
             ),
             Positioned(
-              right: 16,
-              top: topOverlay + 4,
+              right: AppSpacing.lg,
+              top: topOverlay + AppSpacing.xs,
               child: _LocateButton(onPressed: _locateUser),
             ),
           ],
@@ -258,7 +261,11 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
 
   // "Rechercher un point à Cotonou (Akpakpa, Fidjrossè…)" pour un usager
   // proche de Cotonou, sinon les villes qui ont le plus de points.
-  String _searchHint(List<MapPoint> points, LatLng? location) {
+  String _searchHint(
+    List<MapPoint> points,
+    LatLng? location,
+    AppLocalizations l10n,
+  ) {
     final nearest = location == null ? null : _nearest(points, location);
     final city = nearest?.city;
     if (city != null &&
@@ -268,8 +275,8 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
           if (p.city == city) ?p.district,
       }.take(2).toList();
       return districts.isEmpty
-          ? "Rechercher un point à $city"
-          : "Rechercher un point à $city (${districts.join(", ")}…)";
+          ? l10n.placesSearchHintCity(city)
+          : l10n.placesSearchHintCityDistricts(city, districts.join(", "));
     }
 
     final counts = <String, int>{};
@@ -280,19 +287,15 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
         (counts.keys.toList()..sort((a, b) => counts[b]!.compareTo(counts[a]!)))
             .take(3);
     return cities.isEmpty
-        ? "Rechercher une ville, un quartier ou un point"
-        : "Rechercher une ville ou un quartier (${cities.join(", ")}…)";
+        ? l10n.placesSearchHintDefault
+        : l10n.placesSearchHintCities(cities.join(", "));
   }
 
   Future<void> _locateUser() async {
     final position = await ref.read(userLocationProvider.notifier).refresh();
     if (!mounted) return;
     if (position == null) {
-      showAppSnackBar(
-        context,
-        "Activez la localisation pour voir les points autour de vous.",
-        error: true,
-      );
+      showAppSnackBar(context, context.l10n.placesLocateError, error: true);
       return;
     }
     if (_mapReady) _map.move(position, 14.5);
@@ -311,7 +314,7 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
     if (!_sheet.isAttached) return;
     _sheet.animateTo(
       size,
-      duration: const Duration(milliseconds: 300),
+      duration: AppSpacing.durationBase,
       curve: Curves.easeOutCubic,
     );
   }
@@ -337,6 +340,7 @@ class _TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final filters = category == MapPointCategory.relay
         ? const [
             WasteMaterial.plastic,
@@ -354,25 +358,25 @@ class _TopBar extends StatelessWidget {
           hint: searchHint,
           onChanged: onQueryChanged,
         ),
-        const SizedBox(height: 10),
+        AppSpacing.gapVSm,
         _Floating(
           child: PillTabs(
             selected: category.index,
             onChanged: (i) => onCategoryChanged(MapPointCategory.values[i]),
-            tabs: const [
-              PillTab("Points de dépôt", icon: LucideIcons.leaf),
-              PillTab("Points de recyclage", icon: LucideIcons.layers),
+            tabs: [
+              PillTab(l10n.placesCategoryRelay, icon: LucideIcons.leaf),
+              PillTab(l10n.placesCategoryRecycling, icon: LucideIcons.layers),
             ],
           ),
         ),
-        const SizedBox(height: 10),
+        AppSpacing.gapVSm,
         SizedBox(
-          height: 36,
+          height: AppSpacing.chipHeight,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             clipBehavior: Clip.none,
             itemCount: filters.length,
-            separatorBuilder: (_, _) => const SizedBox(width: 8),
+            separatorBuilder: (_, _) => AppSpacing.gapHSm,
             itemBuilder: (context, i) {
               final value = filters[i];
               final selected = value == filter;
@@ -384,7 +388,7 @@ class _TopBar extends StatelessWidget {
                 },
                 selected: selected,
                 color: category == MapPointCategory.relay
-                    ? Theme.of(context).colorScheme.primary
+                    ? context.colorScheme.primary
                     : context.info,
                 onTap: () => onFilterChanged(selected ? null : value),
               );
@@ -405,7 +409,7 @@ class _Floating extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: AppSpacing.roundedXl,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.08),
@@ -431,9 +435,10 @@ class _SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final scheme = context.colorScheme;
+    final textTheme = context.textTheme;
     final border = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: AppSpacing.roundedXl,
       borderSide: BorderSide(color: scheme.outlineVariant),
     );
     return _Floating(
@@ -443,20 +448,22 @@ class _SearchField extends StatelessWidget {
           controller: controller,
           onChanged: onChanged,
           textInputAction: TextInputAction.search,
-          style: const TextStyle(fontSize: 14),
+          style: textTheme.bodySmall,
           decoration: InputDecoration(
             hintText: hint,
             hintMaxLines: 1,
-            hintStyle: TextStyle(fontSize: 14, color: scheme.onSurfaceVariant),
+            hintStyle: textTheme.bodySmall!.copyWith(
+              color: scheme.onSurfaceVariant,
+            ),
             prefixIcon: Icon(
               LucideIcons.search,
-              size: 18,
+              size: AppSpacing.iconSm,
               color: scheme.onSurfaceVariant,
             ),
             suffixIcon: value.text.isEmpty
                 ? null
                 : IconButton(
-                    icon: const Icon(LucideIcons.x, size: 18),
+                    icon: Icon(LucideIcons.x, size: AppSpacing.iconSm),
                     onPressed: () {
                       controller.clear();
                       onChanged("");
@@ -469,7 +476,10 @@ class _SearchField extends StatelessWidget {
             border: border,
             enabledBorder: border,
             focusedBorder: border.copyWith(
-              borderSide: BorderSide(color: scheme.primary, width: 1.5),
+              borderSide: BorderSide(
+                color: scheme.primary,
+                width: AppSpacing.borderWidthMedium,
+              ),
             ),
           ),
         ),
@@ -492,22 +502,21 @@ class _FilterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final scheme = context.colorScheme;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 14),
+        duration: AppSpacing.durationFast,
+        padding: AppSpacing.insetHLg,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: selected ? color : scheme.surface,
-          borderRadius: BorderRadius.circular(999),
+          borderRadius: AppSpacing.roundedFull,
           border: Border.all(color: selected ? color : scheme.outlineVariant),
         ),
         child: Text(
           label,
-          style: TextStyle(
-            fontSize: 13,
+          style: context.textTheme.labelLarge!.copyWith(
             fontWeight: FontWeight.w600,
             color: selected ? scheme.onPrimary : scheme.onSurface,
           ),
@@ -523,16 +532,20 @@ class _LocateButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final scheme = context.colorScheme;
     return Material(
       color: scheme.surface,
       shape: const CircleBorder(),
-      elevation: 3,
+      elevation: AppSpacing.elevationSm,
       child: IconButton(
-        tooltip: "Ma position",
+        tooltip: context.l10n.placesLocateTooltip,
         onPressed: onPressed,
-        icon: Icon(LucideIcons.navigation, color: context.info, size: 20),
-        padding: const EdgeInsets.all(12),
+        icon: Icon(
+          LucideIcons.navigation,
+          color: context.info,
+          size: AppSpacing.iconMd,
+        ),
+        padding: AppSpacing.insetMd,
       ),
     );
   }
@@ -546,9 +559,9 @@ class _OsmAttribution extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
       color: Colors.white.withValues(alpha: 0.7),
-      child: const Text(
+      child: Text(
         "© OpenStreetMap",
-        style: TextStyle(fontSize: 9, color: Colors.black87),
+        style: context.textTheme.labelSmall!.copyWith(color: Colors.black87),
       ),
     );
   }
@@ -580,30 +593,36 @@ class _NearbySheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final l10n = context.l10n;
+    final scheme = context.colorScheme;
     final relay = category == MapPointCategory.relay;
 
     return DecoratedBox(
       decoration: BoxDecoration(
         color: scheme.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: AppSpacing.roundedTopXxl,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.12),
-            blurRadius: 16,
+            blurRadius: AppSpacing.lg,
             offset: const Offset(0, -4),
           ),
         ],
       ),
       child: ListView(
         controller: scrollController,
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 40),
+        padding: EdgeInsets.fromLTRB(
+          AppSpacing.lg,
+          0,
+          AppSpacing.lg,
+          AppSpacing.huge,
+        ),
         children: [
           Center(
             child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              width: 40,
-              height: 4,
+              margin: AppSpacing.insetVSm,
+              width: AppSpacing.huge,
+              height: AppSpacing.xs,
               decoration: BoxDecoration(
                 color: scheme.outlineVariant,
                 borderRadius: BorderRadius.circular(2),
@@ -613,16 +632,15 @@ class _NearbySheet extends StatelessWidget {
           Row(
             children: [
               Text(
-                "Points proches (${visible.length})",
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16,
+                l10n.placesNearbyCount(visible.length),
+                style: context.textTheme.titleSmall!.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(width: 8),
+              AppSpacing.gapHSm,
               Flexible(
                 child: Pill(
-                  label: relay ? "Points relais pesée" : "Centres recyclage",
+                  label: relay ? l10n.placesPillRelay : l10n.placesPillRecycling,
                   color: relay ? context.primaryText : context.info,
                   background: relay ? context.primarySoft : context.infoSoft,
                 ),
@@ -633,42 +651,43 @@ class _NearbySheet extends StatelessWidget {
                 iconAlignment: IconAlignment.end,
                 icon: Icon(
                   expanded ? LucideIcons.chevronDown : LucideIcons.chevronUp,
-                  size: 16,
+                  size: AppSpacing.iconSm,
                 ),
                 label: Text(
-                  expanded ? "Réduire" : "Voir tout",
-                  style: const TextStyle(fontWeight: FontWeight.w700),
+                  expanded ? l10n.placesCollapse : l10n.placesSeeAll,
+                  style: context.textTheme.labelLarge!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          AppSpacing.gapVMd,
           const _Legend(),
-          const SizedBox(height: 12),
+          AppSpacing.gapVMd,
           ...switch (points) {
             AsyncError(:final error) => [
               ErrorCard(error: error, onRetry: onRetry),
             ],
-            AsyncLoading() => const [
+            AsyncLoading() => [
               Padding(
-                padding: EdgeInsets.all(32),
-                child: Center(child: CircularProgressIndicator()),
+                padding: AppSpacing.insetXxxl,
+                child: const Center(child: CircularProgressIndicator()),
               ),
             ],
             AsyncData() when visible.isEmpty => [
               EmptyState(
                 icon: LucideIcons.mapPin,
-                title: "Aucun point trouvé",
+                title: l10n.placesEmptyTitle,
                 message: relay
-                    ? "Aucun point relais ne correspond à votre recherche."
-                    : "Aucun lieu de recyclage ne correspond à votre "
-                          "recherche.",
+                    ? l10n.placesEmptyRelay
+                    : l10n.placesEmptyRecycling,
               ),
             ],
             AsyncData() => [
               for (final point in visible)
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
+                  padding: EdgeInsets.only(bottom: AppSpacing.md),
                   child: MapPointCard(
                     point: point,
                     distance: location == null
@@ -691,7 +710,8 @@ class _Legend extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final l10n = context.l10n;
+    final scheme = context.colorScheme;
     Widget item(Color color, String label) => Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -700,29 +720,31 @@ class _Legend extends StatelessWidget {
           height: 10,
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
-        const SizedBox(width: 6),
+        AppSpacing.gapHSm,
         Flexible(
           child: Text(
             label,
-            style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),
+            style: context.textTheme.labelMedium!.copyWith(
+              color: scheme.onSurfaceVariant,
+            ),
           ),
         ),
       ],
     );
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: AppSpacing.insetMd,
       decoration: BoxDecoration(
         color: scheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: AppSpacing.roundedMd,
         border: Border.all(color: scheme.outlineVariant),
       ),
       child: Wrap(
-        spacing: 16,
-        runSpacing: 6,
+        spacing: AppSpacing.lg,
+        runSpacing: AppSpacing.sm,
         children: [
-          item(scheme.primary, "Points relais (dépôt & pesée)"),
-          item(context.info, "Recyclage (information)"),
+          item(scheme.primary, l10n.placesLegendRelay),
+          item(context.info, l10n.placesLegendRecycling),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
+import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/index.dart";
 import "../../../../shared/presentation/widgets/others/app_card.dart";
 import "../../domain/entities/map_point.dart";
@@ -23,7 +24,7 @@ class MapPointCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final scheme = context.colorScheme;
     final now = DateTime.now();
     final infos = [
       if (distance != null) formatDistance(distance!),
@@ -32,16 +33,16 @@ class MapPointCard extends StatelessWidget {
 
     return AppCard(
       onTap: onTap,
-      padding: const EdgeInsets.all(14),
+      padding: AppSpacing.insetLg,
       child: Row(
         children: [
           IconTile(
             icon: point.icon,
             color: scheme.onPrimary,
             background: point.color(context),
-            size: 48,
+            size: AppSpacing.mega,
           ),
-          const SizedBox(width: 12),
+          AppSpacing.gapHMd,
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,40 +52,37 @@ class MapPointCard extends StatelessWidget {
                     Flexible(
                       child: Text(
                         point.name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 15,
+                        style: context.textTheme.titleSmall!.copyWith(
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                     if (point.hasHours) ...[
-                      const SizedBox(width: 8),
+                      AppSpacing.gapHSm,
                       OpenStatusPill(open: point.isOpenAt(now)),
                     ],
                   ],
                 ),
-                const SizedBox(height: 4),
+                AppSpacing.gapVXs,
                 Text(
                   infos,
-                  style: TextStyle(
-                    fontSize: 12,
+                  style: context.textTheme.labelMedium!.copyWith(
                     color: scheme.onSurfaceVariant,
                   ),
                 ),
                 if (point.hasAgentOn(now)) ...[
-                  const SizedBox(height: 4),
+                  AppSpacing.gapVXs,
                   Row(
                     children: [
                       Icon(
                         LucideIcons.circleCheck,
-                        size: 13,
+                        size: AppSpacing.iconXs,
                         color: context.primaryText,
                       ),
-                      const SizedBox(width: 4),
+                      AppSpacing.gapHXs,
                       Text(
-                        "Agent présent aujourd’hui",
-                        style: TextStyle(
-                          fontSize: 12,
+                        context.l10n.placesAgentPresent,
+                        style: context.textTheme.labelMedium!.copyWith(
                           fontWeight: FontWeight.w600,
                           color: context.primaryText,
                         ),
@@ -92,11 +90,10 @@ class MapPointCard extends StatelessWidget {
                     ],
                   ),
                 ] else if (!point.isRelay && point.hasHours) ...[
-                  const SizedBox(height: 4),
+                  AppSpacing.gapVXs,
                   Text(
                     point.typeLabel,
-                    style: TextStyle(
-                      fontSize: 12,
+                    style: context.textTheme.labelMedium!.copyWith(
                       fontWeight: FontWeight.w600,
                       color: point.color(context),
                     ),
@@ -105,16 +102,18 @@ class MapPointCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: 8),
+          AppSpacing.gapHSm,
           TextButton(
             onPressed: onDetails,
             style: TextButton.styleFrom(
               foregroundColor: point.color(context),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: AppSpacing.insetHSm,
             ),
-            child: const Text(
-              "Détails →",
-              style: TextStyle(fontWeight: FontWeight.w700),
+            child: Text(
+              context.l10n.placesDetails,
+              style: context.textTheme.labelLarge!.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
@@ -129,9 +128,9 @@ class OpenStatusPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final scheme = context.colorScheme;
     return Pill(
-      label: open ? "Ouvert" : "Fermé",
+      label: open ? context.l10n.placesOpen : context.l10n.placesClosed,
       color: open ? context.primaryText : scheme.onSurfaceVariant,
       background: open ? context.primarySoft : scheme.surfaceContainerHighest,
     );

@@ -26,11 +26,11 @@ class PlaceDetailPage extends ConsumerWidget {
     return Scaffold(
       body: switch (point) {
         AsyncData(value: final p?) => _PlaceDetail(point: p),
-        AsyncData() => const _Message(
+        AsyncData() => _Message(
           child: EmptyState(
             icon: LucideIcons.mapPin,
-            title: "Point introuvable",
-            message: "Ce point n’existe plus ou n’est plus actif.",
+            title: context.l10n.placeDetailNotFound,
+            message: context.l10n.placeDetailNotFoundMessage,
           ),
         ),
         AsyncError(:final error) => _Message(
@@ -61,7 +61,7 @@ class _Message extends StatelessWidget {
           ),
           Expanded(
             child: Center(
-              child: Padding(padding: const EdgeInsets.all(20), child: child),
+              child: Padding(padding: AppSpacing.insetXl, child: child),
             ),
           ),
         ],
@@ -89,7 +89,12 @@ class _PlaceDetail extends ConsumerWidget {
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          padding: EdgeInsets.fromLTRB(
+            AppSpacing.lg,
+            AppSpacing.lg,
+            AppSpacing.lg,
+            AppSpacing.xxxl,
+          ),
           sliver: SliverList.list(
             children: [
               AppCard(
@@ -102,21 +107,23 @@ class _PlaceDetail extends ConsumerWidget {
                         Expanded(
                           child: Text(
                             point.name,
-                            style: AppTextStyles.heading(22),
+                            style: context.textTheme.titleLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         if (point.hasHours) ...[
-                          const SizedBox(width: 8),
+                          AppSpacing.gapHSm,
                           OpenStatusPill(open: point.isOpenAt(now)),
                         ],
                       ],
                     ),
                     if (point.address.isNotEmpty) ...[
-                      const SizedBox(height: 12),
+                      AppSpacing.gapVMd,
                       _InfoLine(icon: LucideIcons.mapPin, text: point.address),
                     ],
                     if (point.phone case final phone?) ...[
-                      const SizedBox(height: 8),
+                      AppSpacing.gapVSm,
                       _InfoLine(
                         icon: LucideIcons.phone,
                         text: phone,
@@ -127,31 +134,30 @@ class _PlaceDetail extends ConsumerWidget {
                       ),
                     ],
                     if (point.description case final description?) ...[
-                      const SizedBox(height: 12),
+                      AppSpacing.gapVMd,
                       Text(
                         description,
-                        style: TextStyle(
-                          fontSize: 13,
+                        style: context.textTheme.labelLarge!.copyWith(
                           color: scheme.onSurfaceVariant,
                         ),
                       ),
                     ],
                     if (point.hasAgentOn(now)) ...[
-                      const SizedBox(height: 14),
+                      AppSpacing.gapVLg,
                       _AgentBanner(),
                     ],
                   ],
                 ),
               ),
               if (point.acceptedMaterials.isNotEmpty) ...[
-                const SizedBox(height: 14),
+                AppSpacing.gapVLg,
                 _MaterialsCard(point: point),
               ],
               if (point.hasHours) ...[
-                const SizedBox(height: 14),
+                AppSpacing.gapVLg,
                 _HoursCard(point: point),
               ],
-              const SizedBox(height: 20),
+              AppSpacing.gapVXl,
               AppElevatedButton(
                 onPressed: () => _launch(
                   context,
@@ -161,7 +167,7 @@ class _PlaceDetail extends ConsumerWidget {
                   }),
                 ),
                 icon: const Icon(LucideIcons.navigation, size: 18),
-                text: "Ouvrir dans Maps (Itinéraire)",
+                text: context.l10n.placeDetailRoute,
               ),
             ],
           ),
@@ -175,7 +181,7 @@ class _PlaceDetail extends ConsumerWidget {
     if (!opened && context.mounted) {
       showAppSnackBar(
         context,
-        "Impossible d’ouvrir cette application.",
+        context.l10n.placeDetailLaunchError,
         error: true,
       );
     }
@@ -189,7 +195,7 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final scheme = context.colorScheme;
     final placeholder = ColoredBox(
       color: point.softColor(context),
       child: Center(
@@ -210,7 +216,6 @@ class _Header extends StatelessWidget {
             )
           else
             placeholder,
-          // Assombrit le bas pour garder les pastilles lisibles.
           const DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -224,12 +229,12 @@ class _Header extends StatelessWidget {
             child: Align(
               alignment: Alignment.topLeft,
               child: Padding(
-                padding: const EdgeInsets.all(12),
+                padding: AppSpacing.insetMd,
                 child: Material(
                   color: scheme.surface.withValues(alpha: 0.9),
                   shape: const CircleBorder(),
                   child: IconButton(
-                    tooltip: "Retour",
+                    tooltip: context.l10n.commonBack,
                     onPressed: context.popScreen,
                     icon: const Icon(LucideIcons.arrowLeft),
                   ),
@@ -238,12 +243,12 @@ class _Header extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 16,
-            right: 16,
-            bottom: 14,
+            left: AppSpacing.lg,
+            right: AppSpacing.lg,
+            bottom: AppSpacing.lg,
             child: Wrap(
-              spacing: 8,
-              runSpacing: 6,
+              spacing: AppSpacing.sm,
+              runSpacing: AppSpacing.sm,
               children: [
                 Pill(
                   label: point.typeLabel,
@@ -274,19 +279,21 @@ class _InfoLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final scheme = context.colorScheme;
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: AppSpacing.roundedSm,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 18, color: context.primaryText),
-          const SizedBox(width: 10),
+          Icon(icon, size: AppSpacing.iconSm, color: context.primaryText),
+          AppSpacing.gapHSm,
           Expanded(
             child: Text(
               text,
-              style: TextStyle(fontSize: 14, color: scheme.onSurfaceVariant),
+              style: context.textTheme.labelLarge!.copyWith(
+                color: scheme.onSurfaceVariant,
+              ),
             ),
           ),
         ],
@@ -300,21 +307,24 @@ class _AgentBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(12),
+      padding: AppSpacing.insetMd,
       decoration: BoxDecoration(
         color: context.primarySoft,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: AppSpacing.roundedMd,
       ),
       child: Row(
         children: [
-          Icon(LucideIcons.circleCheck, size: 18, color: context.primaryText),
-          const SizedBox(width: 10),
+          Icon(
+            LucideIcons.circleCheck,
+            size: AppSpacing.iconSm,
+            color: context.primaryText,
+          ),
+          AppSpacing.gapHSm,
           Expanded(
             child: Text(
-              "Agent présent aujourd’hui (pesée certifiée immédiate)",
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
+              context.l10n.placeDetailAgentPresent,
+              style: context.textTheme.labelLarge!.copyWith(
+                fontWeight: FontWeight.bold,
                 color: context.primaryText,
               ),
             ),
@@ -331,16 +341,16 @@ class _MaterialsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final scheme = context.colorScheme;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SectionLabel("Types de déchets acceptés"),
-          const SizedBox(height: 14),
+          SectionLabel(context.l10n.placeDetailMaterialsTitle),
+          AppSpacing.gapVLg,
           LayoutBuilder(
             builder: (context, constraints) {
-              const spacing = 10.0;
+              const spacing = AppSpacing.sm;
               final width = (constraints.maxWidth - spacing) / 2;
               return Wrap(
                 spacing: spacing,
@@ -349,10 +359,10 @@ class _MaterialsCard extends StatelessWidget {
                   for (final material in point.acceptedMaterials)
                     Container(
                       width: width,
-                      padding: const EdgeInsets.all(10),
+                      padding: AppSpacing.insetSm,
                       decoration: BoxDecoration(
                         color: scheme.surfaceContainerLow,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: AppSpacing.roundedMd,
                         border: Border.all(color: scheme.outlineVariant),
                       ),
                       child: Row(
@@ -361,15 +371,14 @@ class _MaterialsCard extends StatelessWidget {
                             icon: LucideIcons.leaf,
                             color: scheme.onPrimary,
                             background: point.color(context),
-                            size: 32,
+                            size: AppSpacing.xxxl,
                           ),
-                          const SizedBox(width: 10),
+                          AppSpacing.gapHSm,
                           Expanded(
                             child: Text(
                               material.label,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 13,
+                              style: context.textTheme.labelLarge!.copyWith(
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -392,43 +401,45 @@ class _HoursCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final scheme = context.colorScheme;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(LucideIcons.clock, size: 16, color: scheme.onSurfaceVariant),
-              const SizedBox(width: 8),
-              const SectionLabel("Horaires d’ouverture"),
+              Icon(
+                LucideIcons.clock,
+                size: AppSpacing.iconSm,
+                color: scheme.onSurfaceVariant,
+              ),
+              AppSpacing.gapHSm,
+              SectionLabel(context.l10n.placeDetailHoursTitle),
             ],
           ),
-          const SizedBox(height: 12),
+          AppSpacing.gapVMd,
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(12),
+            padding: AppSpacing.insetMd,
             decoration: BoxDecoration(
               color: scheme.surfaceContainerLow,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: AppSpacing.roundedMd,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   point.hoursLabel,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14,
+                  style: context.textTheme.labelLarge!.copyWith(
+                    fontWeight: FontWeight.bold,
                     color: point.color(context),
                   ),
                 ),
                 if (point.hoursNote case final note?) ...[
-                  const SizedBox(height: 4),
+                  AppSpacing.gapVXs,
                   Text(
                     note,
-                    style: TextStyle(
-                      fontSize: 12,
+                    style: context.textTheme.labelMedium!.copyWith(
                       color: scheme.onSurfaceVariant,
                     ),
                   ),
