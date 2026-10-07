@@ -2,7 +2,7 @@ import "dart:async";
 
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../../../../core/usecases/usecase.dart";
+import "../../../../shared/domain/usecases/usecase.dart";
 import "../../domain/entities/map_point.dart";
 import "places_providers.dart";
 
