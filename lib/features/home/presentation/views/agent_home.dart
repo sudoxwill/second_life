@@ -5,6 +5,7 @@ import "package:lucide_icons_flutter/lucide_icons.dart";
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/app_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
+import "../../../history/presentation/widget/material_type_icon.dart";
 import "../../../ticket_validation/presentation/providers/agent_history_provider.dart";
 import "../../../ticket_validation/presentation/providers/current_relay_agent_provider.dart";
 import "../../../ticket_validation/presentation/providers/pending_tickets_provider.dart";
@@ -98,6 +99,9 @@ class AgentHome extends ConsumerWidget {
                 final ticket = pending[index];
                 final itemLabel =
                     ticket.wasteAnalysisResult.detectedItem.itemLabel;
+                final material = MaterialTypeFromCategory.fromCategory(
+                  ticket.wasteAnalysisResult.detectedItem.itemMainCategory,
+                );
                 final points = ticket
                     .wasteAnalysisResult
                     .itemRecyclability
@@ -105,19 +109,9 @@ class AgentHome extends ConsumerWidget {
                     .round();
                 return ListTile(
                   contentPadding: AppSpacing.insetVXs,
-                  leading: Container(
-                    width: AppSpacing.mega,
-                    height: AppSpacing.mega,
-                    padding: AppSpacing.insetSm,
-                    decoration: BoxDecoration(
-                      color: colorScheme.secondary.withValues(alpha: .2),
-                      borderRadius: AppSpacing.roundedLg,
-                    ),
-                    child: Icon(
-                      LucideIcons.box,
-                      // LucideIcons.bottleWine,
-                      color: colorScheme.secondary,
-                    ),
+                  leading: MaterialTypeIcon(
+                    material: material,
+                    size: AppSpacing.mega,
                   ),
                   title: Text(itemLabel, style: textTheme.bodyLarge),
                   trailing: Text(

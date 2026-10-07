@@ -6,6 +6,7 @@ import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/app_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
 import "../../../history/presentation/providers/history_providers.dart";
+import "../../../history/presentation/widget/material_type_icon.dart";
 import "../../../waste_analysis/presentation/providers/user_tickets_provider.dart";
 
 class UserHome extends ConsumerWidget {
@@ -156,19 +157,12 @@ class UserHome extends ConsumerWidget {
                       .round();
                   return ListTile(
                     contentPadding: AppSpacing.insetVXs,
-                    leading: Container(
-                      width: AppSpacing.mega,
-                      height: AppSpacing.mega,
-                      padding: AppSpacing.insetSm,
-                      decoration: BoxDecoration(
-                        color: colorScheme.secondary.withValues(alpha: .2),
-                        borderRadius: AppSpacing.roundedLg,
+                    leading: MaterialTypeIcon(
+                      material: MaterialTypeFromCategory.fromCategory(
+                        ticket.wasteAnalysisResult.detectedItem
+                            .itemMainCategory,
                       ),
-                      child: Icon(
-                        LucideIcons.box,
-                        // LucideIcons.bottleWine,
-                        color: colorScheme.secondary,
-                      ),
+                      size: AppSpacing.mega,
                     ),
                     title: Text(itemLabel, style: textTheme.bodyLarge),
                     trailing: Text(
