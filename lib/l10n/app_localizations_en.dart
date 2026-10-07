@@ -366,7 +366,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homePointsTitle => 'My points';
 
   @override
-  String get homePointsRedeemCta => 'Redeem';
+  String get homePointsRedeemCta => 'Shop';
 
   @override
   String homePointsBalance(int amount) {
@@ -770,6 +770,52 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scanCameraOpening => 'Opening camera…';
 
   @override
+  String get rewardsCatalogTitle => 'Shop';
+
+  @override
+  String get rewardsBalanceLabel => 'Your balance';
+
+  @override
+  String rewardsPendingPts(int pts) {
+    return '+$pts pts pending';
+  }
+
+  @override
+  String get rewardsCategoryAll => 'All';
+
+  @override
+  String get rewardsCategoryFood => 'Food';
+
+  @override
+  String get rewardsCategoryEducation => 'Education';
+
+  @override
+  String get rewardsCategoryHealth => 'Health';
+
+  @override
+  String get rewardsSoon => 'Soon';
+
+  @override
+  String rewardsCostPts(int cost) {
+    return '$cost pts';
+  }
+
+  @override
+  String rewardsMissingPts(int missing) {
+    return 'You need $missing more pts';
+  }
+
+  @override
+  String get rewardsEmptyTitle => 'No items';
+
+  @override
+  String get rewardsEmptyMessage => 'No items in this category yet.';
+
+  @override
+  String get rewardsDetailConditionsTitle => 'Terms of use';
+
+  @override
+  String get rewardsDetailNoCash => 'No cash withdrawal possible';
   String get placesCategoryRelay => 'Drop-off points';
 
   @override

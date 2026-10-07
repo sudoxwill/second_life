@@ -55,6 +55,7 @@ extension NavigationExtensions on BuildContext {
   // Récompenses
 
   void pushRewards() => push(AppRoutes.rewards);
+  void pushRewardDetail(String id) => push(AppRoutes.rewardDetailPath(id));
 
   // Paramètres
 

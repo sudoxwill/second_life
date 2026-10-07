@@ -408,8 +408,8 @@
   "homePointsTitle": "My points",
   "@homePointsTitle": { "description": "Title of the points balance card on the home screen" },
 
-  "homePointsRedeemCta": "Redeem",
-  "@homePointsRedeemCta": { "description": "Button to redeem points for vouchers at the partner" },
+  "homePointsRedeemCta": "Shop",
+  "@homePointsRedeemCta": { "description": "Button to access the rewards shop from the balance card" },
 
   "homePointsBalance": "{amount} pts",
   "@homePointsBalance": {
@@ -912,6 +912,65 @@
   "scanCameraOpening": "Opening camera…",
   "@scanCameraOpening": { "description": "Placeholder text during camera initialization" },
 
+  "@__sectionRewards": {
+    "description": "━━━━ REWARDS — Rewards catalogue ━━━━"
+  },
+  "rewardsCatalogTitle": "Shop",
+  "@rewardsCatalogTitle": { "description": "Title of the rewards catalogue page" },
+
+  "rewardsBalanceLabel": "Your balance",
+  "@rewardsBalanceLabel": { "description": "Label above the points balance in the catalogue header" },
+
+  "rewardsPendingPts": "+{pts} pts pending",
+  "@rewardsPendingPts": {
+    "description": "Pill showing pending points in the catalogue header",
+    "placeholders": {
+      "pts": { "type": "int", "example": "80" }
+    }
+  },
+
+  "rewardsCategoryAll": "All",
+  "@rewardsCategoryAll": { "description": "Filter chip: all categories in the catalogue" },
+
+  "rewardsCategoryFood": "Food",
+  "@rewardsCategoryFood": { "description": "Reward category: food" },
+
+  "rewardsCategoryEducation": "Education",
+  "@rewardsCategoryEducation": { "description": "Reward category: education" },
+
+  "rewardsCategoryHealth": "Health",
+  "@rewardsCategoryHealth": { "description": "Reward category: health" },
+
+  "rewardsSoon": "Soon",
+  "@rewardsSoon": { "description": "Badge shown on rewards that are not yet redeemable" },
+
+  "rewardsCostPts": "{cost} pts",
+  "@rewardsCostPts": {
+    "description": "Cost of a reward in points",
+    "placeholders": {
+      "cost": { "type": "int", "example": "2500" }
+    }
+  },
+
+  "rewardsMissingPts": "You need {missing} more pts",
+  "@rewardsMissingPts": {
+    "description": "Message on a tile when the balance is insufficient",
+    "placeholders": {
+      "missing": { "type": "int", "example": "1250" }
+    }
+  },
+
+  "rewardsEmptyTitle": "No items",
+  "@rewardsEmptyTitle": { "description": "Title of the empty state for a category with no results" },
+
+  "rewardsEmptyMessage": "No items in this category yet.",
+  "@rewardsEmptyMessage": { "description": "Message of the catalogue empty state" },
+
+  "rewardsDetailConditionsTitle": "Terms of use",
+  "@rewardsDetailConditionsTitle": { "description": "Title of the terms section on the reward detail page" },
+
+  "rewardsDetailNoCash": "No cash withdrawal possible",
+  "@rewardsDetailNoCash": { "description": "Warning at the bottom of the detail page: rewards cannot be converted to cash" }
   "@__sectionPlaces": {
     "description": "━━━━ PLACES — Map and detail of recycling points ━━━━"
   },
