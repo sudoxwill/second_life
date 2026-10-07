@@ -51,6 +51,11 @@ extension NavigationExtensions on BuildContext {
   void goScan() => go(AppRoutes.scan);
   void pushScan() => push(AppRoutes.scan);
 
+  // Récompenses
+
+  void pushRewards() => push(AppRoutes.rewards);
+  void pushRewardDetail(String id) => push(AppRoutes.rewardDetailPath(id));
+
   // Paramètres
 
   void goTrash() => go(AppRoutes.settings);

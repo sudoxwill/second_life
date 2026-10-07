@@ -407,8 +407,8 @@
   "homePointsTitle": "Mes points",
   "@homePointsTitle": { "description": "Titre de la carte de solde de points sur l'accueil" },
 
-  "homePointsRedeemCta": "Échanger",
-  "@homePointsRedeemCta": { "description": "Bouton d'échange des points contre des bons chez le partenaire" },
+  "homePointsRedeemCta": "Boutique",
+  "@homePointsRedeemCta": { "description": "Bouton d'accès à la boutique de récompenses depuis la carte de solde" },
 
   "homePointsBalance": "{amount} pts",
   "@homePointsBalance": {
@@ -911,5 +911,65 @@
   "@scanCameraUnavailable": { "description": "Texte du placeholder quand la caméra est refusée" },
 
   "scanCameraOpening": "Ouverture de la caméra…",
-  "@scanCameraOpening": { "description": "Texte du placeholder pendant l'initialisation de la caméra" }
+  "@scanCameraOpening": { "description": "Texte du placeholder pendant l'initialisation de la caméra" },
+
+  "@__sectionRewards": {
+    "description": "━━━━ REWARDS — Catalogue de récompenses ━━━━"
+  },
+  "rewardsCatalogTitle": "Boutique",
+  "@rewardsCatalogTitle": { "description": "Titre de la page catalogue de récompenses" },
+
+  "rewardsBalanceLabel": "Votre solde",
+  "@rewardsBalanceLabel": { "description": "Libellé au-dessus du solde de points dans l'en-tête du catalogue" },
+
+  "rewardsPendingPts": "+{pts} pts en attente",
+  "@rewardsPendingPts": {
+    "description": "Pastille des points en attente de validation dans l'en-tête du catalogue",
+    "placeholders": {
+      "pts": { "type": "int", "example": "80" }
+    }
+  },
+
+  "rewardsCategoryAll": "Toutes",
+  "@rewardsCategoryAll": { "description": "Filtre 'toutes les catégories' dans le catalogue" },
+
+  "rewardsCategoryFood": "Alimentation",
+  "@rewardsCategoryFood": { "description": "Catégorie de récompenses : alimentation" },
+
+  "rewardsCategoryEducation": "Scolarité",
+  "@rewardsCategoryEducation": { "description": "Catégorie de récompenses : scolarité" },
+
+  "rewardsCategoryHealth": "Santé",
+  "@rewardsCategoryHealth": { "description": "Catégorie de récompenses : santé" },
+
+  "rewardsSoon": "Bientôt",
+  "@rewardsSoon": { "description": "Badge indiquant qu'une récompense n'est pas encore échangeable" },
+
+  "rewardsCostPts": "{cost} pts",
+  "@rewardsCostPts": {
+    "description": "Coût d'une récompense en points",
+    "placeholders": {
+      "cost": { "type": "int", "example": "2500" }
+    }
+  },
+
+  "rewardsMissingPts": "Il vous manque {missing} pts",
+  "@rewardsMissingPts": {
+    "description": "Message affiché sur une tuile quand le solde est insuffisant",
+    "placeholders": {
+      "missing": { "type": "int", "example": "1250" }
+    }
+  },
+
+  "rewardsEmptyTitle": "Aucun article",
+  "@rewardsEmptyTitle": { "description": "Titre de l'état vide du catalogue pour une catégorie sans résultat" },
+
+  "rewardsEmptyMessage": "Aucun article dans cette catégorie pour le moment.",
+  "@rewardsEmptyMessage": { "description": "Message de l'état vide du catalogue" },
+
+  "rewardsDetailConditionsTitle": "Conditions d'utilisation",
+  "@rewardsDetailConditionsTitle": { "description": "Titre du bloc des conditions d'utilisation sur la page détail d'une récompense" },
+
+  "rewardsDetailNoCash": "Aucun retrait en espèces possible",
+  "@rewardsDetailNoCash": { "description": "Avertissement en bas de la page détail : les récompenses ne sont pas convertibles en cash" }
 }

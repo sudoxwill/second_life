@@ -3,6 +3,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/extensions/build_context_extension.dart";
+import "../../../../core/extensions/navigation_extension.dart";
 import "../../../../core/theme/app_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
 import "../../../history/presentation/providers/history_providers.dart";
@@ -49,6 +50,7 @@ class UserHome extends ConsumerWidget {
                     ),
                     InkWell(
                       borderRadius: AppSpacing.roundedXxl,
+                      onTap: context.pushRewards,
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: AppSpacing.sm,
