@@ -970,7 +970,7 @@
   "@rewardsDetailConditionsTitle": { "description": "Title of the terms section on the reward detail page" },
 
   "rewardsDetailNoCash": "No cash withdrawal possible",
-  "@rewardsDetailNoCash": { "description": "Warning at the bottom of the detail page: rewards cannot be converted to cash" }
+  "@rewardsDetailNoCash": { "description": "Warning at the bottom of the detail page: rewards cannot be converted to cash" },
   "@__sectionPlaces": {
     "description": "━━━━ PLACES — Map and detail of recycling points ━━━━"
   },
@@ -1285,7 +1285,6 @@
   "notifChannelProcessingDescription": "Waste analysis completion",
 
   "rewardsTitle": "Rewards",
-  "rewardsBalanceLabel": "Available balance",
   "rewardsCost": "{points} pts",
   "rewardsRedeem": "Redeem",
   "rewardsMissing": "{points} pts to go",

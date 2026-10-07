@@ -198,38 +198,6 @@ class _PointsCard extends ConsumerWidget {
                     overflow: TextOverflow.ellipsis,
                     style: textTheme.labelLarge!.copyWith(
                       color: BrandCard.foreground,
-                    InkWell(
-                      borderRadius: AppSpacing.roundedXxl,
-                      onTap: context.pushRewards,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.sm,
-                          vertical: AppSpacing.xs,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: AppSpacing.roundedXxl,
-                          color: AppColors.neutral50.withValues(alpha: .2),
-                        ),
-                        child: Row(
-                          spacing: AppSpacing.xs,
-                          children: [
-                            const Icon(
-                              LucideIcons.gift,
-                              size: AppSpacing.iconSm,
-                            ),
-                            Text(
-                              l10n.homePointsRedeemCta,
-                              style: textTheme.bodySmall!.copyWith(
-                                color: AppColors.neutral50,
-                              ),
-                            ),
-                            const Icon(
-                              LucideIcons.arrowUpRight,
-                              size: AppSpacing.iconMd,
-                            ),
-                          ],
-                        ),
-                      ),
                     ),
                   ),
                 ),

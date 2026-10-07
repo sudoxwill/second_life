@@ -14,8 +14,6 @@ import "../../features/places/presentation/pages/places_map_page.dart";
 import "../../features/profile/presentation/pages/index.dart";
 import "../../features/rewards/presentation/pages/rewards_page.dart";
 import "../../features/ticket_validation/presentation/pages/agent_history_page.dart";
-import "../../features/rewards/presentation/pages/reward_detail_page.dart";
-import "../../features/rewards/presentation/pages/rewards_catalog_page.dart";
 import "../../features/ticket_validation/presentation/pages/agent_scanner_page.dart";
 import "../../features/waste_analysis/presentation/pages/waste_scan_page.dart";
 import "../../shared/presentation/pages/index.dart";

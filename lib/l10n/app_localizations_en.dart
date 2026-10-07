@@ -816,6 +816,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rewardsDetailNoCash => 'No cash withdrawal possible';
+
+  @override
   String get placesCategoryRelay => 'Drop-off points';
 
   @override
@@ -1345,9 +1347,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rewardsTitle => 'Rewards';
-
-  @override
-  String get rewardsBalanceLabel => 'Available balance';
 
   @override
   String rewardsCost(int points) {
