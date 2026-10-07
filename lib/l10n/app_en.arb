@@ -204,6 +204,18 @@
   "authLogoutError": "Failed to sign out. Try again.",
   "@authLogoutError": { "description": "Error message after sign-out failure" },
 
+  "authErrorInvalidCredential": "Incorrect email or password.",
+  "@authErrorInvalidCredential": { "description": "Error when email or password is wrong (Firebase: invalid-credential, wrong-password, user-not-found)" },
+
+  "authErrorEmailAlreadyInUse": "An account already exists with this email.",
+  "@authErrorEmailAlreadyInUse": { "description": "Error at signup when email is already registered" },
+
+  "authErrorTooManyRequests": "Too many attempts. Try again in a few minutes.",
+  "@authErrorTooManyRequests": { "description": "Error when Firebase blocks login attempts" },
+
+  "authErrorUserDisabled": "This account has been disabled.",
+  "@authErrorUserDisabled": { "description": "Error when account is disabled in Firebase" },
+
   "authPasswordLabel": "Password",
   "@authPasswordLabel": { "description": "Password field label" },
 

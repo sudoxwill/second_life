@@ -216,6 +216,18 @@
   "authLogoutError": "Échec de la déconnexion. Réessaie.",
   "@authLogoutError": { "description": "Message d'erreur après échec de déconnexion" },
 
+  "authErrorInvalidCredential": "Email ou mot de passe incorrect.",
+  "@authErrorInvalidCredential": { "description": "Erreur quand l'email ou le mot de passe est incorrect (code Firebase : invalid-credential, wrong-password, user-not-found)" },
+
+  "authErrorEmailAlreadyInUse": "Un compte existe déjà avec cet email.",
+  "@authErrorEmailAlreadyInUse": { "description": "Erreur à l'inscription quand l'email est déjà utilisé" },
+
+  "authErrorTooManyRequests": "Trop de tentatives. Réessaie dans quelques minutes.",
+  "@authErrorTooManyRequests": { "description": "Erreur quand Firebase bloque les tentatives de connexion" },
+
+  "authErrorUserDisabled": "Ce compte a été désactivé.",
+  "@authErrorUserDisabled": { "description": "Erreur quand le compte est désactivé dans Firebase" },
+
   "authPasswordLabel": "Mot de passe",
   "@authPasswordLabel": { "description": "Label du champ mot de passe" },
 

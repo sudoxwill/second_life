@@ -189,6 +189,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authLogoutError => 'Failed to sign out. Try again.';
 
   @override
+  String get authErrorInvalidCredential => 'Incorrect email or password.';
+
+  @override
+  String get authErrorEmailAlreadyInUse =>
+      'An account already exists with this email.';
+
+  @override
+  String get authErrorTooManyRequests =>
+      'Too many attempts. Try again in a few minutes.';
+
+  @override
+  String get authErrorUserDisabled => 'This account has been disabled.';
+
+  @override
   String get authPasswordLabel => 'Password';
 
   @override

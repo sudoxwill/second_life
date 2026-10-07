@@ -193,6 +193,20 @@ class AppLocalizationsFr extends AppLocalizations {
   String get authLogoutError => 'Échec de la déconnexion. Réessaie.';
 
   @override
+  String get authErrorInvalidCredential => 'Email ou mot de passe incorrect.';
+
+  @override
+  String get authErrorEmailAlreadyInUse =>
+      'Un compte existe déjà avec cet email.';
+
+  @override
+  String get authErrorTooManyRequests =>
+      'Trop de tentatives. Réessaie dans quelques minutes.';
+
+  @override
+  String get authErrorUserDisabled => 'Ce compte a été désactivé.';
+
+  @override
   String get authPasswordLabel => 'Mot de passe';
 
   @override

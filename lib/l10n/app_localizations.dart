@@ -428,6 +428,30 @@ abstract class AppLocalizations {
   /// **'Échec de la déconnexion. Réessaie.'**
   String get authLogoutError;
 
+  /// Erreur quand l'email ou le mot de passe est incorrect (code Firebase : invalid-credential, wrong-password, user-not-found)
+  ///
+  /// In fr, this message translates to:
+  /// **'Email ou mot de passe incorrect.'**
+  String get authErrorInvalidCredential;
+
+  /// Erreur à l'inscription quand l'email est déjà utilisé
+  ///
+  /// In fr, this message translates to:
+  /// **'Un compte existe déjà avec cet email.'**
+  String get authErrorEmailAlreadyInUse;
+
+  /// Erreur quand Firebase bloque les tentatives de connexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Trop de tentatives. Réessaie dans quelques minutes.'**
+  String get authErrorTooManyRequests;
+
+  /// Erreur quand le compte est désactivé dans Firebase
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce compte a été désactivé.'**
+  String get authErrorUserDisabled;
+
   /// Label du champ mot de passe
   ///
   /// In fr, this message translates to:

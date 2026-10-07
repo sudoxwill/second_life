@@ -1,9 +1,11 @@
+import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/gestures.dart" show TapGestureRecognizer;
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/constants/app_assets.dart";
+import "../../../../core/errors/exception.dart";
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/extensions/navigation_extension.dart";
 import "../../../../core/theme/app_spacing.dart";
@@ -147,29 +149,64 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
-    await _signIn();
-  }
-
-  Future<void> _googleSignIn() => _signIn();
-
-  Future<void> _signIn() async {
     setState(() => _isLoading = true);
-    final AppRole role;
     try {
-      role = await ref.read(authProvider.notifier).signIn();
+      final role = await ref
+          .read(authProvider.notifier)
+          .signInWithEmailPassword(
+            _emailController.text.trim(),
+            _passwordController.text,
+          );
+      if (!mounted) return;
+      _navigateByRole(role);
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+      context.showSnackBar(_mapLoginError(e.code));
     } catch (_) {
       if (!mounted) return;
-      setState(() => _isLoading = false);
-      context.showSnackBar(context.l10n.commonError);
-      return;
+      context.showSnackBar(context.l10n.authLoginError);
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
-    if (!mounted) return;
-    setState(() => _isLoading = false);
+  }
 
-    if (role == AppRole.agent) {
-      context.goAgentHome();
-    } else {
-      context.goHome();
+  String _mapLoginError(String code) {
+    final l10n = context.l10n;
+    return switch (code) {
+      "user-not-found" ||
+      "wrong-password" ||
+      "invalid-credential" =>
+        l10n.authErrorInvalidCredential,
+      "too-many-requests" => l10n.authErrorTooManyRequests,
+      "user-disabled" => l10n.authErrorUserDisabled,
+      _ => l10n.authLoginError,
+    };
+  }
+
+  Future<void> _googleSignIn() async {
+    setState(() => _isLoading = true);
+    try {
+      final role = await ref.read(authProvider.notifier).signInWithGoogle();
+      if (!mounted) return;
+      _navigateByRole(role);
+    } on SignInCancelledException {
+      // Annulation silencieuse
+    } catch (_) {
+      if (!mounted) return;
+      context.showSnackBar(context.l10n.authLoginError);
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  void _navigateByRole(AppRole role) {
+    switch (role) {
+      case AppRole.agent:
+        context.goAgentHome();
+      case AppRole.pendingUsername:
+        context.goAuthUsernameSetup();
+      case AppRole.user:
+        context.goHome();
     }
   }
 }

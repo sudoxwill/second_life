@@ -1,22 +1,19 @@
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/extensions/build_context_extension.dart";
+import "../../../../core/extensions/navigation_extension.dart";
 import "../../../../core/theme/app_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
 import "../../../../core/utils/formatters.dart";
 import "../../../../shared/presentation/widgets/buttons/app_elevated_button.dart";
 import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
-// import "../../../waste_analysis/domain/entities/relay_agent.dart";
+import "../../../auth/presentation/providers/auth_provider.dart";
 import "../widgets/profile_settings_section.dart";
 
-class AgentProfilePage extends StatelessWidget {
-  const AgentProfilePage({
-    // required this.agent,
-    super.key,
-  });
-
-  // final RelayAgent agent;
+class AgentProfilePage extends ConsumerWidget {
+  const AgentProfilePage({super.key});
 
   // Données de démo en dur
   static const String _demoName = "Koffi Mensah";
@@ -25,8 +22,36 @@ class AgentProfilePage extends StatelessWidget {
       "Quartier Bè-Kpota, près du marché";
   static const String _demoServiceHours = "Lun - Sam : 08h00 - 18h00";
 
+  Future<void> _confirmLogout(BuildContext context, WidgetRef ref) async {
+    final l10n = context.l10n;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.authLogoutConfirmTitle),
+        content: Text(l10n.authLogoutConfirmMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l10n.commonCancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(
+              l10n.authLogoutButton,
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+    await ref.read(authProvider.notifier).signOut();
+    if (!context.mounted) return;
+    context.goAuthLogin();
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
@@ -36,7 +61,6 @@ class AgentProfilePage extends StatelessWidget {
       body: Column(
         spacing: AppSpacing.lg,
         children: [
-          // Carte de profil
           Card(
             margin: EdgeInsets.zero,
             shape: const RoundedRectangleBorder(
@@ -93,8 +117,6 @@ class AgentProfilePage extends StatelessWidget {
               ),
             ),
           ),
-
-          // Centre de dépôts
           Card(
             margin: EdgeInsets.zero,
             child: Padding(
@@ -147,12 +169,10 @@ class AgentProfilePage extends StatelessWidget {
               ),
             ),
           ),
-
           const ProfileSettingsSection(),
-
           AppSpacing.gapVLg,
           AppElevatedButton(
-            onPressed: () {},
+            onPressed: () => _confirmLogout(context, ref),
             text: l10n.authLogout,
             icon: const Icon(LucideIcons.logOut, size: AppSpacing.iconMd),
             backgroundColor: colorScheme.error,

@@ -3,6 +3,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/constants/app_assets.dart";
+import "../../../../core/errors/exception.dart";
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/extensions/navigation_extension.dart";
 import "../../../../core/theme/app_spacing.dart";
@@ -109,19 +110,24 @@ class _UsernameSetupPageState extends ConsumerState<UsernameSetupPage> {
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
-
     try {
-      final role = await ref.read(authProvider.notifier).signIn();
+      final role = await ref
+          .read(authProvider.notifier)
+          .saveUsername(_usernameController.text.trim());
       if (!mounted) return;
       if (role == AppRole.agent) {
         context.goAgentHome();
       } else {
         context.goHome();
       }
+    } on UsernameTakenException {
+      if (!mounted) return;
+      context.showSnackBar(context.l10n.authUsernameTaken);
     } catch (_) {
       if (!mounted) return;
-      setState(() => _isLoading = false);
       context.showSnackBar(context.l10n.commonError);
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 }

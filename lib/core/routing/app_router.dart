@@ -33,17 +33,29 @@ GoRouter appRouter(Ref ref) {
       final role = ref.read(authProvider);
       final loc = state.matchedLocation;
 
+      // Username pas encore choisi (après OAuth) → page de setup obligatoire
+      if (role == AppRole.pendingUsername) {
+        if (loc == AppRoutes.authUsernameSetup) return null;
+        return AppRoutes.authUsernameSetup;
+      }
+
       if (role == AppRole.agent) {
-        // Agent ne doit pas atterrir dans le shell user
+        // Agent ne doit pas atterrir dans le shell user ni sur les écrans auth
         if (loc == AppRoutes.home ||
             loc == AppRoutes.places ||
             loc == AppRoutes.history ||
-            loc == AppRoutes.profile) {
+            loc == AppRoutes.profile ||
+            loc == AppRoutes.authLogin ||
+            loc == AppRoutes.authSignup ||
+            loc == AppRoutes.root) {
           return AppRoutes.agentHome;
         }
       } else if (role == AppRole.user) {
-        // User ne doit pas atterrir dans le shell agent
-        if (loc.startsWith("/agent")) {
+        // User ne doit pas atterrir dans le shell agent ni sur les écrans auth
+        if (loc.startsWith("/agent") ||
+            loc == AppRoutes.authLogin ||
+            loc == AppRoutes.authSignup ||
+            loc == AppRoutes.root) {
           return AppRoutes.home;
         }
       }
