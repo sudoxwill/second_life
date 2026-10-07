@@ -58,6 +58,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonInfo => 'Info';
 
   @override
+  String commonDateTime(String date, String time) {
+    return '$date at $time';
+  }
+
+  @override
   String get authOrContinueWith => 'Or continue with';
 
   @override
@@ -424,4 +429,176 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileThemeSystem => 'System';
+
+  @override
+  String get historyTitle => 'Your activity history';
+
+  @override
+  String get historyAgentTitle => 'My validations';
+
+  @override
+  String get historyAgentEmpty => 'No validations here';
+
+  @override
+  String get historyFilterAll => 'All';
+
+  @override
+  String get historyFilterValidated => 'Approved';
+
+  @override
+  String get historyFilterRejected => 'Rejected';
+
+  @override
+  String get historyStatTotal => 'Total';
+
+  @override
+  String get historyTabWaiting => 'Pending';
+
+  @override
+  String get historyTabProcessed => 'Processed';
+
+  @override
+  String get historyTabGift => 'Rewards';
+
+  @override
+  String get historyStatusWaiting => 'Pending';
+
+  @override
+  String get historyStatusValidated => 'Approved';
+
+  @override
+  String get historyStatusRejected => 'Rejected';
+
+  @override
+  String get historyVoucherStatusActive => 'Active';
+
+  @override
+  String get historyVoucherStatusUsed => 'Used';
+
+  @override
+  String get historyVoucherStatusExpired => 'Expired';
+
+  @override
+  String get historyEmptyDepositTitle => 'No deposits yet';
+
+  @override
+  String get historyEmptyGiftTitle => 'Coming soon';
+
+  @override
+  String get historyEmptyGiftMessage =>
+      'Exchanging points for rewards is coming very soon.';
+
+  @override
+  String get historyInfoTitle => 'Information';
+
+  @override
+  String get historyQrHint => 'Show this code to the relay point agent';
+
+  @override
+  String historyPointsPending(int amount) {
+    return '+$amount pts pending';
+  }
+
+  @override
+  String historyPointsCertified(int amount) {
+    return '+$amount pts certified';
+  }
+
+  @override
+  String historyPointsCredited(int amount) {
+    return '+$amount pts credited';
+  }
+
+  @override
+  String historyPointsSpent(int amount) {
+    return '$amount pts spent';
+  }
+
+  @override
+  String historyWeightReal(double weight) {
+    return 'Actual weight: $weight kg';
+  }
+
+  @override
+  String historyWeightEstimated(double weight) {
+    return 'Estimated weight: ~$weight kg';
+  }
+
+  @override
+  String historyWeightApprox(double weight) {
+    return '~$weight kg';
+  }
+
+  @override
+  String historyWeightComparison(double estimated, double real) {
+    return 'Estimated $estimated kg → Actual $real kg';
+  }
+
+  @override
+  String historyPendingCredit(int points) {
+    return '$points pts will be credited after validation';
+  }
+
+  @override
+  String historyVoucherRef(String code) {
+    return 'Ref. $code';
+  }
+
+  @override
+  String historyVoucherCode(String code) {
+    return 'Code: $code';
+  }
+
+  @override
+  String historyVoucherExpiry(String date) {
+    return 'Expires on $date';
+  }
+
+  @override
+  String historyVoucherExpiryPast(String date) {
+    return 'Expired on $date';
+  }
+
+  @override
+  String historyVoucherUsedDate(String date) {
+    return 'Used on $date';
+  }
+
+  @override
+  String historyVoucherFrom(String date) {
+    return 'From $date';
+  }
+
+  @override
+  String historyVoucherUntil(String date) {
+    return 'Exp. $date';
+  }
+
+  @override
+  String get historyVoucherConditionsTitle => 'Terms and conditions';
+
+  @override
+  String get historyVoucherConditionsBody =>
+      'This voucher is valid once with the partner shown. Show the QR code at the checkout. Cannot be combined with other offers.';
+
+  @override
+  String get historyVoucherNoCash => 'No cash redemption possible';
+
+  @override
+  String get materialPlastic => 'Plastic';
+
+  @override
+  String get materialPaper => 'Paper / Cardboard';
+
+  @override
+  String get materialMetal => 'Metal';
+
+  @override
+  String get materialGlass => 'Glass';
+
+  @override
+  String get materialEwaste => 'Electronic waste';
+
+  @override
+  String get materialOrganic => 'Organic';
 }

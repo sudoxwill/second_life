@@ -54,6 +54,15 @@
   "commonInfo": "Info",
   "@commonInfo": { "description": "Generic title for an information or reminder card" },
 
+  "commonDateTime": "{date} at {time}",
+  "@commonDateTime": {
+    "description": "Combines an already formatted date and time (e.g. history card)",
+    "placeholders": {
+      "date": { "type": "String", "example": "Sept 10, 2026" },
+      "time": { "type": "String", "example": "2:32 PM" }
+    }
+  },
+
   "authOrContinueWith": "Or continue with",
   "@authOrContinueWith": { "description": "Divider label between email/password form and multiple OAuth providers (Google/GitHub/Apple)" },
 
@@ -500,5 +509,230 @@
   "@profileThemeDark": { "description": "Dark theme option in the theme picker" },
 
   "profileThemeSystem": "System",
-  "@profileThemeSystem": { "description": "Follow-system theme option in the theme picker" }
+  "@profileThemeSystem": { "description": "Follow-system theme option in the theme picker" },
+
+  "@__sectionHistory": {
+    "description": "━━━━ HISTORY — Deposit and reward history ━━━━"
+  },
+  "historyTitle": "Your activity history",
+  "@historyTitle": { "description": "Title of the history screen app bar" },
+
+  "historyAgentTitle": "My validations",
+  "@historyAgentTitle": { "description": "Title of the agent history screen app bar" },
+
+  "historyAgentEmpty": "No validations here",
+  "@historyAgentEmpty": { "description": "Empty state of the agent validations list" },
+
+  "historyFilterAll": "All",
+  "@historyFilterAll": { "description": "First agent history filter: show every deposit" },
+
+  "historyFilterValidated": "Approved",
+  "@historyFilterValidated": { "description": "Agent history filter: show approved deposits" },
+
+  "historyFilterRejected": "Rejected",
+  "@historyFilterRejected": { "description": "Agent history filter: show rejected deposits" },
+
+  "historyStatTotal": "Total",
+  "@historyStatTotal": { "description": "Label of the total counter in the agent stats summary" },
+
+  "historyTabWaiting": "Pending",
+  "@historyTabWaiting": { "description": "First history tab: deposits awaiting validation" },
+
+  "historyTabProcessed": "Processed",
+  "@historyTabProcessed": { "description": "Second history tab: deposits already processed by an agent" },
+
+  "historyTabGift": "Rewards",
+  "@historyTabGift": { "description": "Third history tab: vouchers and rewards obtained" },
+
+  "historyStatusWaiting": "Pending",
+  "@historyStatusWaiting": { "description": "Status badge of a deposit not validated yet" },
+
+  "historyStatusValidated": "Approved",
+  "@historyStatusValidated": { "description": "Status badge of a deposit validated by an agent" },
+
+  "historyStatusRejected": "Rejected",
+  "@historyStatusRejected": { "description": "Status badge of a deposit rejected by an agent" },
+
+  "historyVoucherStatusActive": "Active",
+  "@historyVoucherStatusActive": { "description": "Status badge of a voucher that can still be used" },
+
+  "historyVoucherStatusUsed": "Used",
+  "@historyVoucherStatusUsed": { "description": "Status badge of a voucher already used" },
+
+  "historyVoucherStatusExpired": "Expired",
+  "@historyVoucherStatusExpired": { "description": "Status badge of an expired voucher" },
+
+  "historyEmptyDepositTitle": "No deposits yet",
+  "@historyEmptyDepositTitle": { "description": "Title of the empty state on a deposits tab" },
+
+  "historyEmptyGiftTitle": "Coming soon",
+  "@historyEmptyGiftTitle": { "description": "Title of the empty state on the rewards tab" },
+
+  "historyEmptyGiftMessage": "Exchanging points for rewards is coming very soon.",
+  "@historyEmptyGiftMessage": { "description": "Supporting message of the empty state on the rewards tab" },
+
+  "historyInfoTitle": "Information",
+  "@historyInfoTitle": { "description": "Title of the details block on a deposit detail sheet" },
+
+  "historyQrHint": "Show this code to the relay point agent",
+  "@historyQrHint": { "description": "Instruction under the QR code of a pending deposit" },
+
+  "historyPointsPending": "+{amount} pts pending",
+  "@historyPointsPending": {
+    "description": "Chip for points earned but not validated yet on a deposit card",
+    "placeholders": {
+      "amount": { "type": "int", "example": "20" }
+    }
+  },
+
+  "historyPointsCertified": "+{amount} pts certified",
+  "@historyPointsCertified": {
+    "description": "Chip for points definitively earned on a validated deposit card",
+    "placeholders": {
+      "amount": { "type": "int", "example": "20" }
+    }
+  },
+
+  "historyPointsCredited": "+{amount} pts credited",
+  "@historyPointsCredited": {
+    "description": "Subtitle showing points already credited on a validated deposit sheet",
+    "placeholders": {
+      "amount": { "type": "int", "example": "20" }
+    }
+  },
+
+  "historyPointsSpent": "{amount} pts spent",
+  "@historyPointsSpent": {
+    "description": "Number of points spent to obtain a voucher",
+    "placeholders": {
+      "amount": { "type": "int", "example": "2000" }
+    }
+  },
+
+  "historyWeightReal": "Actual weight: {weight} kg",
+  "@historyWeightReal": {
+    "description": "Weight measured by the agent on a deposit card or sheet",
+    "placeholders": {
+      "weight": { "type": "double", "example": "2.0" }
+    }
+  },
+
+  "historyWeightEstimated": "Estimated weight: ~{weight} kg",
+  "@historyWeightEstimated": {
+    "description": "Weight before the real weighing on a deposit card or sheet",
+    "placeholders": {
+      "weight": { "type": "double", "example": "0.5" }
+    }
+  },
+
+  "historyWeightApprox": "~{weight} kg",
+  "@historyWeightApprox": {
+    "description": "Estimated weight shown in a deposit detail chip",
+    "placeholders": {
+      "weight": { "type": "double", "example": "0.5" }
+    }
+  },
+
+  "historyWeightComparison": "Estimated {estimated} kg → Actual {real} kg",
+  "@historyWeightComparison": {
+    "description": "Comparison of estimated and actual weight when they differ",
+    "placeholders": {
+      "estimated": { "type": "double", "example": "0.5" },
+      "real": { "type": "double", "example": "2.0" }
+    }
+  },
+
+  "historyPendingCredit": "{points} pts will be credited after validation",
+  "@historyPendingCredit": {
+    "description": "Warning panel reminding which points will be credited after validation",
+    "placeholders": {
+      "points": { "type": "int", "example": "20" }
+    }
+  },
+
+  "historyVoucherRef": "Ref. {code}",
+  "@historyVoucherRef": {
+    "description": "Reference of a voucher code shown under its QR code",
+    "placeholders": {
+      "code": { "type": "String", "example": "GIFT-3X7K" }
+    }
+  },
+
+  "historyVoucherCode": "Code: {code}",
+  "@historyVoucherCode": {
+    "description": "Voucher code shown in clear on its card",
+    "placeholders": {
+      "code": { "type": "String", "example": "GIFT-3X7K" }
+    }
+  },
+
+  "historyVoucherExpiry": "Expires on {date}",
+  "@historyVoucherExpiry": {
+    "description": "Expiry date of an active voucher",
+    "placeholders": {
+      "date": { "type": "String", "example": "Oct 10, 2026" }
+    }
+  },
+
+  "historyVoucherExpiryPast": "Expired on {date}",
+  "@historyVoucherExpiryPast": {
+    "description": "Expiry date of an already expired voucher, shown on its crossed-out QR code",
+    "placeholders": {
+      "date": { "type": "String", "example": "Oct 10, 2026" }
+    }
+  },
+
+  "historyVoucherUsedDate": "Used on {date}",
+  "@historyVoucherUsedDate": {
+    "description": "Usage date of an already used voucher, shown on its crossed-out QR code",
+    "placeholders": {
+      "date": { "type": "String", "example": "Sept 10, 2026" }
+    }
+  },
+
+  "historyVoucherFrom": "From {date}",
+  "@historyVoucherFrom": {
+    "description": "Obtaining date of a voucher in compact form on its card",
+    "placeholders": {
+      "date": { "type": "String", "example": "Sept 10, 2026" }
+    }
+  },
+
+  "historyVoucherUntil": "Exp. {date}",
+  "@historyVoucherUntil": {
+    "description": "Expiry date in compact form on a voucher card",
+    "placeholders": {
+      "date": { "type": "String", "example": "Oct 10, 2026" }
+    }
+  },
+
+  "historyVoucherConditionsTitle": "Terms and conditions",
+  "@historyVoucherConditionsTitle": { "description": "Title of the voucher terms block" },
+
+  "historyVoucherConditionsBody": "This voucher is valid once with the partner shown. Show the QR code at the checkout. Cannot be combined with other offers.",
+  "@historyVoucherConditionsBody": { "description": "Detailed terms of use of a voucher" },
+
+  "historyVoucherNoCash": "No cash redemption possible",
+  "@historyVoucherNoCash": { "description": "Warning: a voucher cannot be exchanged for cash" },
+
+  "@__sectionMaterial": {
+    "description": "━━━━ MATERIAL — Labels of the recyclable material types ━━━━"
+  },
+  "materialPlastic": "Plastic",
+  "@materialPlastic": { "description": "Label of the plastic material" },
+
+  "materialPaper": "Paper / Cardboard",
+  "@materialPaper": { "description": "Label of the paper and cardboard material" },
+
+  "materialMetal": "Metal",
+  "@materialMetal": { "description": "Label of the metal material" },
+
+  "materialGlass": "Glass",
+  "@materialGlass": { "description": "Label of the glass material" },
+
+  "materialEwaste": "Electronic waste",
+  "@materialEwaste": { "description": "Label of the electronic waste material" },
+
+  "materialOrganic": "Organic",
+  "@materialOrganic": { "description": "Label of the organic waste material" }
 }

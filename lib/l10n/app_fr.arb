@@ -66,6 +66,15 @@
   "commonInfo": "Info",
   "@commonInfo": { "description": "Titre générique d'une carte d'information ou de rappel" },
 
+  "commonDateTime": "{date} à {time}",
+  "@commonDateTime": {
+    "description": "Assemblage d'une date et d'une heure déjà formatées (ex: carte d'historique)",
+    "placeholders": {
+      "date": { "type": "String", "example": "10 sept. 2026" },
+      "time": { "type": "String", "example": "14:32" }
+    }
+  },
+
   "authOrContinueWith": "Ou continuer avec",
   "@authOrContinueWith": { "description": "Séparateur DIVIDER entre formulaire email/password et boutons OAuth multiples (Google/GitHub/Apple)" },
 
@@ -512,5 +521,230 @@
   "@profileThemeDark": { "description": "Option de thème sombre dans le sélecteur de thème" },
 
   "profileThemeSystem": "Système",
-  "@profileThemeSystem": { "description": "Option de thème suivant le système dans le sélecteur de thème" }
+  "@profileThemeSystem": { "description": "Option de thème suivant le système dans le sélecteur de thème" },
+
+  "@__sectionHistory": {
+    "description": "━━━━ HISTORY — Historique des dépôts et récompenses ━━━━"
+  },
+  "historyTitle": "Historique de vos activités",
+  "@historyTitle": { "description": "Titre de la barre d'application de l'écran d'historique" },
+
+  "historyAgentTitle": "Mes validations",
+  "@historyAgentTitle": { "description": "Titre de la barre d'application de l'historique de l'agent" },
+
+  "historyAgentEmpty": "Aucune validation ici",
+  "@historyAgentEmpty": { "description": "État vide de la liste des validations de l'agent" },
+
+  "historyFilterAll": "Tous",
+  "@historyFilterAll": { "description": "Premier filtre de l'historique agent : afficher tous les dépôts" },
+
+  "historyFilterValidated": "Validés",
+  "@historyFilterValidated": { "description": "Filtre de l'historique agent : afficher les dépôts validés" },
+
+  "historyFilterRejected": "Refusés",
+  "@historyFilterRejected": { "description": "Filtre de l'historique agent : afficher les dépôts refusés" },
+
+  "historyStatTotal": "Total",
+  "@historyStatTotal": { "description": "Libellé du compteur total du résumé statistique de l'agent" },
+
+  "historyTabWaiting": "En attente",
+  "@historyTabWaiting": { "description": "Premier onglet de l'historique : dépôts en attente de validation" },
+
+  "historyTabProcessed": "Traités",
+  "@historyTabProcessed": { "description": "Deuxième onglet de l'historique : dépôts déjà traités par un agent" },
+
+  "historyTabGift": "Récompenses",
+  "@historyTabGift": { "description": "Troisième onglet de l'historique : bons et récompenses obtenus" },
+
+  "historyStatusWaiting": "En attente",
+  "@historyStatusWaiting": { "description": "Badge d'état d'un dépôt encore non validé" },
+
+  "historyStatusValidated": "Validé",
+  "@historyStatusValidated": { "description": "Badge d'état d'un dépôt validé par un agent" },
+
+  "historyStatusRejected": "Refusé",
+  "@historyStatusRejected": { "description": "Badge d'état d'un dépôt refusé par un agent" },
+
+  "historyVoucherStatusActive": "Actif",
+  "@historyVoucherStatusActive": { "description": "Badge d'état d'un bon encore utilisable" },
+
+  "historyVoucherStatusUsed": "Utilisé",
+  "@historyVoucherStatusUsed": { "description": "Badge d'état d'un bon déjà utilisé" },
+
+  "historyVoucherStatusExpired": "Expiré",
+  "@historyVoucherStatusExpired": { "description": "Badge d'état d'un bon expiré" },
+
+  "historyEmptyDepositTitle": "Aucun dépôt pour le moment",
+  "@historyEmptyDepositTitle": { "description": "Titre de l'état vide d'un onglet de dépôts" },
+
+  "historyEmptyGiftTitle": "Bientôt disponible",
+  "@historyEmptyGiftTitle": { "description": "Titre de l'état vide de l'onglet récompenses" },
+
+  "historyEmptyGiftMessage": "L'échange de points contre des récompenses arrive très bientôt.",
+  "@historyEmptyGiftMessage": { "description": "Message d'accompagnement de l'état vide de l'onglet récompenses" },
+
+  "historyInfoTitle": "Informations",
+  "@historyInfoTitle": { "description": "Titre du bloc d'informations d'une fiche de dépôt détaillée" },
+
+  "historyQrHint": "Présentez ce code à l'agent du point relais",
+  "@historyQrHint": { "description": "Consigne sous le QR code d'un dépôt en attente" },
+
+  "historyPointsPending": "+{amount} pts en attente",
+  "@historyPointsPending": {
+    "description": "Chip de points gagnés mais pas encore validés sur une carte de dépôt",
+    "placeholders": {
+      "amount": { "type": "int", "example": "20" }
+    }
+  },
+
+  "historyPointsCertified": "+{amount} pts certifiés",
+  "@historyPointsCertified": {
+    "description": "Chip de points définitivement acquis sur une carte de dépôt validé",
+    "placeholders": {
+      "amount": { "type": "int", "example": "20" }
+    }
+  },
+
+  "historyPointsCredited": "+{amount} pts crédités",
+  "@historyPointsCredited": {
+    "description": "Sous-titre indiquant les points déjà versés sur une fiche de dépôt validé",
+    "placeholders": {
+      "amount": { "type": "int", "example": "20" }
+    }
+  },
+
+  "historyPointsSpent": "{amount} pts dépensés",
+  "@historyPointsSpent": {
+    "description": "Nombre de points utilisés pour obtenir un bon",
+    "placeholders": {
+      "amount": { "type": "int", "example": "2000" }
+    }
+  },
+
+  "historyWeightReal": "Poids réel : {weight} kg",
+  "@historyWeightReal": {
+    "description": "Poids constaté par l'agent sur une carte ou une fiche de dépôt",
+    "placeholders": {
+      "weight": { "type": "double", "example": "2.0" }
+    }
+  },
+
+  "historyWeightEstimated": "Poids estimé : ~{weight} kg",
+  "@historyWeightEstimated": {
+    "description": "Poids avant pesée réelle sur une carte ou une fiche de dépôt",
+    "placeholders": {
+      "weight": { "type": "double", "example": "0.5" }
+    }
+  },
+
+  "historyWeightApprox": "~{weight} kg",
+  "@historyWeightApprox": {
+    "description": "Poids estimé affiché dans une puce de détail de dépôt",
+    "placeholders": {
+      "weight": { "type": "double", "example": "0.5" }
+    }
+  },
+
+  "historyWeightComparison": "Estimé {estimated} kg → Réel {real} kg",
+  "@historyWeightComparison": {
+    "description": "Comparaison du poids estimé et du poids réel quand ils diffèrent",
+    "placeholders": {
+      "estimated": { "type": "double", "example": "0.5" },
+      "real": { "type": "double", "example": "2.0" }
+    }
+  },
+
+  "historyPendingCredit": "{points} pts seront crédités après validation",
+  "@historyPendingCredit": {
+    "description": "Encart d'attente rappelant les points qui seront versés après validation",
+    "placeholders": {
+      "points": { "type": "int", "example": "20" }
+    }
+  },
+
+  "historyVoucherRef": "Réf. {code}",
+  "@historyVoucherRef": {
+    "description": "Référence du code d'un bon sous son QR code",
+    "placeholders": {
+      "code": { "type": "String", "example": "GIFT-3X7K" }
+    }
+  },
+
+  "historyVoucherCode": "Code : {code}",
+  "@historyVoucherCode": {
+    "description": "Code d'un bon affiché en clair sur sa carte",
+    "placeholders": {
+      "code": { "type": "String", "example": "GIFT-3X7K" }
+    }
+  },
+
+  "historyVoucherExpiry": "Expire le {date}",
+  "@historyVoucherExpiry": {
+    "description": "Date d'expiration d'un bon actif",
+    "placeholders": {
+      "date": { "type": "String", "example": "10 oct. 2026" }
+    }
+  },
+
+  "historyVoucherExpiryPast": "Expiré le {date}",
+  "@historyVoucherExpiryPast": {
+    "description": "Date d'expiration d'un bon déjà expiré, affichée sur le QR code barré",
+    "placeholders": {
+      "date": { "type": "String", "example": "10 oct. 2026" }
+    }
+  },
+
+  "historyVoucherUsedDate": "Utilisé le {date}",
+  "@historyVoucherUsedDate": {
+    "description": "Date d'utilisation d'un bon déjà utilisé, affichée sur le QR code barré",
+    "placeholders": {
+      "date": { "type": "String", "example": "10 sept. 2026" }
+    }
+  },
+
+  "historyVoucherFrom": "Du {date}",
+  "@historyVoucherFrom": {
+    "description": "Date d'obtention d'un bon en format compact sur sa carte",
+    "placeholders": {
+      "date": { "type": "String", "example": "10 sept. 2026" }
+    }
+  },
+
+  "historyVoucherUntil": "Exp. {date}",
+  "@historyVoucherUntil": {
+    "description": "Date d'expiration en format compact sur la carte d'un bon",
+    "placeholders": {
+      "date": { "type": "String", "example": "10 oct. 2026" }
+    }
+  },
+
+  "historyVoucherConditionsTitle": "Conditions d'utilisation",
+  "@historyVoucherConditionsTitle": { "description": "Titre du bloc des conditions d'un bon" },
+
+  "historyVoucherConditionsBody": "Ce bon est valable une seule fois auprès du partenaire indiqué. Présentez le QR code à la caisse. Non cumulable avec d'autres offres.",
+  "@historyVoucherConditionsBody": { "description": "Conditions d'utilisation détaillées d'un bon" },
+
+  "historyVoucherNoCash": "Aucun retrait en espèces possible",
+  "@historyVoucherNoCash": { "description": "Avertissement : un bon ne peut pas être échangé contre du cash" },
+
+  "@__sectionMaterial": {
+    "description": "━━━━ MATERIAL — Libellés des types de matériaux recyclables ━━━━"
+  },
+  "materialPlastic": "Plastique",
+  "@materialPlastic": { "description": "Libellé du matériau plastique" },
+
+  "materialPaper": "Papier / Carton",
+  "@materialPaper": { "description": "Libellé du matériau papier et carton" },
+
+  "materialMetal": "Métal",
+  "@materialMetal": { "description": "Libellé du matériau métal" },
+
+  "materialGlass": "Verre",
+  "@materialGlass": { "description": "Libellé du matériau verre" },
+
+  "materialEwaste": "Déchets électroniques",
+  "@materialEwaste": { "description": "Libellé du matériau déchets électroniques" },
+
+  "materialOrganic": "Organique",
+  "@materialOrganic": { "description": "Libellé du matériau déchets organiques" }
 }

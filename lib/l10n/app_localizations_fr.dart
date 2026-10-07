@@ -60,6 +60,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get commonInfo => 'Info';
 
   @override
+  String commonDateTime(String date, String time) {
+    return '$date à $time';
+  }
+
+  @override
   String get authOrContinueWith => 'Ou continuer avec';
 
   @override
@@ -430,4 +435,176 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get profileThemeSystem => 'Système';
+
+  @override
+  String get historyTitle => 'Historique de vos activités';
+
+  @override
+  String get historyAgentTitle => 'Mes validations';
+
+  @override
+  String get historyAgentEmpty => 'Aucune validation ici';
+
+  @override
+  String get historyFilterAll => 'Tous';
+
+  @override
+  String get historyFilterValidated => 'Validés';
+
+  @override
+  String get historyFilterRejected => 'Refusés';
+
+  @override
+  String get historyStatTotal => 'Total';
+
+  @override
+  String get historyTabWaiting => 'En attente';
+
+  @override
+  String get historyTabProcessed => 'Traités';
+
+  @override
+  String get historyTabGift => 'Récompenses';
+
+  @override
+  String get historyStatusWaiting => 'En attente';
+
+  @override
+  String get historyStatusValidated => 'Validé';
+
+  @override
+  String get historyStatusRejected => 'Refusé';
+
+  @override
+  String get historyVoucherStatusActive => 'Actif';
+
+  @override
+  String get historyVoucherStatusUsed => 'Utilisé';
+
+  @override
+  String get historyVoucherStatusExpired => 'Expiré';
+
+  @override
+  String get historyEmptyDepositTitle => 'Aucun dépôt pour le moment';
+
+  @override
+  String get historyEmptyGiftTitle => 'Bientôt disponible';
+
+  @override
+  String get historyEmptyGiftMessage =>
+      'L\'échange de points contre des récompenses arrive très bientôt.';
+
+  @override
+  String get historyInfoTitle => 'Informations';
+
+  @override
+  String get historyQrHint => 'Présentez ce code à l\'agent du point relais';
+
+  @override
+  String historyPointsPending(int amount) {
+    return '+$amount pts en attente';
+  }
+
+  @override
+  String historyPointsCertified(int amount) {
+    return '+$amount pts certifiés';
+  }
+
+  @override
+  String historyPointsCredited(int amount) {
+    return '+$amount pts crédités';
+  }
+
+  @override
+  String historyPointsSpent(int amount) {
+    return '$amount pts dépensés';
+  }
+
+  @override
+  String historyWeightReal(double weight) {
+    return 'Poids réel : $weight kg';
+  }
+
+  @override
+  String historyWeightEstimated(double weight) {
+    return 'Poids estimé : ~$weight kg';
+  }
+
+  @override
+  String historyWeightApprox(double weight) {
+    return '~$weight kg';
+  }
+
+  @override
+  String historyWeightComparison(double estimated, double real) {
+    return 'Estimé $estimated kg → Réel $real kg';
+  }
+
+  @override
+  String historyPendingCredit(int points) {
+    return '$points pts seront crédités après validation';
+  }
+
+  @override
+  String historyVoucherRef(String code) {
+    return 'Réf. $code';
+  }
+
+  @override
+  String historyVoucherCode(String code) {
+    return 'Code : $code';
+  }
+
+  @override
+  String historyVoucherExpiry(String date) {
+    return 'Expire le $date';
+  }
+
+  @override
+  String historyVoucherExpiryPast(String date) {
+    return 'Expiré le $date';
+  }
+
+  @override
+  String historyVoucherUsedDate(String date) {
+    return 'Utilisé le $date';
+  }
+
+  @override
+  String historyVoucherFrom(String date) {
+    return 'Du $date';
+  }
+
+  @override
+  String historyVoucherUntil(String date) {
+    return 'Exp. $date';
+  }
+
+  @override
+  String get historyVoucherConditionsTitle => 'Conditions d\'utilisation';
+
+  @override
+  String get historyVoucherConditionsBody =>
+      'Ce bon est valable une seule fois auprès du partenaire indiqué. Présentez le QR code à la caisse. Non cumulable avec d\'autres offres.';
+
+  @override
+  String get historyVoucherNoCash => 'Aucun retrait en espèces possible';
+
+  @override
+  String get materialPlastic => 'Plastique';
+
+  @override
+  String get materialPaper => 'Papier / Carton';
+
+  @override
+  String get materialMetal => 'Métal';
+
+  @override
+  String get materialGlass => 'Verre';
+
+  @override
+  String get materialEwaste => 'Déchets électroniques';
+
+  @override
+  String get materialOrganic => 'Organique';
 }

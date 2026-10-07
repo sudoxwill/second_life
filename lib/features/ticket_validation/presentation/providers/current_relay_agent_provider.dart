@@ -1,6 +1,6 @@
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../../../../core/usecases/usecase.dart";
+import "../../../../shared/domain/usecases/usecase.dart";
 import "../../../waste_analysis/domain/entities/relay_agent.dart";
 import "ticket_validation_providers.dart";
 

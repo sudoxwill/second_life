@@ -2,7 +2,7 @@ import "dart:async";
 
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../../../../core/usecases/usecase.dart";
+import "../../../../shared/domain/usecases/usecase.dart";
 import "../../domain/entities/citizen_stats.dart";
 import "../../domain/entities/recycling_ticket.dart";
 import "waste_analysis_providers.dart";
