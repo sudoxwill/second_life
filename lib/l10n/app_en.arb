@@ -899,5 +899,171 @@
   "@scanCameraUnavailable": { "description": "Placeholder text when camera permission is denied" },
 
   "scanCameraOpening": "Opening camera…",
-  "@scanCameraOpening": { "description": "Placeholder text during camera initialization" }
+  "@scanCameraOpening": { "description": "Placeholder text during camera initialization" },
+
+  "@__sectionPlaces": {
+    "description": "━━━━ PLACES — Map and detail of recycling points ━━━━"
+  },
+  "placesCategoryRelay": "Drop-off points",
+  "@placesCategoryRelay": { "description": "Label for the first map tab (SecondLife relay points)" },
+
+  "placesCategoryRecycling": "Recycling centres",
+  "@placesCategoryRecycling": { "description": "Label for the second map tab (informational recycling sites)" },
+
+  "placesNearbyCount": "Nearby points ({count})",
+  "@placesNearbyCount": {
+    "description": "Title of the nearby points list in the bottom sheet, with count",
+    "placeholders": {
+      "count": { "type": "int", "example": "5" }
+    }
+  },
+
+  "placesPillRelay": "Relay weighing points",
+  "@placesPillRelay": { "description": "Pill showing the type of points in the bottom sheet: relay points" },
+
+  "placesPillRecycling": "Recycling centres",
+  "@placesPillRecycling": { "description": "Pill showing the type of points in the bottom sheet: recycling centres" },
+
+  "placesCollapse": "Collapse",
+  "@placesCollapse": { "description": "Button to collapse the bottom sheet" },
+
+  "placesSeeAll": "See all",
+  "@placesSeeAll": { "description": "Button to expand the bottom sheet fully" },
+
+  "placesEmptyTitle": "No points found",
+  "@placesEmptyTitle": { "description": "Title of the empty state for the points list" },
+
+  "placesEmptyRelay": "No relay point matches your search.",
+  "@placesEmptyRelay": { "description": "Empty state message when the active category is Relay points" },
+
+  "placesEmptyRecycling": "No recycling site matches your search.",
+  "@placesEmptyRecycling": { "description": "Empty state message when the active category is Recycling" },
+
+  "placesLocateTooltip": "My location",
+  "@placesLocateTooltip": { "description": "Tooltip for the locate button on the map" },
+
+  "placesLocateError": "Enable location to see nearby points.",
+  "@placesLocateError": { "description": "Snackbar error shown when location is denied" },
+
+  "placesLegendRelay": "Relay points (drop-off & weighing)",
+  "@placesLegendRelay": { "description": "Legend for the green colour on the map (relay points)" },
+
+  "placesLegendRecycling": "Recycling (information)",
+  "@placesLegendRecycling": { "description": "Legend for the blue colour on the map (recycling sites)" },
+
+  "placesSearchHintDefault": "Search a city, district or point",
+  "@placesSearchHintDefault": { "description": "Default placeholder for the map search field" },
+
+  "placesSearchHintCity": "Search a point in {city}",
+  "@placesSearchHintCity": {
+    "description": "Search field placeholder when the user is near a city with no known nearby districts",
+    "placeholders": {
+      "city": { "type": "String", "example": "Lomé" }
+    }
+  },
+
+  "placesSearchHintCityDistricts": "Search a point in {city} ({districts}…)",
+  "@placesSearchHintCityDistricts": {
+    "description": "Search field placeholder with city and districts",
+    "placeholders": {
+      "city": { "type": "String", "example": "Lomé" },
+      "districts": { "type": "String", "example": "Bè, Tokoin" }
+    }
+  },
+
+  "placesSearchHintCities": "Search a city or district ({cities}…)",
+  "@placesSearchHintCities": {
+    "description": "Search field placeholder showing the most represented cities",
+    "placeholders": {
+      "cities": { "type": "String", "example": "Lomé, Cotonou, Accra" }
+    }
+  },
+
+  "placesOpen": "Open",
+  "@placesOpen": { "description": "Point open status" },
+
+  "placesClosed": "Closed",
+  "@placesClosed": { "description": "Point closed status" },
+
+  "placesDetails": "Details",
+  "@placesDetails": { "description": "Button on a point card to view the detail" },
+
+  "placesAgentPresent": "Agent present today",
+  "@placesAgentPresent": { "description": "Short info on a point card: agent is present" },
+
+  "placesRoute": "Directions",
+  "@placesRoute": { "description": "Short button on a point card to start directions" },
+
+  "placesClosesAt": "Closes at {time}",
+  "@placesClosesAt": {
+    "description": "Open point: closing time",
+    "placeholders": { "time": { "type": "String" } }
+  },
+
+  "placesOpensAt": "Opens at {time}",
+  "@placesOpensAt": {
+    "description": "Closed point: reopens later today",
+    "placeholders": { "time": { "type": "String" } }
+  },
+
+  "placesOpensDayAt": "Opens {day} at {time}",
+  "@placesOpensDayAt": {
+    "description": "Closed point: next opening on another day",
+    "placeholders": { "day": { "type": "String" }, "time": { "type": "String" } }
+  },
+
+  "placeDetailNotFound": "Point not found",
+  "@placeDetailNotFound": { "description": "Title of the empty state when a place detail page has no match" },
+
+  "placeDetailNotFoundMessage": "This point no longer exists or is no longer active.",
+  "@placeDetailNotFoundMessage": { "description": "Empty state message when the point is not found" },
+
+  "placeDetailRoute": "Open in Maps (Directions)",
+  "@placeDetailRoute": { "description": "Primary button on the place detail page to open Google Maps directions" },
+
+  "placeDetailAgentPresent": "Agent present today (immediate certified weighing)",
+  "@placeDetailAgentPresent": { "description": "Green banner shown on the detail page when an agent is present today" },
+
+  "placeDetailMaterialsTitle": "Accepted waste types",
+  "@placeDetailMaterialsTitle": { "description": "Title of the accepted materials card on the place detail page" },
+
+  "placeDetailHoursTitle": "Opening hours",
+  "@placeDetailHoursTitle": { "description": "Title of the opening hours card on the place detail page" },
+
+  "placeDetailLaunchError": "Unable to open this application.",
+  "@placeDetailLaunchError": { "description": "Error message when the Maps URL cannot be launched" },
+
+  "@__sectionDeposit": {
+    "description": "━━━━ DEPOSIT — Pending deposits page (agent space) ━━━━"
+  },
+
+  "depositRelayPoint": "Relay point: {name}",
+  "@depositRelayPoint": {
+    "description": "Subtitle on the deposits page showing the agent's relay point name",
+    "placeholders": {
+      "name": { "type": "String", "example": "EcoCentre de Bè" }
+    }
+  },
+
+  "depositPendingCount": "{count} pending",
+  "@depositPendingCount": {
+    "description": "Badge showing the number of pending deposits",
+    "placeholders": {
+      "count": { "type": "int", "example": "3" }
+    }
+  },
+
+  "depositRefreshHint": "Pull down to refresh.",
+  "@depositRefreshHint": { "description": "Empty state message for deposits, prompting to refresh" },
+
+  "depositAiWeight": "AI weight: ~{weight} kg",
+  "@depositAiWeight": {
+    "description": "AI-estimated weight shown on a pending deposit card",
+    "placeholders": {
+      "weight": { "type": "String", "example": "0.5" }
+    }
+  },
+
+  "depositWeighButton": "Proceed to weighing",
+  "@depositWeighButton": { "description": "Primary button on a pending deposit card to start the weighing process" }
 }

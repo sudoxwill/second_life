@@ -911,5 +911,171 @@
   "@scanCameraUnavailable": { "description": "Texte du placeholder quand la caméra est refusée" },
 
   "scanCameraOpening": "Ouverture de la caméra…",
-  "@scanCameraOpening": { "description": "Texte du placeholder pendant l'initialisation de la caméra" }
+  "@scanCameraOpening": { "description": "Texte du placeholder pendant l'initialisation de la caméra" },
+
+  "@__sectionPlaces": {
+    "description": "━━━━ PLACES — Carte et détail des points de recyclage ━━━━"
+  },
+  "placesCategoryRelay": "Points de dépôt",
+  "@placesCategoryRelay": { "description": "Libellé du premier onglet de la carte (points relais SecondLife)" },
+
+  "placesCategoryRecycling": "Points de recyclage",
+  "@placesCategoryRecycling": { "description": "Libellé du second onglet de la carte (lieux de recyclage informatifs)" },
+
+  "placesNearbyCount": "Points proches ({count})",
+  "@placesNearbyCount": {
+    "description": "Titre de la liste des points proches dans la feuille inférieure, avec le nombre",
+    "placeholders": {
+      "count": { "type": "int", "example": "5" }
+    }
+  },
+
+  "placesPillRelay": "Points relais pesée",
+  "@placesPillRelay": { "description": "Pastille du type de points dans la feuille inférieure : points relais" },
+
+  "placesPillRecycling": "Centres recyclage",
+  "@placesPillRecycling": { "description": "Pastille du type de points dans la feuille inférieure : centres de recyclage" },
+
+  "placesCollapse": "Réduire",
+  "@placesCollapse": { "description": "Bouton pour replier la feuille inférieure" },
+
+  "placesSeeAll": "Voir tout",
+  "@placesSeeAll": { "description": "Bouton pour déplier la feuille inférieure au maximum" },
+
+  "placesEmptyTitle": "Aucun point trouvé",
+  "@placesEmptyTitle": { "description": "Titre de l'état vide de la liste des points" },
+
+  "placesEmptyRelay": "Aucun point relais ne correspond à votre recherche.",
+  "@placesEmptyRelay": { "description": "Message de l'état vide quand la catégorie active est Points relais" },
+
+  "placesEmptyRecycling": "Aucun lieu de recyclage ne correspond à votre recherche.",
+  "@placesEmptyRecycling": { "description": "Message de l'état vide quand la catégorie active est Recyclage" },
+
+  "placesLocateTooltip": "Ma position",
+  "@placesLocateTooltip": { "description": "Tooltip du bouton de localisation sur la carte" },
+
+  "placesLocateError": "Activez la localisation pour voir les points autour de vous.",
+  "@placesLocateError": { "description": "Message d'erreur affiché en snackbar quand la localisation est refusée" },
+
+  "placesLegendRelay": "Points relais (dépôt & pesée)",
+  "@placesLegendRelay": { "description": "Légende de la couleur verte sur la carte (points relais)" },
+
+  "placesLegendRecycling": "Recyclage (information)",
+  "@placesLegendRecycling": { "description": "Légende de la couleur bleue sur la carte (lieux de recyclage)" },
+
+  "placesSearchHintDefault": "Rechercher une ville, un quartier ou un point",
+  "@placesSearchHintDefault": { "description": "Placeholder par défaut du champ de recherche sur la carte" },
+
+  "placesSearchHintCity": "Rechercher un point à {city}",
+  "@placesSearchHintCity": {
+    "description": "Placeholder du champ de recherche quand l'usager est dans une ville sans quartiers proches connus",
+    "placeholders": {
+      "city": { "type": "String", "example": "Lomé" }
+    }
+  },
+
+  "placesSearchHintCityDistricts": "Rechercher un point à {city} ({districts}…)",
+  "@placesSearchHintCityDistricts": {
+    "description": "Placeholder du champ de recherche avec ville et quartiers",
+    "placeholders": {
+      "city": { "type": "String", "example": "Lomé" },
+      "districts": { "type": "String", "example": "Bè, Tokoin" }
+    }
+  },
+
+  "placesSearchHintCities": "Rechercher une ville ou un quartier ({cities}…)",
+  "@placesSearchHintCities": {
+    "description": "Placeholder du champ de recherche avec les villes les plus représentées",
+    "placeholders": {
+      "cities": { "type": "String", "example": "Lomé, Cotonou, Accra" }
+    }
+  },
+
+  "placesOpen": "Ouvert",
+  "@placesOpen": { "description": "Statut d'ouverture d'un point : ouvert" },
+
+  "placesClosed": "Fermé",
+  "@placesClosed": { "description": "Statut d'ouverture d'un point : fermé" },
+
+  "placesDetails": "Détails",
+  "@placesDetails": { "description": "Bouton de la carte d'un point pour voir le détail" },
+
+  "placesAgentPresent": "Agent présent aujourd'hui",
+  "@placesAgentPresent": { "description": "Info courte sur la carte d'un point : agent présent" },
+
+  "placesRoute": "Itinéraire",
+  "@placesRoute": { "description": "Bouton court de la carte d'un point pour lancer l'itinéraire" },
+
+  "placesClosesAt": "Ferme à {time}",
+  "@placesClosesAt": {
+    "description": "Point ouvert : heure de fermeture",
+    "placeholders": { "time": { "type": "String" } }
+  },
+
+  "placesOpensAt": "Ouvre à {time}",
+  "@placesOpensAt": {
+    "description": "Point fermé : réouverture plus tard aujourd'hui",
+    "placeholders": { "time": { "type": "String" } }
+  },
+
+  "placesOpensDayAt": "Ouvre {day} à {time}",
+  "@placesOpensDayAt": {
+    "description": "Point fermé : prochaine ouverture un autre jour",
+    "placeholders": { "day": { "type": "String" }, "time": { "type": "String" } }
+  },
+
+  "placeDetailNotFound": "Point introuvable",
+  "@placeDetailNotFound": { "description": "Titre de l'état vide de la page détail d'un point qui n'existe plus" },
+
+  "placeDetailNotFoundMessage": "Ce point n'existe plus ou n'est plus actif.",
+  "@placeDetailNotFoundMessage": { "description": "Message de l'état vide quand le point n'est pas trouvé" },
+
+  "placeDetailRoute": "Ouvrir dans Maps (Itinéraire)",
+  "@placeDetailRoute": { "description": "Bouton principal de la page détail pour ouvrir Google Maps avec l'itinéraire" },
+
+  "placeDetailAgentPresent": "Agent présent aujourd'hui (pesée certifiée immédiate)",
+  "@placeDetailAgentPresent": { "description": "Bandeau vert affiché sur la fiche détail si un agent est présent ce jour" },
+
+  "placeDetailMaterialsTitle": "Types de déchets acceptés",
+  "@placeDetailMaterialsTitle": { "description": "Titre de la card des matériaux acceptés dans la page détail" },
+
+  "placeDetailHoursTitle": "Horaires d'ouverture",
+  "@placeDetailHoursTitle": { "description": "Titre de la card des horaires d'ouverture dans la page détail" },
+
+  "placeDetailLaunchError": "Impossible d'ouvrir cette application.",
+  "@placeDetailLaunchError": { "description": "Message d'erreur quand l'URL Maps ne peut pas s'ouvrir" },
+
+  "@__sectionDeposit": {
+    "description": "━━━━ DEPOSIT — Page dépôts en attente (espace agent) ━━━━"
+  },
+
+  "depositRelayPoint": "Point relais : {name}",
+  "@depositRelayPoint": {
+    "description": "Sous-titre de la page dépôts indiquant le nom du point relais de l'agent",
+    "placeholders": {
+      "name": { "type": "String", "example": "EcoCentre de Bè" }
+    }
+  },
+
+  "depositPendingCount": "{count} en attente",
+  "@depositPendingCount": {
+    "description": "Badge indiquant le nombre de dépôts en attente",
+    "placeholders": {
+      "count": { "type": "int", "example": "3" }
+    }
+  },
+
+  "depositRefreshHint": "Tirez vers le bas pour actualiser.",
+  "@depositRefreshHint": { "description": "Message de l'état vide des dépôts, invitant à rafraîchir" },
+
+  "depositAiWeight": "Poids IA : ~{weight} kg",
+  "@depositAiWeight": {
+    "description": "Poids estimé par l'IA affiché sur la carte de dépôt en attente",
+    "placeholders": {
+      "weight": { "type": "String", "example": "0.5" }
+    }
+  },
+
+  "depositWeighButton": "Passer à la pesée",
+  "@depositWeighButton": { "description": "Bouton principal sur la carte de dépôt en attente pour lancer la pesée" }
 }
