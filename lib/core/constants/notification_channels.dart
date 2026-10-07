@@ -1,3 +1,7 @@
+import "dart:ui" show Locale, PlatformDispatcher;
+
+import "../../l10n/app_localizations.dart";
+
 class NotificationChannel {
   NotificationChannel._();
 
@@ -6,19 +10,26 @@ class NotificationChannel {
   static const String alertsId = "second_life_alerts";
   static const String processingId = "second_life_processing";
 
-  static const String generalName = "Notifications générales";
-  static const String remindersName = "Rappels";
-  static const String alertsName = "Alertes importantes";
-  static const String processingName = "Traitements";
+  // Les canaux sont créés avant runApp, hors de tout BuildContext : leurs
+  // noms suivent la langue de l'appareil (français par défaut).
+  static AppLocalizations get _l10n {
+    final locale = PlatformDispatcher.instance.locale;
+    return AppLocalizations.delegate.isSupported(locale)
+        ? lookupAppLocalizations(locale)
+        : lookupAppLocalizations(const Locale("fr"));
+  }
 
-  static const String generalDescription =
-      "Informations générales et mises à jour";
-  static const String remindersDescription =
-      "Rappels personnalisés et planifiés";
-  static const String alertsDescription =
-      "Alertes critiques nécessitant une attention immédiate";
-  static const String processingDescription =
-      "Fin des analyses différées (OCR, transcription)";
+  static String get generalName => _l10n.notifChannelGeneralName;
+  static String get remindersName => _l10n.notifChannelRemindersName;
+  static String get alertsName => _l10n.notifChannelAlertsName;
+  static String get processingName => _l10n.notifChannelProcessingName;
+
+  static String get generalDescription => _l10n.notifChannelGeneralDescription;
+  static String get remindersDescription =>
+      _l10n.notifChannelRemindersDescription;
+  static String get alertsDescription => _l10n.notifChannelAlertsDescription;
+  static String get processingDescription =>
+      _l10n.notifChannelProcessingDescription;
 }
 
 class NotificationId {

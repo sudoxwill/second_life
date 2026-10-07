@@ -215,6 +215,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authConfirmPasswordLabel => 'Confirm password';
 
   @override
+  String get authLoginSubtitle =>
+      'Welcome back! Sign in to keep track of your points.';
+
+  @override
+  String get authSignupSubtitle =>
+      'Create your account and turn your waste into rewards.';
+
+  @override
+  String get authPasswordStrengthWeak => 'Weak';
+
+  @override
+  String get authPasswordStrengthMedium => 'Fair';
+
+  @override
+  String get authPasswordStrengthStrong => 'Strong';
+
+  @override
   String get authForgotPassword => 'Forgot password?';
 
   @override
@@ -340,6 +357,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get homeGreetingHello => 'Hello 👋';
+
+  @override
   String get homeAgentRoleLabel => 'Agent';
 
   @override
@@ -404,9 +424,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String agentStockKgGoal(int amount) {
     return 'Goal: $amount kg';
   }
-
-  @override
-  String get agentStockSiteName => 'Bè EcoCentre';
 
   @override
   String get agentInfoMessage =>
@@ -527,11 +544,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get historyEmptyDepositTitle => 'No deposits yet';
 
   @override
-  String get historyEmptyGiftTitle => 'Coming soon';
+  String get historyEmptyGiftTitle => 'No vouchers yet';
 
   @override
   String get historyEmptyGiftMessage =>
-      'Exchanging points for rewards is coming very soon.';
+      'Exchange your points for vouchers at our partners.';
 
   @override
   String get historyInfoTitle => 'Information';
@@ -887,4 +904,545 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get depositWeighButton => 'Proceed to weighing';
+
+  @override
+  String get homeStatRecycledLabel => 'recycled';
+
+  @override
+  String get homeStatValidatedLabel => 'validated';
+
+  @override
+  String get homeStatPendingLabel => 'pending';
+
+  @override
+  String get homeQuickScanTitle => 'Analyze an item';
+
+  @override
+  String get homeQuickScanSubtitle =>
+      'Take a photo: the AI estimates its value in points.';
+
+  @override
+  String get homeQuickPlacesTitle => 'Find a drop-off point';
+
+  @override
+  String get homeQuickPlacesSubtitle => 'Drop off your waste near you.';
+
+  @override
+  String get homePendingDepositsEmptyHint =>
+      'Analyze an item, then drop it off at a relay point to earn points.';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsEmptyTitle => 'No notifications';
+
+  @override
+  String get notificationsEmptyMessage =>
+      'You\'ll be notified here as soon as a deposit is processed.';
+
+  @override
+  String get agentQuickScanTitle => 'Scan a deposit QR';
+
+  @override
+  String get agentQuickScanSubtitle =>
+      'Find a user\'s deposit and proceed to weighing.';
+
+  @override
+  String get agentPendingEmptyMessage => 'Users\' deposits will show up here.';
+
+  @override
+  String get agentHistoryTitle => 'Validation history';
+
+  @override
+  String agentHistorySubtitle(String name) {
+    return 'Deposits certified at: $name';
+  }
+
+  @override
+  String agentHistoryTabToday(int count) {
+    return 'Today ($count)';
+  }
+
+  @override
+  String agentHistoryTabAll(int count) {
+    return 'Processed ($count)';
+  }
+
+  @override
+  String get agentHistoryEmptyToday => 'No deposit processed today';
+
+  @override
+  String get agentHistoryEmptyAll => 'No deposit processed';
+
+  @override
+  String get agentHistoryEmptyMessage =>
+      'Scan a user\'s QR code to get started.';
+
+  @override
+  String get agentHistoryDepositor => 'Depositor: ';
+
+  @override
+  String get agentHistoryRealWeight => 'Actual weight: ';
+
+  @override
+  String commonUserLabel(String id) {
+    return 'User $id';
+  }
+
+  @override
+  String get commentOptional => 'Comment (optional)';
+
+  @override
+  String get errorUnauthenticated => 'Session expired. Restart the app.';
+
+  @override
+  String get errorNotRelayAgent => 'This account is not an active relay agent.';
+
+  @override
+  String get errorTicketNotFound => 'Deposit not found.';
+
+  @override
+  String get errorTicketAlreadyProcessed =>
+      'This deposit has already been processed.';
+
+  @override
+  String get errorTicketExpired => 'This deposit has expired (over 48 h).';
+
+  @override
+  String get errorInvalidTicketCode => 'This QR code is not a deposit.';
+
+  @override
+  String get errorInvalidWeight => 'Invalid weight (between 0 and 50 kg).';
+
+  @override
+  String get errorCommentRequired => 'A comment is required.';
+
+  @override
+  String get errorCommentTooLong => 'Comment too long (500 characters max).';
+
+  @override
+  String get errorUnexpected => 'An unexpected error occurred.';
+
+  @override
+  String get rejectionItemMismatch => 'Item differs from the analyzed one';
+
+  @override
+  String get rejectionNotRecyclable =>
+      'Material not accepted or not recyclable';
+
+  @override
+  String get rejectionItemMissing => 'Item missing at drop-off';
+
+  @override
+  String get rejectionOther => 'Other reason';
+
+  @override
+  String agentScanCameraUnavailable(String code) {
+    return 'Camera unavailable ($code).\nAllow camera access in the settings.';
+  }
+
+  @override
+  String get scanAgentHint =>
+      'Point the camera at the QR code shown on the depositor\'s screen';
+
+  @override
+  String get scanAgentChip => 'Scan depositor QR';
+
+  @override
+  String get scanTorch => 'Torch';
+
+  @override
+  String get scanLoadingDeposit => 'Loading deposit…';
+
+  @override
+  String get scanAnother => 'Scan another QR';
+
+  @override
+  String get scanDetected => 'QR SUCCESSFULLY DETECTED';
+
+  @override
+  String get scanOpenWeighing => 'Open the deposit & weigh';
+
+  @override
+  String depositTitle(String code) {
+    return 'Deposit $code';
+  }
+
+  @override
+  String get depositMaterial => 'Material';
+
+  @override
+  String get depositDepositor => 'Depositor';
+
+  @override
+  String get depositEstimatedWeight => 'Estimated weight: ';
+
+  @override
+  String depositEstimatedPoints(String points) {
+    return '~$points pts estimated';
+  }
+
+  @override
+  String get weighingTitle => 'Weighing validation';
+
+  @override
+  String get weighingEstimatedTitle => 'Estimated weight (AI)';
+
+  @override
+  String get weighingRealTitle => 'Actual weight (scale)';
+
+  @override
+  String weighingEstimatedCaption(String points) {
+    return '≈ $points pts estimated';
+  }
+
+  @override
+  String get weighingEnterWeight => 'Enter the weighed amount';
+
+  @override
+  String weighingCertifiedCaption(String points) {
+    return '= $points certified pts';
+  }
+
+  @override
+  String get weighingCommentRequired => 'Comment (required: large deviation)';
+
+  @override
+  String get weighingValidate => 'Validate deposit';
+
+  @override
+  String weighingValidateWithPoints(String points) {
+    return 'Validate deposit ($points pts)';
+  }
+
+  @override
+  String get weighingReject => 'Reject deposit';
+
+  @override
+  String weighingDepositId(String code) {
+    return 'Deposit ID: $code';
+  }
+
+  @override
+  String weighingAiConfidence(String percent) {
+    return 'AI $percent';
+  }
+
+  @override
+  String weighingDeviationOk(String diff, String limit) {
+    return 'Deviation: $diff kg (OK, ≤ $limit)';
+  }
+
+  @override
+  String weighingDeviationHigh(String diff, String limit) {
+    return 'Deviation: $diff kg (> $limit, needs justification)';
+  }
+
+  @override
+  String get resultCertifiedPill => 'WEIGHING CERTIFIED';
+
+  @override
+  String get resultRejectedPill => 'DEPOSIT REJECTED';
+
+  @override
+  String get resultValidatedTitle => 'Deposit validated!';
+
+  @override
+  String get resultRejectedTitle => 'Deposit rejected';
+
+  @override
+  String resultPointsCredited(String points, String user) {
+    return '$points pts credited to $user';
+  }
+
+  @override
+  String resultUserNotified(String user) {
+    return '$user has been notified of the reason.';
+  }
+
+  @override
+  String get resultBackToDashboard => 'Back to dashboard';
+
+  @override
+  String get rejectTitle => 'Reason for rejection';
+
+  @override
+  String get rejectSubtitle =>
+      'Select the reason: it will be shown to the user.';
+
+  @override
+  String get rejectCommentRequired => 'Specify the reason (required)';
+
+  @override
+  String get rejectConfirm => 'Confirm rejection';
+
+  @override
+  String get detailSheetTitle => 'Deposit details';
+
+  @override
+  String detailId(String code) {
+    return 'ID: $code';
+  }
+
+  @override
+  String get detailStatus => 'Status';
+
+  @override
+  String get detailRealWeight => 'Actual weight';
+
+  @override
+  String get detailCertifiedWeight => 'Certified actual weight';
+
+  @override
+  String get detailPointsAwarded => 'Points awarded';
+
+  @override
+  String get detailPointsEstimated => 'Estimated points';
+
+  @override
+  String get detailReason => 'Rejection reason';
+
+  @override
+  String get detailComment => 'Agent comment';
+
+  @override
+  String get detailRejectedBy => 'Rejected by';
+
+  @override
+  String get detailValidatedBy => 'Validated by';
+
+  @override
+  String get detailProcessedAt => 'Processed on';
+
+  @override
+  String get detailDepositedAt => 'Deposited on';
+
+  @override
+  String get detailQrTitle => 'QR code to show the agent';
+
+  @override
+  String detailQrHint(String date) {
+    return 'The agent will scan this code to load your weighing. Valid until $date.';
+  }
+
+  @override
+  String get placesKindRecyclingCenter => 'Recycling center';
+
+  @override
+  String get placesKindSortingCenter => 'Sorting center';
+
+  @override
+  String get placesKindDump => 'Dump';
+
+  @override
+  String get placesKindScrapDealer => 'Scrap dealer';
+
+  @override
+  String get placesTypeRelay => 'SecondLife relay point';
+
+  @override
+  String get placesTypeRecycling => 'Recycling site';
+
+  @override
+  String agentInfoRemaining(int amount) {
+    return '$amount kg left before the batch is collected.';
+  }
+
+  @override
+  String get authForgotSubtitle =>
+      'Enter your email: we\'ll send you a link to choose a new password.';
+
+  @override
+  String get authForgotButton => 'Send link';
+
+  @override
+  String get authForgotSent =>
+      'Email sent! Check your inbox (and spam folder).';
+
+  @override
+  String get authForgotError => 'Couldn\'t send the email. Try again.';
+
+  @override
+  String get authErrorInvalidEmail => 'Invalid email address.';
+
+  @override
+  String get profileNotificationsError =>
+      'Couldn\'t save the preference. Try again.';
+
+  @override
+  String get notifChannelGeneralName => 'General notifications';
+
+  @override
+  String get notifChannelGeneralDescription =>
+      'General information and updates';
+
+  @override
+  String get notifChannelRemindersName => 'Reminders';
+
+  @override
+  String get notifChannelRemindersDescription =>
+      'Custom and scheduled reminders';
+
+  @override
+  String get notifChannelAlertsName => 'Important alerts';
+
+  @override
+  String get notifChannelAlertsDescription =>
+      'Critical alerts requiring immediate attention';
+
+  @override
+  String get notifChannelProcessingName => 'Processing';
+
+  @override
+  String get notifChannelProcessingDescription => 'Waste analysis completion';
+
+  @override
+  String get rewardsTitle => 'Rewards';
+
+  @override
+  String get rewardsBalanceLabel => 'Available balance';
+
+  @override
+  String rewardsCost(int points) {
+    return '$points pts';
+  }
+
+  @override
+  String get rewardsRedeem => 'Redeem';
+
+  @override
+  String rewardsMissing(int points) {
+    return '$points pts to go';
+  }
+
+  @override
+  String get rewardsOutOfStock => 'Out of stock';
+
+  @override
+  String rewardsStockLeft(int count) {
+    return 'Only $count left';
+  }
+
+  @override
+  String rewardsValidity(int days) {
+    return 'Valid $days days after redeeming';
+  }
+
+  @override
+  String rewardsConfirmTitle(int points) {
+    return 'Redeem $points pts?';
+  }
+
+  @override
+  String rewardsConfirmMessage(String name, int balance) {
+    return 'You\'ll get \"$name\". You\'ll have $balance pts left.';
+  }
+
+  @override
+  String get rewardsSuccessTitle => 'Voucher unlocked!';
+
+  @override
+  String rewardsSuccessMessage(String partner) {
+    return 'Show this code at $partner.';
+  }
+
+  @override
+  String get rewardsSeeVouchers => 'See my vouchers';
+
+  @override
+  String get rewardsErrorInsufficient => 'Not enough points for this reward.';
+
+  @override
+  String get rewardsErrorOutOfStock => 'This reward is out of stock.';
+
+  @override
+  String get rewardsErrorGeneric => 'The exchange failed. Try again.';
+
+  @override
+  String get rewardsEmpty => 'No rewards available right now.';
+
+  @override
+  String homeNextReward(int points, String name) {
+    return '$points pts to \"$name\"';
+  }
+
+  @override
+  String get homeAllRewardsUnlocked => 'Every reward is within reach!';
+
+  @override
+  String get historyEmptyGiftCta => 'See rewards';
+
+  @override
+  String get notifWelcomeTitle => 'Welcome to SecondLife!';
+
+  @override
+  String notifWelcomeBody(int points) {
+    return '$points welcome pts have been credited to your account.';
+  }
+
+  @override
+  String get notifValidatedTitle => 'Deposit validated';
+
+  @override
+  String notifValidatedBody(int points, String item) {
+    return '+$points pts for \"$item\".';
+  }
+
+  @override
+  String get notifRejectedTitle => 'Deposit rejected';
+
+  @override
+  String notifRejectedBody(String item, String reason) {
+    return '\"$item\": $reason';
+  }
+
+  @override
+  String get notifVoucherTitle => 'Voucher unlocked';
+
+  @override
+  String notifVoucherBody(String name) {
+    return '\"$name\" is waiting in your rewards.';
+  }
+
+  @override
+  String get notifUnknown => 'New notification';
+
+  @override
+  String get notificationsMarkAllRead => 'Mark all as read';
+
+  @override
+  String get timeJustNow => 'Just now';
+
+  @override
+  String timeMinutesAgo(int count) {
+    return '$count min ago';
+  }
+
+  @override
+  String timeHoursAgo(int count) {
+    return '$count h ago';
+  }
+
+  @override
+  String get agentBatchCollect => 'Batch collected';
+
+  @override
+  String get agentBatchCollectConfirmTitle => 'Confirm collection?';
+
+  @override
+  String agentBatchCollectConfirmMessage(int amount) {
+    return 'The batch counter ($amount kg) will restart from zero.';
+  }
+
+  @override
+  String get agentBatchCollected => 'Batch recorded as collected.';
+
+  @override
+  String get agentBatchError => 'Couldn\'t record the collection.';
+
+  @override
+  String agentBatchLastPickup(String date) {
+    return 'Last collection: $date';
+  }
 }

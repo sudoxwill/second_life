@@ -49,6 +49,8 @@ lib/
 
 **Chaque feature sera autonome.** Ne pas faire d'import croisé entre features — passer par `shared/` si quelque chose doit être partagé.
 
+Le détail des couches `data / domain / presentation` d'une feature, avec un exemple complet, est dans [docs/architecture.md](docs/architecture.md). Le schéma Firestore est dans [docs/firestore.md](docs/firestore.md).
+
 ---
 
 ## 2. Installation & lancement

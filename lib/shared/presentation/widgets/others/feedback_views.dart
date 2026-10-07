@@ -1,7 +1,9 @@
 import "package:flutter/material.dart";
+import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/errors/failure_message.dart";
 import "../../../../core/theme/index.dart";
+import "../../../../l10n/app_localizations.dart";
 import "app_card.dart";
 
 // Encadré d'erreur avec bouton "Réessayer".
@@ -17,11 +19,11 @@ class ErrorCard extends StatelessWidget {
       borderColor: context.danger.withValues(alpha: 0.3),
       child: Row(
         children: [
-          Icon(Icons.error_outline_rounded, color: context.danger),
+          Icon(LucideIcons.circleAlert, color: context.danger),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              failureMessage(error),
+              failureMessage(AppLocalizations.of(context)!, error),
               style: TextStyle(
                 color: context.danger,
                 fontWeight: FontWeight.w600,
@@ -29,7 +31,10 @@ class ErrorCard extends StatelessWidget {
             ),
           ),
           if (onRetry != null)
-            TextButton(onPressed: onRetry, child: const Text("Réessayer")),
+            TextButton(
+              onPressed: onRetry,
+              child: Text(AppLocalizations.of(context)!.commonRetry),
+            ),
         ],
       ),
     );

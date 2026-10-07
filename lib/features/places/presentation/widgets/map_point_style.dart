@@ -1,10 +1,12 @@
 import "package:flutter/material.dart" hide MaterialType;
+import "package:intl/intl.dart";
 import "package:latlong2/latlong.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/index.dart";
-import "../../../history/presentation/widget/material_type_icon.dart";
+import "../../../../l10n/app_localizations.dart";
+import "../../../history/presentation/widgets/material_type_icon.dart";
 import "../../domain/entities/map_point.dart";
 
 extension WasteMaterialStyle on WasteMaterial {
@@ -45,9 +47,8 @@ extension RecyclingKindStyle on RecyclingKind {
 extension MapPointStyle on MapPoint {
   LatLng get latLng => LatLng(latitude, longitude);
 
-  IconData get icon => isRelay
-      ? LucideIcons.leaf
-      : (kind ?? RecyclingKind.recyclingCenter).icon;
+  IconData get icon =>
+      isRelay ? LucideIcons.leaf : (kind ?? RecyclingKind.recyclingCenter).icon;
 
   Color color(BuildContext context) => isRelay
       ? Theme.of(context).colorScheme.primary
@@ -76,15 +77,19 @@ extension MapPointStyle on MapPoint {
     return null;
   }
 
-  String get typeLabel =>
-      isRelay ? "Point relais SecondLife" : kind?.label ?? "Lieu de recyclage";
+  String typeLabel(AppLocalizations l10n) => isRelay
+      ? l10n.placesTypeRelay
+      : kind?.label(l10n) ?? l10n.placesTypeRecycling;
 
   double distanceFrom(LatLng from) =>
       const Distance().as(LengthUnit.Meter, from, latLng);
 
-  // "Lun–Ven 08h–18h · Sam 08h–14h" : jours consécutifs aux mêmes horaires
-  // regroupés.
-  String get hoursLabel {
+  // "lun.–ven. 08h–18h · sam. 08h–14h" : jours consécutifs aux mêmes horaires
+  // regroupés. Jours abrégés dans la langue de [locale].
+  String hoursLabel(String locale) {
+    // 1er janvier 2024 = lundi : index 1..7 → jours ISO.
+    String dayName(int weekday) =>
+        DateFormat.E(locale).format(DateTime(2024, 1, weekday));
     final groups = <String>[];
     var day = 1;
     while (day <= 7) {
@@ -98,30 +103,43 @@ extension MapPointStyle on MapPoint {
         end++;
       }
       final days = end == day
-          ? _dayNames[day - 1]
-          : "${_dayNames[day - 1]}–${_dayNames[end - 1]}";
-      groups.add(
-        "$days ${_formatTime(hours.opensAt)}–${_formatTime(hours.closesAt)}",
-      );
+          ? dayName(day)
+          : "${dayName(day)}–${dayName(end)}";
+      final opens = _formatTime(hours.opensAt, locale);
+      final closes = _formatTime(hours.closesAt, locale);
+      groups.add("$days $opens–$closes");
       day = end + 1;
     }
     return groups.join(" · ");
   }
 }
 
-const _dayNames = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
-
-String _formatTime(int minutes) {
-  final h = (minutes ~/ 60).toString().padLeft(2, "0");
-  final m = minutes % 60;
-  return m == 0 ? "${h}h" : "${h}h${m.toString().padLeft(2, "0")}";
+extension WasteMaterialLabel on WasteMaterial {
+  String label(AppLocalizations l10n) => type.label(l10n);
 }
 
-// "08h" ou "08h30".
-String formatClock(DateTime time) => _formatTime(time.hour * 60 + time.minute);
+extension RecyclingKindLabel on RecyclingKind {
+  String label(AppLocalizations l10n) => switch (this) {
+    RecyclingKind.recyclingCenter => l10n.placesKindRecyclingCenter,
+    RecyclingKind.sortingCenter => l10n.placesKindSortingCenter,
+    RecyclingKind.dump => l10n.placesKindDump,
+    RecyclingKind.scrapDealer => l10n.placesKindScrapDealer,
+  };
+}
 
-// "850 m" ou "1,2 km".
-String formatDistance(double meters) {
+// "08h" / "08h30" en français, "08:00" / "08:30" ailleurs.
+String _formatTime(int minutes, String locale) {
+  final h = (minutes ~/ 60).toString().padLeft(2, "0");
+  final m = (minutes % 60).toString().padLeft(2, "0");
+  if (locale.startsWith("fr")) return m == "00" ? "${h}h" : "${h}h$m";
+  return "$h:$m";
+}
+
+String formatClock(DateTime time, String locale) =>
+    _formatTime(time.hour * 60 + time.minute, locale);
+
+// "850 m" ou "1,2 km" (séparateur décimal de la langue).
+String formatDistance(double meters, String locale) {
   if (meters < 1000) return "${meters.round()} m";
-  return "${(meters / 1000).toStringAsFixed(1).replaceAll(".", ",")} km";
+  return "${NumberFormat("0.0", locale).format(meters / 1000)} km";
 }

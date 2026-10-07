@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
+import "package:lucide_icons_flutter/lucide_icons.dart";
 
+import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/index.dart";
 import "../../../../core/utils/formatters.dart";
 import "../../../../shared/presentation/widgets/others/app_card.dart";
@@ -32,13 +34,18 @@ class _DepositDetailsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
     final rows = [
       Row(
         children: [
-          const Text("Statut", style: TextStyle(fontSize: 13)),
-          const Spacer(),
-          TicketStatusBadge(ticket: ticket),
+          Expanded(
+            child: Text(
+              l10n.detailStatus,
+              style: const TextStyle(fontSize: 13),
+            ),
+          ),
+          Flexible(child: TicketStatusBadge(ticket: ticket)),
         ],
       ),
       ..._detailRows(context),
@@ -59,19 +66,19 @@ class _DepositDetailsDialog extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SectionLabel("Fiche du dépôt"),
+                      SectionLabel(l10n.detailSheetTitle),
                       const SizedBox(height: 4),
                       Text(
-                        "ID : ${Formatters.shortCode(ticket.code)}",
+                        l10n.detailId(Formatters.shortCode(ticket.code)),
                         style: AppTextStyles.heading(20),
                       ),
                     ],
                   ),
                 ),
                 IconButton.filledTonal(
-                  tooltip: "Fermer",
+                  tooltip: l10n.commonClose,
                   onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.close_rounded),
+                  icon: const Icon(LucideIcons.x),
                 ),
               ],
             ),
@@ -89,7 +96,7 @@ class _DepositDetailsDialog extends StatelessWidget {
             const SizedBox(height: 18),
             FilledButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text("Fermer"),
+              child: Text(l10n.commonClose),
             ),
           ],
         ),
@@ -98,47 +105,63 @@ class _DepositDetailsDialog extends StatelessWidget {
   }
 
   List<Widget> _detailRows(BuildContext context) {
+    final l10n = context.l10n;
     final analysis = ticket.wasteAnalysisResult;
     final validation = ticket.validation;
     return [
-      DetailRow("Matière", analysis.detectedItem.itemLabel),
+      DetailRow(l10n.depositMaterial, analysis.detectedItem.itemLabel),
       if (showDepositor)
-        DetailRow("Déposant", Formatters.userLabel(ticket.userId)),
+        DetailRow(
+          l10n.depositDepositor,
+          Formatters.userLabel(l10n, ticket.userId),
+        ),
       DetailRow(
-        "Poids estimé (IA)",
+        l10n.weighingEstimatedTitle,
         "~${Formatters.kg(analysis.itemWeight.estimatedWeight)} kg",
       ),
       if (validation?.measuredWeightGrams case final measured?)
         DetailRow(
-          "Poids réel certifié",
+          l10n.detailCertifiedWeight,
           "${Formatters.kg(measured)} kg",
           valueColor: context.primaryText,
         ),
       if (validation?.finalPoints case final points?)
         DetailRow(
-          "Points attribués",
+          l10n.detailPointsAwarded,
           "${Formatters.points(points)} pts",
           valueColor: context.primaryText,
         )
       else if (ticket.status == TicketStatus.pending)
         DetailRow(
-          "Points estimés",
+          l10n.detailPointsEstimated,
           "${Formatters.points(analysis.itemRecyclability.pointsEarned)} pts",
           valueColor: context.primaryText,
         ),
       if (validation?.rejectionReason case final reason?)
-        DetailRow("Motif du refus", reason.label, valueColor: context.danger),
+        DetailRow(
+          l10n.detailReason,
+          reason.label(l10n),
+          valueColor: context.danger,
+        ),
       if (validation?.comment case final comment?)
-        DetailRow("Commentaire de l’agent", comment),
+        DetailRow(l10n.detailComment, comment),
       if (validation != null) ...[
         DetailRow(
-          ticket.status == TicketStatus.rejected ? "Refusé par" : "Validé par",
+          ticket.status == TicketStatus.rejected
+              ? l10n.detailRejectedBy
+              : l10n.detailValidatedBy,
           "${validation.agent.displayName} "
           "(${validation.agent.relayPointName})",
         ),
-        DetailRow("Traité le", Formatters.dateTime(validation.processedAt)),
+        DetailRow(
+          l10n.detailProcessedAt,
+          context.formatDateTime(validation.processedAt),
+        ),
       ] else
-        DetailRow("Déposé le", Formatters.dateTime(ticket.createdAt)),
+        DetailRow(
+          l10n.detailDepositedAt,
+          context.formatDateTime(ticket.createdAt),
+        ),
     ];
   }
 }
@@ -149,6 +172,7 @@ class _QrBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
     return Container(
       padding: const EdgeInsets.all(16),
@@ -158,9 +182,9 @@ class _QrBlock extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Text(
-            "QR Code à présenter à l’agent",
-            style: TextStyle(fontWeight: FontWeight.w700),
+          Text(
+            l10n.detailQrTitle,
+            style: const TextStyle(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 12),
           TicketQrCard(
@@ -170,8 +194,7 @@ class _QrBlock extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            "L’agent scannera ce code pour charger votre pesée. "
-            "Valable jusqu’au ${Formatters.dateTime(ticket.expiresAt)}.",
+            l10n.detailQrHint(context.formatDateTime(ticket.expiresAt)),
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),
           ),

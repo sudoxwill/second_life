@@ -219,6 +219,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get authConfirmPasswordLabel => 'Confirmer le mot de passe';
 
   @override
+  String get authLoginSubtitle =>
+      'Content de te revoir ! Connecte-toi pour suivre tes points.';
+
+  @override
+  String get authSignupSubtitle =>
+      'Crée ton compte et transforme tes déchets en récompenses.';
+
+  @override
+  String get authPasswordStrengthWeak => 'Faible';
+
+  @override
+  String get authPasswordStrengthMedium => 'Moyen';
+
+  @override
+  String get authPasswordStrengthStrong => 'Robuste';
+
+  @override
   String get authForgotPassword => 'Mot de passe oublié ?';
 
   @override
@@ -346,6 +363,9 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get homeGreetingHello => 'Bonjour 👋';
+
+  @override
   String get homeAgentRoleLabel => 'Agent';
 
   @override
@@ -410,9 +430,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String agentStockKgGoal(int amount) {
     return 'Objectif : $amount kg';
   }
-
-  @override
-  String get agentStockSiteName => 'EcoCentre de Bè';
 
   @override
   String get agentInfoMessage =>
@@ -533,11 +550,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get historyEmptyDepositTitle => 'Aucun dépôt pour le moment';
 
   @override
-  String get historyEmptyGiftTitle => 'Bientôt disponible';
+  String get historyEmptyGiftTitle => 'Aucun bon pour l\'instant';
 
   @override
   String get historyEmptyGiftMessage =>
-      'L\'échange de points contre des récompenses arrive très bientôt.';
+      'Échangez vos points contre des bons chez nos partenaires.';
 
   @override
   String get historyInfoTitle => 'Informations';
@@ -898,4 +915,551 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get depositWeighButton => 'Passer à la pesée';
+
+  @override
+  String get homeStatRecycledLabel => 'recyclés';
+
+  @override
+  String get homeStatValidatedLabel => 'validés';
+
+  @override
+  String get homeStatPendingLabel => 'en attente';
+
+  @override
+  String get homeQuickScanTitle => 'Analyser un déchet';
+
+  @override
+  String get homeQuickScanSubtitle =>
+      'Prenez-le en photo : l\'IA estime sa valeur en points.';
+
+  @override
+  String get homeQuickPlacesTitle => 'Trouver un point relais';
+
+  @override
+  String get homeQuickPlacesSubtitle =>
+      'Déposez vos déchets près de chez vous.';
+
+  @override
+  String get homePendingDepositsEmptyHint =>
+      'Analysez un déchet puis déposez-le dans un point relais pour gagner des points.';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsEmptyTitle => 'Aucune notification';
+
+  @override
+  String get notificationsEmptyMessage =>
+      'Vous serez prévenu ici dès qu\'un dépôt est traité.';
+
+  @override
+  String get agentQuickScanTitle => 'Scanner un QR de dépôt';
+
+  @override
+  String get agentQuickScanSubtitle =>
+      'Retrouvez le dépôt d\'un usager et passez à la pesée.';
+
+  @override
+  String get agentPendingEmptyMessage =>
+      'Les dépôts des usagers apparaîtront ici.';
+
+  @override
+  String get agentHistoryTitle => 'Historique des validations';
+
+  @override
+  String agentHistorySubtitle(String name) {
+    return 'Dépôts certifiés à : $name';
+  }
+
+  @override
+  String agentHistoryTabToday(int count) {
+    return 'Aujourd\'hui ($count)';
+  }
+
+  @override
+  String agentHistoryTabAll(int count) {
+    return 'Dépôts traités ($count)';
+  }
+
+  @override
+  String get agentHistoryEmptyToday => 'Aucun dépôt traité aujourd\'hui';
+
+  @override
+  String get agentHistoryEmptyAll => 'Aucun dépôt traité';
+
+  @override
+  String get agentHistoryEmptyMessage =>
+      'Scannez le QR code d\'un usager pour commencer.';
+
+  @override
+  String get agentHistoryDepositor => 'Déposant : ';
+
+  @override
+  String get agentHistoryRealWeight => 'Poids réel : ';
+
+  @override
+  String commonUserLabel(String id) {
+    return 'Usager $id';
+  }
+
+  @override
+  String get commentOptional => 'Commentaire (facultatif)';
+
+  @override
+  String get errorUnauthenticated =>
+      'Session expirée. Relancez l\'application.';
+
+  @override
+  String get errorNotRelayAgent =>
+      'Ce compte n\'est pas un agent relais actif.';
+
+  @override
+  String get errorTicketNotFound => 'Dépôt introuvable.';
+
+  @override
+  String get errorTicketAlreadyProcessed => 'Ce dépôt a déjà été traité.';
+
+  @override
+  String get errorTicketExpired => 'Ce dépôt a expiré (plus de 48 h).';
+
+  @override
+  String get errorInvalidTicketCode => 'Ce QR code n\'est pas un dépôt.';
+
+  @override
+  String get errorInvalidWeight => 'Poids invalide (entre 0 et 50 kg).';
+
+  @override
+  String get errorCommentRequired => 'Un commentaire est obligatoire.';
+
+  @override
+  String get errorCommentTooLong =>
+      'Commentaire trop long (500 caractères max).';
+
+  @override
+  String get errorUnexpected => 'Une erreur inattendue est survenue.';
+
+  @override
+  String get rejectionItemMismatch => 'Objet différent de celui analysé';
+
+  @override
+  String get rejectionNotRecyclable => 'Matière non acceptée ou non recyclable';
+
+  @override
+  String get rejectionItemMissing => 'Objet absent lors du dépôt';
+
+  @override
+  String get rejectionOther => 'Autre motif';
+
+  @override
+  String agentScanCameraUnavailable(String code) {
+    return 'Caméra indisponible ($code).\nAutorisez l\'accès à la caméra dans les réglages.';
+  }
+
+  @override
+  String get scanAgentHint =>
+      'Pointez l\'objectif sur le QR code généré sur l\'écran du déposant';
+
+  @override
+  String get scanAgentChip => 'Scanner QR Déposant';
+
+  @override
+  String get scanTorch => 'Lampe';
+
+  @override
+  String get scanLoadingDeposit => 'Chargement du dépôt…';
+
+  @override
+  String get scanAnother => 'Scanner un autre QR';
+
+  @override
+  String get scanDetected => 'QR DÉTECTÉ AVEC SUCCÈS';
+
+  @override
+  String get scanOpenWeighing => 'Voir la fiche du dépôt & peser';
+
+  @override
+  String depositTitle(String code) {
+    return 'Dépôt $code';
+  }
+
+  @override
+  String get depositMaterial => 'Matériau';
+
+  @override
+  String get depositDepositor => 'Déposant';
+
+  @override
+  String get depositEstimatedWeight => 'Poids estimé : ';
+
+  @override
+  String depositEstimatedPoints(String points) {
+    return '~$points pts estimés';
+  }
+
+  @override
+  String get weighingTitle => 'Validation de la pesée';
+
+  @override
+  String get weighingEstimatedTitle => 'Poids estimé (IA)';
+
+  @override
+  String get weighingRealTitle => 'Poids réel (Balance)';
+
+  @override
+  String weighingEstimatedCaption(String points) {
+    return '≈ $points pts estimés';
+  }
+
+  @override
+  String get weighingEnterWeight => 'Saisir le poids pesé';
+
+  @override
+  String weighingCertifiedCaption(String points) {
+    return '= $points pts certifiés';
+  }
+
+  @override
+  String get weighingCommentRequired =>
+      'Commentaire (obligatoire : écart important)';
+
+  @override
+  String get weighingValidate => 'Valider le dépôt';
+
+  @override
+  String weighingValidateWithPoints(String points) {
+    return 'Valider le dépôt ($points pts)';
+  }
+
+  @override
+  String get weighingReject => 'Refuser le dépôt';
+
+  @override
+  String weighingDepositId(String code) {
+    return 'Dépôt ID : $code';
+  }
+
+  @override
+  String weighingAiConfidence(String percent) {
+    return 'IA $percent';
+  }
+
+  @override
+  String weighingDeviationOk(String diff, String limit) {
+    return 'Écart : $diff kg (OK, ≤ $limit)';
+  }
+
+  @override
+  String weighingDeviationHigh(String diff, String limit) {
+    return 'Écart : $diff kg (> $limit, à justifier)';
+  }
+
+  @override
+  String get resultCertifiedPill => 'PESÉE CERTIFIÉE';
+
+  @override
+  String get resultRejectedPill => 'DÉPÔT REFUSÉ';
+
+  @override
+  String get resultValidatedTitle => 'Dépôt validé !';
+
+  @override
+  String get resultRejectedTitle => 'Dépôt refusé';
+
+  @override
+  String resultPointsCredited(String points, String user) {
+    return '$points pts crédités à $user';
+  }
+
+  @override
+  String resultUserNotified(String user) {
+    return '$user a été notifié du motif.';
+  }
+
+  @override
+  String get resultBackToDashboard => 'Retour au tableau de bord';
+
+  @override
+  String get rejectTitle => 'Motif de refus du dépôt';
+
+  @override
+  String get rejectSubtitle =>
+      'Sélectionnez le motif : il sera affiché à l\'usager.';
+
+  @override
+  String get rejectCommentRequired => 'Précisez le motif (obligatoire)';
+
+  @override
+  String get rejectConfirm => 'Confirmer le refus';
+
+  @override
+  String get detailSheetTitle => 'Fiche du dépôt';
+
+  @override
+  String detailId(String code) {
+    return 'ID : $code';
+  }
+
+  @override
+  String get detailStatus => 'Statut';
+
+  @override
+  String get detailRealWeight => 'Poids réel';
+
+  @override
+  String get detailCertifiedWeight => 'Poids réel certifié';
+
+  @override
+  String get detailPointsAwarded => 'Points attribués';
+
+  @override
+  String get detailPointsEstimated => 'Points estimés';
+
+  @override
+  String get detailReason => 'Motif du refus';
+
+  @override
+  String get detailComment => 'Commentaire de l\'agent';
+
+  @override
+  String get detailRejectedBy => 'Refusé par';
+
+  @override
+  String get detailValidatedBy => 'Validé par';
+
+  @override
+  String get detailProcessedAt => 'Traité le';
+
+  @override
+  String get detailDepositedAt => 'Déposé le';
+
+  @override
+  String get detailQrTitle => 'QR Code à présenter à l\'agent';
+
+  @override
+  String detailQrHint(String date) {
+    return 'L\'agent scannera ce code pour charger votre pesée. Valable jusqu\'au $date.';
+  }
+
+  @override
+  String get placesKindRecyclingCenter => 'Centre de recyclage';
+
+  @override
+  String get placesKindSortingCenter => 'Centre de tri';
+
+  @override
+  String get placesKindDump => 'Dépotoir';
+
+  @override
+  String get placesKindScrapDealer => 'Ferrailleur';
+
+  @override
+  String get placesTypeRelay => 'Point relais SecondLife';
+
+  @override
+  String get placesTypeRecycling => 'Lieu de recyclage';
+
+  @override
+  String agentInfoRemaining(int amount) {
+    return 'Encore $amount kg avant l\'enlèvement du lot.';
+  }
+
+  @override
+  String get authForgotSubtitle =>
+      'Saisis ton email : nous t\'enverrons un lien pour choisir un nouveau mot de passe.';
+
+  @override
+  String get authForgotButton => 'Envoyer le lien';
+
+  @override
+  String get authForgotSent =>
+      'Email envoyé ! Vérifie ta boîte de réception (et les spams).';
+
+  @override
+  String get authForgotError => 'Impossible d\'envoyer l\'email. Réessaie.';
+
+  @override
+  String get authErrorInvalidEmail => 'Adresse email invalide.';
+
+  @override
+  String get profileNotificationsError =>
+      'Impossible d\'enregistrer la préférence. Réessaie.';
+
+  @override
+  String get notifChannelGeneralName => 'Notifications générales';
+
+  @override
+  String get notifChannelGeneralDescription =>
+      'Informations générales et mises à jour';
+
+  @override
+  String get notifChannelRemindersName => 'Rappels';
+
+  @override
+  String get notifChannelRemindersDescription =>
+      'Rappels personnalisés et planifiés';
+
+  @override
+  String get notifChannelAlertsName => 'Alertes importantes';
+
+  @override
+  String get notifChannelAlertsDescription =>
+      'Alertes critiques nécessitant une attention immédiate';
+
+  @override
+  String get notifChannelProcessingName => 'Traitements';
+
+  @override
+  String get notifChannelProcessingDescription => 'Fin des analyses de déchets';
+
+  @override
+  String get rewardsTitle => 'Récompenses';
+
+  @override
+  String get rewardsBalanceLabel => 'Solde disponible';
+
+  @override
+  String rewardsCost(int points) {
+    return '$points pts';
+  }
+
+  @override
+  String get rewardsRedeem => 'Échanger';
+
+  @override
+  String rewardsMissing(int points) {
+    return 'Encore $points pts';
+  }
+
+  @override
+  String get rewardsOutOfStock => 'Épuisé';
+
+  @override
+  String rewardsStockLeft(int count) {
+    return 'Plus que $count';
+  }
+
+  @override
+  String rewardsValidity(int days) {
+    return 'Valable $days jours après l\'échange';
+  }
+
+  @override
+  String rewardsConfirmTitle(int points) {
+    return 'Échanger $points pts ?';
+  }
+
+  @override
+  String rewardsConfirmMessage(String name, int balance) {
+    return 'Vous recevrez « $name ». Il vous restera $balance pts.';
+  }
+
+  @override
+  String get rewardsSuccessTitle => 'Bon obtenu !';
+
+  @override
+  String rewardsSuccessMessage(String partner) {
+    return 'Présentez ce code chez $partner.';
+  }
+
+  @override
+  String get rewardsSeeVouchers => 'Voir mes bons';
+
+  @override
+  String get rewardsErrorInsufficient =>
+      'Solde insuffisant pour cette récompense.';
+
+  @override
+  String get rewardsErrorOutOfStock => 'Cette récompense est épuisée.';
+
+  @override
+  String get rewardsErrorGeneric => 'L\'échange n\'a pas abouti. Réessayez.';
+
+  @override
+  String get rewardsEmpty => 'Aucune récompense disponible pour le moment.';
+
+  @override
+  String homeNextReward(int points, String name) {
+    return 'Encore $points pts pour « $name »';
+  }
+
+  @override
+  String get homeAllRewardsUnlocked =>
+      'Toutes les récompenses sont à votre portée !';
+
+  @override
+  String get historyEmptyGiftCta => 'Voir les récompenses';
+
+  @override
+  String get notifWelcomeTitle => 'Bienvenue sur SecondLife !';
+
+  @override
+  String notifWelcomeBody(int points) {
+    return '$points pts de bienvenue ont été crédités sur votre compte.';
+  }
+
+  @override
+  String get notifValidatedTitle => 'Dépôt validé';
+
+  @override
+  String notifValidatedBody(int points, String item) {
+    return '+$points pts pour « $item ».';
+  }
+
+  @override
+  String get notifRejectedTitle => 'Dépôt refusé';
+
+  @override
+  String notifRejectedBody(String item, String reason) {
+    return '« $item » : $reason';
+  }
+
+  @override
+  String get notifVoucherTitle => 'Bon obtenu';
+
+  @override
+  String notifVoucherBody(String name) {
+    return '« $name » vous attend dans vos récompenses.';
+  }
+
+  @override
+  String get notifUnknown => 'Nouvelle notification';
+
+  @override
+  String get notificationsMarkAllRead => 'Tout marquer comme lu';
+
+  @override
+  String get timeJustNow => 'À l\'instant';
+
+  @override
+  String timeMinutesAgo(int count) {
+    return 'Il y a $count min';
+  }
+
+  @override
+  String timeHoursAgo(int count) {
+    return 'Il y a $count h';
+  }
+
+  @override
+  String get agentBatchCollect => 'Lot enlevé';
+
+  @override
+  String get agentBatchCollectConfirmTitle => 'Confirmer l\'enlèvement ?';
+
+  @override
+  String agentBatchCollectConfirmMessage(int amount) {
+    return 'Le compteur du lot ($amount kg) repartira de zéro.';
+  }
+
+  @override
+  String get agentBatchCollected => 'Lot enregistré comme enlevé.';
+
+  @override
+  String get agentBatchError => 'Impossible d\'enregistrer l\'enlèvement.';
+
+  @override
+  String agentBatchLastPickup(String date) {
+    return 'Dernier enlèvement : $date';
+  }
 }

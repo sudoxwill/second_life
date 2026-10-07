@@ -2,6 +2,7 @@ import "package:flutter_local_notifications/flutter_local_notifications.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../../data/services/notification_service.dart";
+import "notifications_enabled_provider.dart";
 
 part "notification_provider.g.dart";
 
@@ -18,5 +19,6 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin(Ref ref) {
 NotificationService notificationService(Ref ref) {
   return NotificationService(
     ref.watch(flutterLocalNotificationsPluginProvider),
+    isEnabled: () => ref.read(appNotificationsEnabledProvider),
   );
 }

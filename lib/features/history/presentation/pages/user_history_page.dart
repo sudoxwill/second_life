@@ -4,17 +4,21 @@ import "package:go_router/go_router.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/extensions/build_context_extension.dart";
+import "../../../../core/extensions/navigation_extension.dart";
 import "../../../../core/theme/app_spacing.dart";
 import "../../../../l10n/app_localizations.dart";
 import "../../../../shared/presentation/widgets/buttons/app_elevated_button.dart";
 import "../../../../shared/presentation/widgets/buttons/app_segmented_button.dart";
 import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
+import "../../../../shared/presentation/widgets/others/feedback_views.dart";
+import "../../../../shared/presentation/widgets/others/motion.dart";
 import "../../../../shared/presentation/widgets/others/skeleton.dart";
+import "../../../rewards/presentation/providers/rewards_catalog_provider.dart";
 import "../../../waste_analysis/domain/entities/recycling_ticket.dart";
 import "../../../waste_analysis/domain/entities/ticket_status.dart";
 import "../../../waste_analysis/presentation/providers/user_tickets_provider.dart";
 import "../providers/history_providers.dart";
-import "../widget/index.dart";
+import "../widgets/index.dart";
 
 class UserHistoryPage extends ConsumerStatefulWidget {
   const UserHistoryPage({super.key});
@@ -25,6 +29,8 @@ class UserHistoryPage extends ConsumerStatefulWidget {
 
 class _UserHistoryPageState extends ConsumerState<UserHistoryPage> {
   Set<HistoryType> currentHistory = {HistoryType.waiting};
+  // Dernier ?tab= appliqué : l'onglet reste libre tant que l'URL ne change pas.
+  String? _handledTab;
 
   @override
   void initState() {
@@ -36,6 +42,17 @@ class _UserHistoryPageState extends ConsumerState<UserHistoryPage> {
           .queryParameters["deposit"];
       if (depositId != null) _handleDeepLink(depositId);
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // /history?tab=gift depuis le bouton "Échanger" de l'accueil, etc.
+    final tab = GoRouterState.of(context).uri.queryParameters["tab"];
+    if (tab == _handledTab) return;
+    _handledTab = tab;
+    final type = HistoryType.values.asNameMap()[tab];
+    if (type != null) currentHistory = {type};
   }
 
   void _handleDeepLink(String depositId) {
@@ -64,21 +81,7 @@ class _UserHistoryPageState extends ConsumerState<UserHistoryPage> {
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      showModalBottomSheet<void>(
-        context: context,
-        isScrollControlled: true,
-        useRootNavigator: true,
-        showDragHandle: true,
-        builder: (_) => DraggableScrollableSheet(
-          expand: false,
-          initialChildSize: 0.65,
-          minChildSize: 0.4,
-          maxChildSize: 0.92,
-          builder: (ctx, sc) =>
-              DepositDetailSheet(ticket: ticket, scrollController: sc),
-        ),
-      );
+      if (mounted) showDepositDetailSheet(context, ticket);
     });
   }
 
@@ -87,10 +90,7 @@ class _UserHistoryPageState extends ConsumerState<UserHistoryPage> {
     final l10n = context.l10n;
     final count = ref.watch(pendingDepositsCountProvider);
     return AppScaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: Text(l10n.historyTitle),
-      ),
+      appBar: AppBar(elevation: 0, title: Text(l10n.historyTitle)),
       body: Column(
         spacing: AppSpacing.md,
         children: [
@@ -106,13 +106,21 @@ class _UserHistoryPageState extends ConsumerState<UserHistoryPage> {
                 setState(() => currentHistory = value),
           ),
           Expanded(
-            child: switch (currentHistory.first) {
-              HistoryType.waiting => const _WaitingDepositList(),
-              HistoryType.processed => const _ProcessedDepositList(),
-              HistoryType.gift => const _VoucherList(),
-            },
+            child: AnimatedSwitcher(
+              duration: AppSpacing.durationFast,
+              child: switch (currentHistory.first) {
+                HistoryType.waiting => const _WaitingDepositList(
+                  key: ValueKey(HistoryType.waiting),
+                ),
+                HistoryType.processed => const _ProcessedDepositList(
+                  key: ValueKey(HistoryType.processed),
+                ),
+                HistoryType.gift => const _VoucherList(
+                  key: ValueKey(HistoryType.gift),
+                ),
+              },
+            ),
           ),
-          AppSpacing.gapVMd,
         ],
       ),
     );
@@ -121,66 +129,139 @@ class _UserHistoryPageState extends ConsumerState<UserHistoryPage> {
 
 // ── Listes ──────────────────────────────────────────────────
 
+// Liste animée et rafraîchissable, commune aux trois onglets.
+class _AnimatedList extends StatelessWidget {
+  const _AnimatedList({
+    required this.itemCount,
+    required this.itemBuilder,
+    required this.onRefresh,
+  });
+
+  final int itemCount;
+  final IndexedWidgetBuilder itemBuilder;
+  final Future<void> Function() onRefresh;
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: onRefresh,
+      child: ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.only(
+          bottom: AppSpacing.bottomScrollablePadding,
+        ),
+        itemCount: itemCount,
+        itemBuilder: (context, i) =>
+            FadeSlideIn(index: i, child: itemBuilder(context, i)),
+      ),
+    );
+  }
+}
+
+// État vide ou erreur, qui reste rafraîchissable par un tirer vers le bas.
+class _RefreshableCenter extends StatelessWidget {
+  const _RefreshableCenter({required this.child, required this.onRefresh});
+
+  final Widget child;
+  final Future<void> Function() onRefresh;
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: onRefresh,
+      child: LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: Center(child: child),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DepositList extends StatelessWidget {
+  const _DepositList({
+    required this.tickets,
+    required this.type,
+    required this.onRefresh,
+  });
+
+  final AsyncValue<List<RecyclingTicket>> tickets;
+  final HistoryType type;
+  final Future<void> Function() onRefresh;
+
+  @override
+  Widget build(BuildContext context) {
+    return tickets.when(
+      loading: () => const _DepositSkeleton(),
+      error: (_, _) => _RefreshableCenter(
+        onRefresh: onRefresh,
+        child: _ErrorState(onRetry: onRefresh),
+      ),
+      data: (list) => list.isEmpty
+          ? _RefreshableCenter(
+              onRefresh: onRefresh,
+              child: _EmptyState(type: type),
+            )
+          : _AnimatedList(
+              onRefresh: onRefresh,
+              itemCount: list.length,
+              itemBuilder: (_, i) => DepositHistoryCard(ticket: list[i]),
+            ),
+    );
+  }
+}
+
 class _WaitingDepositList extends ConsumerWidget {
-  const _WaitingDepositList();
+  const _WaitingDepositList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref
-        .watch(pendingDepositsProvider)
-        .when(
-          loading: () => const _DepositSkeleton(),
-          error: (_, _) => _ErrorState(
-            onRetry: () => ref.invalidate(userTicketsProvider),
-          ),
-          data: (tickets) => tickets.isEmpty
-              ? const _EmptyState(type: HistoryType.waiting)
-              : ListView.builder(
-                  itemCount: tickets.length,
-                  itemBuilder: (_, i) =>
-                      DepositHistoryCard(ticket: tickets[i]),
-                ),
-        );
+    return _DepositList(
+      tickets: ref.watch(pendingDepositsProvider),
+      type: HistoryType.waiting,
+      onRefresh: ref.read(userTicketsProvider.notifier).refresh,
+    );
   }
 }
 
 class _ProcessedDepositList extends ConsumerWidget {
-  const _ProcessedDepositList();
+  const _ProcessedDepositList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref
-        .watch(processedDepositsProvider)
-        .when(
-          loading: () => const _DepositSkeleton(),
-          error: (_, _) => _ErrorState(
-            onRetry: () => ref.invalidate(userTicketsProvider),
-          ),
-          data: (tickets) => tickets.isEmpty
-              ? const _EmptyState(type: HistoryType.processed)
-              : ListView.builder(
-                  itemCount: tickets.length,
-                  itemBuilder: (_, i) =>
-                      DepositHistoryCard(ticket: tickets[i]),
-                ),
-        );
+    return _DepositList(
+      tickets: ref.watch(processedDepositsProvider),
+      type: HistoryType.processed,
+      onRefresh: ref.read(userTicketsProvider.notifier).refresh,
+    );
   }
 }
 
 class _VoucherList extends ConsumerWidget {
-  const _VoucherList();
+  const _VoucherList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    Future<void> refresh() => ref.refresh(vouchersProvider.future);
     return ref
         .watch(vouchersProvider)
         .when(
           loading: () => const _DepositSkeleton(),
-          error: (_, _) =>
-              _ErrorState(onRetry: () => ref.invalidate(vouchersProvider)),
+          error: (_, _) => _RefreshableCenter(
+            onRefresh: refresh,
+            child: _ErrorState(onRetry: refresh),
+          ),
           data: (vouchers) => vouchers.isEmpty
-              ? const _EmptyState(type: HistoryType.gift)
-              : ListView.builder(
+              ? _RefreshableCenter(
+                  onRefresh: refresh,
+                  child: const _EmptyState(type: HistoryType.gift),
+                )
+              : _AnimatedList(
+                  onRefresh: refresh,
                   itemCount: vouchers.length,
                   itemBuilder: (_, i) =>
                       VoucherHistoryCard(voucher: vouchers[i]),
@@ -201,9 +282,7 @@ class _DepositSkeleton extends StatelessWidget {
         itemCount: 6,
         itemBuilder: (_, _) => const Padding(
           padding: EdgeInsets.symmetric(vertical: AppSpacing.xs),
-          child: SkeletonTile(
-            showTrailing: true,
-          ),
+          child: SkeletonTile(showTrailing: true),
         ),
       ),
     );
@@ -218,27 +297,16 @@ class _ErrorState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final textTheme = context.textTheme;
-    final colorScheme = context.colorScheme;
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        spacing: AppSpacing.md,
-        children: [
-          Icon(
-            LucideIcons.circleAlert,
-            size: AppSpacing.iconXxl,
-            color: colorScheme.onSurfaceVariant,
-          ),
-          Text(
-            l10n.commonError,
-            style: textTheme.bodyMedium!.copyWith(
-              color: colorScheme.onSurfaceVariant,
-            ),
-          ),
-          AppElevatedButton(onPressed: onRetry, text: l10n.commonRetry),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        EmptyState(icon: LucideIcons.cloudOff, title: l10n.commonError),
+        AppElevatedButton(
+          onPressed: onRetry,
+          text: l10n.commonRetry,
+          icon: const Icon(LucideIcons.refreshCw, size: AppSpacing.iconMd),
+        ),
+      ],
     );
   }
 }
@@ -251,36 +319,27 @@ class _EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final textTheme = context.textTheme;
-    final colorScheme = context.colorScheme;
     final isGift = type == HistoryType.gift;
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        spacing: AppSpacing.md,
-        children: [
-          Icon(
-            isGift ? LucideIcons.gift : LucideIcons.inbox,
-            size: AppSpacing.iconXxl,
-            color: colorScheme.onSurfaceVariant,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        EmptyState(
+          icon: isGift ? LucideIcons.gift : LucideIcons.inbox,
+          title: isGift
+              ? l10n.historyEmptyGiftTitle
+              : l10n.historyEmptyDepositTitle,
+          message: isGift
+              ? l10n.historyEmptyGiftMessage
+              : l10n.homePendingDepositsEmptyHint,
+        ),
+        FilledButton.tonalIcon(
+          onPressed: isGift ? context.pushRewards : context.pushScan,
+          icon: Icon(isGift ? LucideIcons.gift : LucideIcons.scanBox),
+          label: Text(
+            isGift ? l10n.historyEmptyGiftCta : l10n.homeQuickScanTitle,
           ),
-          Text(
-            isGift ? l10n.historyEmptyGiftTitle : l10n.historyEmptyDepositTitle,
-            style: textTheme.titleSmall,
-          ),
-          if (isGift)
-            Padding(
-              padding: AppSpacing.insetHXl,
-              child: Text(
-                l10n.historyEmptyGiftMessage,
-                style: textTheme.bodySmall!.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

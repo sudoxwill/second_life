@@ -3,7 +3,9 @@ import "package:firebase_auth/firebase_auth.dart";
 import "package:google_sign_in/google_sign_in.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../../../../core/constants/firestore_paths.dart";
 import "../../../../shared/presentation/providers/core_providers.dart";
+import "../models/app_user_model.dart";
 
 part "auth_datasource.g.dart";
 
@@ -25,10 +27,7 @@ class AuthDatasource {
   final FirebaseFirestore _firestore;
   final GoogleSignIn _googleSignIn;
 
-  Future<String> signInWithEmailPassword(
-    String email,
-    String password,
-  ) async {
+  Future<String> signInWithEmailPassword(String email, String password) async {
     final result = await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
@@ -36,10 +35,7 @@ class AuthDatasource {
     return result.user!.uid;
   }
 
-  Future<String> signUpWithEmailPassword(
-    String email,
-    String password,
-  ) async {
+  Future<String> signUpWithEmailPassword(String email, String password) async {
     final result = await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
@@ -60,11 +56,11 @@ class AuthDatasource {
     return result.user?.uid;
   }
 
+  Future<void> sendPasswordResetEmail(String email) =>
+      _auth.sendPasswordResetEmail(email: email);
+
   Future<void> signOut() async {
-    await Future.wait([
-      _auth.signOut(),
-      _googleSignIn.signOut(),
-    ]);
+    await Future.wait([_auth.signOut(), _googleSignIn.signOut()]);
   }
 
   Future<bool> isAgent(String uid) async {
@@ -90,22 +86,29 @@ class AuthDatasource {
   // role, createdAt, pointsBalance, stats, etc. sont écrits par Functions.
   Future<void> saveUser(String uid, String displayName) async {
     final batch = _firestore.batch()
-      ..set(
-        _firestore.collection("users").doc(uid),
-        {"displayName": displayName, "notificationsEnabled": true},
-        SetOptions(merge: true),
-      )
+      ..set(_firestore.collection("users").doc(uid), {
+        "displayName": displayName,
+        "notificationsEnabled": true,
+      }, SetOptions(merge: true))
       // Index d'unicité pour le displayName
-      ..set(
-        _firestore.collection("usernames").doc(displayName),
-        {"uid": uid},
-      );
+      ..set(_firestore.collection("usernames").doc(displayName), {"uid": uid});
     await batch.commit();
   }
 
   Future<bool> isUsernameAvailable(String username) async {
-    final doc =
-        await _firestore.collection("usernames").doc(username).get();
+    final doc = await _firestore.collection("usernames").doc(username).get();
     return !doc.exists;
+  }
+
+  // Profil en temps réel : le solde suit les validations et les échanges.
+  Stream<AppUserModel?> watchUser(String uid) {
+    return _firestore
+        .collection(FirestorePaths.users)
+        .doc(uid)
+        .snapshots()
+        .map(
+          (doc) =>
+              doc.exists ? AppUserModel.fromFirestore(doc.data()!, uid) : null,
+        );
   }
 }

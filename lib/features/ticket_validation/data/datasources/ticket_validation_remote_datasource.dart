@@ -3,12 +3,16 @@ import "dart:async";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 
+import "../../../../core/configs/logger.dart";
+import "../../../../core/constants/firestore_paths.dart";
 import "../../../../core/errors/exception.dart";
 import "../../../../core/errors/exceptions_mapper.dart";
+import "../../../../shared/data/sources/notifications_remote_source.dart";
 import "../../../waste_analysis/data/models/recycling_ticket_model.dart";
 import "../../../waste_analysis/data/models/relay_agent_model.dart";
 import "../../../waste_analysis/domain/entities/ticket_status.dart";
 import "../../domain/ticket_validation_policy.dart";
+import "relay_point_stock_remote_datasource.dart";
 
 abstract class TicketValidationRemoteDatasource {
   Future<RelayAgentModel> getCurrentRelayAgent();
@@ -29,13 +33,20 @@ abstract class TicketValidationRemoteDatasource {
 
 class TicketValidationRemoteDatasourceImpl
     implements TicketValidationRemoteDatasource {
-  new(this.firestore, this.firebaseAuth);
+  new(
+    this.firestore,
+    this.firebaseAuth,
+    this.relayPointStock,
+    this.notifications,
+  );
   static const ticketsPath = "recycling_tickets";
   static const agentsPath = "relay_agents";
   static const writeTimeout = Duration(seconds: 15);
 
   final FirebaseFirestore firestore;
   final FirebaseAuth firebaseAuth;
+  final RelayPointStockRemoteDatasource relayPointStock;
+  final NotificationsRemoteSource notifications;
 
   @override
   Future<RelayAgentModel> getCurrentRelayAgent() {
@@ -200,8 +211,66 @@ class TicketValidationRemoteDatasourceImpl
       final snapshot = await ticketRef.get(
         const GetOptions(source: Source.server),
       );
-      return RecyclingTicketModel.fromFirestore(snapshot.id, snapshot.data()!);
+      final processed = RecyclingTicketModel.fromFirestore(
+        snapshot.id,
+        snapshot.data()!,
+      );
+      await _afterProcessed(processed, agent);
+      return processed;
     });
+  }
+
+  // Hors transaction et sans bloquer : si une écriture est refusée par les
+  // règles, le dépôt reste traité ; seule la mise à jour concernée manque.
+  Future<void> _afterProcessed(
+    RecyclingTicketModel ticket,
+    RelayAgentModel agent,
+  ) async {
+    final validation = ticket.validation;
+    if (validation == null) return;
+    final validated = ticket.status == TicketStatus.validated;
+    final points = (validation.finalPoints ?? 0).round();
+    final grams = validation.measuredWeightGrams ?? 0;
+
+    if (validated) {
+      await _bestEffort(
+        "points usager",
+        () => firestore
+            .collection(FirestorePaths.users)
+            .doc(ticket.userId)
+            .update({
+              "pointsBalance": FieldValue.increment(points),
+              "pointsEarnedTotal": FieldValue.increment(points),
+              "stats.totalKg": FieldValue.increment(grams / 1000),
+              "stats.depositsCount": FieldValue.increment(1),
+            }),
+      );
+      await _bestEffort(
+        "stock",
+        () => relayPointStock.addWeight(agent.relayPointId, grams),
+      );
+    }
+    await _bestEffort(
+      "notification",
+      () => notifications.notify(
+        ticket.userId,
+        type: validated ? "depositValidated" : "depositRejected",
+        data: {
+          "ticketCode": ticket.code,
+          "itemLabel": ticket.wasteAnalysisResult.detectedItem.itemLabel,
+          "points": points,
+          "reason": ?validation.rejectionReason?.name,
+        },
+      ),
+    );
+  }
+
+  Future<void> _bestEffort(String what, Future<void> Function() write) async {
+    try {
+      await write().timeout(writeTimeout);
+    } on Object catch (e) {
+      Log.w("Après traitement : écriture $what impossible ($e)");
+    }
   }
 
   Future<T> _guard<T>(Future<T> Function() action) async {

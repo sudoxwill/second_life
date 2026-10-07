@@ -3,45 +3,18 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/extensions/build_context_extension.dart";
-import "../../../../core/extensions/navigation_extension.dart";
 import "../../../../core/theme/app_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
 import "../../../../core/utils/formatters.dart";
 import "../../../../shared/presentation/providers/core_providers.dart";
-import "../../../../shared/presentation/widgets/buttons/app_elevated_button.dart";
 import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
-import "../../../../shared/presentation/widgets/others/app_divider.dart";
-import "../../../auth/presentation/providers/auth_provider.dart";
+import "../../../../shared/presentation/widgets/others/app_card.dart";
+import "../../../../shared/presentation/widgets/others/motion.dart";
 import "../../../auth/presentation/providers/current_user_provider.dart";
+import "../../../rewards/presentation/providers/rewards_catalog_provider.dart";
+import "../../../waste_analysis/presentation/providers/user_tickets_provider.dart";
 import "../widgets/profile_settings_section.dart";
-
-Future<void> _confirmLogout(BuildContext context, WidgetRef ref) async {
-  final l10n = context.l10n;
-  final confirmed = await showDialog<bool>(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: Text(l10n.authLogoutConfirmTitle),
-      content: Text(l10n.authLogoutConfirmMessage),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context, false),
-          child: Text(l10n.commonCancel),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context, true),
-          child: Text(
-            l10n.authLogoutButton,
-            style: TextStyle(color: Theme.of(context).colorScheme.error),
-          ),
-        ),
-      ],
-    ),
-  );
-  if (confirmed != true || !context.mounted) return;
-  await ref.read(authProvider.notifier).signOut();
-  if (!context.mounted) return;
-  context.goAuthLogin();
-}
+import "../widgets/profile_widgets.dart";
 
 class UserProfilePage extends ConsumerWidget {
   const UserProfilePage({super.key});
@@ -49,17 +22,15 @@ class UserProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final textTheme = context.textTheme;
-    final colorScheme = context.colorScheme;
 
     final user = ref.watch(currentUserProvider).value;
-    final email =
-        ref.watch(firebaseAuthProvider).currentUser?.email ?? "";
+    final email = ref.watch(firebaseAuthProvider).currentUser?.email ?? "";
 
-    final displayName = user?.displayName ?? "";
-    final pointsBalance = user?.pointsBalance ?? 0;
-    final pendingPoints = user?.pendingPoints ?? 0;
-    final totalKg = user?.stats.totalKg ?? 0.0;
+    // Solde et kg : users/{uid}. Points en attente : tickets non traités.
+    final stats = ref.watch(citizenStatsProvider).value;
+    final pointsBalance = ref.watch(pointsBalanceProvider);
+    final pendingPoints = stats?.pendingPoints.round() ?? 0;
+    final recycledKg = user?.stats.totalKg ?? 0;
 
     final userStats = <UserStat>[
       (
@@ -71,7 +42,7 @@ class UserProfilePage extends ConsumerWidget {
         label: l10n.profileStatPendingLabel,
       ),
       (
-        value: l10n.profileStatRecycledValue(totalKg),
+        value: "${Formatters.number(recycledKg)} kg",
         label: l10n.profileStatRecycledLabel,
       ),
     ];
@@ -80,128 +51,67 @@ class UserProfilePage extends ConsumerWidget {
       scrollable: true,
       appBar: AppBar(elevation: 0, title: Text(l10n.profileTitle)),
       body: Column(
-        spacing: AppSpacing.lg,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: AppSpacing.xl,
         children: [
-          Card(
-            margin: EdgeInsets.zero,
-            shape: const RoundedRectangleBorder(
-              borderRadius: AppSpacing.roundedLg,
-            ),
-            child: Container(
-              padding: AppSpacing.insetMd,
-              decoration: const BoxDecoration(
-                borderRadius: AppSpacing.roundedLg,
-                gradient: LinearGradient(
-                  colors: [AppColors.grassCourt, AppColors.jungleGreen],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+          FadeSlideIn(
+            child: ProfileHeaderCard(
+              name: user?.displayName ?? "",
+              subtitle: email,
+              subtitleIcon: LucideIcons.mail,
+              footer: IntrinsicHeight(
+                child: Row(
+                  children: [
+                    for (int i = 0; i < userStats.length; i++) ...[
+                      if (i > 0)
+                        VerticalDivider(
+                          color: BrandCard.foreground.withValues(alpha: 0.15),
+                        ),
+                      Expanded(child: _StatCell(stat: userStats[i])),
+                    ],
+                  ],
                 ),
               ),
-              child: Column(
-                children: [
-                  Row(
-                    spacing: AppSpacing.md,
-                    children: [
-                      CircleAvatar(
-                        radius: AppSpacing.mega,
-                        backgroundColor: AppColors.accent,
-                        child: Text(
-                          Formatters.initials(displayName),
-                          style: textTheme.titleLarge!.copyWith(
-                            color: AppColors.onAccent,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              displayName,
-                              style: textTheme.titleLarge!.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.neutral50,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            if (email.isNotEmpty)
-                              Row(
-                                spacing: AppSpacing.sm,
-                                children: [
-                                  Icon(
-                                    LucideIcons.mail,
-                                    size: AppSpacing.iconSm,
-                                    color: AppColors.neutral50.withValues(
-                                      alpha: 0.75,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      email,
-                                      style: textTheme.bodyMedium!.copyWith(
-                                        color: AppColors.neutral50.withValues(
-                                          alpha: 0.75,
-                                        ),
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  AppDivider(color: colorScheme.outline),
-                  SizedBox(
-                    height: AppSpacing.giga,
-                    child: Row(
-                      children: [
-                        for (int i = 0; i < userStats.length; i++) ...[
-                          if (i > 0)
-                            VerticalDivider(color: colorScheme.outline),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  userStats[i].value,
-                                  style: textTheme.titleMedium!.copyWith(
-                                    color: colorScheme.secondary,
-                                  ),
-                                ),
-                                Text(
-                                  userStats[i].label,
-                                  style: textTheme.labelMedium!.copyWith(
-                                    color: AppColors.neutral50.withValues(
-                                      alpha: 0.7,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ],
-              ),
             ),
           ),
-          const ProfileSettingsSection(),
-          AppSpacing.gapVLg,
-          AppElevatedButton(
-            onPressed: () => _confirmLogout(context, ref),
-            text: l10n.authLogout,
-            icon: const Icon(LucideIcons.logOut, size: AppSpacing.iconMd),
-            backgroundColor: colorScheme.error,
-          ),
-          AppSpacing.gapVMd,
+          const FadeSlideIn(index: 1, child: ProfileSettingsSection()),
+          const FadeSlideIn(index: 2, child: LogoutButton()),
+          AppSpacing.gapVXl,
         ],
       ),
+    );
+  }
+}
+
+class _StatCell extends StatelessWidget {
+  const _StatCell({required this.stat});
+
+  final UserStat stat;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = context.textTheme;
+    return Column(
+      spacing: AppSpacing.xs,
+      children: [
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            stat.value,
+            style: textTheme.titleMedium!.copyWith(
+              color: AppColors.supernova,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        Text(
+          stat.label,
+          textAlign: TextAlign.center,
+          style: textTheme.labelMedium!.copyWith(
+            color: BrandCard.foregroundMuted,
+          ),
+        ),
+      ],
     );
   }
 }

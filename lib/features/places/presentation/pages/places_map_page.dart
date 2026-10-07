@@ -451,8 +451,8 @@ class _TopBar extends StatelessWidget {
               for (final value in filters) ...[
                 _FilterChip(
                   label: switch (value) {
-                    final WasteMaterial m => m.label,
-                    final RecyclingKind k => k.label,
+                    final WasteMaterial m => m.label(l10n),
+                    final RecyclingKind k => k.label(l10n),
                     _ => "",
                   },
                   icon: switch (value) {

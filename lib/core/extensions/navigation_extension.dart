@@ -15,7 +15,8 @@ extension NavigationExtensions on BuildContext {
   void goAuthSignup() => go(AppRoutes.authSignup);
   void pushAuthSignup() => push(AppRoutes.authSignup);
   void goAuthForgot() => go(AppRoutes.authForgot);
-  void pushAuthForgot() => push(AppRoutes.authForgot);
+  void pushAuthForgot([String? email]) =>
+      push(AppRoutes.authForgot, extra: email);
   void goAuthResetPassword() => go(AppRoutes.authResetPassword);
   void pushAuthResetPassword() => push(AppRoutes.authResetPassword);
   void goAuthUsernameSetup() => go(AppRoutes.authUsernameSetup);
@@ -30,11 +31,11 @@ extension NavigationExtensions on BuildContext {
 
   // Espace agent
 
-  void goAgentHome()     => go(AppRoutes.agentHome);
+  void goAgentHome() => go(AppRoutes.agentHome);
   void goAgentDeposits() => go(AppRoutes.agentDeposits);
-  void goAgentHistory()  => go(AppRoutes.agentHistory);
-  void goAgentProfile()  => go(AppRoutes.agentProfile);
-  void pushAgentScan()   => push(AppRoutes.agentScan);
+  void goAgentHistory() => go(AppRoutes.agentHistory);
+  void goAgentProfile() => go(AppRoutes.agentProfile);
+  void pushAgentScan() => push(AppRoutes.agentScan);
 
   // Détail d'un lieu
 
@@ -50,6 +51,10 @@ extension NavigationExtensions on BuildContext {
 
   void goScan() => go(AppRoutes.scan);
   void pushScan() => push(AppRoutes.scan);
+
+  // Récompenses
+
+  void pushRewards() => push(AppRoutes.rewards);
 
   // Paramètres
 

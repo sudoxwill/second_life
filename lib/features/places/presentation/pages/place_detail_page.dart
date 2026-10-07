@@ -251,14 +251,14 @@ class _Header extends StatelessWidget {
               runSpacing: AppSpacing.sm,
               children: [
                 Pill(
-                  label: point.typeLabel,
+                  label: point.typeLabel(context.l10n),
                   icon: point.icon,
                   color: scheme.onPrimary,
                   background: point.color(context),
                 ),
                 if (distance != null)
                   Pill(
-                    label: formatDistance(distance!),
+                    label: formatDistance(distance!, context.l10n.localeName),
                     color: scheme.onSurface,
                     background: scheme.surface,
                   ),
@@ -376,7 +376,7 @@ class _MaterialsCard extends StatelessWidget {
                           AppSpacing.gapHSm,
                           Expanded(
                             child: Text(
-                              material.label,
+                              material.label(context.l10n),
                               style: context.textTheme.labelLarge!.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -429,7 +429,7 @@ class _HoursCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  point.hoursLabel,
+                  point.hoursLabel(context.l10n.localeName),
                   style: context.textTheme.labelLarge!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: point.color(context),

@@ -1,9 +1,11 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:lucide_icons_flutter/lucide_icons.dart";
 import "package:mobile_scanner/mobile_scanner.dart";
 
 import "../../../../core/errors/failure.dart";
 import "../../../../core/errors/failure_message.dart";
+import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/index.dart";
 import "../../../../core/utils/formatters.dart";
 import "../../../../shared/presentation/widgets/others/app_card.dart";
@@ -70,6 +72,7 @@ class _AgentScannerPageState extends ConsumerState<AgentScannerPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final state = ref.watch(ticketValidationProvider);
 
     return Scaffold(
@@ -84,8 +87,7 @@ class _AgentScannerPageState extends ConsumerState<AgentScannerPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(32),
                   child: Text(
-                    "Caméra indisponible (${error.errorCode.name}).\n"
-                    "Autorisez l’accès à la caméra dans les réglages.",
+                    l10n.agentScanCameraUnavailable(error.errorCode.name),
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: Colors.white70),
                   ),
@@ -110,9 +112,8 @@ class _AgentScannerPageState extends ConsumerState<AgentScannerPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: ScanHint(
                       _notATicket
-                          ? "Ce QR code n’est pas un dépôt"
-                          : "Pointez l’objectif sur le QR code généré "
-                                "sur l’écran du déposant",
+                          ? l10n.errorInvalidTicketCode
+                          : l10n.scanAgentHint,
                     ),
                   ),
                 ],
@@ -127,19 +128,22 @@ class _AgentScannerPageState extends ConsumerState<AgentScannerPage> {
                   child: Row(
                     children: [
                       ScanRoundButton(
-                        icon: Icons.arrow_back_rounded,
-                        tooltip: "Retour",
+                        icon: LucideIcons.arrowLeft,
+                        tooltip: l10n.commonBack,
                         onPressed: () => Navigator.pop(context),
                       ),
                       const Spacer(),
-                      const ScanChip(
-                        icon: Icons.qr_code_scanner_rounded,
-                        label: "Scanner QR Déposant",
+                      Flexible(
+                        flex: 4,
+                        child: ScanChip(
+                          icon: LucideIcons.scanQrCode,
+                          label: l10n.scanAgentChip,
+                        ),
                       ),
                       const Spacer(),
                       ScanRoundButton(
-                        icon: Icons.flashlight_on_outlined,
-                        tooltip: "Lampe",
+                        icon: LucideIcons.flashlight,
+                        tooltip: l10n.scanTorch,
                         onPressed: _controller.toggleTorch,
                       ),
                     ],
@@ -149,19 +153,22 @@ class _AgentScannerPageState extends ConsumerState<AgentScannerPage> {
                 if (_scanned != null)
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                    child: switch (state) {
-                      AsyncData(value: final ticket?) => _DetectedCard(
-                        ticket: ticket,
-                        onWeigh: () =>
-                            openWeighing(context, _scanned!, replace: true),
-                        onScanAgain: _scanAgain,
-                      ),
-                      AsyncError(:final error) => _ErrorSheet(
-                        error: error,
-                        onScanAgain: _scanAgain,
-                      ),
-                      _ => const _LoadingSheet(),
-                    },
+                    child: AnimatedSwitcher(
+                      duration: AppSpacing.durationFast,
+                      child: switch (state) {
+                        AsyncData(value: final ticket?) => _DetectedCard(
+                          ticket: ticket,
+                          onWeigh: () =>
+                              openWeighing(context, _scanned!, replace: true),
+                          onScanAgain: _scanAgain,
+                        ),
+                        AsyncError(:final error) => _ErrorSheet(
+                          error: error,
+                          onScanAgain: _scanAgain,
+                        ),
+                        _ => const _LoadingSheet(),
+                      },
+                    ),
                   ),
               ],
             ),
@@ -177,17 +184,17 @@ class _LoadingSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AppCard(
+    return AppCard(
       child: Row(
         children: [
-          SizedBox.square(
+          const SizedBox.square(
             dimension: 22,
             child: CircularProgressIndicator(strokeWidth: 2.5),
           ),
-          SizedBox(width: 14),
+          const SizedBox(width: 14),
           Text(
-            "Chargement du dépôt…",
-            style: TextStyle(fontWeight: FontWeight.w600),
+            context.l10n.scanLoadingDeposit,
+            style: const TextStyle(fontWeight: FontWeight.w600),
           ),
         ],
       ),
@@ -202,17 +209,18 @@ class _ErrorSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
             children: [
-              Icon(Icons.error_outline_rounded, color: context.danger),
+              Icon(LucideIcons.circleAlert, color: context.danger),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  failureMessage(error),
+                  failureMessage(l10n, error),
                   style: TextStyle(
                     color: context.danger,
                     fontWeight: FontWeight.w700,
@@ -222,9 +230,10 @@ class _ErrorSheet extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 14),
-          FilledButton(
+          FilledButton.icon(
             onPressed: onScanAgain,
-            child: const Text("Scanner un autre QR"),
+            icon: const Icon(LucideIcons.scanQrCode),
+            label: Text(l10n.scanAnother),
           ),
         ],
       ),
@@ -244,6 +253,7 @@ class _DetectedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
     final analysis = ticket.wasteAnalysisResult;
     final estimatedKg = Formatters.kg(analysis.itemWeight.estimatedWeight);
@@ -271,18 +281,19 @@ class _DetectedCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Pill(
-                      label: "QR DÉTECTÉ AVEC SUCCÈS",
-                      icon: Icons.check_box_rounded,
+                      label: l10n.scanDetected,
+                      icon: LucideIcons.circleCheck,
                       color: context.primaryText,
                       background: context.primarySoft,
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      "Dépôt ${Formatters.shortCode(ticket.code)}",
+                      l10n.depositTitle(Formatters.shortCode(ticket.code)),
                       style: AppTextStyles.heading(20),
                     ),
                     Text(
-                      "Déposant : ${Formatters.userLabel(ticket.userId)}",
+                      l10n.agentHistoryDepositor +
+                          Formatters.userLabel(l10n, ticket.userId),
                       style: TextStyle(
                         fontSize: 13,
                         color: scheme.onSurfaceVariant,
@@ -297,7 +308,7 @@ class _DetectedCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      "Matériau",
+                      l10n.depositMaterial,
                       style: TextStyle(
                         fontSize: 12,
                         color: scheme.onSurfaceVariant,
@@ -325,21 +336,22 @@ class _DetectedCard extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      const TextSpan(text: "Poids estimé : "),
-                      TextSpan(
-                        text: "~$estimatedKg kg",
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                    ],
+                Expanded(
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(text: l10n.depositEstimatedWeight),
+                        TextSpan(
+                          text: "~$estimatedKg kg",
+                          style: const TextStyle(fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
+                    style: const TextStyle(fontSize: 13),
                   ),
-                  style: const TextStyle(fontSize: 13),
                 ),
-                const Spacer(),
                 Text(
-                  "~$estimatedPoints pts estimés",
+                  l10n.depositEstimatedPoints(estimatedPoints),
                   style: TextStyle(
                     color: context.warning,
                     fontWeight: FontWeight.w700,
@@ -353,8 +365,8 @@ class _DetectedCard extends StatelessWidget {
           FilledButton.icon(
             onPressed: onWeigh,
             iconAlignment: IconAlignment.end,
-            icon: const Icon(Icons.arrow_forward_rounded),
-            label: const Text("Voir la fiche du dépôt & peser"),
+            icon: const Icon(LucideIcons.arrowRight),
+            label: Text(l10n.scanOpenWeighing),
           ),
         ],
       ),

@@ -1,19 +1,23 @@
+import "../../l10n/app_localizations.dart";
 import "failure.dart";
 
 // Message affiché à l'utilisateur pour une Failure.
-String failureMessage(Object error) {
+String failureMessage(AppLocalizations l10n, Object error) {
   return switch (error) {
-    NetworkFailure() => "Connexion impossible. Vérifiez votre réseau.",
-    ServerFailure() => "Le service est indisponible. Réessayez plus tard.",
-    UnauthenticatedFailure() => "Session expirée. Relancez l’application.",
-    NotRelayAgentFailure() => "Ce compte n’est pas un agent relais actif.",
-    TicketNotFoundFailure() => "Dépôt introuvable.",
-    TicketAlreadyProcessedFailure() => "Ce dépôt a déjà été traité.",
-    TicketExpiredFailure() => "Ce dépôt a expiré (plus de 48 h).",
-    InvalidTicketCodeFailure() => "Ce QR code n’est pas un dépôt.",
-    InvalidWeightFailure() => "Poids invalide (entre 0 et 50 kg).",
-    CommentRequiredFailure() => "Un commentaire est obligatoire.",
-    CommentTooLongFailure() => "Commentaire trop long (500 caractères max).",
-    _ => "Une erreur inattendue est survenue.",
+    NetworkFailure() => l10n.errorNetwork,
+    ServerFailure() => l10n.errorServer,
+    UnauthenticatedFailure() => l10n.errorUnauthenticated,
+    NotRelayAgentFailure() => l10n.errorNotRelayAgent,
+    TicketNotFoundFailure() => l10n.errorTicketNotFound,
+    TicketAlreadyProcessedFailure() => l10n.errorTicketAlreadyProcessed,
+    TicketExpiredFailure() => l10n.errorTicketExpired,
+    InvalidTicketCodeFailure() => l10n.errorInvalidTicketCode,
+    InvalidWeightFailure() => l10n.errorInvalidWeight,
+    CommentRequiredFailure() => l10n.errorCommentRequired,
+    CommentTooLongFailure() => l10n.errorCommentTooLong,
+    InsufficientPointsFailure() => l10n.rewardsErrorInsufficient,
+    RewardOutOfStockFailure() => l10n.rewardsErrorOutOfStock,
+    RewardUnavailableFailure() => l10n.rewardsErrorGeneric,
+    _ => l10n.errorUnexpected,
   };
 }
