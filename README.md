@@ -148,8 +148,6 @@ flutter test
 
 - [Guide pour commencer](ONBOARDING.md) : nos conventions, le design
   system et les widgets qu'on a faits
-- [Architecture](docs/architecture.md) : comment le projet est découpé
-- [Base Firestore](docs/firestore.md)
 - [Comment on utilise Git](CONTRIBUTING.md)
 
 ## Ce qu'on a utilisé

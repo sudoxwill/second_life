@@ -1,5 +1,4 @@
-// Noms des collections Firestore. Le détail des champs est décrit dans
-// docs/firestore.md.
+// Noms des collections Firestore.
 abstract final class FirestorePaths {
   static const users = "users";
   static const vouchers = "vouchers";

@@ -47,10 +47,6 @@ app.*.map.json
 # Widget Preview related
 .widget_preview/
 
-
-# Docs
-/docs/
-docs/
 .env
 lib/core/configs/secrets.dart
 firebase.json
