@@ -11,6 +11,7 @@ class AppRoutes {
   static const String authSignup = "/auth/signup";
   static const String authForgot = "/auth/forgot";
   static const String authResetPassword = "/auth/reset-password";
+  static const String authUsernameSetup = "/auth/setup-username";
 
   // Espace usager, 4 onglets
   static const String home = "/home";

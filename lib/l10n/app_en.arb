@@ -204,6 +204,30 @@
   "authLogoutError": "Failed to sign out. Try again.",
   "@authLogoutError": { "description": "Error message after sign-out failure" },
 
+  "authPasswordLabel": "Password",
+  "@authPasswordLabel": { "description": "Password field label" },
+
+  "authPasswordHint": "••••••••",
+  "@authPasswordHint": { "description": "Password field placeholder" },
+
+  "authConfirmPasswordLabel": "Confirm password",
+  "@authConfirmPasswordLabel": { "description": "Confirm password field label" },
+
+  "authForgotPassword": "Forgot password?",
+  "@authForgotPassword": { "description": "Link to password reset page" },
+
+  "authUsernameSetupTitle": "Choose your username",
+  "@authUsernameSetupTitle": { "description": "Title of the username setup page (after OAuth)" },
+
+  "authUsernameSetupSubtitle": "This will be your unique identifier on Second Life.",
+  "@authUsernameSetupSubtitle": { "description": "Subtitle of the username setup page" },
+
+  "authUsernameSetupButton": "Continue",
+  "@authUsernameSetupButton": { "description": "Confirm username button" },
+
+  "authUsernameTaken": "This username is already taken",
+  "@authUsernameTaken": { "description": "Error shown when username is already taken" },
+
   "@__sectionValidation": {
     "description": "━━━━ VALIDATION — Form error messages ━━━━"
   },

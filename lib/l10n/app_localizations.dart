@@ -428,6 +428,54 @@ abstract class AppLocalizations {
   /// **'Échec de la déconnexion. Réessaie.'**
   String get authLogoutError;
 
+  /// Label du champ mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot de passe'**
+  String get authPasswordLabel;
+
+  /// Placeholder du champ mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'••••••••'**
+  String get authPasswordHint;
+
+  /// Label du champ de confirmation du mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'Confirmer le mot de passe'**
+  String get authConfirmPasswordLabel;
+
+  /// Lien vers la page de réinitialisation du mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot de passe oublié ?'**
+  String get authForgotPassword;
+
+  /// Titre de la page de choix du nom d'utilisateur (après OAuth)
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisis ton nom'**
+  String get authUsernameSetupTitle;
+
+  /// Sous-titre explicatif de la page de choix du nom d'utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce nom sera ton identifiant unique sur Second Life.'**
+  String get authUsernameSetupSubtitle;
+
+  /// Bouton de validation du nom d'utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer'**
+  String get authUsernameSetupButton;
+
+  /// Erreur affichée quand le nom d'utilisateur est déjà pris
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce nom est déjà pris'**
+  String get authUsernameTaken;
+
   /// Message d'erreur pour un champ obligatoire vide
   ///
   /// In fr, this message translates to:

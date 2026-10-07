@@ -189,6 +189,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authLogoutError => 'Failed to sign out. Try again.';
 
   @override
+  String get authPasswordLabel => 'Password';
+
+  @override
+  String get authPasswordHint => '••••••••';
+
+  @override
+  String get authConfirmPasswordLabel => 'Confirm password';
+
+  @override
+  String get authForgotPassword => 'Forgot password?';
+
+  @override
+  String get authUsernameSetupTitle => 'Choose your username';
+
+  @override
+  String get authUsernameSetupSubtitle =>
+      'This will be your unique identifier on Second Life.';
+
+  @override
+  String get authUsernameSetupButton => 'Continue';
+
+  @override
+  String get authUsernameTaken => 'This username is already taken';
+
+  @override
   String get validationRequired => 'This field is required.';
 
   @override

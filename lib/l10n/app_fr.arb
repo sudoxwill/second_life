@@ -216,6 +216,30 @@
   "authLogoutError": "Échec de la déconnexion. Réessaie.",
   "@authLogoutError": { "description": "Message d'erreur après échec de déconnexion" },
 
+  "authPasswordLabel": "Mot de passe",
+  "@authPasswordLabel": { "description": "Label du champ mot de passe" },
+
+  "authPasswordHint": "••••••••",
+  "@authPasswordHint": { "description": "Placeholder du champ mot de passe" },
+
+  "authConfirmPasswordLabel": "Confirmer le mot de passe",
+  "@authConfirmPasswordLabel": { "description": "Label du champ de confirmation du mot de passe" },
+
+  "authForgotPassword": "Mot de passe oublié ?",
+  "@authForgotPassword": { "description": "Lien vers la page de réinitialisation du mot de passe" },
+
+  "authUsernameSetupTitle": "Choisis ton nom",
+  "@authUsernameSetupTitle": { "description": "Titre de la page de choix du nom d'utilisateur (après OAuth)" },
+
+  "authUsernameSetupSubtitle": "Ce nom sera ton identifiant unique sur Second Life.",
+  "@authUsernameSetupSubtitle": { "description": "Sous-titre explicatif de la page de choix du nom d'utilisateur" },
+
+  "authUsernameSetupButton": "Continuer",
+  "@authUsernameSetupButton": { "description": "Bouton de validation du nom d'utilisateur" },
+
+  "authUsernameTaken": "Ce nom est déjà pris",
+  "@authUsernameTaken": { "description": "Erreur affichée quand le nom d'utilisateur est déjà pris" },
+
   "@__sectionValidation": {
     "description": "━━━━ VALIDATION — Messages d'erreur de formulaire ━━━━"
   },

@@ -22,23 +22,30 @@ class RegisterPage extends ConsumerStatefulWidget {
 
 class _RegisterPageState extends ConsumerState<RegisterPage> {
   late GlobalKey<FormState> _formKey;
-  late TextEditingController _emailController;
   late TextEditingController _usernameController;
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+  late TextEditingController _confirmPasswordController;
   bool _isLoading = false;
+  bool _obscurePassword = true;
+  bool _obscureConfirm = true;
 
   @override
   void initState() {
     super.initState();
-    _isLoading = false;
     _formKey = GlobalKey<FormState>();
-    _emailController = TextEditingController();
     _usernameController = TextEditingController();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
   }
 
   @override
   void dispose() {
-    _emailController.dispose();
     _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -47,6 +54,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
+
     return AppScaffold(
       scrollable: true,
       resizeToAvoidBottomInset: true,
@@ -67,21 +75,56 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           Form(
             key: _formKey,
             child: Column(
+              spacing: AppSpacing.xl,
               children: [
                 AppTextFormField(
                   isRequired: true,
                   labelText: l10n.authUsernameLabel,
-                  textInputAction: .next,
+                  hintText: l10n.authUsernameHint,
+                  textInputAction: TextInputAction.next,
                   prefixIconData: LucideIcons.userRound,
                   controller: _usernameController,
+                  validatorFunction: _validateUsername,
                 ),
-                AppSpacing.gapVXl,
                 AppTextFormField(
                   isRequired: true,
                   labelText: l10n.authEmailLabel,
-                  keyboardType: .emailAddress,
+                  hintText: l10n.authEmailHint,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
                   prefixIconData: LucideIcons.mail,
                   controller: _emailController,
+                ),
+                AppTextFormField(
+                  isRequired: true,
+                  labelText: l10n.authPasswordLabel,
+                  hintText: l10n.authPasswordHint,
+                  obscureText: _obscurePassword,
+                  textInputAction: TextInputAction.next,
+                  prefixIconData: LucideIcons.lockKeyhole,
+                  suffixIconData: _obscurePassword
+                      ? LucideIcons.eyeOff
+                      : LucideIcons.eye,
+                  suffixIconOnClick: () =>
+                      setState(() => _obscurePassword = !_obscurePassword),
+                  controller: _passwordController,
+                  validatorFunction: _validatePassword,
+                ),
+                AppTextFormField(
+                  isRequired: true,
+                  labelText: l10n.authConfirmPasswordLabel,
+                  hintText: l10n.authPasswordHint,
+                  obscureText: _obscureConfirm,
+                  textInputAction: TextInputAction.done,
+                  prefixIconData: LucideIcons.lockKeyhole,
+                  suffixIconData: _obscureConfirm
+                      ? LucideIcons.eyeOff
+                      : LucideIcons.eye,
+                  suffixIconOnClick: () =>
+                      setState(() => _obscureConfirm = !_obscureConfirm),
+                  controller: _confirmPasswordController,
+                  validatorFunction: _validateConfirmPassword,
+                  onFieldSubmitted: (_) => _signUp(),
                 ),
               ],
             ),
@@ -103,7 +146,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       text: l10n.authLoginLink,
                       style: textTheme.bodyMedium!.copyWith(
                         color: colorScheme.primary,
-                        fontWeight: .bold,
+                        fontWeight: FontWeight.bold,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () => context.goAuthLogin(),
@@ -122,6 +165,27 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     );
   }
 
+  String? _validateUsername(String? value) {
+    final v = value?.trim() ?? "";
+    final regex = RegExp(r"^[a-zA-Z0-9_]{3,20}$");
+    if (!regex.hasMatch(v)) return context.l10n.validationUsernameInvalid;
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if ((value ?? "").length < 8) {
+      return context.l10n.validationPasswordTooShort;
+    }
+    return null;
+  }
+
+  String? _validateConfirmPassword(String? value) {
+    if (value != _passwordController.text) {
+      return context.l10n.validationPasswordsDoNotMatch;
+    }
+    return null;
+  }
+
   Future<void> _signUp() async {
     if (!_formKey.currentState!.validate()) return;
     await _signIn();
@@ -134,7 +198,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     final AppRole role;
     try {
       role = await ref.read(authProvider.notifier).signIn();
-      // Failure n'est pas une Exception : on attrape tout.
     } catch (_) {
       if (!mounted) return;
       setState(() => _isLoading = false);

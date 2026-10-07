@@ -193,6 +193,31 @@ class AppLocalizationsFr extends AppLocalizations {
   String get authLogoutError => 'Échec de la déconnexion. Réessaie.';
 
   @override
+  String get authPasswordLabel => 'Mot de passe';
+
+  @override
+  String get authPasswordHint => '••••••••';
+
+  @override
+  String get authConfirmPasswordLabel => 'Confirmer le mot de passe';
+
+  @override
+  String get authForgotPassword => 'Mot de passe oublié ?';
+
+  @override
+  String get authUsernameSetupTitle => 'Choisis ton nom';
+
+  @override
+  String get authUsernameSetupSubtitle =>
+      'Ce nom sera ton identifiant unique sur Second Life.';
+
+  @override
+  String get authUsernameSetupButton => 'Continuer';
+
+  @override
+  String get authUsernameTaken => 'Ce nom est déjà pris';
+
+  @override
   String get validationRequired => 'Ce champ est obligatoire.';
 
   @override

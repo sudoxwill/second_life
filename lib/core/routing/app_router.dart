@@ -97,6 +97,14 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
       GoRoute(
+        path: AppRoutes.authUsernameSetup,
+        pageBuilder: (context, state) => AppTransitions.fadeSlide(
+          context: context,
+          state: state,
+          child: const UsernameSetupPage(),
+        ),
+      ),
+      GoRoute(
         path: AppRoutes.authResetPassword,
         pageBuilder: (context, state) => AppTransitions.fadeSlide(
           context: context,

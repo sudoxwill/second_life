@@ -23,19 +23,22 @@ class LoginPage extends ConsumerStatefulWidget {
 class _LoginPageState extends ConsumerState<LoginPage> {
   late GlobalKey<FormState> _formKey;
   late TextEditingController _emailController;
+  late TextEditingController _passwordController;
   bool _isLoading = false;
+  bool _obscurePassword = true;
 
   @override
   void initState() {
     super.initState();
-    _isLoading = false;
     _formKey = GlobalKey<FormState>();
     _emailController = TextEditingController();
+    _passwordController = TextEditingController();
   }
 
   @override
   void dispose() {
     _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -44,6 +47,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
+
     return AppScaffold(
       scrollable: true,
       resizeToAvoidBottomInset: true,
@@ -64,13 +68,31 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           Form(
             key: _formKey,
             child: Column(
+              spacing: AppSpacing.xl,
               children: [
                 AppTextFormField(
                   isRequired: true,
                   labelText: l10n.authEmailLabel,
-                  keyboardType: .emailAddress,
+                  hintText: l10n.authEmailHint,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
                   prefixIconData: LucideIcons.mail,
                   controller: _emailController,
+                ),
+                AppTextFormField(
+                  isRequired: true,
+                  labelText: l10n.authPasswordLabel,
+                  hintText: l10n.authPasswordHint,
+                  obscureText: _obscurePassword,
+                  textInputAction: TextInputAction.done,
+                  prefixIconData: LucideIcons.lockKeyhole,
+                  suffixIconData: _obscurePassword
+                      ? LucideIcons.eyeOff
+                      : LucideIcons.eye,
+                  suffixIconOnClick: () =>
+                      setState(() => _obscurePassword = !_obscurePassword),
+                  controller: _passwordController,
+                  onFieldSubmitted: (_) => _login(),
                 ),
               ],
             ),
@@ -83,6 +105,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 isLoading: _isLoading,
                 onPressed: _login,
               ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: _isLoading ? null : context.goAuthForgot,
+                  child: Text(
+                    l10n.authForgotPassword,
+                    style: textTheme.bodyMedium!.copyWith(
+                      color: colorScheme.primary,
+                    ),
+                  ),
+                ),
+              ),
               RichText(
                 text: TextSpan(
                   text: "${l10n.authNoAccount} ",
@@ -92,7 +126,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       text: l10n.authSignupLink,
                       style: textTheme.bodyMedium!.copyWith(
                         color: colorScheme.primary,
-                        fontWeight: .bold,
+                        fontWeight: FontWeight.bold,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () => context.pushAuthSignup(),
@@ -123,7 +157,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final AppRole role;
     try {
       role = await ref.read(authProvider.notifier).signIn();
-      // Failure n'est pas une Exception : on attrape tout.
     } catch (_) {
       if (!mounted) return;
       setState(() => _isLoading = false);
