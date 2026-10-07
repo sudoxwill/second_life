@@ -417,6 +417,9 @@
   "homePointsNotCash": "Not convertible into cash. Redeemable for vouchers at our partner.",
   "@homePointsNotCash": { "description": "Text under the points balance explaining that points are not converted into cash" },
 
+  "homePendingDepositsEmpty": "No deposits yet",
+  "@homePendingDepositsEmpty": { "description": "Empty state of the pending deposits list" },
+
   "homePendingDepositsTitle": "Pending deposits",
   "@homePendingDepositsTitle": { "description": "Title of the card listing deposits awaiting validation" },
 
@@ -773,5 +776,128 @@
   "@materialEwaste": { "description": "Label of the electronic waste material" },
 
   "materialOrganic": "Organic",
-  "@materialOrganic": { "description": "Label of the organic waste material" }
+  "@materialOrganic": { "description": "Label of the organic waste material" },
+
+  "@__sectionAnalysisResult": {
+    "description": "━━━━ ANALYSIS RESULT — AI analysis result page ━━━━"
+  },
+
+  "analysisResultTitle": "AI Analysis Result",
+  "@analysisResultTitle": { "description": "Title of the analysis result page" },
+
+  "analysisAnalyzingTitle": "AI analysis in progress…",
+  "@analysisAnalyzingTitle": { "description": "Title shown during analysis" },
+
+  "analysisAnalyzingSubtitle": "Identifying the material and estimating the weight",
+  "@analysisAnalyzingSubtitle": { "description": "Subtitle shown during analysis" },
+
+  "analysisDetected": "Detected: {item}",
+  "@analysisDetected": {
+    "description": "Photo overlay label: object detected by AI",
+    "placeholders": {
+      "item": { "type": "String", "example": "Plastic bottle" }
+    }
+  },
+
+  "analysisConfidenceScore": "Confidence {percent}",
+  "@analysisConfidenceScore": {
+    "description": "AI confidence score shown on photo and card",
+    "placeholders": {
+      "percent": { "type": "String", "example": "87%" }
+    }
+  },
+
+  "analysisTipsTitle": "Sorting tips",
+  "@analysisTipsTitle": { "description": "Title of the sorting tips card" },
+
+  "analysisTipsSeeMore": "Read more",
+  "@analysisTipsSeeMore": { "description": "Link to show all sorting tips" },
+
+  "analysisNonRecyclable": "This waste is not accepted at relay points.",
+  "@analysisNonRecyclable": { "description": "Notice shown if the waste is not recyclable" },
+
+  "analysisImportantLabel": "Important: ",
+  "@analysisImportantLabel": { "description": "Bold prefix in the points notice" },
+
+  "analysisImportantBody": "points will be credited after the actual weighing by a relay agent. The final calculation is based on the actual weight.",
+  "@analysisImportantBody": { "description": "Body of the notice reminding that points are based on actual weight" },
+
+  "analysisSaveDeposit": "Save deposit",
+  "@analysisSaveDeposit": { "description": "Button to save the deposit" },
+
+  "analysisDepositSaved": "Deposit {code} saved to your history",
+  "@analysisDepositSaved": {
+    "description": "Confirmation that the deposit was saved",
+    "placeholders": {
+      "code": { "type": "String", "example": "A1B2C3" }
+    }
+  },
+
+  "analysisScanAgain": "Scan another item",
+  "@analysisScanAgain": { "description": "Button to restart analysis" },
+
+  "analysisEstimatedPoints": "estimated pts",
+  "@analysisEstimatedPoints": { "description": "Label below the estimated points amount" },
+
+  "analysisEstimatedWeight": "AI estimated weight: ~{weight} kg",
+  "@analysisEstimatedWeight": {
+    "description": "Weight estimated by AI shown in the result card",
+    "placeholders": {
+      "weight": { "type": "String", "example": "0.5" }
+    }
+  },
+
+  "analysisConfidenceIndex": "AI recognition index",
+  "@analysisConfidenceIndex": { "description": "Label above the confidence score progress bar" },
+
+  "analysisQrTitle": "Deposit QR Code to present to the agent",
+  "@analysisQrTitle": { "description": "Title of the QR section in the result page" },
+
+  "analysisQrPlaceholder": "ID: GENERATED AT DEPOSIT",
+  "@analysisQrPlaceholder": { "description": "QR caption before ticket registration" },
+
+  "analysisQrId": "ID: {code}",
+  "@analysisQrId": {
+    "description": "QR caption after ticket registration",
+    "placeholders": {
+      "code": { "type": "String", "example": "A1B2C3" }
+    }
+  },
+
+  "analysisQrCaption": "Present this QR code to a relay point agent for certified weighing.",
+  "@analysisQrCaption": { "description": "Instruction below the deposit QR code" },
+
+  "@__sectionWasteScan": {
+    "description": "━━━━ WASTE SCAN — Camera scan page ━━━━"
+  },
+
+  "scanAiBranding": "SecondLife Vision AI",
+  "@scanAiBranding": { "description": "AI chip label in the camera viewfinder" },
+
+  "scanTooltipImport": "Import a photo",
+  "@scanTooltipImport": { "description": "Tooltip of the gallery import button in scan" },
+
+  "scanTooltipFlash": "Flashlight",
+  "@scanTooltipFlash": { "description": "Tooltip of the flash button in scan" },
+
+  "scanTooltipCapture": "Take photo",
+  "@scanTooltipCapture": { "description": "Tooltip of the shutter button" },
+
+  "scanHintImport": "Import a photo of the waste",
+  "@scanHintImport": { "description": "Instruction shown when camera is unavailable" },
+
+  "scanHintFrame": "Position the waste in the frame",
+  "@scanHintFrame": { "description": "Instruction shown when camera is active" },
+
+  "scanCaptureError": "The photo could not be taken.",
+  "@scanCaptureError": { "description": "Error message if capture fails" },
+
+  "scanGalleryError": "Unable to open the image.",
+  "@scanGalleryError": { "description": "Error message if gallery import fails" },
+
+  "scanCameraUnavailable": "Camera unavailable. Allow camera access or import a photo.",
+  "@scanCameraUnavailable": { "description": "Placeholder text when camera permission is denied" },
+
+  "scanCameraOpening": "Opening camera…",
+  "@scanCameraOpening": { "description": "Placeholder text during camera initialization" }
 }

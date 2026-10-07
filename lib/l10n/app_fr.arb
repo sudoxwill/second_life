@@ -429,6 +429,9 @@
   "homePointsNotCash": "Non convertie en argent liquide. Échangeable contre des bons chez le partenaire.",
   "@homePointsNotCash": { "description": "Explication sous le solde de points : les points ne sont pas convertis en espèces" },
 
+  "homePendingDepositsEmpty": "Aucun dépôt en attente",
+  "@homePendingDepositsEmpty": { "description": "État vide de la liste des dépôts en attente" },
+
   "homePendingDepositsTitle": "Dépôts en attente",
   "@homePendingDepositsTitle": { "description": "Titre de la carte listant les dépôts en attente de validation" },
 
@@ -785,5 +788,128 @@
   "@materialEwaste": { "description": "Libellé du matériau déchets électroniques" },
 
   "materialOrganic": "Organique",
-  "@materialOrganic": { "description": "Libellé du matériau déchets organiques" }
+  "@materialOrganic": { "description": "Libellé du matériau déchets organiques" },
+
+  "@__sectionAnalysisResult": {
+    "description": "━━━━ ANALYSIS RESULT — Page résultat de l'analyse IA ━━━━"
+  },
+
+  "analysisResultTitle": "Résultat de l'analyse IA",
+  "@analysisResultTitle": { "description": "Titre de la page résultat d'analyse" },
+
+  "analysisAnalyzingTitle": "Analyse par l'IA en cours…",
+  "@analysisAnalyzingTitle": { "description": "Titre affiché pendant l'analyse" },
+
+  "analysisAnalyzingSubtitle": "Identification de la matière et estimation du poids",
+  "@analysisAnalyzingSubtitle": { "description": "Sous-titre affiché pendant l'analyse" },
+
+  "analysisDetected": "Détecté : {item}",
+  "@analysisDetected": {
+    "description": "Libellé overlay photo : objet détecté par l'IA",
+    "placeholders": {
+      "item": { "type": "String", "example": "Bouteille plastique" }
+    }
+  },
+
+  "analysisConfidenceScore": "Confiance {percent}",
+  "@analysisConfidenceScore": {
+    "description": "Score de confiance de l'IA affiché sur la photo et dans la carte",
+    "placeholders": {
+      "percent": { "type": "String", "example": "87 %" }
+    }
+  },
+
+  "analysisTipsTitle": "Conseils de tri",
+  "@analysisTipsTitle": { "description": "Titre de la carte des conseils de tri" },
+
+  "analysisTipsSeeMore": "Lire plus",
+  "@analysisTipsSeeMore": { "description": "Lien pour afficher tous les conseils de tri" },
+
+  "analysisNonRecyclable": "Ce déchet n'est pas accepté en point relais.",
+  "@analysisNonRecyclable": { "description": "Avis affiché si le déchet n'est pas recyclable" },
+
+  "analysisImportantLabel": "Important : ",
+  "@analysisImportantLabel": { "description": "Préfixe en gras dans la notice points" },
+
+  "analysisImportantBody": "les points seront crédités après la pesée réelle par un agent relais. Le calcul final s'effectue sur le poids réel.",
+  "@analysisImportantBody": { "description": "Corps de la notice rappelant que les points sont basés sur le poids réel" },
+
+  "analysisSaveDeposit": "Enregistrer le dépôt",
+  "@analysisSaveDeposit": { "description": "Bouton pour enregistrer le dépôt" },
+
+  "analysisDepositSaved": "Dépôt {code} enregistré dans votre historique",
+  "@analysisDepositSaved": {
+    "description": "Confirmation d'enregistrement du dépôt",
+    "placeholders": {
+      "code": { "type": "String", "example": "A1B2C3" }
+    }
+  },
+
+  "analysisScanAgain": "Scanner un autre déchet",
+  "@analysisScanAgain": { "description": "Bouton pour relancer une analyse" },
+
+  "analysisEstimatedPoints": "pts estimés",
+  "@analysisEstimatedPoints": { "description": "Libellé sous le montant de points estimés" },
+
+  "analysisEstimatedWeight": "Poids estimé par l'IA : ~{weight} kg",
+  "@analysisEstimatedWeight": {
+    "description": "Poids estimé par l'IA affiché dans la carte résultat",
+    "placeholders": {
+      "weight": { "type": "String", "example": "0.5" }
+    }
+  },
+
+  "analysisConfidenceIndex": "Indice de reconnaissance IA",
+  "@analysisConfidenceIndex": { "description": "Libellé au-dessus de la barre de progression du score de confiance" },
+
+  "analysisQrTitle": "QR Code du dépôt à présenter à l'agent",
+  "@analysisQrTitle": { "description": "Titre de la section QR dans la page résultat" },
+
+  "analysisQrPlaceholder": "ID : GÉNÉRATION AU DÉPÔT",
+  "@analysisQrPlaceholder": { "description": "Caption du QR avant l'enregistrement du ticket" },
+
+  "analysisQrId": "ID : {code}",
+  "@analysisQrId": {
+    "description": "Caption du QR après enregistrement du ticket",
+    "placeholders": {
+      "code": { "type": "String", "example": "A1B2C3" }
+    }
+  },
+
+  "analysisQrCaption": "Présentez ce QR code à l'agent d'un point relais pour procéder à la pesée certifiée.",
+  "@analysisQrCaption": { "description": "Instruction sous le QR code du dépôt" },
+
+  "@__sectionWasteScan": {
+    "description": "━━━━ WASTE SCAN — Page caméra scan déchet ━━━━"
+  },
+
+  "scanAiBranding": "IA SecondLife Vision",
+  "@scanAiBranding": { "description": "Label du chip IA dans le viseur de la caméra" },
+
+  "scanTooltipImport": "Importer une photo",
+  "@scanTooltipImport": { "description": "Tooltip du bouton d'import galerie dans le scan" },
+
+  "scanTooltipFlash": "Lampe",
+  "@scanTooltipFlash": { "description": "Tooltip du bouton flash dans le scan" },
+
+  "scanTooltipCapture": "Prendre la photo",
+  "@scanTooltipCapture": { "description": "Tooltip du bouton déclencheur" },
+
+  "scanHintImport": "Importez une photo du déchet",
+  "@scanHintImport": { "description": "Instruction affichée quand la caméra est indisponible" },
+
+  "scanHintFrame": "Positionnez le déchet dans le cadre",
+  "@scanHintFrame": { "description": "Instruction affichée quand la caméra est active" },
+
+  "scanCaptureError": "La photo n'a pas pu être prise.",
+  "@scanCaptureError": { "description": "Message d'erreur si la prise de vue échoue" },
+
+  "scanGalleryError": "Impossible d'ouvrir l'image.",
+  "@scanGalleryError": { "description": "Message d'erreur si l'import galerie échoue" },
+
+  "scanCameraUnavailable": "Caméra indisponible. Autorisez l'accès à la caméra ou importez une photo.",
+  "@scanCameraUnavailable": { "description": "Texte du placeholder quand la caméra est refusée" },
+
+  "scanCameraOpening": "Ouverture de la caméra…",
+  "@scanCameraOpening": { "description": "Texte du placeholder pendant l'initialisation de la caméra" }
 }

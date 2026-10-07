@@ -7,50 +7,36 @@ import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/app_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
 import "../../../../shared/presentation/widgets/buttons/app_outlined_button.dart";
-import "../../domain/entities/deposit_entity.dart";
+import "../../../waste_analysis/domain/entities/recycling_ticket.dart";
+import "../../../waste_analysis/domain/entities/ticket_status.dart";
+import "../../../waste_analysis/presentation/widgets/ticket_widgets.dart";
 import "deposit_status_badge.dart";
 import "material_type_icon.dart";
 
-class DepositDetailSheet extends StatefulWidget {
+class DepositDetailSheet extends StatelessWidget {
   const DepositDetailSheet({
-    required this.deposit,
+    required this.ticket,
     required this.scrollController,
     super.key,
   });
 
-  final DepositEntity deposit;
+  final RecyclingTicket ticket;
   final ScrollController scrollController;
 
   @override
-  State<DepositDetailSheet> createState() => _DepositDetailSheetState();
-}
-
-class _DepositDetailSheetState extends State<DepositDetailSheet> {
-  Future<void> _launchMaps() async {
-    final lat = widget.deposit.centerLatitude;
-    final lng = widget.deposit.centerLongitude;
-    final query = lat != null && lng != null
-        ? "$lat,$lng"
-        : Uri.encodeComponent(widget.deposit.centerAddress);
-    final uri = Uri.parse("https://maps.google.com/?q=$query");
-    if (await canLaunchUrl(uri)) await launchUrl(uri);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return switch (widget.deposit.status) {
-      DepositStatus.waiting => _WaitingContent(
-        deposit: widget.deposit,
-        scrollController: widget.scrollController,
-        onLaunchMaps: _launchMaps,
+    return switch (ticket.status) {
+      TicketStatus.pending => _WaitingContent(
+        ticket: ticket,
+        scrollController: scrollController,
       ),
-      DepositStatus.validated => _ValidatedContent(
-        deposit: widget.deposit,
-        scrollController: widget.scrollController,
+      TicketStatus.validated => _ValidatedContent(
+        ticket: ticket,
+        scrollController: scrollController,
       ),
-      DepositStatus.rejected => _RejectedContent(
-        deposit: widget.deposit,
-        scrollController: widget.scrollController,
+      TicketStatus.rejected => _RejectedContent(
+        ticket: ticket,
+        scrollController: scrollController,
       ),
     };
   }
@@ -60,26 +46,31 @@ class _DepositDetailSheetState extends State<DepositDetailSheet> {
 
 class _WaitingContent extends StatelessWidget {
   const _WaitingContent({
-    required this.deposit,
+    required this.ticket,
     required this.scrollController,
-    required this.onLaunchMaps,
   });
 
-  final DepositEntity deposit;
+  final RecyclingTicket ticket;
   final ScrollController scrollController;
-  final VoidCallback onLaunchMaps;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
+    final material = MaterialTypeFromCategory.fromCategory(
+      ticket.wasteAnalysisResult.detectedItem.itemMainCategory,
+    );
+    final estimatedWeight =
+        ticket.wasteAnalysisResult.itemWeight.estimatedWeight;
+    final estimatedPoints =
+        ticket.wasteAnalysisResult.itemRecyclability.pointsEarned.round();
 
     return ListView(
       controller: scrollController,
       padding: AppSpacing.insetMd,
       children: [
-        Center(child: DepositStatusBadge(status: deposit.status)),
+        Center(child: DepositStatusBadge(status: ticket.status)),
         AppSpacing.gapVLg,
         Center(
           child: Container(
@@ -88,7 +79,7 @@ class _WaitingContent extends StatelessWidget {
             color: colorScheme.outlineVariant,
             alignment: Alignment.center,
             child: QrImageView(
-              data: deposit.qrData,
+              data: ticket.qrData,
               size: AppSpacing.yotta * 2.25,
             ),
           ),
@@ -100,18 +91,6 @@ class _WaitingContent extends StatelessWidget {
           ),
           textAlign: TextAlign.center,
         ),
-        AppSpacing.gapVSm,
-        if (deposit.imageUrl != null) ...[
-          AppSpacing.gapVLg,
-          ClipRRect(
-            borderRadius: AppSpacing.roundedMd,
-            child: Image.network(
-              deposit.imageUrl!,
-              height: 200,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ],
         AppSpacing.gapVLg,
         Text(l10n.historyInfoTitle, style: textTheme.titleSmall),
         AppSpacing.gapVSm,
@@ -125,7 +104,7 @@ class _WaitingContent extends StatelessWidget {
                 size: AppSpacing.iconSm,
                 color: colorScheme.secondary,
               ),
-              label: Text(deposit.material.label(l10n)),
+              label: Text(material.label(l10n)),
             ),
             Chip(
               avatar: Icon(
@@ -133,24 +112,7 @@ class _WaitingContent extends StatelessWidget {
                 size: AppSpacing.iconSm,
                 color: colorScheme.secondary,
               ),
-              label: Text(l10n.historyWeightApprox(deposit.estimatedWeight)),
-            ),
-            Chip(
-              avatar: Icon(
-                LucideIcons.building2,
-                size: AppSpacing.iconSm,
-                color: colorScheme.secondary,
-              ),
-              label: Text(deposit.centerName),
-            ),
-            ActionChip(
-              avatar: Icon(
-                LucideIcons.navigation,
-                size: AppSpacing.iconSm,
-                color: colorScheme.secondary,
-              ),
-              label: Text(deposit.centerAddress),
-              onPressed: onLaunchMaps,
+              label: Text(l10n.historyWeightApprox(estimatedWeight)),
             ),
             Chip(
               avatar: Icon(
@@ -158,9 +120,7 @@ class _WaitingContent extends StatelessWidget {
                 size: AppSpacing.iconSm,
                 color: colorScheme.secondary,
               ),
-              label: Text(
-                context.formatDateTime(deposit.dateTime),
-              ),
+              label: Text(context.formatDateTime(ticket.createdAt)),
             ),
           ],
         ),
@@ -172,7 +132,7 @@ class _WaitingContent extends StatelessWidget {
             borderRadius: AppSpacing.roundedMd,
           ),
           child: Text(
-            l10n.historyPendingCredit(deposit.points ?? 0),
+            l10n.historyPendingCredit(estimatedPoints),
             style: textTheme.bodyMedium!.copyWith(
               color: AppColors.semanticWarning,
             ),
@@ -193,21 +153,38 @@ class _WaitingContent extends StatelessWidget {
 
 class _ValidatedContent extends StatelessWidget {
   const _ValidatedContent({
-    required this.deposit,
+    required this.ticket,
     required this.scrollController,
   });
 
-  final DepositEntity deposit;
+  final RecyclingTicket ticket;
   final ScrollController scrollController;
+
+  Future<void> _launchMaps(String address) async {
+    final uri = Uri.parse(
+      "https://maps.google.com/?q=${Uri.encodeComponent(address)}",
+    );
+    if (await canLaunchUrl(uri)) await launchUrl(uri);
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
+    final validation = ticket.validation!;
+    final material = MaterialTypeFromCategory.fromCategory(
+      ticket.wasteAnalysisResult.detectedItem.itemMainCategory,
+    );
+    final estimatedWeight =
+        ticket.wasteAnalysisResult.itemWeight.estimatedWeight;
+    final realWeightKg = validation.measuredWeightGrams != null
+        ? validation.measuredWeightGrams! / 1000
+        : null;
     final weightDiffers =
-        deposit.realWeight != null &&
-        deposit.realWeight != deposit.estimatedWeight;
+        realWeightKg != null && realWeightKg != estimatedWeight;
+    final points = validation.finalPoints?.round() ?? 0;
+    final centerAddress = validation.agent.relayPointDescription;
 
     return ListView(
       controller: scrollController,
@@ -231,17 +208,14 @@ class _ValidatedContent extends StatelessWidget {
                 ),
               ),
               Text(
-                l10n.historyPointsCredited(deposit.points ?? 0),
+                l10n.historyPointsCredited(points),
                 style: textTheme.bodyMedium!.copyWith(
                   color: colorScheme.onPrimaryContainer,
                 ),
               ),
               if (weightDiffers)
                 Text(
-                  l10n.historyWeightComparison(
-                    deposit.estimatedWeight,
-                    deposit.realWeight ?? deposit.estimatedWeight,
-                  ),
+                  l10n.historyWeightComparison(estimatedWeight, realWeightKg),
                   style: textTheme.bodySmall!.copyWith(
                     color: colorScheme.onPrimaryContainer,
                   ),
@@ -249,17 +223,6 @@ class _ValidatedContent extends StatelessWidget {
             ],
           ),
         ),
-        if (deposit.imageUrl != null) ...[
-          AppSpacing.gapVLg,
-          ClipRRect(
-            borderRadius: AppSpacing.roundedMd,
-            child: Image.network(
-              deposit.imageUrl!,
-              height: 200,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ],
         AppSpacing.gapVLg,
         Text(l10n.historyInfoTitle, style: textTheme.titleSmall),
         AppSpacing.gapVSm,
@@ -267,23 +230,21 @@ class _ValidatedContent extends StatelessWidget {
           spacing: AppSpacing.sm,
           runSpacing: AppSpacing.sm,
           children: [
-            if (deposit.agentName != null)
-              Chip(
-                avatar: Icon(
-                  LucideIcons.userCheck,
-                  size: AppSpacing.iconSm,
-                  color: colorScheme.secondary,
-                ),
-                label: Text(deposit.agentName!),
+            Chip(
+              avatar: Icon(
+                LucideIcons.userCheck,
+                size: AppSpacing.iconSm,
+                color: colorScheme.secondary,
               ),
-
+              label: Text(validation.agent.displayName),
+            ),
             Chip(
               avatar: Icon(
                 LucideIcons.recycle,
                 size: AppSpacing.iconSm,
                 color: colorScheme.secondary,
               ),
-              label: Text(deposit.material.label(l10n)),
+              label: Text(material.label(l10n)),
             ),
             Chip(
               avatar: Icon(
@@ -291,27 +252,26 @@ class _ValidatedContent extends StatelessWidget {
                 size: AppSpacing.iconSm,
                 color: colorScheme.secondary,
               ),
-              label: Text(deposit.centerName),
+              label: Text(validation.agent.relayPointName),
             ),
-            Chip(
-              avatar: Icon(
-                LucideIcons.mapPin,
-                size: AppSpacing.iconSm,
-                color: colorScheme.secondary,
-              ),
-              label: Text(deposit.centerAddress),
-            ),
-            if (deposit.validationDateTime != null)
-              Chip(
+            if (centerAddress != null)
+              ActionChip(
                 avatar: Icon(
-                  LucideIcons.clock,
+                  LucideIcons.navigation,
                   size: AppSpacing.iconSm,
                   color: colorScheme.secondary,
                 ),
-                label: Text(
-                  context.formatDateTime(deposit.validationDateTime!),
-                ),
+                label: Text(centerAddress),
+                onPressed: () => _launchMaps(centerAddress),
               ),
+            Chip(
+              avatar: Icon(
+                LucideIcons.clock,
+                size: AppSpacing.iconSm,
+                color: colorScheme.secondary,
+              ),
+              label: Text(context.formatDateTime(validation.processedAt)),
+            ),
           ],
         ),
         AppSpacing.gapVLg,
@@ -329,11 +289,11 @@ class _ValidatedContent extends StatelessWidget {
 
 class _RejectedContent extends StatelessWidget {
   const _RejectedContent({
-    required this.deposit,
+    required this.ticket,
     required this.scrollController,
   });
 
-  final DepositEntity deposit;
+  final RecyclingTicket ticket;
   final ScrollController scrollController;
 
   @override
@@ -341,6 +301,14 @@ class _RejectedContent extends StatelessWidget {
     final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
+    final validation = ticket.validation!;
+    final material = MaterialTypeFromCategory.fromCategory(
+      ticket.wasteAnalysisResult.detectedItem.itemMainCategory,
+    );
+    final rejectionText = validation.rejectionReason?.label ??
+        validation.comment ??
+        "";
+    final centerAddress = validation.agent.relayPointDescription;
 
     return ListView(
       controller: scrollController,
@@ -363,9 +331,9 @@ class _RejectedContent extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              if (deposit.rejectionReason != null)
+              if (rejectionText.isNotEmpty)
                 Text(
-                  deposit.rejectionReason!,
+                  rejectionText,
                   style: textTheme.bodyMedium!.copyWith(
                     color: colorScheme.onErrorContainer,
                   ),
@@ -373,17 +341,6 @@ class _RejectedContent extends StatelessWidget {
             ],
           ),
         ),
-        if (deposit.imageUrl != null) ...[
-          AppSpacing.gapVLg,
-          ClipRRect(
-            borderRadius: AppSpacing.roundedMd,
-            child: Image.network(
-              deposit.imageUrl!,
-              height: 200,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ],
         AppSpacing.gapVLg,
         Text(l10n.historyInfoTitle, style: textTheme.titleSmall),
         AppSpacing.gapVSm,
@@ -391,42 +348,39 @@ class _RejectedContent extends StatelessWidget {
           spacing: AppSpacing.xs,
           runSpacing: AppSpacing.xs,
           children: [
-            if (deposit.agentName != null)
-              Chip(
-                avatar: const Icon(
-                  LucideIcons.userX,
-                  size: AppSpacing.iconSm,
-                ),
-                label: Text(deposit.agentName!),
+            Chip(
+              avatar: const Icon(
+                LucideIcons.userX,
+                size: AppSpacing.iconSm,
               ),
-            if (deposit.validationDateTime != null)
-              Chip(
-                avatar: const Icon(
-                  LucideIcons.clock,
-                  size: AppSpacing.iconSm,
-                ),
-                label: Text(
-                  context.formatDateTime(deposit.validationDateTime!),
-                ),
+              label: Text(validation.agent.displayName),
+            ),
+            Chip(
+              avatar: const Icon(
+                LucideIcons.clock,
+                size: AppSpacing.iconSm,
               ),
+              label: Text(context.formatDateTime(validation.processedAt)),
+            ),
             Chip(
               avatar: const Icon(
                 LucideIcons.recycle,
                 size: AppSpacing.iconSm,
               ),
-              label: Text(deposit.material.label(l10n)),
+              label: Text(material.label(l10n)),
             ),
             Chip(
               avatar: const Icon(
                 LucideIcons.building2,
                 size: AppSpacing.iconSm,
               ),
-              label: Text(deposit.centerName),
+              label: Text(validation.agent.relayPointName),
             ),
-            Chip(
-              avatar: const Icon(LucideIcons.mapPin, size: AppSpacing.iconSm),
-              label: Text(deposit.centerAddress),
-            ),
+            if (centerAddress != null)
+              Chip(
+                avatar: const Icon(LucideIcons.mapPin, size: AppSpacing.iconSm),
+                label: Text(centerAddress),
+              ),
           ],
         ),
         AppSpacing.gapVLg,

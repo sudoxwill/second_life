@@ -734,6 +734,12 @@ abstract class AppLocalizations {
   /// **'Non convertie en argent liquide. Échangeable contre des bons chez le partenaire.'**
   String get homePointsNotCash;
 
+  /// État vide de la liste des dépôts en attente
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun dépôt en attente'**
+  String get homePendingDepositsEmpty;
+
   /// Titre de la carte listant les dépôts en attente de validation
   ///
   /// In fr, this message translates to:
@@ -1201,6 +1207,186 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Organique'**
   String get materialOrganic;
+
+  /// Titre de la page résultat d'analyse
+  ///
+  /// In fr, this message translates to:
+  /// **'Résultat de l\'analyse IA'**
+  String get analysisResultTitle;
+
+  /// Titre affiché pendant l'analyse
+  ///
+  /// In fr, this message translates to:
+  /// **'Analyse par l\'IA en cours…'**
+  String get analysisAnalyzingTitle;
+
+  /// Sous-titre affiché pendant l'analyse
+  ///
+  /// In fr, this message translates to:
+  /// **'Identification de la matière et estimation du poids'**
+  String get analysisAnalyzingSubtitle;
+
+  /// Libellé overlay photo : objet détecté par l'IA
+  ///
+  /// In fr, this message translates to:
+  /// **'Détecté : {item}'**
+  String analysisDetected(String item);
+
+  /// Score de confiance de l'IA affiché sur la photo et dans la carte
+  ///
+  /// In fr, this message translates to:
+  /// **'Confiance {percent}'**
+  String analysisConfidenceScore(String percent);
+
+  /// Titre de la carte des conseils de tri
+  ///
+  /// In fr, this message translates to:
+  /// **'Conseils de tri'**
+  String get analysisTipsTitle;
+
+  /// Lien pour afficher tous les conseils de tri
+  ///
+  /// In fr, this message translates to:
+  /// **'Lire plus'**
+  String get analysisTipsSeeMore;
+
+  /// Avis affiché si le déchet n'est pas recyclable
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce déchet n\'est pas accepté en point relais.'**
+  String get analysisNonRecyclable;
+
+  /// Préfixe en gras dans la notice points
+  ///
+  /// In fr, this message translates to:
+  /// **'Important : '**
+  String get analysisImportantLabel;
+
+  /// Corps de la notice rappelant que les points sont basés sur le poids réel
+  ///
+  /// In fr, this message translates to:
+  /// **'les points seront crédités après la pesée réelle par un agent relais. Le calcul final s\'effectue sur le poids réel.'**
+  String get analysisImportantBody;
+
+  /// Bouton pour enregistrer le dépôt
+  ///
+  /// In fr, this message translates to:
+  /// **'Enregistrer le dépôt'**
+  String get analysisSaveDeposit;
+
+  /// Confirmation d'enregistrement du dépôt
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépôt {code} enregistré dans votre historique'**
+  String analysisDepositSaved(String code);
+
+  /// Bouton pour relancer une analyse
+  ///
+  /// In fr, this message translates to:
+  /// **'Scanner un autre déchet'**
+  String get analysisScanAgain;
+
+  /// Libellé sous le montant de points estimés
+  ///
+  /// In fr, this message translates to:
+  /// **'pts estimés'**
+  String get analysisEstimatedPoints;
+
+  /// Poids estimé par l'IA affiché dans la carte résultat
+  ///
+  /// In fr, this message translates to:
+  /// **'Poids estimé par l\'IA : ~{weight} kg'**
+  String analysisEstimatedWeight(String weight);
+
+  /// Libellé au-dessus de la barre de progression du score de confiance
+  ///
+  /// In fr, this message translates to:
+  /// **'Indice de reconnaissance IA'**
+  String get analysisConfidenceIndex;
+
+  /// Titre de la section QR dans la page résultat
+  ///
+  /// In fr, this message translates to:
+  /// **'QR Code du dépôt à présenter à l\'agent'**
+  String get analysisQrTitle;
+
+  /// Caption du QR avant l'enregistrement du ticket
+  ///
+  /// In fr, this message translates to:
+  /// **'ID : GÉNÉRATION AU DÉPÔT'**
+  String get analysisQrPlaceholder;
+
+  /// Caption du QR après enregistrement du ticket
+  ///
+  /// In fr, this message translates to:
+  /// **'ID : {code}'**
+  String analysisQrId(String code);
+
+  /// Instruction sous le QR code du dépôt
+  ///
+  /// In fr, this message translates to:
+  /// **'Présentez ce QR code à l\'agent d\'un point relais pour procéder à la pesée certifiée.'**
+  String get analysisQrCaption;
+
+  /// Label du chip IA dans le viseur de la caméra
+  ///
+  /// In fr, this message translates to:
+  /// **'IA SecondLife Vision'**
+  String get scanAiBranding;
+
+  /// Tooltip du bouton d'import galerie dans le scan
+  ///
+  /// In fr, this message translates to:
+  /// **'Importer une photo'**
+  String get scanTooltipImport;
+
+  /// Tooltip du bouton flash dans le scan
+  ///
+  /// In fr, this message translates to:
+  /// **'Lampe'**
+  String get scanTooltipFlash;
+
+  /// Tooltip du bouton déclencheur
+  ///
+  /// In fr, this message translates to:
+  /// **'Prendre la photo'**
+  String get scanTooltipCapture;
+
+  /// Instruction affichée quand la caméra est indisponible
+  ///
+  /// In fr, this message translates to:
+  /// **'Importez une photo du déchet'**
+  String get scanHintImport;
+
+  /// Instruction affichée quand la caméra est active
+  ///
+  /// In fr, this message translates to:
+  /// **'Positionnez le déchet dans le cadre'**
+  String get scanHintFrame;
+
+  /// Message d'erreur si la prise de vue échoue
+  ///
+  /// In fr, this message translates to:
+  /// **'La photo n\'a pas pu être prise.'**
+  String get scanCaptureError;
+
+  /// Message d'erreur si l'import galerie échoue
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible d\'ouvrir l\'image.'**
+  String get scanGalleryError;
+
+  /// Texte du placeholder quand la caméra est refusée
+  ///
+  /// In fr, this message translates to:
+  /// **'Caméra indisponible. Autorisez l\'accès à la caméra ou importez une photo.'**
+  String get scanCameraUnavailable;
+
+  /// Texte du placeholder pendant l'initialisation de la caméra
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouverture de la caméra…'**
+  String get scanCameraOpening;
 }
 
 class _AppLocalizationsDelegate

@@ -1,28 +1,32 @@
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/app_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
+import "../../../history/presentation/providers/history_providers.dart";
+import "../../../history/presentation/widget/material_type_icon.dart";
+import "../../../waste_analysis/presentation/providers/user_tickets_provider.dart";
 
-class UserHome extends StatelessWidget {
+class UserHome extends ConsumerWidget {
   const UserHome({super.key});
 
-  static const int demoBalancePoints = 350;
-  static const int demoPendingValidationPoints = 80;
-  static const int demoPendingDepositsCount = 2;
-  static const int demoBottleDepositPoints = 50;
-  static const int demoIronDepositPoints = 80;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
+
+    final stats = ref.watch(citizenStatsProvider).value;
+    final pendingDeposits = ref.watch(pendingDepositsProvider).value ?? [];
+
+    final balancePoints = stats?.pointsBalance.round() ?? 0;
+    final pendingPoints = stats?.pendingPoints.round() ?? 0;
+
     return Column(
       spacing: AppSpacing.lg,
       children: [
-        // Carte principale
         Card(
           shape: const RoundedRectangleBorder(
             borderRadius: AppSpacing.roundedLg,
@@ -79,10 +83,10 @@ class UserHome extends StatelessWidget {
                 ),
                 AppSpacing.gapVSm,
                 Text(
-                  l10n.homePointsBalance(demoBalancePoints),
-                  style: textTheme.headlineMedium!.copyWith(fontWeight: .bold,
+                  l10n.homePointsBalance(balancePoints),
+                  style: textTheme.headlineMedium!.copyWith(
+                    fontWeight: .bold,
                     color: AppColors.neutral50,
-
                   ),
                 ),
                 AppSpacing.gapVSm,
@@ -95,9 +99,7 @@ class UserHome extends StatelessWidget {
                     size: AppSpacing.iconSm,
                   ),
                   label: Text(
-                    l10n.homePointsPendingValidation(
-                      demoPendingValidationPoints,
-                    ),
+                    l10n.homePointsPendingValidation(pendingPoints),
                     style: TextStyle(color: colorScheme.secondary),
                     overflow: .ellipsis,
                   ),
@@ -113,8 +115,6 @@ class UserHome extends StatelessWidget {
             ),
           ),
         ),
-
-        // Dépôt en attente
         Column(
           children: [
             Row(
@@ -126,142 +126,57 @@ class UserHome extends StatelessWidget {
                     Text(l10n.homePendingDepositsTitle),
                     Badge(
                       label: Text(
-                        "2",
+                        "${pendingDeposits.length}",
                         style: TextStyle(color: colorScheme.onSecondary),
                       ),
                       backgroundColor: colorScheme.secondary,
                     ),
                   ],
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(l10n.commonSeeMore),
-                ),
+                TextButton(onPressed: () {}, child: Text(l10n.commonSeeMore)),
               ],
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  contentPadding: AppSpacing.insetVXs,
-                  leading: Container(
-                    width: AppSpacing.mega,
-                    height: AppSpacing.mega,
-                    padding: AppSpacing.insetSm,
-                    decoration: BoxDecoration(
-                      color: colorScheme.secondary.withValues(alpha: .2),
-                      borderRadius: AppSpacing.roundedLg,
+            if (pendingDeposits.isEmpty)
+              SizedBox(
+                height: AppSpacing.yotta * 2,
+                child: Center(child: Text(l10n.homePendingDepositsEmpty)),
+              )
+            else
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: pendingDeposits.length,
+                itemBuilder: (context, index) {
+                  final ticket = pendingDeposits[index];
+                  final itemLabel =
+                      ticket.wasteAnalysisResult.detectedItem.itemLabel;
+                  final points = ticket
+                      .wasteAnalysisResult
+                      .itemRecyclability
+                      .pointsEarned
+                      .round();
+                  return ListTile(
+                    contentPadding: AppSpacing.insetVXs,
+                    leading: MaterialTypeIcon(
+                      material: MaterialTypeFromCategory.fromCategory(
+                        ticket.wasteAnalysisResult.detectedItem
+                            .itemMainCategory,
+                      ),
+                      size: AppSpacing.mega,
                     ),
-                    child: Icon(
-                      LucideIcons.bottleWine,
-                      color: colorScheme.secondary,
+                    title: Text(itemLabel, style: textTheme.bodyLarge),
+                    trailing: Text(
+                      l10n.homeDepositPointsGain(points),
+                      style: textTheme.labelLarge!.copyWith(
+                        color: colorScheme.secondary,
+                      ),
                     ),
-                  ),
-                  title: Text(
-                    l10n.homeDepositItemBottle,
-                    style: textTheme.bodyLarge,
-                  ),
-                  trailing: Text(
-                    l10n.homeDepositPointsGain(demoBottleDepositPoints),
-                    style: textTheme.labelLarge!.copyWith(
-                      color: colorScheme.secondary,
-                    ),
-                  ),
-                  // subtitle: Text(
-                  //   "+50 pts",
-                  //   style: textTheme.labelLarge!.copyWith(
-                  //     color: colorScheme.secondary,
-                  //   ),
-                  // ),
-                );
-              },
-            ),
+                  );
+                },
+              ),
           ],
         ),
-        /*
-        Container(
-          padding: AppSpacing.insetSm,
-          decoration: BoxDecoration(
-            borderRadius: AppSpacing.roundedLg,
-            border: Border.all(
-              color: colorScheme.onSurface.withValues(alpha: .5),
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: .start,
-            children: [
-              ListTile(
-                leading: Container(
-                  width: AppSpacing.mega,
-                  height: AppSpacing.mega,
-                  padding: AppSpacing.insetSm,
-                  decoration: BoxDecoration(
-                    color: colorScheme.secondary.withValues(alpha: .2),
-                    borderRadius: AppSpacing.roundedLg,
-                  ),
-                  child: Icon(LucideIcons.clock, color: colorScheme.secondary),
-                ),
-                title: Row(
-                  spacing: AppSpacing.md,
-                  children: [
-                    Text(l10n.homePendingDepositsTitle),
-                    Badge(
-                      label: Text(
-                        "$demoPendingDepositsCount",
-                        style: TextStyle(color: colorScheme.onSecondary),
-                      ),
-                      backgroundColor: colorScheme.secondary,
-                    ),
-                  ],
-                ),
-                trailing: const Icon(
-                  LucideIcons.chevronRight,
-                  size: AppSpacing.iconSm,
-                ),
-              ),
-              const AppDivider(),
-              Wrap(
-                spacing: AppSpacing.sm,
-                runSpacing: AppSpacing.sm,
-                children: [
-                  Chip(
-                    label: RichText(
-                      text: TextSpan(
-                        text: "${l10n.homeDepositItemBottle} ",
-                        style: textTheme.labelLarge,
-                        children: [
-                          TextSpan(
-                            text: l10n.homeDepositPointsGain(
-                              demoBottleDepositPoints,
-                            ),
-                            style: TextStyle(color: colorScheme.secondary),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Chip(
-                    label: RichText(
-                      text: TextSpan(
-                        text: "${l10n.homeDepositItemIron} ",
-                        style: textTheme.labelLarge,
-                        children: [
-                          TextSpan(
-                            text: l10n.homeDepositPointsGain(
-                              demoIronDepositPoints,
-                            ),
-                            style: TextStyle(color: colorScheme.secondary),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),*/
+
         // Info
         Container(
           padding: AppSpacing.insetXs,

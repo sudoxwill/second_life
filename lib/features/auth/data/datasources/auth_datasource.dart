@@ -25,34 +25,39 @@ class AuthDatasource {
   final FirebaseFirestore _firestore;
   final GoogleSignIn _googleSignIn;
 
-  Future<void> signInWithEmailPassword(
+  Future<String> signInWithEmailPassword(
     String email,
     String password,
   ) async {
-    await _auth.signInWithEmailAndPassword(email: email, password: password);
-  }
-
-  Future<void> signUpWithEmailPassword(
-    String email,
-    String password,
-  ) async {
-    await _auth.createUserWithEmailAndPassword(
+    final result = await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
+    return result.user!.uid;
   }
 
-  /// Retourne true si l'utilisateur a annulé.
-  Future<bool> signInWithGoogle() async {
+  Future<String> signUpWithEmailPassword(
+    String email,
+    String password,
+  ) async {
+    final result = await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return result.user!.uid;
+  }
+
+  /// Retourne null si l'utilisateur a annulé, sinon l'uid Firebase.
+  Future<String?> signInWithGoogle() async {
     final account = await _googleSignIn.signIn();
-    if (account == null) return true;
+    if (account == null) return null;
     final authentication = await account.authentication;
     final credential = GoogleAuthProvider.credential(
       accessToken: authentication.accessToken,
       idToken: authentication.idToken,
     );
-    await _auth.signInWithCredential(credential);
-    return false;
+    final result = await _auth.signInWithCredential(credential);
+    return result.user?.uid;
   }
 
   Future<void> signOut() async {
@@ -63,28 +68,36 @@ class AuthDatasource {
   }
 
   Future<bool> isAgent(String uid) async {
-    final doc = await _firestore.collection("relay_agents").doc(uid).get();
-    return doc.exists;
+    try {
+      final doc = await _firestore.collection("relay_agents").doc(uid).get();
+      return doc.exists;
+    } on FirebaseException {
+      return false;
+    }
   }
 
   Future<bool> hasUserProfile(String uid) async {
-    final doc = await _firestore.collection("users").doc(uid).get();
-    final username = doc.data()?["username"] as String?;
-    return doc.exists && (username?.isNotEmpty ?? false);
+    try {
+      final doc = await _firestore.collection("users").doc(uid).get();
+      final displayName = doc.data()?["displayName"] as String?;
+      return doc.exists && (displayName?.isNotEmpty ?? false);
+    } on FirebaseException {
+      return false;
+    }
   }
 
-  Future<void> saveUser(String uid, String email, String username) async {
+  // Le client écrit uniquement les champs qu'il possède.
+  // role, createdAt, pointsBalance, stats, etc. sont écrits par Functions.
+  Future<void> saveUser(String uid, String displayName) async {
     final batch = _firestore.batch()
-      ..set(_firestore.collection("users").doc(uid), {
-        "uid": uid,
-        "email": email,
-        "username": username,
-        "role": "user",
-        "createdAt": FieldValue.serverTimestamp(),
-      })
-      // Index d'unicité : permet de vérifier la disponibilité d'un username
       ..set(
-        _firestore.collection("usernames").doc(username),
+        _firestore.collection("users").doc(uid),
+        {"displayName": displayName, "notificationsEnabled": true},
+        SetOptions(merge: true),
+      )
+      // Index d'unicité pour le displayName
+      ..set(
+        _firestore.collection("usernames").doc(displayName),
         {"uid": uid},
       );
     await batch.commit();

@@ -56,7 +56,7 @@ class AgentShell extends StatelessWidget {
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.accent,
         elevation: AppSpacing.elevationMd,
-        onPressed: () => context.pushScan(),
+        onPressed: () => context.pushAgentScan(),
         tooltip: l10n.navAnalyzeCta,
         child: const Icon(LucideIcons.scanBox, size: AppSpacing.iconMxl),
       ),

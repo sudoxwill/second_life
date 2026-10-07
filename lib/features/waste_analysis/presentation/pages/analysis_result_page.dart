@@ -2,10 +2,14 @@ import "dart:io";
 
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/errors/failure_message.dart";
+import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/index.dart";
 import "../../../../core/utils/formatters.dart";
+import "../../../../shared/presentation/widgets/buttons/app_elevated_button.dart";
+import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
 import "../../../../shared/presentation/widgets/others/app_card.dart";
 import "../../../../shared/presentation/widgets/others/feedback_views.dart";
 import "../../../../shared/presentation/widgets/others/scan_widgets.dart";
@@ -17,8 +21,6 @@ import "../providers/waste_analysis_result_provider.dart";
 import "../widgets/ticket_qr_card.dart";
 import "waste_scan_page.dart";
 
-// Analyse de la photo par l'IA, puis enregistrement du dépôt (ticket) et
-// affichage de son QR code.
 class AnalysisResultPage extends ConsumerStatefulWidget {
   const AnalysisResultPage({required this.image, super.key});
   final File image;
@@ -68,20 +70,20 @@ class _AnalysisResultPageState extends ConsumerState<AnalysisResultPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final analysis = ref.watch(wasteAnalysisResultProvider);
     final result = analysis.value;
 
-    return Scaffold(
-      appBar: AppBar(title: const Text("Résultat de l’analyse IA")),
+    return AppScaffold(
+      appBar: AppBar(title: Text(l10n.analysisResultTitle)),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
         children: [
           _PhotoPreview(
             image: widget.image,
             result: analysis.isLoading ? null : result,
             analyzing: analysis.isLoading,
           ),
-          const SizedBox(height: 16),
+          AppSpacing.gapVLg,
           switch (analysis) {
             AsyncLoading() => const _AnalyzingCard(),
             AsyncError(:final error) => ErrorCard(
@@ -115,32 +117,34 @@ class _PhotoPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final item = result?.detectedItem;
     return ClipRRect(
-      borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+      borderRadius: AppSpacing.roundedLg,
       child: SizedBox(
         height: 220,
         child: Stack(
           fit: StackFit.expand,
           children: [
             Image.file(image, fit: BoxFit.cover),
-            // Pendant l'analyse : photo voilée et balayée par la ligne.
             AnimatedOpacity(
               opacity: analyzing ? 1 : 0,
-              duration: const Duration(milliseconds: 300),
+              duration: AppSpacing.durationBase,
               child: Stack(
                 fit: StackFit.expand,
                 children: [
                   ColoredBox(color: Colors.black.withValues(alpha: 0.35)),
                   if (analyzing) const ScanLineOverlay(),
                   if (analyzing)
-                    const Align(
+                    Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
-                        padding: EdgeInsets.only(bottom: 14),
+                        padding: const EdgeInsets.only(
+                          bottom: AppSpacing.radiusLg,
+                        ),
                         child: ScanChip(
                           icon: Icons.auto_awesome_rounded,
-                          label: "Analyse IA en cours…",
+                          label: l10n.analysisAnalyzingTitle,
                         ),
                       ),
                     ),
@@ -149,13 +153,16 @@ class _PhotoPreview extends StatelessWidget {
             ),
             if (item != null)
               Container(
-                margin: const EdgeInsets.all(14),
+                margin: AppSpacing.insetLg,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: AppColors.scanFrame, width: 2),
+                  borderRadius: AppSpacing.roundedLg,
+                  border: Border.all(
+                    color: AppColors.scanFrame,
+                    width: AppSpacing.borderWidthThick,
+                  ),
                 ),
                 alignment: Alignment.topLeft,
-                padding: const EdgeInsets.all(8),
+                padding: AppSpacing.insetSm,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -167,7 +174,7 @@ class _PhotoPreview extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           color: AppColors.primary.withValues(alpha: 0.9),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: AppSpacing.roundedSm,
                         ),
                         child: Text.rich(
                           TextSpan(
@@ -178,12 +185,14 @@ class _PhotoPreview extends StatelessWidget {
                                   padding: EdgeInsets.only(right: 6),
                                   child: Icon(
                                     Icons.auto_awesome_rounded,
-                                    size: 14,
+                                    size: AppSpacing.iconSm,
                                     color: Colors.white,
                                   ),
                                 ),
                               ),
-                              TextSpan(text: "Détecté : ${item.itemLabel}"),
+                              TextSpan(
+                                text: l10n.analysisDetected(item.itemLabel),
+                              ),
                             ],
                           ),
                           style: const TextStyle(
@@ -194,7 +203,7 @@ class _PhotoPreview extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    AppSpacing.gapHSm,
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 8,
@@ -202,11 +211,12 @@ class _PhotoPreview extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.55),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: AppSpacing.roundedSm,
                       ),
                       child: Text(
-                        "Confiance "
-                        "${Formatters.percent(item.itemconfidenceScore)}",
+                        l10n.analysisConfidenceScore(
+                          Formatters.percent(item.itemconfidenceScore),
+                        ),
                         style: const TextStyle(
                           color: Colors.white,
                           fontFamily: "monospace",
@@ -229,23 +239,28 @@ class _AnalyzingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final textTheme = context.textTheme;
+    final colorScheme = context.colorScheme;
     return AppCard(
-      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 20),
+      padding: const EdgeInsets.symmetric(
+        vertical: AppSpacing.xxxl,
+        horizontal: AppSpacing.xl,
+      ),
       child: Column(
         children: [
           const CircularProgressIndicator(),
-          const SizedBox(height: 16),
-          const Text(
-            "Analyse par l’IA en cours…",
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
-          ),
-          const SizedBox(height: 4),
+          AppSpacing.gapVLg,
           Text(
-            "Identification de la matière et estimation du poids",
+            l10n.analysisAnalyzingTitle,
+            style: textTheme.titleSmall!.copyWith(fontWeight: FontWeight.bold),
+          ),
+          AppSpacing.gapVXs,
+          Text(
+            l10n.analysisAnalyzingSubtitle,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 13,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            style: textTheme.labelLarge!.copyWith(
+              color: colorScheme.onSurfaceVariant,
             ),
           ),
         ],
@@ -270,40 +285,35 @@ class _ResultContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final textTheme = context.textTheme;
+    final colorScheme = context.colorScheme;
     final recyclable = result.itemRecyclability.isRecyclable;
+
+    final tips = [
+      if (result.itemRecyclability.sortingInstructions.isNotEmpty)
+        result.itemRecyclability.sortingInstructions,
+      ...result.warnings,
+    ].join("\n\n");
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _AnalysisCard(result: result),
-        if (recyclable &&
-            (result.warnings.isNotEmpty ||
-                result.itemRecyclability.sortingInstructions.isNotEmpty)) ...[
-          const SizedBox(height: 14),
-          _NoticeCard(
-            color: context.primaryText,
-            background: context.primarySoft,
-            icon: Icons.lightbulb_outline_rounded,
-            children: [
-              const Text(
-                "Conseils de tri",
-                style: TextStyle(fontWeight: FontWeight.w700),
-              ),
-              if (result.itemRecyclability.sortingInstructions.isNotEmpty)
-                Text(result.itemRecyclability.sortingInstructions),
-              for (final w in result.warnings) Text(w),
-            ],
-          ),
+        if (recyclable && tips.isNotEmpty) ...[
+          AppSpacing.gapVMd,
+          _TipsCard(tips: tips),
         ],
-        const SizedBox(height: 14),
+        AppSpacing.gapVMd,
         if (!recyclable)
           _NoticeCard(
             color: context.danger,
             background: context.dangerSoft,
             icon: Icons.block_rounded,
             children: [
-              const Text(
-                "Ce déchet n’est pas accepté en point relais.",
-                style: TextStyle(fontWeight: FontWeight.w700),
+              Text(
+                l10n.analysisNonRecyclable,
+                style: const TextStyle(fontWeight: FontWeight.w700),
               ),
               if (result.itemRecyclability.sortingInstructions.isNotEmpty)
                 Text(result.itemRecyclability.sortingInstructions),
@@ -311,64 +321,58 @@ class _ResultContent extends StatelessWidget {
           )
         else ...[
           _QrSection(ticket: ticket),
-          const SizedBox(height: 14),
+          AppSpacing.gapVMd,
           _NoticeCard(
             color: context.warning,
             background: context.warningSoft,
-            icon: Icons.info_outline_rounded,
-            children: const [
+            icon: LucideIcons.badgeInfo,
+            children: [
               Text.rich(
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: "Important : ",
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                      text: l10n.analysisImportantLabel,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
                     ),
-                    TextSpan(
-                      text:
-                          "les points seront crédités après la pesée réelle "
-                          "par un agent relais. Le calcul final s’effectue "
-                          "sur le poids réel.",
-                    ),
+                    TextSpan(text: l10n.analysisImportantBody),
                   ],
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 18),
+          AppSpacing.gapVLg,
           if (ticket == null)
-            FilledButton.icon(
-              onPressed: submitting ? null : onSubmit,
-              icon: submitting
-                  ? const SizedBox.square(
-                      dimension: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.5,
-                        color: Colors.white,
-                      ),
-                    )
-                  : const Icon(Icons.check_rounded),
-              label: const Text("Enregistrer le dépôt"),
+            AppElevatedButton(
+              onPressed: onSubmit,
+              icon: const Icon(LucideIcons.check),
+              text: l10n.analysisSaveDeposit,
             )
           else
             _NoticeCard(
               color: context.primaryText,
               background: context.primarySoft,
-              icon: Icons.check_circle_outline_rounded,
+              icon: LucideIcons.badgeCheck,
               children: [
                 Text(
-                  "Dépôt ${Formatters.shortCode(ticket!.code)} enregistré "
-                  "dans votre historique",
+                  l10n.analysisDepositSaved(
+                    Formatters.shortCode(ticket!.code),
+                  ),
                   style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
               ],
             ),
         ],
-        const SizedBox(height: 8),
+        AppSpacing.gapVMd,
         TextButton.icon(
           onPressed: onScanAgain,
-          icon: const Icon(Icons.refresh_rounded),
-          label: const Text("Scanner un autre déchet"),
+          icon: const Icon(LucideIcons.rotateCcw),
+          label: Text(
+            l10n.analysisScanAgain,
+            style: textTheme.titleMedium!.copyWith(
+              color: colorScheme.primary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ],
     );
@@ -381,7 +385,9 @@ class _AnalysisCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final l10n = context.l10n;
+    final textTheme = context.textTheme;
+    final colorScheme = context.colorScheme;
     final item = result.detectedItem;
     final recyclability = result.itemRecyclability;
     final estimatedKg = Formatters.kg(result.itemWeight.estimatedWeight);
@@ -401,26 +407,33 @@ class _AnalysisCard extends StatelessWidget {
                       color: context.primaryText,
                       background: context.primarySoft,
                     ),
-                    const SizedBox(height: 10),
-                    Text(item.itemLabel, style: AppTextStyles.heading(22)),
+                    AppSpacing.gapVSm,
+                    Text(
+                      item.itemLabel,
+                      style: textTheme.titleLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     if (item.itemsubCategory.isNotEmpty &&
                         item.itemsubCategory != "Autre")
                       Text(
                         item.itemsubCategory,
-                        style: TextStyle(color: scheme.onSurfaceVariant),
+                        style: textTheme.bodyMedium!.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                        ),
                       ),
                   ],
                 ),
               ),
-              const SizedBox(width: 12),
+              AppSpacing.gapHMd,
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 10,
+                  horizontal: AppSpacing.md,
+                  vertical: AppSpacing.sm,
                 ),
                 decoration: BoxDecoration(
                   color: context.primarySoft,
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: AppSpacing.roundedLg,
                   border: Border.all(
                     color: context.primaryText.withValues(alpha: 0.4),
                   ),
@@ -429,15 +442,14 @@ class _AnalysisCard extends StatelessWidget {
                   children: [
                     Text(
                       "≈ ${Formatters.points(recyclability.pointsEarned)}",
-                      style: AppTextStyles.heading(
-                        20,
+                      style: textTheme.titleLarge!.copyWith(
                         color: context.primaryText,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      "pts estimés",
-                      style: TextStyle(
-                        fontSize: 11,
+                      l10n.analysisEstimatedPoints,
+                      style: textTheme.labelSmall!.copyWith(
                         color: context.primaryText,
                       ),
                     ),
@@ -446,58 +458,55 @@ class _AnalysisCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          AppSpacing.gapVLg,
           Container(
-            padding: const EdgeInsets.all(14),
+            padding: AppSpacing.insetLg,
             decoration: BoxDecoration(
-              color: scheme.surfaceContainerLow,
-              borderRadius: BorderRadius.circular(14),
+              color: colorScheme.surfaceContainerLow,
+              borderRadius: AppSpacing.roundedLg,
             ),
             child: Row(
               children: [
                 Icon(Icons.scale_outlined, color: context.primaryText),
-                const SizedBox(width: 10),
+                AppSpacing.gapHSm,
                 Expanded(
-                  child: Text.rich(
-                    TextSpan(
-                      children: [
-                        const TextSpan(text: "Poids estimé par l’IA : "),
-                        TextSpan(
-                          text: "~$estimatedKg kg",
-                          style: const TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                      ],
+                  child: Text(
+                    l10n.analysisEstimatedWeight(estimatedKg),
+                    style: textTheme.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          AppSpacing.gapVLg,
           Row(
             children: [
               Text(
-                "Indice de reconnaissance IA",
-                style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant),
+                l10n.analysisConfidenceIndex,
+                style: textTheme.labelLarge!.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
               ),
               const Spacer(),
               Text(
-                "Confiance "
-                "${Formatters.percent(item.itemconfidenceScore)}",
-                style: TextStyle(
-                  fontSize: 13,
+                l10n.analysisConfidenceScore(
+                  Formatters.percent(item.itemconfidenceScore),
+                ),
+                style: textTheme.labelLarge!.copyWith(
                   fontWeight: FontWeight.w700,
                   color: context.primaryText,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          AppSpacing.gapVSm,
           ClipRRect(
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: AppSpacing.roundedFull,
             child: LinearProgressIndicator(
               value: item.itemconfidenceScore.clamp(0, 1),
-              minHeight: 8,
+              minHeight: AppSpacing.sm,
               color: context.primaryText,
             ),
           ),
@@ -513,40 +522,144 @@ class _QrSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final textTheme = context.textTheme;
+    final colorScheme = context.colorScheme;
     return AppCard(
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.qr_code_2_rounded, color: context.primaryText),
-              const SizedBox(width: 8),
-              const Flexible(
+              const Icon(LucideIcons.qrCode),
+              AppSpacing.gapHSm,
+              Flexible(
                 child: Text(
-                  "QR Code du dépôt à présenter à l’agent",
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                  l10n.analysisQrTitle,
+                  style: textTheme.titleSmall!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 14),
+          AppSpacing.gapVMd,
           TicketQrCard(
             data: ticket?.qrData,
             caption: ticket == null
-                ? "ID : GÉNÉRATION AU DÉPÔT"
-                : "ID : ${Formatters.shortCode(ticket!.code)}",
+                ? l10n.analysisQrPlaceholder
+                : l10n.analysisQrId(Formatters.shortCode(ticket!.code)),
           ),
-          const SizedBox(height: 12),
+          AppSpacing.gapVMd,
           Text(
-            "Présentez ce QR code à l’agent d’un point relais pour procéder "
-            "à la pesée certifiée.",
+            l10n.analysisQrCaption,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 13,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            style: textTheme.labelLarge!.copyWith(
+              color: colorScheme.onSurfaceVariant,
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _TipsCard extends StatelessWidget {
+  const _TipsCard({required this.tips});
+  final String tips;
+
+  void _showFullTips(BuildContext context) {
+    final l10n = context.l10n;
+    final textTheme = context.textTheme;
+    final primaryText = context.primaryText;
+    showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      isScrollControlled: true,
+      builder: (_) => Padding(
+        padding: AppSpacing.bottomSheetPadding,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(LucideIcons.lightbulb, color: primaryText),
+                AppSpacing.gapHSm,
+                Text(l10n.analysisTipsTitle, style: textTheme.titleMedium),
+              ],
+            ),
+            AppSpacing.gapVMd,
+            Text(tips, style: textTheme.bodyMedium),
+            AppSpacing.gapVXl,
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return GestureDetector(
+      onTap: () => _showFullTips(context),
+      child: Container(
+        padding: AppSpacing.insetLg,
+        decoration: BoxDecoration(
+          color: context.primarySoft,
+          borderRadius: AppSpacing.roundedLg,
+          border: Border.all(
+            color: context.primaryText.withValues(alpha: 0.3),
+          ),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              LucideIcons.lightbulb,
+              color: context.primaryText,
+              size: AppSpacing.iconMd,
+            ),
+            AppSpacing.gapHSm,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: AppSpacing.xs,
+                children: [
+                  Text(
+                    l10n.analysisTipsTitle,
+                    style: TextStyle(
+                      color: context.primaryText,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 13,
+                      height: 1.4,
+                    ),
+                  ),
+                  Text(
+                    tips,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: context.primaryText,
+                      fontSize: 13,
+                      height: 1.4,
+                    ),
+                  ),
+                  Text(
+                    l10n.analysisTipsSeeMore,
+                    style: TextStyle(
+                      color: context.primaryText,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      decoration: TextDecoration.underline,
+                      decorationColor: context.primaryText,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -566,24 +679,25 @@ class _NoticeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = context.textTheme;
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: AppSpacing.insetLg,
       decoration: BoxDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: AppSpacing.roundedLg,
         border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: color, size: 20),
-          const SizedBox(width: 10),
+          Icon(icon, color: color, size: AppSpacing.iconMd),
+          AppSpacing.gapHSm,
           Expanded(
             child: DefaultTextStyle.merge(
-              style: TextStyle(color: color, fontSize: 13, height: 1.4),
+              style: textTheme.labelLarge!.copyWith(color: color, height: 1.4),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 4,
+                spacing: AppSpacing.xs,
                 children: children,
               ),
             ),

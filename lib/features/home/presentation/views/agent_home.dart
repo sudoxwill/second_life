@@ -1,31 +1,45 @@
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/app_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
+import "../../../history/presentation/widget/material_type_icon.dart";
+import "../../../ticket_validation/presentation/providers/agent_history_provider.dart";
+import "../../../ticket_validation/presentation/providers/current_relay_agent_provider.dart";
+import "../../../ticket_validation/presentation/providers/pending_tickets_provider.dart";
+import "../../../waste_analysis/domain/entities/ticket_status.dart";
 
-class AgentHome extends StatefulWidget {
+class AgentHome extends ConsumerWidget {
   const AgentHome({super.key});
 
-  @override
-  State<AgentHome> createState() => _AgentHomeState();
-}
-
-class _AgentHomeState extends State<AgentHome> {
-  static const int _demoDeposits = 42;
-  static const int _demoPoints = 1250;
-  static const int _demoCollectedKg = 142;
-  static const int _demoGoalKg = 200;
-  static const int _demoPendingDepositsCount = 2;
-  static const int _demoDepositPoints = 50;
+  static const double _batchTargetGrams = 200000.0;
+  static const int _goalKg = 200;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
-    final percent = (_demoCollectedKg / _demoGoalKg * 100).round();
+
+    final agent = ref.watch(currentRelayAgentProvider).value;
+    final stats = ref.watch(agentStatsProvider).value;
+    final history = ref.watch(agentHistoryProvider).value ?? [];
+    final pending = ref.watch(pendingTicketsProvider).value ?? [];
+
+    final treatedDeposits =
+        (stats?.validatedCount ?? 0) + (stats?.rejectedCount ?? 0);
+    final totalPoints = history
+        .where((t) => t.status == TicketStatus.validated)
+        .fold<double>(0.0, (sum, t) => sum + (t.validation?.finalPoints ?? 0))
+        .round();
+    final collectedGrams = stats?.collectedWeightGrams ?? 0.0;
+    final progress = (collectedGrams / _batchTargetGrams).clamp(0.0, 1.0);
+    final collectedKg = (collectedGrams / 1000).round();
+    final percent = (progress * 100).round();
+    final siteName = agent?.relayPointName ?? l10n.agentStockSiteName;
+
     return Column(
       spacing: AppSpacing.md,
       children: [
@@ -35,14 +49,14 @@ class _AgentHomeState extends State<AgentHome> {
             Expanded(
               child: _AgentStatCard(
                 icon: LucideIcons.inbox,
-                value: _demoDeposits.toString(),
+                value: treatedDeposits.toString(),
                 label: l10n.agentStatsTreatedDeposits,
               ),
             ),
             Expanded(
               child: _AgentStatCard(
                 icon: LucideIcons.badgeDollarSign,
-                value: _demoPoints.toString(),
+                value: totalPoints.toString(),
                 label: l10n.agentStatsValidatedPoints,
               ),
             ),
@@ -50,11 +64,11 @@ class _AgentHomeState extends State<AgentHome> {
         ),
         _AgentStockCard(
           title: l10n.agentStockTitle,
-          siteName: l10n.agentStockSiteName,
-          collectedLabel: l10n.agentStockKgCollected(_demoCollectedKg),
-          goalLabel: l10n.agentStockKgGoal(_demoGoalKg),
+          siteName: siteName,
+          collectedLabel: l10n.agentStockKgCollected(collectedKg),
+          goalLabel: l10n.agentStockKgGoal(_goalKg),
           percent: percent,
-          progress: _demoCollectedKg / _demoGoalKg,
+          progress: progress,
         ),
         Column(
           children: [
@@ -67,7 +81,7 @@ class _AgentHomeState extends State<AgentHome> {
                     Text(l10n.homePendingDepositsTitle),
                     Badge(
                       label: Text(
-                        "$_demoPendingDepositsCount",
+                        "${pending.length}",
                         style: TextStyle(color: colorScheme.onSecondary),
                       ),
                       backgroundColor: colorScheme.secondary,
@@ -79,44 +93,39 @@ class _AgentHomeState extends State<AgentHome> {
             ),
             ListView.builder(
               shrinkWrap: true,
-              itemCount: 3,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: pending.length,
               itemBuilder: (context, index) {
+                final ticket = pending[index];
+                final itemLabel =
+                    ticket.wasteAnalysisResult.detectedItem.itemLabel;
+                final material = MaterialTypeFromCategory.fromCategory(
+                  ticket.wasteAnalysisResult.detectedItem.itemMainCategory,
+                );
+                final points = ticket
+                    .wasteAnalysisResult
+                    .itemRecyclability
+                    .pointsEarned
+                    .round();
                 return ListTile(
                   contentPadding: AppSpacing.insetVXs,
-                  leading: Container(
-                    width: AppSpacing.mega,
-                    height: AppSpacing.mega,
-                    padding: AppSpacing.insetSm,
-                    decoration: BoxDecoration(
-                      color: colorScheme.secondary.withValues(alpha: .2),
-                      borderRadius: AppSpacing.roundedLg,
-                    ),
-                    child: Icon(
-                      LucideIcons.bottleWine,
-                      color: colorScheme.secondary,
-                    ),
+                  leading: MaterialTypeIcon(
+                    material: material,
+                    size: AppSpacing.mega,
                   ),
-                  title: Text(
-                    l10n.homeDepositItemBottle,
-                    style: textTheme.bodyLarge,
-                  ),
+                  title: Text(itemLabel, style: textTheme.bodyLarge),
                   trailing: Text(
-                    l10n.homeDepositPointsGain(_demoDepositPoints),
+                    l10n.homeDepositPointsGain(points),
                     style: textTheme.labelLarge!.copyWith(
                       color: colorScheme.secondary,
                     ),
                   ),
-                  // subtitle: Text(
-                  //   "+50 pts",
-                  //   style: textTheme.labelLarge!.copyWith(
-                  //     color: colorScheme.secondary,
-                  //   ),
-                  // ),
                 );
               },
             ),
           ],
         ),
+
         // Info
         Container(
           padding: AppSpacing.insetXs,

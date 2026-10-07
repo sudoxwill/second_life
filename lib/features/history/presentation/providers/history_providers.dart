@@ -1,100 +1,33 @@
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../../domain/entities/index.dart";
+import "../../../waste_analysis/domain/entities/recycling_ticket.dart";
+import "../../../waste_analysis/domain/entities/ticket_status.dart";
+import "../../../waste_analysis/presentation/providers/user_tickets_provider.dart";
+import "../../domain/entities/voucher_entity.dart";
 
 part "history_providers.g.dart";
 
-// ── Mock data ─────────────────────────────────────────────────
+// ── Dépôts (dérivés du provider Firebase) ────────────────────
 
-final _mockPending = <DepositEntity>[
-  DepositEntity(
-    id: "dep-001",
-    material: MaterialType.plastic,
-    estimatedWeight: 0.5,
-    status: DepositStatus.waiting,
-    centerName: "Centre Bè-Kpota",
-    centerAddress: "Bè-Kpota, Lomé",
-    centerLatitude: 6.1375,
-    centerLongitude: 1.2123,
-    dateTime: DateTime(2026, 9, 25, 14, 32),
-    points: 20,
-    qrData: "SL-DEP-001-2026",
-  ),
-  DepositEntity(
-    id: "dep-002",
-    material: MaterialType.paper,
-    estimatedWeight: 1.2,
-    status: DepositStatus.waiting,
-    centerName: "Centre Tokoin",
-    centerAddress: "Tokoin, Lomé",
-    centerLatitude: 6.1514,
-    centerLongitude: 1.2291,
-    dateTime: DateTime(2026, 9, 23, 9, 15),
-    points: 48,
-    qrData: "SL-DEP-002-2026",
-  ),
-  DepositEntity(
-    id: "dep-003",
-    material: MaterialType.metal,
-    estimatedWeight: 2.0,
-    status: DepositStatus.waiting,
-    centerName: "Centre Bè-Kpota",
-    centerAddress: "Bè-Kpota, Lomé",
-    centerLatitude: 6.1375,
-    centerLongitude: 1.2123,
-    dateTime: DateTime(2026, 9, 20, 16),
-    points: 80,
-    qrData: "SL-DEP-003-2026",
-  ),
-];
+@riverpod
+AsyncValue<List<RecyclingTicket>> pendingDeposits(Ref ref) =>
+    ref.watch(userTicketsProvider).whenData(
+      (tickets) =>
+          tickets.where((t) => t.status == TicketStatus.pending).toList(),
+    );
 
-final _mockProcessed = <DepositEntity>[
-  DepositEntity(
-    id: "dep-004",
-    material: MaterialType.glass,
-    estimatedWeight: 0.5,
-    realWeight: 0.6,
-    status: DepositStatus.validated,
-    centerName: "Centre Bè-Kpota",
-    centerAddress: "Bè-Kpota, Lomé",
-    centerLatitude: 6.1375,
-    centerLongitude: 1.2123,
-    dateTime: DateTime(2026, 9, 22, 16, 40),
-    points: 24,
-    agentName: "Kofi Mensah",
-    qrData: "SL-DEP-004-2026",
-    validationDateTime: DateTime(2026, 9, 22, 17, 5),
-  ),
-  DepositEntity(
-    id: "dep-005",
-    material: MaterialType.plastic,
-    estimatedWeight: 1.0,
-    realWeight: 1.0,
-    status: DepositStatus.validated,
-    centerName: "Centre Tokoin",
-    centerAddress: "Tokoin, Lomé",
-    centerLatitude: 6.1514,
-    centerLongitude: 1.2291,
-    dateTime: DateTime(2026, 9, 18, 11),
-    points: 40,
-    agentName: "Kofi Mensah",
-    qrData: "SL-DEP-005-2026",
-    validationDateTime: DateTime(2026, 9, 18, 11, 30),
-  ),
-  DepositEntity(
-    id: "dep-006",
-    material: MaterialType.ewaste,
-    estimatedWeight: 0.8,
-    status: DepositStatus.rejected,
-    centerName: "Centre Bè-Kpota",
-    centerAddress: "Bè-Kpota, Lomé",
-    dateTime: DateTime(2026, 9, 15, 10),
-    agentName: "Kofi Mensah",
-    rejectionReason: "Matières résiduelles humides et souillées",
-    qrData: "SL-DEP-006-2026",
-    validationDateTime: DateTime(2026, 9, 15, 10, 20),
-  ),
-];
+@riverpod
+AsyncValue<List<RecyclingTicket>> processedDeposits(Ref ref) =>
+    ref.watch(userTicketsProvider).whenData(
+      (tickets) =>
+          tickets.where((t) => t.status != TicketStatus.pending).toList(),
+    );
+
+@riverpod
+int pendingDepositsCount(Ref ref) =>
+    ref.watch(pendingDepositsProvider).value?.length ?? 0;
+
+// ── Vouchers (mock — feature future) ─────────────────────────
 
 final _mockVouchers = <VoucherEntity>[
   VoucherEntity(
@@ -130,44 +63,11 @@ final _mockVouchers = <VoucherEntity>[
   ),
 ];
 
-// ── Providers ─────────────────────────────────────────────────
-
-@riverpod
-class PendingDeposits extends _$PendingDeposits {
-  @override
-  Future<List<DepositEntity>> build() async {
-    await Future<void>.delayed(const Duration(milliseconds: 800));
-    return _mockPending;
-  }
-}
-
-@riverpod
-class ProcessedDeposits extends _$ProcessedDeposits {
-  @override
-  Future<List<DepositEntity>> build() async {
-    await Future<void>.delayed(const Duration(milliseconds: 800));
-    return _mockProcessed;
-  }
-}
-
 @riverpod
 class Vouchers extends _$Vouchers {
   @override
   Future<List<VoucherEntity>> build() async {
     await Future<void>.delayed(const Duration(milliseconds: 800));
     return _mockVouchers;
-  }
-}
-
-@riverpod
-int pendingDepositsCount(Ref ref) =>
-    ref.watch(pendingDepositsProvider).value?.length ?? 0;
-
-@riverpod
-class AgentProcessedDeposits extends _$AgentProcessedDeposits {
-  @override
-  Future<List<DepositEntity>> build() async {
-    await Future<void>.delayed(const Duration(milliseconds: 800));
-    return _mockProcessed;
   }
 }

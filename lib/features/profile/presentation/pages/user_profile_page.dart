@@ -6,83 +6,76 @@ import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/extensions/navigation_extension.dart";
 import "../../../../core/theme/app_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
+import "../../../../core/utils/formatters.dart";
+import "../../../../shared/presentation/providers/core_providers.dart";
 import "../../../../shared/presentation/widgets/buttons/app_elevated_button.dart";
 import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
 import "../../../../shared/presentation/widgets/others/app_divider.dart";
 import "../../../auth/presentation/providers/auth_provider.dart";
+import "../../../auth/presentation/providers/current_user_provider.dart";
 import "../widgets/profile_settings_section.dart";
 
-class UserProfilePage extends ConsumerStatefulWidget {
+Future<void> _confirmLogout(BuildContext context, WidgetRef ref) async {
+  final l10n = context.l10n;
+  final confirmed = await showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(l10n.authLogoutConfirmTitle),
+      content: Text(l10n.authLogoutConfirmMessage),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: Text(l10n.commonCancel),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, true),
+          child: Text(
+            l10n.authLogoutButton,
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
+          ),
+        ),
+      ],
+    ),
+  );
+  if (confirmed != true || !context.mounted) return;
+  await ref.read(authProvider.notifier).signOut();
+  if (!context.mounted) return;
+  context.goAuthLogin();
+}
+
+class UserProfilePage extends ConsumerWidget {
   const UserProfilePage({super.key});
 
   @override
-  ConsumerState<UserProfilePage> createState() => _UserProfilePageState();
-}
-
-class _UserProfilePageState extends ConsumerState<UserProfilePage> {
-  // Données de démo, à remplacer par celles du provider auth.
-  static const String _demoUsername = "Ama Kwatcha";
-  static const String _demoEmail = "ama@secondlife.com";
-  static const String _demoLocation = "Bè-Kpota";
-  static const int _demoAvailablePoints = 1250;
-  static const int _demoPendingPoints = 80;
-  static const double _demoRecycledKg = 18.4;
-
-  Future<void> _confirmLogout() async {
-    final l10n = context.l10n;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(l10n.authLogoutConfirmTitle),
-        content: Text(l10n.authLogoutConfirmMessage),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(l10n.commonCancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text(
-              l10n.authLogoutButton,
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
-          ),
-        ],
-      ),
-    );
-    if (confirmed != true || !mounted) return;
-    await ref.read(authProvider.notifier).signOut();
-    if (!mounted) return;
-    context.goAuthLogin();
-  }
-
-  String get _initials {
-    final parts = _demoUsername.trim().split(" ");
-    if (parts.length >= 2) {
-      return "${parts[0][0]}${parts[1][0]}".toUpperCase();
-    }
-    return parts[0][0].toUpperCase();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
+
+    final user = ref.watch(currentUserProvider).value;
+    final email =
+        ref.watch(firebaseAuthProvider).currentUser?.email ?? "";
+
+    final displayName = user?.displayName ?? "";
+    final pointsBalance = user?.pointsBalance ?? 0;
+    final pendingPoints = user?.pendingPoints ?? 0;
+    final totalKg = user?.stats.totalKg ?? 0.0;
+
     final userStats = <UserStat>[
       (
-        value: l10n.profileStatAvailableValue(_demoAvailablePoints),
+        value: l10n.profileStatAvailableValue(pointsBalance),
         label: l10n.profileStatAvailableLabel,
       ),
       (
-        value: l10n.profileStatPendingValue(_demoPendingPoints),
+        value: l10n.profileStatPendingValue(pendingPoints),
         label: l10n.profileStatPendingLabel,
       ),
       (
-        value: l10n.profileStatRecycledValue(_demoRecycledKg),
+        value: l10n.profileStatRecycledValue(totalKg),
         label: l10n.profileStatRecycledLabel,
       ),
     ];
+
     return AppScaffold(
       scrollable: true,
       appBar: AppBar(elevation: 0, title: Text(l10n.profileTitle)),
@@ -113,7 +106,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                         radius: AppSpacing.mega,
                         backgroundColor: AppColors.accent,
                         child: Text(
-                          _initials,
+                          Formatters.initials(displayName),
                           style: textTheme.titleLarge!.copyWith(
                             color: AppColors.onAccent,
                             fontWeight: FontWeight.bold,
@@ -125,57 +118,37 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              _demoUsername,
+                              displayName,
                               style: textTheme.titleLarge!.copyWith(
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.neutral50,
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
-                            Row(
-                              spacing: AppSpacing.sm,
-                              children: [
-                                Icon(
-                                  LucideIcons.mail,
-                                  size: AppSpacing.iconSm,
-                                  color: AppColors.neutral50.withValues(
-                                    alpha: 0.75,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    _demoEmail,
-                                    style: textTheme.bodyMedium!.copyWith(
-                                      color: AppColors.neutral50.withValues(
-                                        alpha: 0.75,
-                                      ),
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              spacing: AppSpacing.sm,
-                              children: [
-                                Icon(
-                                  LucideIcons.mapPin,
-                                  size: AppSpacing.iconSm,
-                                  color: AppColors.neutral50.withValues(
-                                    alpha: 0.75,
-                                  ),
-                                ),
-                                Text(
-                                  _demoLocation,
-                                  style: textTheme.bodyMedium!.copyWith(
+                            if (email.isNotEmpty)
+                              Row(
+                                spacing: AppSpacing.sm,
+                                children: [
+                                  Icon(
+                                    LucideIcons.mail,
+                                    size: AppSpacing.iconSm,
                                     color: AppColors.neutral50.withValues(
                                       alpha: 0.75,
                                     ),
                                   ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
+                                  Expanded(
+                                    child: Text(
+                                      email,
+                                      style: textTheme.bodyMedium!.copyWith(
+                                        color: AppColors.neutral50.withValues(
+                                          alpha: 0.75,
+                                        ),
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
                           ],
                         ),
                       ),
@@ -221,9 +194,9 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
           const ProfileSettingsSection(),
           AppSpacing.gapVLg,
           AppElevatedButton(
-            onPressed: _confirmLogout,
+            onPressed: () => _confirmLogout(context, ref),
             text: l10n.authLogout,
-            icon: const Icon(LucideIcons.logOut500, size: AppSpacing.iconMd),
+            icon: const Icon(LucideIcons.logOut, size: AppSpacing.iconMd),
             backgroundColor: colorScheme.error,
           ),
           AppSpacing.gapVMd,

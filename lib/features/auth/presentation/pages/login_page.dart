@@ -162,7 +162,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     } on FirebaseAuthException catch (e) {
       if (!mounted) return;
       context.showSnackBar(_mapLoginError(e.code));
-    } catch (_) {
+    } catch (e, st) {
+      debugPrint("[Login] unexpected error: $e\n$st");
       if (!mounted) return;
       context.showSnackBar(context.l10n.authLoginError);
     } finally {
@@ -191,7 +192,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       _navigateByRole(role);
     } on SignInCancelledException {
       // Annulation silencieuse
-    } catch (_) {
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+      final msg = e.code == "account-exists-with-different-credential"
+          ? context.l10n.authErrorEmailAlreadyInUse
+          : context.l10n.authLoginError;
+      context.showSnackBar(msg);
+    } catch (e, st) {
+      debugPrint("[GoogleSignIn] unexpected error: $e\n$st");
       if (!mounted) return;
       context.showSnackBar(context.l10n.authLoginError);
     } finally {

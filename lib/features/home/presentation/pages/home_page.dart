@@ -1,28 +1,31 @@
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:lucide_icons_flutter/lucide_icons.dart";
 
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/app_spacing.dart";
 import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
+import "../../../auth/presentation/providers/current_user_provider.dart";
 import "../views/user_home.dart";
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
-  static const String demoUserName = "John";
   static const int demoNotificationCount = 1;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final textTheme = context.textTheme;
+    final displayName =
+        ref.watch(currentUserProvider).value?.displayName ?? "";
     return AppScaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: RichText(
           text: TextSpan(
-            text: l10n.homeGreeting(demoUserName),
+            text: l10n.homeGreeting(displayName),
             style: textTheme.headlineMedium,
           ),
         ),
