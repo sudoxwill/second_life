@@ -8,9 +8,10 @@ import "../../features/auth/presentation/providers/auth_provider.dart";
 import "../../features/history/presentation/pages/index.dart";
 import "../../features/home/presentation/pages/index.dart";
 import "../../features/onboarding/presentation/pages/index.dart";
+import "../../features/places/presentation/pages/place_detail_page.dart";
+import "../../features/places/presentation/pages/places_map_page.dart";
 import "../../features/profile/presentation/pages/index.dart";
 import "../../features/ticket_validation/presentation/pages/agent_scanner_page.dart";
-import "../../features/waste_analysis/presentation/pages/relay_map_page.dart";
 import "../../features/waste_analysis/presentation/pages/waste_scan_page.dart";
 import "../../shared/presentation/pages/index.dart";
 import "../configs/env.dart";
@@ -192,7 +193,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const RelayMapPage(),
+                  child: const PlacesMapPage(),
                 ),
               ),
             ],
@@ -285,14 +286,10 @@ GoRouter appRouter(Ref ref) {
       // ─── Detailed screens ────────────────────
       GoRoute(
         path: AppRoutes.placeDetail,
-        pageBuilder: (context, state) => AppTransitions.fade(
+        pageBuilder: (context, state) => AppTransitions.pushedScreen(
           context: context,
           state: state,
-          child: _Placeholder(
-            title: context.l10n.routerScreenPlaceDetail(
-              state.pathParameters["id"]!,
-            ),
-          ),
+          child: PlaceDetailPage(id: state.pathParameters["id"]!),
         ),
       ),
 
