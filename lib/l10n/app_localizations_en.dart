@@ -799,4 +799,138 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rewardsDetailNoCash => 'No cash withdrawal possible';
+  String get placesCategoryRelay => 'Drop-off points';
+
+  @override
+  String get placesCategoryRecycling => 'Recycling centres';
+
+  @override
+  String placesNearbyCount(int count) {
+    return 'Nearby points ($count)';
+  }
+
+  @override
+  String get placesPillRelay => 'Relay weighing points';
+
+  @override
+  String get placesPillRecycling => 'Recycling centres';
+
+  @override
+  String get placesCollapse => 'Collapse';
+
+  @override
+  String get placesSeeAll => 'See all';
+
+  @override
+  String get placesEmptyTitle => 'No points found';
+
+  @override
+  String get placesEmptyRelay => 'No relay point matches your search.';
+
+  @override
+  String get placesEmptyRecycling => 'No recycling site matches your search.';
+
+  @override
+  String get placesLocateTooltip => 'My location';
+
+  @override
+  String get placesLocateError => 'Enable location to see nearby points.';
+
+  @override
+  String get placesLegendRelay => 'Relay points (drop-off & weighing)';
+
+  @override
+  String get placesLegendRecycling => 'Recycling (information)';
+
+  @override
+  String get placesSearchHintDefault => 'Search a city, district or point';
+
+  @override
+  String placesSearchHintCity(String city) {
+    return 'Search a point in $city';
+  }
+
+  @override
+  String placesSearchHintCityDistricts(String city, String districts) {
+    return 'Search a point in $city ($districts…)';
+  }
+
+  @override
+  String placesSearchHintCities(String cities) {
+    return 'Search a city or district ($cities…)';
+  }
+
+  @override
+  String get placesOpen => 'Open';
+
+  @override
+  String get placesClosed => 'Closed';
+
+  @override
+  String get placesDetails => 'Details';
+
+  @override
+  String get placesAgentPresent => 'Agent present today';
+
+  @override
+  String get placesRoute => 'Directions';
+
+  @override
+  String placesClosesAt(String time) {
+    return 'Closes at $time';
+  }
+
+  @override
+  String placesOpensAt(String time) {
+    return 'Opens at $time';
+  }
+
+  @override
+  String placesOpensDayAt(String day, String time) {
+    return 'Opens $day at $time';
+  }
+
+  @override
+  String get placeDetailNotFound => 'Point not found';
+
+  @override
+  String get placeDetailNotFoundMessage =>
+      'This point no longer exists or is no longer active.';
+
+  @override
+  String get placeDetailRoute => 'Open in Maps (Directions)';
+
+  @override
+  String get placeDetailAgentPresent =>
+      'Agent present today (immediate certified weighing)';
+
+  @override
+  String get placeDetailMaterialsTitle => 'Accepted waste types';
+
+  @override
+  String get placeDetailHoursTitle => 'Opening hours';
+
+  @override
+  String get placeDetailLaunchError => 'Unable to open this application.';
+
+  @override
+  String depositRelayPoint(String name) {
+    return 'Relay point: $name';
+  }
+
+  @override
+  String depositPendingCount(int count) {
+    return '$count pending';
+  }
+
+  @override
+  String get depositRefreshHint => 'Pull down to refresh.';
+
+  @override
+  String depositAiWeight(String weight) {
+    return 'AI weight: ~$weight kg';
+  }
+
+  @override
+  String get depositWeighButton => 'Proceed to weighing';
 }

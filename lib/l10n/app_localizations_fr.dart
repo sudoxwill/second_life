@@ -806,4 +806,143 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get rewardsDetailNoCash => 'Aucun retrait en espèces possible';
+  String get placesCategoryRelay => 'Points de dépôt';
+
+  @override
+  String get placesCategoryRecycling => 'Points de recyclage';
+
+  @override
+  String placesNearbyCount(int count) {
+    return 'Points proches ($count)';
+  }
+
+  @override
+  String get placesPillRelay => 'Points relais pesée';
+
+  @override
+  String get placesPillRecycling => 'Centres recyclage';
+
+  @override
+  String get placesCollapse => 'Réduire';
+
+  @override
+  String get placesSeeAll => 'Voir tout';
+
+  @override
+  String get placesEmptyTitle => 'Aucun point trouvé';
+
+  @override
+  String get placesEmptyRelay =>
+      'Aucun point relais ne correspond à votre recherche.';
+
+  @override
+  String get placesEmptyRecycling =>
+      'Aucun lieu de recyclage ne correspond à votre recherche.';
+
+  @override
+  String get placesLocateTooltip => 'Ma position';
+
+  @override
+  String get placesLocateError =>
+      'Activez la localisation pour voir les points autour de vous.';
+
+  @override
+  String get placesLegendRelay => 'Points relais (dépôt & pesée)';
+
+  @override
+  String get placesLegendRecycling => 'Recyclage (information)';
+
+  @override
+  String get placesSearchHintDefault =>
+      'Rechercher une ville, un quartier ou un point';
+
+  @override
+  String placesSearchHintCity(String city) {
+    return 'Rechercher un point à $city';
+  }
+
+  @override
+  String placesSearchHintCityDistricts(String city, String districts) {
+    return 'Rechercher un point à $city ($districts…)';
+  }
+
+  @override
+  String placesSearchHintCities(String cities) {
+    return 'Rechercher une ville ou un quartier ($cities…)';
+  }
+
+  @override
+  String get placesOpen => 'Ouvert';
+
+  @override
+  String get placesClosed => 'Fermé';
+
+  @override
+  String get placesDetails => 'Détails';
+
+  @override
+  String get placesAgentPresent => 'Agent présent aujourd\'hui';
+
+  @override
+  String get placesRoute => 'Itinéraire';
+
+  @override
+  String placesClosesAt(String time) {
+    return 'Ferme à $time';
+  }
+
+  @override
+  String placesOpensAt(String time) {
+    return 'Ouvre à $time';
+  }
+
+  @override
+  String placesOpensDayAt(String day, String time) {
+    return 'Ouvre $day à $time';
+  }
+
+  @override
+  String get placeDetailNotFound => 'Point introuvable';
+
+  @override
+  String get placeDetailNotFoundMessage =>
+      'Ce point n\'existe plus ou n\'est plus actif.';
+
+  @override
+  String get placeDetailRoute => 'Ouvrir dans Maps (Itinéraire)';
+
+  @override
+  String get placeDetailAgentPresent =>
+      'Agent présent aujourd\'hui (pesée certifiée immédiate)';
+
+  @override
+  String get placeDetailMaterialsTitle => 'Types de déchets acceptés';
+
+  @override
+  String get placeDetailHoursTitle => 'Horaires d\'ouverture';
+
+  @override
+  String get placeDetailLaunchError =>
+      'Impossible d\'ouvrir cette application.';
+
+  @override
+  String depositRelayPoint(String name) {
+    return 'Point relais : $name';
+  }
+
+  @override
+  String depositPendingCount(int count) {
+    return '$count en attente';
+  }
+
+  @override
+  String get depositRefreshHint => 'Tirez vers le bas pour actualiser.';
+
+  @override
+  String depositAiWeight(String weight) {
+    return 'Poids IA : ~$weight kg';
+  }
+
+  @override
+  String get depositWeighButton => 'Passer à la pesée';
 }

@@ -1471,6 +1471,233 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Aucun retrait en espèces possible'**
   String get rewardsDetailNoCash;
+  /// Libellé du premier onglet de la carte (points relais SecondLife)
+  ///
+  /// In fr, this message translates to:
+  /// **'Points de dépôt'**
+  String get placesCategoryRelay;
+
+  /// Libellé du second onglet de la carte (lieux de recyclage informatifs)
+  ///
+  /// In fr, this message translates to:
+  /// **'Points de recyclage'**
+  String get placesCategoryRecycling;
+
+  /// Titre de la liste des points proches dans la feuille inférieure, avec le nombre
+  ///
+  /// In fr, this message translates to:
+  /// **'Points proches ({count})'**
+  String placesNearbyCount(int count);
+
+  /// Pastille du type de points dans la feuille inférieure : points relais
+  ///
+  /// In fr, this message translates to:
+  /// **'Points relais pesée'**
+  String get placesPillRelay;
+
+  /// Pastille du type de points dans la feuille inférieure : centres de recyclage
+  ///
+  /// In fr, this message translates to:
+  /// **'Centres recyclage'**
+  String get placesPillRecycling;
+
+  /// Bouton pour replier la feuille inférieure
+  ///
+  /// In fr, this message translates to:
+  /// **'Réduire'**
+  String get placesCollapse;
+
+  /// Bouton pour déplier la feuille inférieure au maximum
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir tout'**
+  String get placesSeeAll;
+
+  /// Titre de l'état vide de la liste des points
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun point trouvé'**
+  String get placesEmptyTitle;
+
+  /// Message de l'état vide quand la catégorie active est Points relais
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun point relais ne correspond à votre recherche.'**
+  String get placesEmptyRelay;
+
+  /// Message de l'état vide quand la catégorie active est Recyclage
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun lieu de recyclage ne correspond à votre recherche.'**
+  String get placesEmptyRecycling;
+
+  /// Tooltip du bouton de localisation sur la carte
+  ///
+  /// In fr, this message translates to:
+  /// **'Ma position'**
+  String get placesLocateTooltip;
+
+  /// Message d'erreur affiché en snackbar quand la localisation est refusée
+  ///
+  /// In fr, this message translates to:
+  /// **'Activez la localisation pour voir les points autour de vous.'**
+  String get placesLocateError;
+
+  /// Légende de la couleur verte sur la carte (points relais)
+  ///
+  /// In fr, this message translates to:
+  /// **'Points relais (dépôt & pesée)'**
+  String get placesLegendRelay;
+
+  /// Légende de la couleur bleue sur la carte (lieux de recyclage)
+  ///
+  /// In fr, this message translates to:
+  /// **'Recyclage (information)'**
+  String get placesLegendRecycling;
+
+  /// Placeholder par défaut du champ de recherche sur la carte
+  ///
+  /// In fr, this message translates to:
+  /// **'Rechercher une ville, un quartier ou un point'**
+  String get placesSearchHintDefault;
+
+  /// Placeholder du champ de recherche quand l'usager est dans une ville sans quartiers proches connus
+  ///
+  /// In fr, this message translates to:
+  /// **'Rechercher un point à {city}'**
+  String placesSearchHintCity(String city);
+
+  /// Placeholder du champ de recherche avec ville et quartiers
+  ///
+  /// In fr, this message translates to:
+  /// **'Rechercher un point à {city} ({districts}…)'**
+  String placesSearchHintCityDistricts(String city, String districts);
+
+  /// Placeholder du champ de recherche avec les villes les plus représentées
+  ///
+  /// In fr, this message translates to:
+  /// **'Rechercher une ville ou un quartier ({cities}…)'**
+  String placesSearchHintCities(String cities);
+
+  /// Statut d'ouverture d'un point : ouvert
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouvert'**
+  String get placesOpen;
+
+  /// Statut d'ouverture d'un point : fermé
+  ///
+  /// In fr, this message translates to:
+  /// **'Fermé'**
+  String get placesClosed;
+
+  /// Bouton de la carte d'un point pour voir le détail
+  ///
+  /// In fr, this message translates to:
+  /// **'Détails'**
+  String get placesDetails;
+
+  /// Info courte sur la carte d'un point : agent présent
+  ///
+  /// In fr, this message translates to:
+  /// **'Agent présent aujourd\'hui'**
+  String get placesAgentPresent;
+
+  /// Bouton court de la carte d'un point pour lancer l'itinéraire
+  ///
+  /// In fr, this message translates to:
+  /// **'Itinéraire'**
+  String get placesRoute;
+
+  /// Point ouvert : heure de fermeture
+  ///
+  /// In fr, this message translates to:
+  /// **'Ferme à {time}'**
+  String placesClosesAt(String time);
+
+  /// Point fermé : réouverture plus tard aujourd'hui
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouvre à {time}'**
+  String placesOpensAt(String time);
+
+  /// Point fermé : prochaine ouverture un autre jour
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouvre {day} à {time}'**
+  String placesOpensDayAt(String day, String time);
+
+  /// Titre de l'état vide de la page détail d'un point qui n'existe plus
+  ///
+  /// In fr, this message translates to:
+  /// **'Point introuvable'**
+  String get placeDetailNotFound;
+
+  /// Message de l'état vide quand le point n'est pas trouvé
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce point n\'existe plus ou n\'est plus actif.'**
+  String get placeDetailNotFoundMessage;
+
+  /// Bouton principal de la page détail pour ouvrir Google Maps avec l'itinéraire
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouvrir dans Maps (Itinéraire)'**
+  String get placeDetailRoute;
+
+  /// Bandeau vert affiché sur la fiche détail si un agent est présent ce jour
+  ///
+  /// In fr, this message translates to:
+  /// **'Agent présent aujourd\'hui (pesée certifiée immédiate)'**
+  String get placeDetailAgentPresent;
+
+  /// Titre de la card des matériaux acceptés dans la page détail
+  ///
+  /// In fr, this message translates to:
+  /// **'Types de déchets acceptés'**
+  String get placeDetailMaterialsTitle;
+
+  /// Titre de la card des horaires d'ouverture dans la page détail
+  ///
+  /// In fr, this message translates to:
+  /// **'Horaires d\'ouverture'**
+  String get placeDetailHoursTitle;
+
+  /// Message d'erreur quand l'URL Maps ne peut pas s'ouvrir
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible d\'ouvrir cette application.'**
+  String get placeDetailLaunchError;
+
+  /// Sous-titre de la page dépôts indiquant le nom du point relais de l'agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Point relais : {name}'**
+  String depositRelayPoint(String name);
+
+  /// Badge indiquant le nombre de dépôts en attente
+  ///
+  /// In fr, this message translates to:
+  /// **'{count} en attente'**
+  String depositPendingCount(int count);
+
+  /// Message de l'état vide des dépôts, invitant à rafraîchir
+  ///
+  /// In fr, this message translates to:
+  /// **'Tirez vers le bas pour actualiser.'**
+  String get depositRefreshHint;
+
+  /// Poids estimé par l'IA affiché sur la carte de dépôt en attente
+  ///
+  /// In fr, this message translates to:
+  /// **'Poids IA : ~{weight} kg'**
+  String depositAiWeight(String weight);
+
+  /// Bouton principal sur la carte de dépôt en attente pour lancer la pesée
+  ///
+  /// In fr, this message translates to:
+  /// **'Passer à la pesée'**
+  String get depositWeighButton;
 }
 
 class _AppLocalizationsDelegate
