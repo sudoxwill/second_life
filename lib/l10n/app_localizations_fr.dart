@@ -823,6 +823,8 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get rewardsDetailNoCash => 'Aucun retrait en espèces possible';
+
+  @override
   String get placesCategoryRelay => 'Points de dépôt';
 
   @override
@@ -1361,9 +1363,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get rewardsTitle => 'Récompenses';
-
-  @override
-  String get rewardsBalanceLabel => 'Solde disponible';
 
   @override
   String rewardsCost(int points) {

@@ -982,7 +982,7 @@
   "@rewardsDetailConditionsTitle": { "description": "Titre du bloc des conditions d'utilisation sur la page détail d'une récompense" },
 
   "rewardsDetailNoCash": "Aucun retrait en espèces possible",
-  "@rewardsDetailNoCash": { "description": "Avertissement en bas de la page détail : les récompenses ne sont pas convertibles en cash" }
+  "@rewardsDetailNoCash": { "description": "Avertissement en bas de la page détail : les récompenses ne sont pas convertibles en cash" },
   "@__sectionPlaces": {
     "description": "━━━━ PLACES — Carte et détail des points de recyclage ━━━━"
   },
@@ -1391,8 +1391,6 @@
   "@__sectionRewards": { "description": "━━━━ RÉCOMPENSES, NOTIFICATIONS IN-APP, LOT AGENT ━━━━" },
   "rewardsTitle": "Récompenses",
   "@rewardsTitle": { "description": "Titre du catalogue de récompenses" },
-  "rewardsBalanceLabel": "Solde disponible",
-  "@rewardsBalanceLabel": { "description": "Libellé du solde en haut du catalogue" },
   "rewardsCost": "{points} pts",
   "@rewardsCost": { "description": "Coût d'une récompense", "placeholders": { "points": { "type": "int", "example": "100" } } },
   "rewardsRedeem": "Échanger",

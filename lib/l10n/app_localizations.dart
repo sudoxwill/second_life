@@ -1501,6 +1501,7 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Aucun retrait en espèces possible'**
   String get rewardsDetailNoCash;
+
   /// Libellé du premier onglet de la carte (points relais SecondLife)
   ///
   /// In fr, this message translates to:
@@ -2412,12 +2413,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Récompenses'**
   String get rewardsTitle;
-
-  /// Libellé du solde en haut du catalogue
-  ///
-  /// In fr, this message translates to:
-  /// **'Solde disponible'**
-  String get rewardsBalanceLabel;
 
   /// Coût d'une récompense
   ///
