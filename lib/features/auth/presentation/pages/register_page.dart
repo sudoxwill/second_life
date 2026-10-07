@@ -157,7 +157,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 ),
               ),
               OAuthSection(
-                isLoading: _isLoading,
+                // isLoading: _isLoading,
                 onGoogleSignIn: _googleSignIn,
               ),
             ],

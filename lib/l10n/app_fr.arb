@@ -78,6 +78,9 @@
   "authOrContinueWith": "Ou continuer avec",
   "@authOrContinueWith": { "description": "Séparateur DIVIDER entre formulaire email/password et boutons OAuth multiples (Google/GitHub/Apple)" },
 
+  "authOr": "Ou",
+  "@authOr": { "description": "Séparateur DIVIDER entre formulaire email/password et boutons OAuth multiples (Google/GitHub/Apple)" },
+
   "@__sectionOnboarding": {
     "description": "━━━━ ONBOARDING — 3 slides recyclage + navigation ━━━━"
   },

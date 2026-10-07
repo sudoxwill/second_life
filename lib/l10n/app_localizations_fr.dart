@@ -68,6 +68,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get authOrContinueWith => 'Ou continuer avec';
 
   @override
+  String get authOr => 'Ou';
+
+  @override
   String get onboardingSkip => 'Passer';
 
   @override

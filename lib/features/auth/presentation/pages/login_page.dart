@@ -137,7 +137,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ),
               ),
               OAuthSection(
-                isLoading: _isLoading,
+                // isLoading: _isLoading,
                 onGoogleSignIn: _googleSignIn,
               ),
             ],

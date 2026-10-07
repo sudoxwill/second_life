@@ -66,6 +66,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authOrContinueWith => 'Or continue with';
 
   @override
+  String get authOr => 'Or';
+
+  @override
   String get onboardingSkip => 'Skip';
 
   @override

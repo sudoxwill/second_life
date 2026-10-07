@@ -8,12 +8,12 @@ import "../../../../shared/presentation/widgets/others/app_divider.dart";
 
 class OAuthSection extends StatelessWidget {
   const OAuthSection({
-    required this._isLoading,
+    // required this._isLoading,
     super.key,
     this._onGoogleSignIn,
   });
 
-  final bool _isLoading;
+  // final bool _isLoading;
   final void Function()? _onGoogleSignIn;
 
   @override
@@ -24,14 +24,14 @@ class OAuthSection extends StatelessWidget {
     return Column(
       children: [
         AppDivider(
-          label: l10n.authOrContinueWith,
+          label: l10n.authOr,
           style: tt.titleMedium!.copyWith(
             color: cs.onSurface.withValues(alpha: .6),
           ),
         ),
         AppOutlinedButton(
           backgroundColor: cs.surfaceContainer,
-          isLoading: _isLoading,
+          // isLoading: _isLoading,
           onPressed: _onGoogleSignIn,
           child: Row(
             spacing: AppSpacing.md,

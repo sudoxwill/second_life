@@ -33,32 +33,55 @@ GoRouter appRouter(Ref ref) {
       final role = ref.read(authProvider);
       final loc = state.matchedLocation;
 
-      // Username pas encore choisi (après OAuth) → page de setup obligatoire
+      // ─── Non authentifié ─────────────────────────────────────────────
+      if (role == null) {
+        // La splash gère elle-même sa navigation
+        if (loc == AppRoutes.root) return null;
+        // Pages publiques accessibles sans compte
+        if (loc == AppRoutes.onboarding ||
+            loc == AppRoutes.authLogin ||
+            loc == AppRoutes.authSignup ||
+            loc == AppRoutes.authForgot ||
+            loc == AppRoutes.authResetPassword) {
+          return null;
+        }
+        // Toute route protégée → login
+        return AppRoutes.authLogin;
+      }
+
+      // ─── Username pas encore choisi (après OAuth) ────────────────────
       if (role == AppRole.pendingUsername) {
         if (loc == AppRoutes.authUsernameSetup) return null;
         return AppRoutes.authUsernameSetup;
       }
 
+      // ─── Agent ───────────────────────────────────────────────────────
       if (role == AppRole.agent) {
-        // Agent ne doit pas atterrir dans le shell user ni sur les écrans auth
         if (loc == AppRoutes.home ||
             loc == AppRoutes.places ||
             loc == AppRoutes.history ||
             loc == AppRoutes.profile ||
             loc == AppRoutes.authLogin ||
             loc == AppRoutes.authSignup ||
+            loc == AppRoutes.authUsernameSetup ||
+            loc == AppRoutes.onboarding ||
             loc == AppRoutes.root) {
           return AppRoutes.agentHome;
         }
-      } else if (role == AppRole.user) {
-        // User ne doit pas atterrir dans le shell agent ni sur les écrans auth
+      }
+
+      // ─── User ────────────────────────────────────────────────────────
+      if (role == AppRole.user) {
         if (loc.startsWith("/agent") ||
             loc == AppRoutes.authLogin ||
             loc == AppRoutes.authSignup ||
+            loc == AppRoutes.authUsernameSetup ||
+            loc == AppRoutes.onboarding ||
             loc == AppRoutes.root) {
           return AppRoutes.home;
         }
       }
+
       return null;
     },
     errorBuilder: (context, state) => const _RouterErrorPage(),

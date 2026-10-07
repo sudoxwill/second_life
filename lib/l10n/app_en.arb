@@ -66,6 +66,9 @@
   "authOrContinueWith": "Or continue with",
   "@authOrContinueWith": { "description": "Divider label between email/password form and multiple OAuth providers (Google/GitHub/Apple)" },
 
+  "authOr": "Or",
+  "@authOr": { "description": "Divider label between email/password form and multiple OAuth providers (Google/GitHub/Apple)" },
+
   "@__sectionOnboarding": {
     "description": "━━━━ ONBOARDING — 3 recycling slides + navigation ━━━━"
   },

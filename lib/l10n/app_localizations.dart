@@ -206,6 +206,12 @@ abstract class AppLocalizations {
   /// **'Ou continuer avec'**
   String get authOrContinueWith;
 
+  /// Séparateur DIVIDER entre formulaire email/password et boutons OAuth multiples (Google/GitHub/Apple)
+  ///
+  /// In fr, this message translates to:
+  /// **'Ou'**
+  String get authOr;
+
   /// Bouton pour ignorer l'onboarding
   ///
   /// In fr, this message translates to:
