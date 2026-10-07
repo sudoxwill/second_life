@@ -44,14 +44,26 @@ void main() async {
   // Sans le fuseau horaire local, les notifications programmées partiraient
   // à la mauvaise heure.
   tz.initializeTimeZones();
-  final timezoneInfo = await FlutterTimezone.getLocalTimezone();
-  tz.setLocalLocation(tz.getLocation(timezoneInfo.identifier));
-  Log.d("Timezone local: ${timezoneInfo.identifier}");
+  try {
+    final timezoneInfo = await FlutterTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timezoneInfo.identifier));
+    Log.d("Timezone local: ${timezoneInfo.identifier}");
+  } catch (e, st) {
+    // Non bloquant : on reste en UTC plutôt que de figer l'app au splash.
+    Log.e("Échec init timezone, UTC utilisé", error: e, stackTrace: st);
+  }
 
-  final notificationPlugin = await NotificationService.createAndInit(
-    onTap: _onNotificationTap,
-  );
-  Log.i("NotificationService initialisé");
+  // Non bloquant : sans notifications l'app doit quand même démarrer.
+  FlutterLocalNotificationsPlugin notificationPlugin;
+  try {
+    notificationPlugin = await NotificationService.createAndInit(
+      onTap: _onNotificationTap,
+    );
+    Log.i("NotificationService initialisé");
+  } catch (e, st) {
+    Log.e("Échec init NotificationService", error: e, stackTrace: st);
+    notificationPlugin = FlutterLocalNotificationsPlugin();
+  }
 
   runApp(
     ProviderScope(

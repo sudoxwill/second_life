@@ -64,6 +64,9 @@ class AgentShell extends StatelessWidget {
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 8,
+        // Hauteur M3 par défaut (80) trop grande pour nos onglets de 56 :
+        // elle laissait une bande vide en bas de chaque écran.
+        height: 56,
         padding: EdgeInsets.zero,
         child: Row(
           children: [

@@ -30,8 +30,14 @@ class _SplashPageState extends ConsumerState<SplashPage>
 
     Future.delayed(const Duration(seconds: 3), () async {
       if (!mounted) return;
-      final onboardingDone =
-          await ref.read(onboardingControllerProvider.future);
+      // En cas d'erreur de lecture, on repasse par l'onboarding plutôt que de
+      // rester bloqué sur la splash.
+      bool onboardingDone;
+      try {
+        onboardingDone = await ref.read(onboardingControllerProvider.future);
+      } catch (_) {
+        onboardingDone = false;
+      }
       if (!mounted) return;
 
       if (onboardingDone) {

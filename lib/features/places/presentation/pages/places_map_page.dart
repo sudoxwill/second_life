@@ -88,9 +88,12 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
       builder: (context, constraints) {
         // La barre du bas passe par-dessus la page (extendBody).
         final navHeight = MediaQuery.paddingOf(context).bottom;
+        // La carte passe sous la barre d'état, mais pas les contrôles.
+        final statusBarHeight = MediaQuery.paddingOf(context).top;
+        final topOverlay = statusBarHeight + _topOverlayHeight;
         final sheetArea = constraints.maxHeight - navHeight;
         final minSize = _minSize = (_sheetPeek / sheetArea).clamp(0.05, 0.4);
-        final maxSize = _maxSize = ((sheetArea - _topOverlayHeight) / sheetArea)
+        final maxSize = _maxSize = ((sheetArea - topOverlay) / sheetArea)
             .clamp(minSize + 0.1, 1.0);
 
         return Stack(
@@ -129,7 +132,7 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
             Positioned(
               left: 16,
               right: 16,
-              top: 12,
+              top: statusBarHeight + 12,
               child: _TopBar(
                 search: _search,
                 searchHint: searchHint,
@@ -145,7 +148,7 @@ class _PlacesMapPageState extends ConsumerState<PlacesMapPage> {
             ),
             Positioned(
               right: 16,
-              top: _topOverlayHeight + 4,
+              top: topOverlay + 4,
               child: _LocateButton(onPressed: _locateUser),
             ),
           ],
