@@ -18,6 +18,10 @@ extension AppSemanticColors on BuildContext {
   Color get warningSoft =>
       _dark ? AppColors.semanticWarningBgDark : AppColors.semanticWarningBg;
 
+  Color get info => _dark ? AppColors.semanticInfoDark : AppColors.semanticInfo;
+  Color get infoSoft =>
+      _dark ? AppColors.semanticInfoBgDark : AppColors.semanticInfoBg;
+
   /// Texte des badges posés sur [warning].
   Color get onWarning => _dark ? AppColors.onAccent : AppColors.onPrimary;
 }

@@ -6,6 +6,8 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 import "../../features/auth/presentation/pages/index.dart";
 import "../../features/auth/presentation/providers/auth_provider.dart";
 import "../../features/onboarding/presentation/pages/index.dart";
+import "../../features/places/presentation/pages/place_detail_page.dart";
+import "../../features/places/presentation/pages/places_map_page.dart";
 import "../../features/profile/presentation/pages/profile_page.dart";
 import "../../features/ticket_validation/presentation/pages/agent_dashboard_page.dart";
 import "../../features/ticket_validation/presentation/pages/agent_history_page.dart";
@@ -14,7 +16,6 @@ import "../../features/ticket_validation/presentation/pages/pending_deposits_pag
 import "../../features/ticket_validation/presentation/widgets/relay_agent_builder.dart";
 import "../../features/waste_analysis/presentation/pages/citizen_history_page.dart";
 import "../../features/waste_analysis/presentation/pages/citizen_home_page.dart";
-import "../../features/waste_analysis/presentation/pages/relay_map_page.dart";
 import "../../features/waste_analysis/presentation/pages/waste_scan_page.dart";
 import "../../shared/presentation/agent_shell.dart";
 import "../../shared/presentation/user_shell.dart";
@@ -158,7 +159,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const RelayMapPage(),
+                  child: const PlacesMapPage(),
                 ),
               ),
             ],
@@ -260,14 +261,10 @@ GoRouter appRouter(Ref ref) {
       // Écrans de détail
       GoRoute(
         path: AppRoutes.placeDetail,
-        pageBuilder: (context, state) => AppTransitions.fade(
+        pageBuilder: (context, state) => AppTransitions.pushedScreen(
           context: context,
           state: state,
-          child: _Placeholder(
-            title: context.l10n.routerScreenPlaceDetail(
-              state.pathParameters["id"]!,
-            ),
-          ),
+          child: PlaceDetailPage(id: state.pathParameters["id"]!),
         ),
       ),
 
