@@ -87,6 +87,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "254737909387-rul2t54g2d771dhiet6dc1prblgqrfej.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.secondlife.second_life",
+            "certificate_hash": "cc2ee8cfd052ae12e14ed95f0d9ba83d6c8df329"
+          }
+        },
+        {
           "client_id": "254737909387-vp33qtpnh5o8h2kdun9kk2p5pkfe1p1k.apps.googleusercontent.com",
           "client_type": 3
         }

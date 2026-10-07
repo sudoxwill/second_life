@@ -238,7 +238,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       }
     } on SignInCancelledException {
       // Annulation silencieuse
-    } catch (_) {
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+      final msg = e.code == "account-exists-with-different-credential"
+          ? context.l10n.authErrorEmailAlreadyInUse
+          : context.l10n.authSignupError;
+      context.showSnackBar(msg);
+    } catch (e, st) {
+      debugPrint("[GoogleSignIn/Register] unexpected error: $e\n$st");
       if (!mounted) return;
       context.showSnackBar(context.l10n.authSignupError);
     } finally {

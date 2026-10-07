@@ -47,10 +47,9 @@ class AuthNotifier extends _$AuthNotifier {
     String email,
     String password,
   ) async {
-    await ref
+    final uid = await ref
         .read(authDatasourceProvider)
         .signInWithEmailPassword(email, password);
-    final uid = ref.read(firebaseAuthProvider).currentUser!.uid;
     final role = await _resolveRole(uid);
     state = role;
     return role;
@@ -64,18 +63,15 @@ class AuthNotifier extends _$AuthNotifier {
     final ds = ref.read(authDatasourceProvider);
     final available = await ds.isUsernameAvailable(username);
     if (!available) throw const UsernameTakenException();
-    await ds.signUpWithEmailPassword(email, password);
-    final uid = ref.read(firebaseAuthProvider).currentUser!.uid;
-    await ds.saveUser(uid, email, username);
+    final uid = await ds.signUpWithEmailPassword(email, password);
+    await ds.saveUser(uid, username);
     state = AppRole.user;
     return AppRole.user;
   }
 
   Future<AppRole> signInWithGoogle() async {
-    final cancelled =
-        await ref.read(authDatasourceProvider).signInWithGoogle();
-    if (cancelled) throw const SignInCancelledException();
-    final uid = ref.read(firebaseAuthProvider).currentUser!.uid;
+    final uid = await ref.read(authDatasourceProvider).signInWithGoogle();
+    if (uid == null) throw const SignInCancelledException();
     final role = await _resolveRole(uid);
     state = role;
     return role;
@@ -86,7 +82,7 @@ class AuthNotifier extends _$AuthNotifier {
     final available = await ds.isUsernameAvailable(username);
     if (!available) throw const UsernameTakenException();
     final currentUser = ref.read(firebaseAuthProvider).currentUser!;
-    await ds.saveUser(currentUser.uid, currentUser.email ?? "", username);
+    await ds.saveUser(currentUser.uid, username);
     state = AppRole.user;
     return AppRole.user;
   }

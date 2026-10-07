@@ -24,9 +24,9 @@ import "app_transitions.dart";
 part "app_router.g.dart";
 
 /// GoRouter global de SecondLife.
-@riverpod
+@Riverpod(keepAlive: true)
 GoRouter appRouter(Ref ref) {
-  return GoRouter(
+  final router = GoRouter(
     initialLocation: AppRoutes.root,
     navigatorKey: AppNavigatorKey.instance,
     debugLogDiagnostics: Env.enableLogging,
@@ -34,11 +34,9 @@ GoRouter appRouter(Ref ref) {
       final role = ref.read(authProvider);
       final loc = state.matchedLocation;
 
-      // ─── Non authentifié ─────────────────────────────────────────────
+      // Non authentifié ou restauration de session en cours
       if (role == null) {
-        // La splash gère elle-même sa navigation
         if (loc == AppRoutes.root) return null;
-        // Pages publiques accessibles sans compte
         if (loc == AppRoutes.onboarding ||
             loc == AppRoutes.authLogin ||
             loc == AppRoutes.authSignup ||
@@ -46,37 +44,25 @@ GoRouter appRouter(Ref ref) {
             loc == AppRoutes.authResetPassword) {
           return null;
         }
-        // Toute route protégée → login
         return AppRoutes.authLogin;
       }
 
-      // ─── Username pas encore choisi (après OAuth) ────────────────────
+      // Username pas encore choisi (après OAuth)
       if (role == AppRole.pendingUsername) {
         if (loc == AppRoutes.authUsernameSetup) return null;
         return AppRoutes.authUsernameSetup;
       }
 
-      // ─── Agent ───────────────────────────────────────────────────────
+      // Agent : autorisé uniquement sur /agent/*
       if (role == AppRole.agent) {
-        if (loc == AppRoutes.home ||
-            loc == AppRoutes.places ||
-            loc == AppRoutes.history ||
-            loc == AppRoutes.profile ||
-            loc == AppRoutes.authLogin ||
-            loc == AppRoutes.authSignup ||
-            loc == AppRoutes.authUsernameSetup ||
-            loc == AppRoutes.onboarding ||
-            loc == AppRoutes.root) {
-          return AppRoutes.agentHome;
-        }
+        if (!loc.startsWith("/agent")) return AppRoutes.agentHome;
+        return null;
       }
 
-      // ─── User ────────────────────────────────────────────────────────
+      // User : interdit sur /agent/*, pages d'auth et onboarding
       if (role == AppRole.user) {
         if (loc.startsWith("/agent") ||
-            loc == AppRoutes.authLogin ||
-            loc == AppRoutes.authSignup ||
-            loc == AppRoutes.authUsernameSetup ||
+            loc.startsWith("/auth/") ||
             loc == AppRoutes.onboarding ||
             loc == AppRoutes.root) {
           return AppRoutes.home;
@@ -87,7 +73,7 @@ GoRouter appRouter(Ref ref) {
     },
     errorBuilder: (context, state) => const _RouterErrorPage(),
     routes: [
-      // ─── Splash ───────────────────────────
+      // Splash
       GoRoute(
         path: AppRoutes.root,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -97,7 +83,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // ─── Onboarding ───────────────────────────
+      // Onboarding
       GoRoute(
         path: AppRoutes.onboarding,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -107,7 +93,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // ─── Authentification ────────────────────
+      // Authentification
       GoRoute(
         path: AppRoutes.authLogin,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -149,7 +135,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // ─── Scan ───────────────────────────
+      // Scan
       GoRoute(
         path: AppRoutes.scan,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -169,7 +155,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // ─── Shell User — 4 onglets ──────────────
+      // Shell User — 4 onglets
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             UserShell(navigationShell: navigationShell),
@@ -225,7 +211,7 @@ GoRouter appRouter(Ref ref) {
         ],
       ),
 
-      // ─── Shell Agent — 4 onglets ─────────────
+      // Shell Agent — 4 onglets
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             AgentShell(navigationShell: navigationShell),
@@ -281,7 +267,7 @@ GoRouter appRouter(Ref ref) {
         ],
       ),
 
-      // ─── Detailed screens ────────────────────
+      // Detailed screens
       GoRoute(
         path: AppRoutes.placeDetail,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -295,7 +281,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // ─── Settings ──────────────────────────────
+      // Settings
       GoRoute(
         path: AppRoutes.settings,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -306,6 +292,8 @@ GoRouter appRouter(Ref ref) {
       ),
     ],
   );
+  ref.listen(authProvider, (_, _) => router.refresh());
+  return router;
 }
 
 class _Placeholder extends StatelessWidget {
