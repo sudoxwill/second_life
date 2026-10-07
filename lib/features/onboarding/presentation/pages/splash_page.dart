@@ -30,16 +30,11 @@ class _SplashPageState extends ConsumerState<SplashPage>
 
     Future.delayed(const Duration(seconds: 3), () async {
       if (!mounted) return;
-      final storage = ref.read(onboardingControllerProvider);
-      final onboardingDone = storage.value ?? false;
+      final onboardingDone =
+          await ref.read(onboardingControllerProvider.future);
       if (!mounted) return;
 
       if (onboardingDone) {
-        // if (hasSession) {
-        //   context.goHome();
-        // } else {
-        //   context.goAuthLogin();
-        // }
         context.goAuthLogin();
       } else {
         context.goOnboarding();

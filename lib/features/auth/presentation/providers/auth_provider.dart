@@ -1,56 +1,98 @@
 import "package:firebase_auth/firebase_auth.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../../../../core/errors/failure.dart";
+import "../../../../core/errors/exception.dart";
 import "../../../../shared/presentation/providers/core_providers.dart";
-import "../../../ticket_validation/presentation/providers/current_relay_agent_provider.dart";
+import "../../data/datasources/auth_datasource.dart";
 
 part "auth_provider.g.dart";
 
-enum AppRole { user, agent }
+enum AppRole { user, agent, pendingUsername }
 
-// Connexion anonyme Firebase en attendant la vraie auth. Le rôle vient de
-// relay_agents : une fiche active pour l'uid fait de l'utilisateur un agent.
+/// null  = non authentifié / en cours de restauration
+/// user  = utilisateur connecté avec profil complet
+/// agent = agent relais connecté
+/// pendingUsername = connecté mais username pas encore choisi (OAuth)
 @Riverpod(keepAlive: true)
 class AuthNotifier extends _$AuthNotifier {
   @override
-  AppRole? build() => null;
-
-  Future<AppRole> signIn() async {
-    await _ensureSignedIn(ref.read(firebaseAuthProvider));
-
-    // La fiche agent a pu changer depuis la dernière connexion.
-    ref.invalidate(currentRelayAgentProvider);
-    try {
-      await ref.read(currentRelayAgentProvider.future);
-      state = AppRole.agent;
-    } on NotRelayAgentFailure {
-      state = AppRole.user;
-    }
-    return state!;
+  AppRole? build() {
+    _tryRestoreSession();
+    return null;
   }
 
-  // On garde le même compte anonyme d'une session à l'autre, sinon
-  // l'historique des tickets serait perdu à chaque connexion.
-  Future<void> _ensureSignedIn(FirebaseAuth auth) async {
+  Future<void> _tryRestoreSession() async {
+    final auth = ref.read(firebaseAuthProvider);
     final user = auth.currentUser;
-    if (user != null) {
-      try {
-        // Le compte en cache a pu être supprimé ou désactivé dans la console :
-        // son jeton ne se renouvelle plus et Firestore attend indéfiniment.
-        await user.reload();
-        return;
-      } on FirebaseAuthException catch (e) {
-        if (e.code == "network-request-failed") rethrow;
-        await auth.signOut();
-      }
+    if (user == null) return;
+    try {
+      await user.reload();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "network-request-failed") return;
+      await auth.signOut();
+      return;
     }
-    await auth.signInAnonymously();
+    final role = await _resolveRole(user.uid);
+    if (ref.mounted) state = role;
   }
 
-  // Ne déconnecte pas Firebase : un nouveau compte anonyme repartirait de zéro.
-  void signOut() {
-    ref.invalidate(currentRelayAgentProvider);
+  Future<AppRole> _resolveRole(String uid) async {
+    final ds = ref.read(authDatasourceProvider);
+    if (await ds.isAgent(uid)) return AppRole.agent;
+    if (await ds.hasUserProfile(uid)) return AppRole.user;
+    return AppRole.pendingUsername;
+  }
+
+  Future<AppRole> signInWithEmailPassword(
+    String email,
+    String password,
+  ) async {
+    await ref
+        .read(authDatasourceProvider)
+        .signInWithEmailPassword(email, password);
+    final uid = ref.read(firebaseAuthProvider).currentUser!.uid;
+    final role = await _resolveRole(uid);
+    state = role;
+    return role;
+  }
+
+  Future<AppRole> signUpWithEmailPassword(
+    String email,
+    String password,
+    String username,
+  ) async {
+    final ds = ref.read(authDatasourceProvider);
+    final available = await ds.isUsernameAvailable(username);
+    if (!available) throw const UsernameTakenException();
+    await ds.signUpWithEmailPassword(email, password);
+    final uid = ref.read(firebaseAuthProvider).currentUser!.uid;
+    await ds.saveUser(uid, email, username);
+    state = AppRole.user;
+    return AppRole.user;
+  }
+
+  Future<AppRole> signInWithGoogle() async {
+    final cancelled =
+        await ref.read(authDatasourceProvider).signInWithGoogle();
+    if (cancelled) throw const SignInCancelledException();
+    final uid = ref.read(firebaseAuthProvider).currentUser!.uid;
+    final role = await _resolveRole(uid);
+    state = role;
+    return role;
+  }
+
+  Future<AppRole> saveUsername(String username) async {
+    final ds = ref.read(authDatasourceProvider);
+    final available = await ds.isUsernameAvailable(username);
+    if (!available) throw const UsernameTakenException();
+    final currentUser = ref.read(firebaseAuthProvider).currentUser!;
+    await ds.saveUser(currentUser.uid, currentUser.email ?? "", username);
+    state = AppRole.user;
+    return AppRole.user;
+  }
+
+  Future<void> signOut() async {
+    await ref.read(authDatasourceProvider).signOut();
     state = null;
   }
 }

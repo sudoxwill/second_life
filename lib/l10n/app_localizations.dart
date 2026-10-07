@@ -194,11 +194,23 @@ abstract class AppLocalizations {
   /// **'Info'**
   String get commonInfo;
 
+  /// Assemblage d'une date et d'une heure déjà formatées (ex: carte d'historique)
+  ///
+  /// In fr, this message translates to:
+  /// **'{date} à {time}'**
+  String commonDateTime(String date, String time);
+
   /// Séparateur DIVIDER entre formulaire email/password et boutons OAuth multiples (Google/GitHub/Apple)
   ///
   /// In fr, this message translates to:
   /// **'Ou continuer avec'**
   String get authOrContinueWith;
+
+  /// Séparateur DIVIDER entre formulaire email/password et boutons OAuth multiples (Google/GitHub/Apple)
+  ///
+  /// In fr, this message translates to:
+  /// **'Ou'**
+  String get authOr;
 
   /// Bouton pour ignorer l'onboarding
   ///
@@ -421,6 +433,78 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Échec de la déconnexion. Réessaie.'**
   String get authLogoutError;
+
+  /// Erreur quand l'email ou le mot de passe est incorrect (code Firebase : invalid-credential, wrong-password, user-not-found)
+  ///
+  /// In fr, this message translates to:
+  /// **'Email ou mot de passe incorrect.'**
+  String get authErrorInvalidCredential;
+
+  /// Erreur à l'inscription quand l'email est déjà utilisé
+  ///
+  /// In fr, this message translates to:
+  /// **'Un compte existe déjà avec cet email.'**
+  String get authErrorEmailAlreadyInUse;
+
+  /// Erreur quand Firebase bloque les tentatives de connexion
+  ///
+  /// In fr, this message translates to:
+  /// **'Trop de tentatives. Réessaie dans quelques minutes.'**
+  String get authErrorTooManyRequests;
+
+  /// Erreur quand le compte est désactivé dans Firebase
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce compte a été désactivé.'**
+  String get authErrorUserDisabled;
+
+  /// Label du champ mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot de passe'**
+  String get authPasswordLabel;
+
+  /// Placeholder du champ mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'••••••••'**
+  String get authPasswordHint;
+
+  /// Label du champ de confirmation du mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'Confirmer le mot de passe'**
+  String get authConfirmPasswordLabel;
+
+  /// Lien vers la page de réinitialisation du mot de passe
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot de passe oublié ?'**
+  String get authForgotPassword;
+
+  /// Titre de la page de choix du nom d'utilisateur (après OAuth)
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisis ton nom'**
+  String get authUsernameSetupTitle;
+
+  /// Sous-titre explicatif de la page de choix du nom d'utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce nom sera ton identifiant unique sur Second Life.'**
+  String get authUsernameSetupSubtitle;
+
+  /// Bouton de validation du nom d'utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer'**
+  String get authUsernameSetupButton;
+
+  /// Erreur affichée quand le nom d'utilisateur est déjà pris
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce nom est déjà pris'**
+  String get authUsernameTaken;
 
   /// Message d'erreur pour un champ obligatoire vide
   ///
@@ -841,6 +925,282 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Système'**
   String get profileThemeSystem;
+
+  /// Titre de la barre d'application de l'écran d'historique
+  ///
+  /// In fr, this message translates to:
+  /// **'Historique de vos activités'**
+  String get historyTitle;
+
+  /// Titre de la barre d'application de l'historique de l'agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Mes validations'**
+  String get historyAgentTitle;
+
+  /// État vide de la liste des validations de l'agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune validation ici'**
+  String get historyAgentEmpty;
+
+  /// Premier filtre de l'historique agent : afficher tous les dépôts
+  ///
+  /// In fr, this message translates to:
+  /// **'Tous'**
+  String get historyFilterAll;
+
+  /// Filtre de l'historique agent : afficher les dépôts validés
+  ///
+  /// In fr, this message translates to:
+  /// **'Validés'**
+  String get historyFilterValidated;
+
+  /// Filtre de l'historique agent : afficher les dépôts refusés
+  ///
+  /// In fr, this message translates to:
+  /// **'Refusés'**
+  String get historyFilterRejected;
+
+  /// Libellé du compteur total du résumé statistique de l'agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Total'**
+  String get historyStatTotal;
+
+  /// Premier onglet de l'historique : dépôts en attente de validation
+  ///
+  /// In fr, this message translates to:
+  /// **'En attente'**
+  String get historyTabWaiting;
+
+  /// Deuxième onglet de l'historique : dépôts déjà traités par un agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Traités'**
+  String get historyTabProcessed;
+
+  /// Troisième onglet de l'historique : bons et récompenses obtenus
+  ///
+  /// In fr, this message translates to:
+  /// **'Récompenses'**
+  String get historyTabGift;
+
+  /// Badge d'état d'un dépôt encore non validé
+  ///
+  /// In fr, this message translates to:
+  /// **'En attente'**
+  String get historyStatusWaiting;
+
+  /// Badge d'état d'un dépôt validé par un agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Validé'**
+  String get historyStatusValidated;
+
+  /// Badge d'état d'un dépôt refusé par un agent
+  ///
+  /// In fr, this message translates to:
+  /// **'Refusé'**
+  String get historyStatusRejected;
+
+  /// Badge d'état d'un bon encore utilisable
+  ///
+  /// In fr, this message translates to:
+  /// **'Actif'**
+  String get historyVoucherStatusActive;
+
+  /// Badge d'état d'un bon déjà utilisé
+  ///
+  /// In fr, this message translates to:
+  /// **'Utilisé'**
+  String get historyVoucherStatusUsed;
+
+  /// Badge d'état d'un bon expiré
+  ///
+  /// In fr, this message translates to:
+  /// **'Expiré'**
+  String get historyVoucherStatusExpired;
+
+  /// Titre de l'état vide d'un onglet de dépôts
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun dépôt pour le moment'**
+  String get historyEmptyDepositTitle;
+
+  /// Titre de l'état vide de l'onglet récompenses
+  ///
+  /// In fr, this message translates to:
+  /// **'Bientôt disponible'**
+  String get historyEmptyGiftTitle;
+
+  /// Message d'accompagnement de l'état vide de l'onglet récompenses
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'échange de points contre des récompenses arrive très bientôt.'**
+  String get historyEmptyGiftMessage;
+
+  /// Titre du bloc d'informations d'une fiche de dépôt détaillée
+  ///
+  /// In fr, this message translates to:
+  /// **'Informations'**
+  String get historyInfoTitle;
+
+  /// Consigne sous le QR code d'un dépôt en attente
+  ///
+  /// In fr, this message translates to:
+  /// **'Présentez ce code à l\'agent du point relais'**
+  String get historyQrHint;
+
+  /// Chip de points gagnés mais pas encore validés sur une carte de dépôt
+  ///
+  /// In fr, this message translates to:
+  /// **'+{amount} pts en attente'**
+  String historyPointsPending(int amount);
+
+  /// Chip de points définitivement acquis sur une carte de dépôt validé
+  ///
+  /// In fr, this message translates to:
+  /// **'+{amount} pts certifiés'**
+  String historyPointsCertified(int amount);
+
+  /// Sous-titre indiquant les points déjà versés sur une fiche de dépôt validé
+  ///
+  /// In fr, this message translates to:
+  /// **'+{amount} pts crédités'**
+  String historyPointsCredited(int amount);
+
+  /// Nombre de points utilisés pour obtenir un bon
+  ///
+  /// In fr, this message translates to:
+  /// **'{amount} pts dépensés'**
+  String historyPointsSpent(int amount);
+
+  /// Poids constaté par l'agent sur une carte ou une fiche de dépôt
+  ///
+  /// In fr, this message translates to:
+  /// **'Poids réel : {weight} kg'**
+  String historyWeightReal(double weight);
+
+  /// Poids avant pesée réelle sur une carte ou une fiche de dépôt
+  ///
+  /// In fr, this message translates to:
+  /// **'Poids estimé : ~{weight} kg'**
+  String historyWeightEstimated(double weight);
+
+  /// Poids estimé affiché dans une puce de détail de dépôt
+  ///
+  /// In fr, this message translates to:
+  /// **'~{weight} kg'**
+  String historyWeightApprox(double weight);
+
+  /// Comparaison du poids estimé et du poids réel quand ils diffèrent
+  ///
+  /// In fr, this message translates to:
+  /// **'Estimé {estimated} kg → Réel {real} kg'**
+  String historyWeightComparison(double estimated, double real);
+
+  /// Encart d'attente rappelant les points qui seront versés après validation
+  ///
+  /// In fr, this message translates to:
+  /// **'{points} pts seront crédités après validation'**
+  String historyPendingCredit(int points);
+
+  /// Référence du code d'un bon sous son QR code
+  ///
+  /// In fr, this message translates to:
+  /// **'Réf. {code}'**
+  String historyVoucherRef(String code);
+
+  /// Code d'un bon affiché en clair sur sa carte
+  ///
+  /// In fr, this message translates to:
+  /// **'Code : {code}'**
+  String historyVoucherCode(String code);
+
+  /// Date d'expiration d'un bon actif
+  ///
+  /// In fr, this message translates to:
+  /// **'Expire le {date}'**
+  String historyVoucherExpiry(String date);
+
+  /// Date d'expiration d'un bon déjà expiré, affichée sur le QR code barré
+  ///
+  /// In fr, this message translates to:
+  /// **'Expiré le {date}'**
+  String historyVoucherExpiryPast(String date);
+
+  /// Date d'utilisation d'un bon déjà utilisé, affichée sur le QR code barré
+  ///
+  /// In fr, this message translates to:
+  /// **'Utilisé le {date}'**
+  String historyVoucherUsedDate(String date);
+
+  /// Date d'obtention d'un bon en format compact sur sa carte
+  ///
+  /// In fr, this message translates to:
+  /// **'Du {date}'**
+  String historyVoucherFrom(String date);
+
+  /// Date d'expiration en format compact sur la carte d'un bon
+  ///
+  /// In fr, this message translates to:
+  /// **'Exp. {date}'**
+  String historyVoucherUntil(String date);
+
+  /// Titre du bloc des conditions d'un bon
+  ///
+  /// In fr, this message translates to:
+  /// **'Conditions d\'utilisation'**
+  String get historyVoucherConditionsTitle;
+
+  /// Conditions d'utilisation détaillées d'un bon
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce bon est valable une seule fois auprès du partenaire indiqué. Présentez le QR code à la caisse. Non cumulable avec d\'autres offres.'**
+  String get historyVoucherConditionsBody;
+
+  /// Avertissement : un bon ne peut pas être échangé contre du cash
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun retrait en espèces possible'**
+  String get historyVoucherNoCash;
+
+  /// Libellé du matériau plastique
+  ///
+  /// In fr, this message translates to:
+  /// **'Plastique'**
+  String get materialPlastic;
+
+  /// Libellé du matériau papier et carton
+  ///
+  /// In fr, this message translates to:
+  /// **'Papier / Carton'**
+  String get materialPaper;
+
+  /// Libellé du matériau métal
+  ///
+  /// In fr, this message translates to:
+  /// **'Métal'**
+  String get materialMetal;
+
+  /// Libellé du matériau verre
+  ///
+  /// In fr, this message translates to:
+  /// **'Verre'**
+  String get materialGlass;
+
+  /// Libellé du matériau déchets électroniques
+  ///
+  /// In fr, this message translates to:
+  /// **'Déchets électroniques'**
+  String get materialEwaste;
+
+  /// Libellé du matériau déchets organiques
+  ///
+  /// In fr, this message translates to:
+  /// **'Organique'**
+  String get materialOrganic;
 }
 
 class _AppLocalizationsDelegate

@@ -1,7 +1,7 @@
 import "package:dartz/dartz.dart";
 
 import "../../../../core/errors/failure.dart";
-import "../../../../core/usecases/usecase.dart";
+import "../../../../shared/domain/usecases/usecase.dart";
 import "../entities/recycling_ticket.dart";
 import "../repositories/waste_analysis_repository.dart";
 

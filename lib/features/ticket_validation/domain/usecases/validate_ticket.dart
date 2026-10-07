@@ -2,7 +2,7 @@ import "package:dartz/dartz.dart";
 import "package:equatable/equatable.dart";
 
 import "../../../../core/errors/failure.dart";
-import "../../../../core/usecases/usecase.dart";
+import "../../../../shared/domain/usecases/usecase.dart";
 import "../../../waste_analysis/domain/entities/recycling_ticket.dart";
 import "../repositories/ticket_validation_repository.dart";
 import "../ticket_validation_policy.dart";

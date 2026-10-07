@@ -5,23 +5,17 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../../features/auth/presentation/pages/index.dart";
 import "../../features/auth/presentation/providers/auth_provider.dart";
+import "../../features/history/presentation/pages/index.dart";
+import "../../features/home/presentation/pages/index.dart";
 import "../../features/onboarding/presentation/pages/index.dart";
 import "../../features/places/presentation/pages/place_detail_page.dart";
 import "../../features/places/presentation/pages/places_map_page.dart";
-import "../../features/profile/presentation/pages/profile_page.dart";
-import "../../features/ticket_validation/presentation/pages/agent_dashboard_page.dart";
-import "../../features/ticket_validation/presentation/pages/agent_history_page.dart";
+import "../../features/profile/presentation/pages/index.dart";
 import "../../features/ticket_validation/presentation/pages/agent_scanner_page.dart";
-import "../../features/ticket_validation/presentation/pages/pending_deposits_page.dart";
-import "../../features/ticket_validation/presentation/widgets/relay_agent_builder.dart";
-import "../../features/waste_analysis/presentation/pages/citizen_history_page.dart";
-import "../../features/waste_analysis/presentation/pages/citizen_home_page.dart";
 import "../../features/waste_analysis/presentation/pages/waste_scan_page.dart";
-import "../../shared/presentation/agent_shell.dart";
-import "../../shared/presentation/user_shell.dart";
+import "../../shared/presentation/pages/index.dart";
 import "../configs/env.dart";
 import "../extensions/build_context_extension.dart";
-import "../extensions/navigation_extension.dart";
 import "../theme/app_spacing.dart";
 import "app_navigator_key.dart";
 import "app_routes.dart";
@@ -29,6 +23,7 @@ import "app_transitions.dart";
 
 part "app_router.g.dart";
 
+/// GoRouter global de SecondLife.
 @riverpod
 GoRouter appRouter(Ref ref) {
   return GoRouter(
@@ -39,25 +34,60 @@ GoRouter appRouter(Ref ref) {
       final role = ref.read(authProvider);
       final loc = state.matchedLocation;
 
+      // ─── Non authentifié ─────────────────────────────────────────────
+      if (role == null) {
+        // La splash gère elle-même sa navigation
+        if (loc == AppRoutes.root) return null;
+        // Pages publiques accessibles sans compte
+        if (loc == AppRoutes.onboarding ||
+            loc == AppRoutes.authLogin ||
+            loc == AppRoutes.authSignup ||
+            loc == AppRoutes.authForgot ||
+            loc == AppRoutes.authResetPassword) {
+          return null;
+        }
+        // Toute route protégée → login
+        return AppRoutes.authLogin;
+      }
+
+      // ─── Username pas encore choisi (après OAuth) ────────────────────
+      if (role == AppRole.pendingUsername) {
+        if (loc == AppRoutes.authUsernameSetup) return null;
+        return AppRoutes.authUsernameSetup;
+      }
+
+      // ─── Agent ───────────────────────────────────────────────────────
       if (role == AppRole.agent) {
-        // Un agent n'a rien à faire dans l'espace usager
         if (loc == AppRoutes.home ||
             loc == AppRoutes.places ||
             loc == AppRoutes.history ||
-            loc == AppRoutes.profile) {
+            loc == AppRoutes.profile ||
+            loc == AppRoutes.authLogin ||
+            loc == AppRoutes.authSignup ||
+            loc == AppRoutes.authUsernameSetup ||
+            loc == AppRoutes.onboarding ||
+            loc == AppRoutes.root) {
           return AppRoutes.agentHome;
         }
-      } else if (role == AppRole.user) {
-        // et inversement
-        if (loc.startsWith("/agent")) {
+      }
+
+      // ─── User ────────────────────────────────────────────────────────
+      if (role == AppRole.user) {
+        if (loc.startsWith("/agent") ||
+            loc == AppRoutes.authLogin ||
+            loc == AppRoutes.authSignup ||
+            loc == AppRoutes.authUsernameSetup ||
+            loc == AppRoutes.onboarding ||
+            loc == AppRoutes.root) {
           return AppRoutes.home;
         }
       }
+
       return null;
     },
     errorBuilder: (context, state) => const _RouterErrorPage(),
     routes: [
-      // Splash
+      // ─── Splash ───────────────────────────
       GoRoute(
         path: AppRoutes.root,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -67,7 +97,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // Onboarding
+      // ─── Onboarding ───────────────────────────
       GoRoute(
         path: AppRoutes.onboarding,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -77,7 +107,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // Authentification
+      // ─── Authentification ────────────────────
       GoRoute(
         path: AppRoutes.authLogin,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -103,6 +133,14 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
       GoRoute(
+        path: AppRoutes.authUsernameSetup,
+        pageBuilder: (context, state) => AppTransitions.fadeSlide(
+          context: context,
+          state: state,
+          child: const UsernameSetupPage(),
+        ),
+      ),
+      GoRoute(
         path: AppRoutes.authResetPassword,
         pageBuilder: (context, state) => AppTransitions.fadeSlide(
           context: context,
@@ -111,7 +149,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // Scan d'un déchet (usager)
+      // ─── Scan ───────────────────────────
       GoRoute(
         path: AppRoutes.scan,
         pageBuilder: (context, state) => AppTransitions.fade(
@@ -131,7 +169,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // Espace usager, 4 onglets
+      // ─── Shell User — 4 onglets ──────────────
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             UserShell(navigationShell: navigationShell),
@@ -143,11 +181,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: CitizenHomePage(
-                    onScan: context.pushScan,
-                    onOpenMap: context.goPlaces,
-                    onOpenHistory: context.goHistory,
-                  ),
+                  child: const HomePage(),
                 ),
               ),
             ],
@@ -171,7 +205,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const CitizenHistoryPage(),
+                  child: const UserHistoryPage(),
                 ),
               ),
             ],
@@ -183,7 +217,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const ProfilePage(),
+                  child: const UserProfilePage(),
                 ),
               ),
             ],
@@ -191,7 +225,7 @@ GoRouter appRouter(Ref ref) {
         ],
       ),
 
-      // Espace agent, 4 onglets
+      // ─── Shell Agent — 4 onglets ─────────────
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             AgentShell(navigationShell: navigationShell),
@@ -203,13 +237,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: RelayAgentBuilder(
-                    builder: (context, agent) => AgentDashboardPage(
-                      agent: agent,
-                      onScan: context.pushAgentScan,
-                      onOpenPending: context.goAgentDeposits,
-                    ),
-                  ),
+                  child: const AgentDashboardPage(),
                 ),
               ),
             ],
@@ -221,9 +249,8 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: RelayAgentBuilder(
-                    builder: (context, agent) =>
-                        PendingDepositsPage(agent: agent),
+                  child: _Placeholder(
+                    title: context.l10n.routerScreenAgentDeposits,
                   ),
                 ),
               ),
@@ -236,9 +263,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: RelayAgentBuilder(
-                    builder: (context, agent) => AgentHistoryPage(agent: agent),
-                  ),
+                  child: const AgentHistoryPage(),
                 ),
               ),
             ],
@@ -250,7 +275,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: const ProfilePage(),
+                  child: const AgentProfilePage(),
                 ),
               ),
             ],
@@ -258,7 +283,7 @@ GoRouter appRouter(Ref ref) {
         ],
       ),
 
-      // Écrans de détail
+      // ─── Detailed screens ────────────────────
       GoRoute(
         path: AppRoutes.placeDetail,
         pageBuilder: (context, state) => AppTransitions.pushedScreen(
@@ -268,7 +293,7 @@ GoRouter appRouter(Ref ref) {
         ),
       ),
 
-      // Paramètres
+      // ─── Settings ──────────────────────────────
       GoRoute(
         path: AppRoutes.settings,
         pageBuilder: (context, state) => AppTransitions.fade(

@@ -10,5 +10,7 @@ Failure failureMapper(CustomException e) {
     TicketNotFoundException() => TicketNotFoundFailure(),
     TicketAlreadyProcessedException() => TicketAlreadyProcessedFailure(),
     TicketExpiredException() => TicketExpiredFailure(),
+    UsernameTakenException() => UnExpectedFailure(),
+    SignInCancelledException() => UnExpectedFailure(),
   };
 }

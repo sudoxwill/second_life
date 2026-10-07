@@ -1,13 +1,32 @@
 import "package:flutter/material.dart";
+import "package:intl/intl.dart";
 
 import "../../l10n/app_localizations.dart";
 
+/// Extensions courantes sur `BuildContext`.
+///
 extension BuildContextExtensions on BuildContext {
+  // ═══════════════════════════════════════════════════════════════
   // Localisation
+  // ═══════════════════════════════════════════════════════════════
 
+  /// Accès concis aux chaînes traduites. Ex : `context.l10n.commonOk`.
   AppLocalizations get l10n => AppLocalizations.of(this)!;
 
+  /// Date et heure selon la locale courante :
+  /// `10 sept. 2026 à 14:32` en fr, `Sept 10, 2026 at 2:32 PM` en en.
+  String formatDateTime(DateTime date) => l10n.commonDateTime(
+        DateFormat.yMMMd(l10n.localeName).format(date),
+        DateFormat.jm(l10n.localeName).format(date),
+      );
+
+  /// Date selon la locale courante : `10 sept. 2026` / `Sept 10, 2026`.
+  String formatDate(DateTime date) =>
+      DateFormat.yMMMd(l10n.localeName).format(date);
+
+  // ═══════════════════════════════════════════════════════════════
   // Thème & apparence
+  // ═══════════════════════════════════════════════════════════════
 
   ThemeData get theme => Theme.of(this);
 
@@ -19,7 +38,9 @@ extension BuildContextExtensions on BuildContext {
 
   Color get scaffoldBackgroundColor => theme.scaffoldBackgroundColor;
 
+  // ═══════════════════════════════════════════════════════════════
   // Responsive
+  // ═══════════════════════════════════════════════════════════════
 
   Size get screenSize => MediaQuery.sizeOf(this);
   double get screenWidth => screenSize.width;
@@ -36,7 +57,9 @@ extension BuildContextExtensions on BuildContext {
   EdgeInsets get padding => MediaQuery.paddingOf(this);
   EdgeInsets get viewInsets => MediaQuery.viewInsetsOf(this);
 
+  // ═══════════════════════════════════════════════════════════════
   // Navigation
+  // ═══════════════════════════════════════════════════════════════
 
   void pop<T extends Object?>([T? result]) {
     Navigator.of(this).pop(result);
@@ -44,8 +67,12 @@ extension BuildContextExtensions on BuildContext {
 
   bool get canPop => Navigator.of(this).canPop();
 
+  // ═══════════════════════════════════════════════════════════════
   // Retour utilisateur
+  // ═══════════════════════════════════════════════════════════════
 
+  /// Affiche une snackbar sobre. Le style de fond vient du thème
+  /// (`surfaceInverse`) ; on peut le remplacer via `backgroundColor`.
   void showSnackBar(
       String message, {
         Duration duration = const Duration(seconds: 3),
@@ -105,6 +132,7 @@ extension BuildContextExtensions on BuildContext {
     );
   }
 
+  /// Dialog informatif — un seul bouton.
   Future<void> showInfoDialog({
     required String title,
     required String content,
