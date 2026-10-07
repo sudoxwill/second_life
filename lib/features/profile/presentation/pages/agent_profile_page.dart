@@ -4,25 +4,16 @@ import "package:lucide_icons_flutter/lucide_icons.dart";
 import "../../../../core/extensions/build_context_extension.dart";
 import "../../../../core/theme/app_colors.dart";
 import "../../../../core/theme/app_spacing.dart";
+import "../../../../core/utils/formatters.dart";
 import "../../../../shared/presentation/widgets/buttons/app_elevated_button.dart";
 import "../../../../shared/presentation/widgets/layouts/app_scaffold.dart";
+import "../../../waste_analysis/domain/entities/relay_agent.dart";
 import "../widgets/profile_settings_section.dart";
 
 class AgentProfilePage extends StatelessWidget {
-  const AgentProfilePage({super.key});
+  const AgentProfilePage({required this.agent, super.key});
 
-  static const String _demoAgentName = "Kofi Mensah";
-  static const String _demoAgentEmail = "kofi@secondlife.com";
-  static const String _demoCenterName = "Centre Bè-Kpota";
-  static const String _demoCenterAddress = "Bè-Kpota, Lomé";
-  static const bool _demoIsOpen = true;
-
-  static String get _initials {
-    final parts = _demoAgentName.trim().split(" ");
-    return parts.length >= 2
-        ? "${parts[0][0]}${parts[1][0]}".toUpperCase()
-        : parts[0][0].toUpperCase();
-  }
+  final RelayAgent agent;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +26,7 @@ class AgentProfilePage extends StatelessWidget {
       body: Column(
         spacing: AppSpacing.lg,
         children: [
-          // ── Profile Card ──────────────────────────
+          // Carte de profil
           Card(
             margin: EdgeInsets.zero,
             shape: const RoundedRectangleBorder(
@@ -58,7 +49,7 @@ class AgentProfilePage extends StatelessWidget {
                     radius: AppSpacing.mega,
                     backgroundColor: colorScheme.secondary,
                     child: Text(
-                      _initials,
+                      Formatters.initials(agent.displayName),
                       style: textTheme.titleLarge!.copyWith(
                         color: colorScheme.onSecondary,
                         fontWeight: FontWeight.bold,
@@ -70,7 +61,7 @@ class AgentProfilePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _demoAgentName,
+                          agent.displayName,
                           style: textTheme.titleLarge!.copyWith(
                             fontWeight: FontWeight.w600,
                             color: AppColors.neutral50,
@@ -83,29 +74,6 @@ class AgentProfilePage extends StatelessWidget {
                             color: AppColors.neutral50.withValues(alpha: 0.75),
                           ),
                         ),
-                        Row(
-                          spacing: AppSpacing.sm,
-                          children: [
-                            Icon(
-                              LucideIcons.mail,
-                              size: AppSpacing.iconSm,
-                              color: AppColors.neutral50.withValues(
-                                alpha: 0.75,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                _demoAgentEmail,
-                                style: textTheme.bodyMedium!.copyWith(
-                                  color: AppColors.neutral50.withValues(
-                                    alpha: 0.75,
-                                  ),
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   ),
@@ -114,7 +82,7 @@ class AgentProfilePage extends StatelessWidget {
             ),
           ),
 
-          // ── Centre de dépôts ──────────────────────
+          // Centre de dépôts
           Card(
             margin: EdgeInsets.zero,
             child: Padding(
@@ -140,47 +108,26 @@ class AgentProfilePage extends StatelessWidget {
                       AppSpacing.gapHMd,
                       Expanded(
                         child: Text(
-                          _demoCenterName,
+                          agent.relayPointName,
                           style: textTheme.titleMedium,
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.sm,
-                          vertical: AppSpacing.xs,
-                        ),
-                        decoration: const BoxDecoration(
-                          color: _demoIsOpen
-                              ? AppColors.semanticSuccessBg
-                              : AppColors.semanticErrorBg,
-                          borderRadius: AppSpacing.roundedFull,
-                        ),
-                        child: Text(
-                          _demoIsOpen
-                              ? l10n.profileStatusOpen
-                              : l10n.profileStatusClosed,
-                          style: textTheme.labelSmall!.copyWith(
-                            color: _demoIsOpen
-                                ? AppColors.semanticSuccess
-                                : AppColors.semanticError,
-                            fontWeight: FontWeight.w600,
-                          ),
                         ),
                       ),
                     ],
                   ),
-                  _InfoRow(
-                    icon: LucideIcons.mapPin,
-                    label: _demoCenterAddress,
-                    color: colorScheme.onSurfaceVariant,
-                    textTheme: textTheme,
-                  ),
-                  _InfoRow(
-                    icon: LucideIcons.clock,
-                    label: l10n.profileCenterHours,
-                    color: colorScheme.onSurfaceVariant,
-                    textTheme: textTheme,
-                  ),
+                  if (agent.relayPointDescription != null)
+                    _InfoRow(
+                      icon: LucideIcons.mapPin,
+                      label: agent.relayPointDescription!,
+                      color: colorScheme.onSurfaceVariant,
+                      textTheme: textTheme,
+                    ),
+                  if (agent.serviceHours != null)
+                    _InfoRow(
+                      icon: LucideIcons.clock,
+                      label: agent.serviceHours!,
+                      color: colorScheme.onSurfaceVariant,
+                      textTheme: textTheme,
+                    ),
                 ],
               ),
             ),
@@ -221,7 +168,12 @@ class _InfoRow extends StatelessWidget {
       spacing: AppSpacing.sm,
       children: [
         Icon(icon, size: AppSpacing.iconSm, color: color),
-        Text(label, style: textTheme.bodyMedium!.copyWith(color: color)),
+        Expanded(
+          child: Text(
+            label,
+            style: textTheme.bodyMedium!.copyWith(color: color),
+          ),
+        ),
       ],
     );
   }

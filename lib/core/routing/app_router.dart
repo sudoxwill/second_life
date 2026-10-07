@@ -9,6 +9,9 @@ import "../../features/history/presentation/pages/index.dart";
 import "../../features/home/presentation/pages/index.dart";
 import "../../features/onboarding/presentation/pages/index.dart";
 import "../../features/profile/presentation/pages/index.dart";
+import "../../features/ticket_validation/presentation/pages/agent_scanner_page.dart";
+import "../../features/waste_analysis/presentation/pages/relay_map_page.dart";
+import "../../features/waste_analysis/presentation/pages/waste_scan_page.dart";
 import "../../shared/presentation/pages/index.dart";
 import "../configs/env.dart";
 import "../extensions/build_context_extension.dart";
@@ -108,7 +111,17 @@ GoRouter appRouter(Ref ref) {
         pageBuilder: (context, state) => AppTransitions.fade(
           context: context,
           state: state,
-          child: _Placeholder(title: context.l10n.routerScreenScanning),
+          child: const WasteScanPage(),
+        ),
+      ),
+
+      // Scan du QR de dépôt (agent)
+      GoRoute(
+        path: AppRoutes.agentScan,
+        pageBuilder: (context, state) => AppTransitions.fade(
+          context: context,
+          state: state,
+          child: const AgentScannerPage(),
         ),
       ),
 
@@ -136,7 +149,7 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => AppTransitions.fade(
                   context: context,
                   state: state,
-                  child: _Placeholder(title: context.l10n.routerScreenPlaces),
+                  child: const RelayMapPage(),
                 ),
               ),
             ],

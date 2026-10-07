@@ -1,107 +1,3 @@
-// lib/widgets/skeletons.dart
-//
-// ─────────────────────────────────────────────────────────────────────────────
-//  Squelettes (Shimmer Loading)
-// ─────────────────────────────────────────────────────────────────────────────
-//
-//  Ce fichier fournit un système complet de placeholders de chargement avec
-//  effet shimmer. L'animation est partagée entre tous les squelettes d'une
-//  même page via [_SkeletonScope] pour éviter de multiplier les
-//  AnimationController.
-//
-// ─── Utilisation rapide ─────────────────────────────────────────────────────
-//
-//  Le plus simple : envelopper votre contenu normal et passer isLoading :
-//
-//    SkeletonLoader(
-//      isLoading: state.isLoading,
-//      child: MaPage(),       // ← vos vrais widgets
-//    )
-//
-//  Les squelettes s'affichent automatiquement quand isLoading = true :
-//
-//    SkeletonLoader(
-//      isLoading: state.isLoading,
-//      child: const Column(children: [
-//        SkeletonTile(),
-//        SkeletonTile(),
-//        SkeletonCard(lines: 4, showAvatar: true),
-//      ]),
-//    )
-//
-// ─── Patterns courants ──────────────────────────────────────────────────────
-//
-//  1 - Liste de tiles (page liste)
-//     SkeletonLoader(
-//       isLoading: state.isLoading,
-//       child: SkeletonList(
-//         itemCount: 6,
-//         separated: true,
-//         itemBuilder: (_, __) => const SkeletonTile(),
-//       ),
-//     )
-//
-//  2 - Cartes empilées
-//     SkeletonLoader(
-//       isLoading: isLoading,
-//       child: SkeletonList(
-//         itemCount: 3,
-//         separated: true,
-//         itemBuilder: (_, __) => const SkeletonCard(showAvatar: true),
-//         separator: SizedBox(height: 12),
-//       ),
-//     )
-//
-//  3 - Page complète avec AppBar
-//     SkeletonLoader(
-//       isLoading: isLoading,
-//       child: SkeletonPage(
-//         appBarTitle: "Profil",
-//         children: [
-//           SkeletonProfileHeader(),
-//           SkeletonCard(lines: 3),
-//           SkeletonCard(lines: 2),
-//         ],
-//       ),
-//     )
-//
-//  4 - Grille de produits
-//     SkeletonLoader(
-//       isLoading: isLoading,
-//       child: SkeletonGrid(
-//         crossAxisCount: 2,
-//         itemCount: 6,
-//         itemBuilder: (_, __) => const SkeletonProductCard(),
-//       ),
-//     )
-//
-//  5 - Détail d'article / blog
-//     SkeletonLoader(
-//       isLoading: isLoading,
-//       child: SingleChildScrollView(
-//         padding: AppSpacing.screenPadding,
-//         child: Column(children: [
-//           const SkeletonImage(height: 200),
-//           AppSpacing.gapVLg,
-//           const SkeletonArticle(),
-//         ]),
-//       ),
-//     )
-//
-// ─── Personnalisation ────────────────────────────────────────────────────────
-//
-//  Couleurs, durée et direction :
-//
-//    SkeletonLoader(
-//      isLoading: isLoading,
-//      period: const Duration(milliseconds: 800),
-//      baseColor: Colors.grey.shade400,
-//      highlightColor: Colors.grey.shade200,
-//      direction: SkeletonDirection.ttb,
-//      child: ...,
-//    )
-//
-// ─────────────────────────────────────────────────────────────────────────────
 import "dart:math" show Random;
 
 import "package:flutter/material.dart";
@@ -113,8 +9,6 @@ enum SkeletonDirection { ltr, rtl, ttb, btt }
 
 enum SkeletonShape { rectangle, circle }
 
-/// Scope qui expose une animation partagée pour éviter de créer
-/// plusieurs AnimationControllers dans une même page.
 class _SkeletonScope extends InheritedWidget {
   const _SkeletonScope({
     required this.animation,
@@ -140,8 +34,6 @@ class _SkeletonScope extends InheritedWidget {
   }
 }
 
-/// Widget qui fournit (ou pas) l'animation aux Skeletons enfants.
-/// Si isLoading == false -> rend `child` tel quel (pas d'animation).
 class SkeletonLoader extends StatefulWidget {
   const SkeletonLoader({
     required this.child,
@@ -185,7 +77,7 @@ class _SkeletonLoaderState extends State<SkeletonLoader>
     super.initState();
     _controller = AnimationController(vsync: this, duration: widget.period)
       ..repeat();
-    // value range: -1 -> 2 (so gradient runs fully across)
+    // De -1 à 2 pour que le dégradé traverse tout le bloc.
     _animation = Tween<double>(
       begin: -1.0,
       end: 2.0,
@@ -226,7 +118,6 @@ class _SkeletonLoaderState extends State<SkeletonLoader>
   }
 }
 
-/// Widget de base — rectangle ou cercle — avec shimmer animé
 class Skeleton extends StatelessWidget {
   const Skeleton({
     this.width,
@@ -296,11 +187,10 @@ class Skeleton extends StatelessWidget {
     );
 
     if (animation == null) {
-      // Pas d'animation fournie -> rendre un simple placeholder statique
+      // Sans animation, on affiche simplement un bloc fixe.
       return box;
     }
 
-    // Animated ShaderMask with gradient sliding using the shared animation.
     return AnimatedBuilder(
       animation: animation,
       builder: (context, _) {
@@ -308,7 +198,6 @@ class Skeleton extends StatelessWidget {
           child: ShaderMask(
             blendMode: BlendMode.srcATop,
             shaderCallback: (bounds) {
-              // gradient that will be shifted horizontally/vertically according to animation value
               final animValue = animation.value; // -1 -> 2
               final begin = _beginForDirection(direction);
               final end = _endForDirection(direction);
@@ -320,11 +209,10 @@ class Skeleton extends StatelessWidget {
                 stops: const [0.1, 0.5, 0.9],
               );
 
-              // Create shader; shift it by animValue across bounds
-              // We compute a rect that starts at offset depending on animValue
               final dx = (bounds.width) * animValue;
               final dy = (bounds.height) * animValue;
-              // Choose translation by major axis (horizontal for ltr/rtl, vertical for ttb/btt)
+              // Le reflet glisse à l'horizontale (ltr/rtl) ou à la
+              // verticale (ttb/btt).
               Rect shaderRect;
               if (direction == SkeletonDirection.ltr ||
                   direction == SkeletonDirection.rtl) {
@@ -342,9 +230,6 @@ class Skeleton extends StatelessWidget {
   }
 }
 
-/// Helper: skeleton lines for text-like skeleton.
-/// `lines` lines with variable widths
-/// (you can pass a list of fractions or use defaults).
 class SkeletonText extends StatelessWidget {
   const SkeletonText({
     this.lines = 3,
@@ -363,7 +248,7 @@ class SkeletonText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultWidths = List<double>.generate(lines, (i) {
-      // make last line shorter
+      // Dernière ligne plus courte, comme un vrai paragraphe.
       if (i == lines - 1) return 0.6;
       if (lines == 1) return 0.9;
       return 0.9 - (i * 0.08);
@@ -390,7 +275,6 @@ class SkeletonText extends StatelessWidget {
   }
 }
 
-/// Avatar skeleton
 class SkeletonAvatar extends StatelessWidget {
   const SkeletonAvatar({this.size = 48.0, this.borderRadius, super.key});
   final double size;
@@ -407,7 +291,6 @@ class SkeletonAvatar extends StatelessWidget {
   }
 }
 
-/// Convenience builder for lists of skeletons
 class SkeletonList extends StatelessWidget {
   const SkeletonList({
     required this.itemCount,
@@ -440,8 +323,6 @@ class SkeletonList extends StatelessWidget {
   }
 }
 
-/// Pre-built skeleton that mimics a [ListTile]:
-/// optional leading avatar, text lines, and optional trailing block.
 class SkeletonTile extends StatelessWidget {
   const SkeletonTile({
     super.key,
@@ -450,13 +331,10 @@ class SkeletonTile extends StatelessWidget {
     this.lines = 2,
   });
 
-  /// Show a circular avatar placeholder on the left.
   final bool showLeading;
 
-  /// Show a small rectangular placeholder on the right (e.g. date or badge).
   final bool showTrailing;
 
-  /// Number of text skeleton lines (title counts as line 1).
   final int lines;
 
   @override
@@ -477,10 +355,6 @@ class SkeletonTile extends StatelessWidget {
   }
 }
 
-/// Pre-built skeleton card: a rounded container with configurable content.
-///
-/// If [height] is null, the card sizes itself to its content.
-/// Avoid pairing a small [height] with many [lines] as content will overflow.
 class SkeletonCard extends StatelessWidget {
   const SkeletonCard({
     super.key,
@@ -489,13 +363,10 @@ class SkeletonCard extends StatelessWidget {
     this.lines = 3,
   });
 
-  /// Fixed card height. If null, height is driven by the content.
   final double? height;
 
-  /// Show an avatar placeholder at the top of the card.
   final bool showAvatar;
 
-  /// Number of text skeleton lines inside the card.
   final int lines;
 
   @override
@@ -525,20 +396,6 @@ class SkeletonCard extends StatelessWidget {
   }
 }
 
-// ═════════════════════════════════════════════════════════════════════════════
-//  NEW UTILITY CLASSES
-// ═════════════════════════════════════════════════════════════════════════════
-
-/// A paragraph skeleton with naturally varying line widths.
-///
-/// Each line gets a random-ish width for a more realistic text placeholder.
-/// Unlike [SkeletonText] which repeats similar patterns, this creates
-/// a more natural "wall of text" appearance.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonParagraph(lines: 5, lineHeight: 14, spacing: 8)
-/// ```
 class SkeletonParagraph extends StatelessWidget {
   const SkeletonParagraph({
     super.key,
@@ -547,13 +404,10 @@ class SkeletonParagraph extends StatelessWidget {
     this.spacing = 8.0,
   });
 
-  /// Number of text lines (default 4).
   final int lines;
 
-  /// Height of each line in pixels (default 12).
   final double lineHeight;
 
-  /// Vertical space between lines in pixels (default 8).
   final double spacing;
 
   @override
@@ -564,7 +418,6 @@ class SkeletonParagraph extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: List.generate(lines, (i) {
         final isLast = i == lines - 1;
-        // Each line gets a pseudo-random width between 0.45 and 0.95
         final w = 0.45 + rng.nextDouble() * 0.5;
         return Padding(
           padding: EdgeInsets.only(bottom: isLast ? 0 : spacing),
@@ -578,12 +431,6 @@ class SkeletonParagraph extends StatelessWidget {
   }
 }
 
-/// A skeleton that mimics a rectangular button.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonButton(width: 120, height: 48)
-/// ```
 class SkeletonButton extends StatelessWidget {
   const SkeletonButton({
     super.key,
@@ -592,13 +439,10 @@ class SkeletonButton extends StatelessWidget {
     this.borderRadius,
   });
 
-  /// Button width. If null, uses [double.infinity] (fills parent).
   final double? width;
 
-  /// Button height (default 48, matches [AppSpacing.buttonHeightMd]).
   final double height;
 
-  /// Corner radius (defaults to [AppSpacing.radiusMd]).
   final BorderRadius? borderRadius;
 
   @override
@@ -615,14 +459,6 @@ class SkeletonButton extends StatelessWidget {
   }
 }
 
-/// A skeleton that mimics an input / text form field.
-///
-/// Renders a label bar + a field rectangle to simulate a form input.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonFormField()
-/// ```
 class SkeletonFormField extends StatelessWidget {
   const SkeletonFormField({
     super.key,
@@ -631,14 +467,10 @@ class SkeletonFormField extends StatelessWidget {
     this.fieldHeight = AppSpacing.inputHeightMd,
   });
 
-  /// Whether to show a small label bar above the field.
   final bool showLabel;
 
-  /// Width fraction of the label relative to parent (default 0.3).
   final double labelWidth;
 
-  /// Height of the field rectangle (default 48, matches
-  /// [AppSpacing.inputHeightMd]).
   final double fieldHeight;
 
   @override
@@ -660,14 +492,6 @@ class SkeletonFormField extends StatelessWidget {
   }
 }
 
-/// A small chip / badge skeleton.
-///
-/// Useful to simulate tags, categories, or status badges while loading.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonChip(width: 60)
-/// ```
 class SkeletonChip extends StatelessWidget {
   const SkeletonChip({
     super.key,
@@ -676,13 +500,10 @@ class SkeletonChip extends StatelessWidget {
     this.shape = SkeletonShape.rectangle,
   });
 
-  /// Chip width (default 64).
   final double width;
 
-  /// Chip height (default 28).
   final double height;
 
-  /// Shape of the chip (default rectangle, use circle for icon dots).
   final SkeletonShape shape;
 
   @override
@@ -691,16 +512,6 @@ class SkeletonChip extends StatelessWidget {
   }
 }
 
-/// A skeleton placeholder for an image area.
-///
-/// Renders a rectangle with optional icon overlay to indicate an image.
-/// Use [aspectRatio] instead of [height] for responsive image areas.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonImage(height: 200)
-/// const SkeletonImage(aspectRatio: 16/9)
-/// ```
 class SkeletonImage extends StatelessWidget {
   const SkeletonImage({
     super.key,
@@ -710,16 +521,12 @@ class SkeletonImage extends StatelessWidget {
     this.borderRadius,
   });
 
-  /// Fixed height (alternative to [aspectRatio]).
   final double? height;
 
-  /// Aspect ratio (e.g. 16/9, 4/3). Ignored if [height] is set.
   final double? aspectRatio;
 
-  /// Optional fixed width.
   final double? width;
 
-  /// Corner radius.
   final BorderRadius? borderRadius;
 
   @override
@@ -746,13 +553,6 @@ class SkeletonImage extends StatelessWidget {
   }
 }
 
-/// A skeleton divider — a simple horizontal / vertical line.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonDivider()
-/// const SkeletonDivider(height: 2, width: 100)
-/// ```
 class SkeletonDivider extends StatelessWidget {
   const SkeletonDivider({
     super.key,
@@ -761,13 +561,10 @@ class SkeletonDivider extends StatelessWidget {
     this.margin,
   });
 
-  /// Line thickness (default 1).
   final double height;
 
-  /// Line width. If null, fills available width.
   final double? width;
 
-  /// Optional margin around the divider.
   final EdgeInsetsGeometry? margin;
 
   @override
@@ -779,21 +576,6 @@ class SkeletonDivider extends StatelessWidget {
   }
 }
 
-/// A skeleton grid — builds a grid of skeleton items.
-///
-/// Perfect for product grids, photo galleries, or any card grid layout.
-///
-/// Usage:
-/// ```dart
-/// SkeletonLoader(
-///   isLoading: isLoading,
-///   child: SkeletonGrid(
-///     crossAxisCount: 2,
-///     itemCount: 6,
-///     itemBuilder: (_, __) => const SkeletonProductCard(),
-///   ),
-/// )
-/// ```
 class SkeletonGrid extends StatelessWidget {
   const SkeletonGrid({
     required this.itemCount,
@@ -807,28 +589,20 @@ class SkeletonGrid extends StatelessWidget {
     super.key,
   });
 
-  /// Number of items to display.
   final int itemCount;
 
-  /// Builder for each skeleton item.
   final IndexedWidgetBuilder itemBuilder;
 
-  /// Number of columns (default 2).
   final int crossAxisCount;
 
-  /// Vertical spacing between rows (default 12).
   final double mainAxisSpacing;
 
-  /// Horizontal spacing between columns (default 12).
   final double crossAxisSpacing;
 
-  /// Aspect ratio of each child (width/height, default 0.75).
   final double childAspectRatio;
 
-  /// Optional padding around the grid.
   final EdgeInsetsGeometry? padding;
 
-  /// If true, the grid is wrapped in a scrollable view.
   final bool scrollable;
 
   @override
@@ -866,14 +640,6 @@ class SkeletonGrid extends StatelessWidget {
   }
 }
 
-/// An e-commerce style product card skeleton.
-///
-/// Mimics a typical product card: image area on top, title + price below.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonProductCard()
-/// ```
 class SkeletonProductCard extends StatelessWidget {
   const SkeletonProductCard({
     super.key,
@@ -881,10 +647,8 @@ class SkeletonProductCard extends StatelessWidget {
     this.borderRadius,
   });
 
-  /// Whether to show a rating row below the price.
   final bool showRating;
 
-  /// Corner radius for the card.
   final BorderRadius? borderRadius;
 
   @override
@@ -939,14 +703,6 @@ class SkeletonProductCard extends StatelessWidget {
   }
 }
 
-/// A profile page header skeleton.
-///
-/// Renders a large avatar, a name line, and optional stats row.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonProfileHeader()
-/// ```
 class SkeletonProfileHeader extends StatelessWidget {
   const SkeletonProfileHeader({
     super.key,
@@ -954,10 +710,8 @@ class SkeletonProfileHeader extends StatelessWidget {
     this.showSubtitle = true,
   });
 
-  /// Whether to show a stats row (followers, posts, etc.).
   final bool showStats;
 
-  /// Whether to show a subtitle line below the name.
   final bool showSubtitle;
 
   @override
@@ -998,15 +752,6 @@ class SkeletonProfileHeader extends StatelessWidget {
   }
 }
 
-/// A comment / thread skeleton.
-///
-/// Renders a leading avatar + multi-line text bubble, mimicking
-/// a comment in a social feed or discussion thread.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonComment()
-/// ```
 class SkeletonComment extends StatelessWidget {
   const SkeletonComment({
     super.key,
@@ -1014,10 +759,8 @@ class SkeletonComment extends StatelessWidget {
     this.avatarSize = AppSpacing.avatarSm,
   });
 
-  /// Number of text lines (default 2).
   final int lines;
 
-  /// Avatar size (default 32).
   final double avatarSize;
 
   @override
@@ -1032,13 +775,11 @@ class SkeletonComment extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Author name
               const FractionallySizedBox(
                 widthFactor: 0.25,
                 child: Skeleton(height: 10),
               ),
               const SizedBox(height: AppSpacing.sm),
-              // Comment body
               SkeletonText(lines: lines, lineHeight: 10, spacing: 4),
             ],
           ),
@@ -1048,14 +789,6 @@ class SkeletonComment extends StatelessWidget {
   }
 }
 
-/// A bar chart skeleton.
-///
-/// Renders a set of vertical bars of varying heights to simulate a chart.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonChart(barCount: 6, height: 160)
-/// ```
 class SkeletonChart extends StatelessWidget {
   const SkeletonChart({
     super.key,
@@ -1065,16 +798,12 @@ class SkeletonChart extends StatelessWidget {
     this.spacing = 8.0,
   });
 
-  /// Number of bars to display (default 5).
   final int barCount;
 
-  /// Total chart height (default 150).
   final double height;
 
-  /// Width of each bar (default 24).
   final double barWidth;
 
-  /// Space between bars (default 8).
   final double spacing;
 
   @override
@@ -1086,18 +815,16 @@ class SkeletonChart extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(barCount, (i) {
-          // Generate bar heights between 0.3 and 1.0 of total height
           final barHeightFactor = 0.3 + rng.nextDouble() * 0.7;
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: spacing / 2),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Bar (rendered as a Skeleton with the computed height)
+                // Barre : un Skeleton à la hauteur calculée.
                 Skeleton(width: barWidth, height: height * barHeightFactor),
                 if (barCount <= 7) ...[
                   const SizedBox(height: AppSpacing.xs),
-                  // Small label below each bar
                   Skeleton(width: barWidth * 0.6, height: 6),
                 ],
               ],
@@ -1109,22 +836,11 @@ class SkeletonChart extends StatelessWidget {
   }
 }
 
-/// A blog / news article skeleton.
-///
-/// Renders a title, a subtitle, and several paragraphs of text,
-/// ideal for detail pages of articles or news.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonArticle(paragraphs: 3)
-/// ```
 class SkeletonArticle extends StatelessWidget {
   const SkeletonArticle({super.key, this.paragraphs = 3, this.titleLines = 2});
 
-  /// Number of content paragraphs (default 3).
   final int paragraphs;
 
-  /// Number of lines for the title (default 2).
   final int titleLines;
 
   @override
@@ -1132,10 +848,8 @@ class SkeletonArticle extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Title
         SkeletonText(lines: titleLines, lineHeight: 20, spacing: 6),
         const SizedBox(height: AppSpacing.sm),
-        // Subtitle / metadata row
         const Row(
           children: [
             Skeleton(width: 80, height: 10),
@@ -1144,7 +858,6 @@ class SkeletonArticle extends StatelessWidget {
           ],
         ),
         const SizedBox(height: AppSpacing.lg),
-        // Paragraphs
         ...List.generate(paragraphs, (i) {
           return Padding(
             padding: EdgeInsets.only(
@@ -1158,14 +871,6 @@ class SkeletonArticle extends StatelessWidget {
   }
 }
 
-/// A table row skeleton.
-///
-/// Renders a horizontal row of cells, useful for data tables.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonTableRow(cellCount: 4)
-/// ```
 class SkeletonTableRow extends StatelessWidget {
   const SkeletonTableRow({
     super.key,
@@ -1177,22 +882,16 @@ class SkeletonTableRow extends StatelessWidget {
     this.showDivider = true,
   });
 
-  /// Number of cells in the row (default 4).
   final int cellCount;
 
-  /// Custom widths for each cell. If null, cells are evenly distributed.
   final List<double>? cellWidths;
 
-  /// Row height (default 48).
   final double height;
 
-  /// Height of the skeleton inside each cell (default 12).
   final double cellHeight;
 
-  /// Space between cells (default 12).
   final double cellSpacing;
 
-  /// Whether to show a bottom divider line.
   final bool showDivider;
 
   @override
@@ -1228,15 +927,6 @@ class SkeletonTableRow extends StatelessWidget {
   }
 }
 
-/// An AppBar skeleton.
-///
-/// Renders a typical AppBar: optional back button, a title bar, and
-/// optional action buttons.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonAppBar()
-/// ```
 class SkeletonAppBar extends StatelessWidget {
   const SkeletonAppBar({
     super.key,
@@ -1245,13 +935,10 @@ class SkeletonAppBar extends StatelessWidget {
     this.titleWidth = 0.4,
   });
 
-  /// Whether to show a back button placeholder.
   final bool showBack;
 
-  /// Number of action icon placeholders on the right (default 1).
   final int actionCount;
 
-  /// Width fraction of the title relative to available space (default 0.4).
   final double titleWidth;
 
   @override
@@ -1289,22 +976,6 @@ class SkeletonAppBar extends StatelessWidget {
   }
 }
 
-/// A full-page skeleton with an AppBar and scrollable body sections.
-///
-/// This is the quickest way to skeletonise an entire screen.
-///
-/// Usage:
-/// ```dart
-/// SkeletonPage(
-///   appBarTitle: "Profile",
-///   body: [
-///     SkeletonProfileHeader(),
-///     const SizedBox(height: 24),
-///     SkeletonCard(lines: 3),
-///     SkeletonCard(lines: 2),
-///   ],
-/// )
-/// ```
 class SkeletonPage extends StatelessWidget {
   const SkeletonPage({
     super.key,
@@ -1314,17 +985,12 @@ class SkeletonPage extends StatelessWidget {
     this.physics,
   });
 
-  /// Optional title — if null, [SkeletonAppBar] is still
-  /// rendered with title placeholder.
   final String? appBarTitle;
 
-  /// The list of skeleton widgets to render in the scrollable body.
   final List<Widget> body;
 
-  /// Optional padding for the body area.
   final EdgeInsetsGeometry? padding;
 
-  /// Scroll physics for the body.
   final ScrollPhysics? physics;
 
   @override
@@ -1347,16 +1013,6 @@ class SkeletonPage extends StatelessWidget {
   }
 }
 
-/// A badge / indicator skeleton.
-///
-/// Small rounded rectangle, useful for notification
-/// badges or status indicators.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonBadge()
-/// const SkeletonBadge(size: 16)
-/// ```
 class SkeletonBadge extends StatelessWidget {
   const SkeletonBadge({
     super.key,
@@ -1364,10 +1020,8 @@ class SkeletonBadge extends StatelessWidget {
     this.shape = SkeletonShape.circle,
   });
 
-  /// Size (diameter for circle, or width/height for rectangle).
   final double size;
 
-  /// Shape (default circle for notification dots).
   final SkeletonShape shape;
 
   @override
@@ -1376,21 +1030,6 @@ class SkeletonBadge extends StatelessWidget {
   }
 }
 
-/// A section skeleton with an optional header row + content children.
-///
-/// Useful for grouped sections like "Settings", "Account Info", etc.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonSection(
-///   showHeader: true,
-///   headerWidth: 0.35,
-///   children: [
-///     SkeletonTile(showLeading: true),
-///     SkeletonTile(showLeading: true),
-///   ],
-/// )
-/// ```
 class SkeletonSection extends StatelessWidget {
   const SkeletonSection({
     super.key,
@@ -1400,16 +1039,12 @@ class SkeletonSection extends StatelessWidget {
     this.spacing = AppSpacing.md,
   });
 
-  /// Whether to show a header row at the top.
   final bool showHeader;
 
-  /// Width fraction of the header text (default 0.3).
   final double headerWidth;
 
-  /// List of skeleton children.
   final List<Widget> children;
 
-  /// Vertical space between children (default 12).
   final double spacing;
 
   @override
@@ -1431,19 +1066,6 @@ class SkeletonSection extends StatelessWidget {
   }
 }
 
-/// A row skeleton — renders a horizontal row of skeleton items.
-///
-/// Useful for horizontal scrolling lists, stat bars, or any row layout.
-///
-/// Usage:
-/// ```dart
-/// SkeletonRow(
-///   itemCount: 4,
-///   itemWidth: 80,
-///   itemHeight: 80,
-///   spacing: 12,
-/// )
-/// ```
 class SkeletonRow extends StatelessWidget {
   const SkeletonRow({
     required this.itemCount,
@@ -1455,22 +1077,16 @@ class SkeletonRow extends StatelessWidget {
     super.key,
   });
 
-  /// Number of items in the row.
   final int itemCount;
 
-  /// Width of each item.
   final double itemWidth;
 
-  /// Height of each item.
   final double itemHeight;
 
-  /// Space between items.
   final double spacing;
 
-  /// Shape of each item.
   final SkeletonShape shape;
 
-  /// If true, wraps the row in a horizontal [SingleChildScrollView].
   final bool scrollable;
 
   @override
@@ -1492,15 +1108,6 @@ class SkeletonRow extends StatelessWidget {
   }
 }
 
-/// A list tile skeleton mimicking a Flutter [ListTile].
-///
-/// Similar to [SkeletonTile] but more closely aligned with Material
-/// [ListTile] layout: leading → title → subtitle → trailing.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonListTile(showSubtitle: true, showTrailing: true)
-/// ```
 class SkeletonListTile extends StatelessWidget {
   const SkeletonListTile({
     super.key,
@@ -1554,18 +1161,9 @@ class SkeletonListTile extends StatelessWidget {
   }
 }
 
-/// A dashboard card skeleton — a card with an icon + title + value row.
-///
-/// Useful for analytics dashboards, summary cards, or KPI widgets.
-///
-/// Usage:
-/// ```dart
-/// const SkeletonDashboardCard()
-/// ```
 class SkeletonDashboardCard extends StatelessWidget {
   const SkeletonDashboardCard({super.key, this.showIcon = true});
 
-  /// Whether to show an icon placeholder on the left.
   final bool showIcon;
 
   @override

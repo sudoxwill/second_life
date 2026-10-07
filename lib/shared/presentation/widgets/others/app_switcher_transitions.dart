@@ -2,11 +2,10 @@ import "package:flutter/material.dart";
 
 import "../../../../core/theme/app_spacing.dart";
 
-/// Common transitions used by [AnimatedSwitcher] across the app.
 class AppSwitcherTransitions {
   const AppSwitcherTransitions._();
 
-  /// Fade combined with a subtle upward slide.
+  /// Fondu avec une petite montée.
   static Widget fadeSlide(Widget child, Animation<double> animation) {
     return SlideTransition(
       position: Tween<Offset>(
@@ -17,7 +16,7 @@ class AppSwitcherTransitions {
     );
   }
 
-  /// Fade combined with a scale from 0.85 → 1.0.
+  /// Fondu et zoom de 0.85 à 1.
   static Widget fadeScale(Widget child, Animation<double> animation) {
     return FadeTransition(
       opacity: animation,

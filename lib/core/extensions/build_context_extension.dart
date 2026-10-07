@@ -91,9 +91,7 @@ extension BuildContextExtensions on BuildContext {
       );
   }
 
-  /// Dialog de confirmation — tutoiement, phrases courtes.
-  ///
-  /// Retourne `true` si l'utilisateur confirme, `false` s'il annule.
+  /// Renvoie true si l'utilisateur confirme.
   Future<bool?> showConfirmDialog({
     required String title,
     required String content,
